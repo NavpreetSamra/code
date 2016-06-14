@@ -1,5 +1,5 @@
 import numpy as np
-import math_h
+from helpers import math_h
 from matplotlib import pyplot as plt
 from matplotlib.pyplot import cm
 
