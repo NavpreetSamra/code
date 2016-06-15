@@ -1,0 +1,230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>quadtree.quadtree &mdash; Public Code 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Public Code 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for quadtree.quadtree</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="kn">import</span> <span class="n">math_h</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">import</span> <span class="n">cm</span>
+
+
+<div class="viewcode-block" id="QuadTree"><a class="viewcode-back" href="../../quadtree.html#quadtree.quadtree.QuadTree">[docs]</a><span class="k">class</span> <span class="nc">QuadTree</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for creating quadtree of two dimensional data</span>
+<span class="sd">    Tree attribute is a dictionary keys are bounding box</span>
+<span class="sd">    values are coordinates box self.tree[(x1,x2,y1,y2)] = data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">max_cell</span><span class="p">,</span> <span class="n">buff</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param array-like data: nx2 array of cartesian points</span>
+<span class="sd">        :param int max_cell: maximum number of points in a cell</span>
+<span class="sd">        :param array-like buff: (optional[x,y]) 1x2 add buffer to cells. \</span>
+<span class="sd">            this includes points in buffer around cell. .25 add 12.5% \</span>
+<span class="sd">            of cell length to include points outside the cell for functions</span>
+<span class="sd">            that suffer from edge effects. [.1, .2] adds +/- 5% in x and 10% y</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_cell</span> <span class="o">=</span> <span class="n">max_cell</span>
+
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">lx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+        <span class="n">ux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">xs</span><span class="p">)</span>
+        <span class="n">ly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+        <span class="n">uy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">ys</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">box</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">lx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">uy</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bounds</span><span class="p">[(</span><span class="n">lx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">uy</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">box</span><span class="p">)</span>
+
+<div class="viewcode-block" id="QuadTree.parse"><a class="viewcode-back" href="../../quadtree.html#quadtree.quadtree.QuadTree.parse">[docs]</a>    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">box</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recursive function for building leaves</span>
+
+<span class="sd">        :param array-like data: points to tree</span>
+<span class="sd">        :param array-like box: [x1, x2, y1, y2] corners of bounding box</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">math_h</span><span class="o">.</span><span class="n">enforce_2d</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_cell</span><span class="p">:</span>
+            <span class="n">xs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">ys</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+            <span class="p">[</span><span class="n">lx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">uy</span><span class="p">]</span> <span class="o">=</span> <span class="n">box</span>
+            <span class="n">cx</span> <span class="o">=</span> <span class="p">(</span><span class="n">lx</span> <span class="o">+</span> <span class="n">ux</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span>
+            <span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="n">ly</span> <span class="o">+</span> <span class="n">uy</span><span class="p">)</span> <span class="o">/</span> <span class="mf">2.</span>
+
+            <span class="n">sw_tree</span> <span class="o">=</span> <span class="p">(</span><span class="n">lx</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">cy</span><span class="p">)</span>
+            <span class="n">nw_tree</span> <span class="o">=</span> <span class="p">(</span><span class="n">lx</span><span class="p">,</span> <span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">uy</span><span class="p">)</span>
+            <span class="n">se_tree</span> <span class="o">=</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">cy</span><span class="p">)</span>
+            <span class="n">ne_tree</span> <span class="o">=</span> <span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">uy</span><span class="p">)</span>
+
+            <span class="n">sw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;=</span> <span class="n">cx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ys</span> <span class="o">&lt;=</span> <span class="n">cy</span><span class="p">)</span>
+            <span class="n">nw</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span> <span class="o">&lt;=</span> <span class="n">cx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ys</span> <span class="o">&gt;</span> <span class="n">cy</span><span class="p">)</span>
+            <span class="n">se</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span> <span class="o">&gt;</span> <span class="n">cx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ys</span> <span class="o">&lt;=</span> <span class="n">cy</span><span class="p">)</span>
+            <span class="n">ne</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">xs</span> <span class="o">&gt;</span> <span class="n">cx</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ys</span> <span class="o">&gt;</span> <span class="n">cy</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">sw</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_cell</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buff</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">sw_tree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_buffer</span><span class="p">(</span><span class="n">sw_tree</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">sw_tree</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">sw</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">sw</span><span class="p">,</span> <span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sw_tree</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">nw</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_cell</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buff</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">nw_tree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_buffer</span><span class="p">(</span><span class="n">nw_tree</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">nw_tree</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">nw</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">nw</span><span class="p">,</span> <span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">nw_tree</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">se</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_cell</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buff</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">se_tree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_buffer</span><span class="p">(</span><span class="n">se_tree</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">se_tree</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">se</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">se</span><span class="p">,</span> <span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">se</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">ne</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_cell</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">buff</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">ne_tree</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_buffer</span><span class="p">(</span><span class="n">ne_tree</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">[</span><span class="n">ne_tree</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">ne</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">ne</span><span class="p">,</span> <span class="p">:],</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ne_tree</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="QuadTree.add_buffer"><a class="viewcode-back" href="../../quadtree.html#quadtree.quadtree.QuadTree.add_buffer">[docs]</a>    <span class="k">def</span> <span class="nf">add_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">box</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add list of buffer points to buffer attribute of self with shared key to tree</span>
+
+<span class="sd">        :param array-like box: [x1, x2, y1, y2] corners of bounding box</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">math_h</span><span class="o">.</span><span class="n">enforce_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">xs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">ys</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="p">[</span><span class="n">lx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">uy</span><span class="p">]</span> <span class="o">=</span> <span class="n">box</span>
+        <span class="n">dx</span> <span class="o">=</span> <span class="p">(</span><span class="n">ux</span> <span class="o">-</span> <span class="n">lx</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">buff</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+        <span class="n">dy</span> <span class="o">=</span> <span class="p">(</span><span class="n">uy</span> <span class="o">-</span> <span class="n">ly</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">buff</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="mf">2.</span>
+        <span class="p">[</span><span class="n">lx</span><span class="p">,</span> <span class="n">ux</span><span class="p">,</span> <span class="n">ly</span><span class="p">,</span> <span class="n">uy</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">lx</span> <span class="o">-</span> <span class="n">dx</span><span class="p">,</span> <span class="n">ux</span> <span class="o">+</span> <span class="n">dx</span><span class="p">,</span> <span class="n">ly</span> <span class="o">-</span> <span class="n">dy</span><span class="p">,</span> <span class="n">uy</span> <span class="o">+</span> <span class="n">dy</span><span class="p">]</span>
+
+        <span class="n">logical</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lx</span> <span class="o">&lt;</span> <span class="n">xs</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ux</span> <span class="o">&gt;</span> <span class="n">xs</span><span class="p">)</span> <span class="o">&amp;</span> \
+                  <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">ly</span> <span class="o">&lt;</span> <span class="n">ys</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">uy</span> <span class="o">&gt;</span> <span class="n">ys</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">data</span><span class="p">[</span><span class="n">logical</span><span class="p">,</span> <span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="QuadTree.plot_outline"><a class="viewcode-back" href="../../quadtree.html#quadtree.quadtree.QuadTree.plot_outline">[docs]</a>    <span class="k">def</span> <span class="nf">plot_outline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fig_name</span><span class="o">=</span><span class="s1">&#39;tree_outline.png&#39;</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot bounding boxes (and points optionally)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">corners</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="n">x1s</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">x2s</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">y1s</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">y2s</span> <span class="o">=</span> <span class="n">corners</span><span class="p">[:,</span> <span class="mi">3</span><span class="p">]</span>
+
+        <span class="n">colors</span> <span class="o">=</span> <span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">points</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=.</span><span class="mi">25</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">x1s</span><span class="p">,</span> <span class="n">x2s</span><span class="p">,</span> <span class="n">y1s</span><span class="p">,</span> <span class="n">y2s</span><span class="p">,</span> <span class="n">colors</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x1</span><span class="p">],</span> <span class="p">[</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">y1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fig_name</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Mark Weiss.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

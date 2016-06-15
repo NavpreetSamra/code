@@ -1,0 +1,335 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cvcparser.CVCParser &mdash; Public Code 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="Public Code 0.0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cvcparser.CVCParser</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python2.7</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">regex</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">ntpath</span>
+
+
+<div class="viewcode-block" id="LogFile"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile">[docs]</a><span class="k">class</span> <span class="nc">LogFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for processing id sync and referrer log files </span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">init_split</span><span class="o">=</span><span class="s1">&#39;ElmoLogEntry(&#39;</span><span class="p">,</span> 
+                 <span class="n">end_split</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor for LogFile</span>
+<span class="sd">        </span>
+<span class="sd">        :param str input_file: file name to log file</span>
+<span class="sd">        :param str output_folder: path to output folder (you must have write access here) </span>
+<span class="sd">        :param str init_split: Initial split for marking beginning of line in log</span>
+<span class="sd">        :param str end_split: End split for marking end of line in log</span>
+<span class="sd">        :param array-like fields: fields to output. None will produce all fields in file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>  
+        <span class="n">filename</span> <span class="o">=</span> <span class="n">path_leaf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/processed_logs&#39;</span><span class="p">)</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+                            
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">fields</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+                <span class="n">fields</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">fields</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">filename</span> \
+                               <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.processed&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_file</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.processed&#39;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;(&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;\(&quot;</span><span class="p">,</span><span class="s2">&quot;\)&quot;</span><span class="p">]}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_split</span> <span class="o">=</span> <span class="n">init_split</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_split</span> <span class="o">=</span> <span class="n">end_split</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_txt</span><span class="p">()</span>
+
+<div class="viewcode-block" id="LogFile.build_txt"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.build_txt">[docs]</a>    <span class="k">def</span> <span class="nf">build_txt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>        
+
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="p">:</span>
+            <span class="c1">#Trim begginning of line</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_split</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1">#Trim end of line</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_split</span> <span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1">#Parse line</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">read_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">])</span>    
+            
+            <span class="n">write_out</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">write_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="n">write_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>        
+            <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">write_out</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span> 
+            <span class="n">header_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;/headers&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="n">header_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>        
+            <span class="n">header_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="LogFile.read_line"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.read_line">[docs]</a>    <span class="k">def</span> <span class="nf">read_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+       
+        <span class="n">end_line</span> <span class="o">=</span> <span class="bp">False</span>
+                   
+        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
+        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;{}&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
+        <span class="c1">#table = string.maketrans(&#39;&lt;&gt;&#39;, &#39;()&#39;)</span>
+        <span class="c1">#line = line.translate(table) </span>
+
+        <span class="k">while</span> <span class="n">line</span><span class="p">:</span> 
+            
+            <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="s1">&#39;=&#39;</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+                <span class="nb">raw_input</span><span class="p">()</span>
+            <span class="n">sep</span> <span class="o">=</span> <span class="n">find_sep</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="c1">#line = l.split(self.data[key]+ &#39;, &#39;, 1)[1]</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+                    <span class="n">end_line</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">elif</span> <span class="n">sep</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="n">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span><span class="p">)</span>
+                <span class="c1">#self.data[key] = l.split(value, 1)[0] + value  </span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">line</span> <span class="o">=</span> <span class="bp">None</span></div>
+
+<div class="viewcode-block" id="LogFile.read_line_fields"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.read_line_fields">[docs]</a>    <span class="k">def</span> <span class="nf">read_line_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
+
+        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
+        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;{}&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
+        <span class="c1">#table = string.maketrans(&#39;&lt;&gt;&#39;, &#39;()&#39;)</span>
+        <span class="c1">#line = line.translate(table) </span>
+
+        
+        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">field</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">field</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">sep</span> <span class="o">=</span> <span class="n">find_sep</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">],</span> <span class="n">rest</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
+                        <span class="n">end_line</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">],</span> <span class="n">null</span> <span class="o">=</span> <span class="n">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span><span class="p">)</span>
+                    <span class="c1">#self.data[key] = l.split(value, 1)[0] + value  </span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span></div>
+
+
+
+
+
+<div class="viewcode-block" id="LogFile.gen_empty_write_record"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.gen_empty_write_record">[docs]</a>    <span class="k">def</span> <span class="nf">gen_empty_write_record</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+                                     <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)),</span>
+                                         <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">formats</span>
+                                    <span class="p">)</span></div></div>
+
+<div class="viewcode-block" id="find_end_iter"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.find_end_iter">[docs]</a><span class="k">def</span> <span class="nf">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">exposed_comma</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">hold</span><span class="o">=</span><span class="p">[]</span>
+    
+    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">exposed_comma</span><span class="p">:</span> 
+        <span class="k">if</span> <span class="s1">&#39;(&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span> 
+                <span class="n">l1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+                <span class="n">exposed_comma</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">hold_value</span> <span class="o">=</span> <span class="n">regex_gen</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">])</span>    
+                <span class="n">value</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">hold_value</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">hold_value</span> 
+                
+                <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">exposed_comma</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hold</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">),</span> <span class="n">l</span></div>
+
+<div class="viewcode-block" id="regex_gen"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.regex_gen">[docs]</a><span class="k">def</span> <span class="nf">regex_gen</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">seps</span><span class="p">):</span> 
+    <span class="p">[</span><span class="n">sep1</span><span class="p">,</span> <span class="n">sep2</span><span class="p">]</span> <span class="o">=</span> <span class="n">seps</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">r&#39;&#39;&#39;</span>
+<span class="s1">                            (?&lt;rec&gt; #capturing group rec</span>
+<span class="s1">                             &#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">sep1</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39; #open parenthesis</span>
+<span class="s1">                             (?: #non-capturing group</span>
+<span class="s1">                              [^()]++ #anyting but parenthesis one or more times without backtracking</span>
+<span class="s1">                              | #or</span>
+<span class="s1">                               (?&amp;rec) #recursive substitute of group rec</span>
+<span class="s1">                             )*</span>
+<span class="s1">                             &#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">sep2</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;  #close parenthesis</span>
+<span class="s1">                            )</span>
+<span class="s1">                           &#39;&#39;&#39;</span><span class="p">,</span><span class="n">txt</span><span class="p">,</span><span class="n">flags</span><span class="o">=</span><span class="n">regex</span><span class="o">.</span><span class="n">VERBOSE</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">captures</span><span class="p">(</span><span class="s1">&#39;rec&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span></div>
+
+
+
+<div class="viewcode-block" id="find_sep"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.find_sep">[docs]</a><span class="k">def</span> <span class="nf">find_sep</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="s1">&#39;(&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;(&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span>
+
+
+    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;,&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">)</span>
+
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">key</span></div>
+
+<div class="viewcode-block" id="find_nth"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.find_nth">[docs]</a><span class="k">def</span> <span class="nf">find_nth</span><span class="p">(</span><span class="n">haystack</span><span class="p">,</span> <span class="n">needle</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">haystack</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">needle</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">start</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">haystack</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">needle</span><span class="p">,</span> <span class="n">start</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">needle</span><span class="p">))</span>
+        <span class="n">n</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">start</span></div>
+
+<div class="viewcode-block" id="path_leaf"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.path_leaf">[docs]</a><span class="k">def</span> <span class="nf">path_leaf</span><span class="p">(</span><span class="n">abspath</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">folder</span><span class="p">,</span> <span class="nb">file</span> <span class="o">=</span> <span class="n">ntpath</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">abspath</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">file</span> <span class="ow">or</span> <span class="n">ntpath</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="nb">file</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s1">&#39; IMPORTANT! The above use spec is incorrect, in PYTHON positional arguments come before keyword arguments so you must specify the log file before the options because the log file is required it is a positional argument. Sorry for any confusion. </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> Processer to turn referrer and similar type log files into pipe seperated files.</span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> Note if you do not prescribe fields the processor adds new fields line by line so if all the fields are not in the first line the last line will have more fields then the first. Prescribing fields guarantees a rectangular file. </span><span class="se">\n</span><span class="s1"> Note: All braces &quot;{}&quot; brackets &quot;[]&quot; and arrows &quot;&lt;&gt;&quot; are converted to parenthesis &quot;()&quot;. Next update will try to work around this. </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> Note: The output will be placed inside a folder named &quot;processed&quot; inside the folder specified by the output folder argument(default ./). If fields are not prescribed the field names will be written to an additional file named &quot;header&quot;. If field names are prescribed the column names will appear at the top of the file.</span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> For bug/feauture requests please contact mweiss@liveramp.com. </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span><span class="o">*</span><span class="mi">30</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1"> SIMPLEST use without fields option: python LogFile.py &lt;file&gt; will process all fields in the log and place the processed log and a header file in ./processed/ </span><span class="se">\n</span><span class="s1"> </span><span class="se">\n</span><span class="s1"> SIMPLEST use with fields option: python LogFile.py &lt;file&gt; -f &lt;fieldname1&gt; &lt;fieldname2&gt; will place the processed log (with header at the top) in ./processed/ </span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">+</span> <span class="s1">&#39;*&#39;</span><span class="o">*</span><span class="mi">30</span> <span class="p">,</span> <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;input_file&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;name of logfile&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-of&quot;</span><span class="p">,</span> <span class="s2">&quot;--output_folder&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;path to output directory defaults to ./  this script will make a folder in here for outputs so you need to have write access&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-is&quot;</span><span class="p">,</span> <span class="s2">&quot;--init_split&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;ElmoLogEntry(&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;marks the beginning of a line , default is &quot;ElmoLogEntry(&quot;&#39;</span><span class="p">)</span>
+
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-es&quot;</span><span class="p">,</span> <span class="s2">&quot;--end_split&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;)&gt;)&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;marks the end of a line , default is &quot;)&gt;)&quot;&#39;</span><span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--fields&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;fields to output. Default will produce all fields in file, NB file will not be rectangular as fields are added as they are found. Specifiying fields will include a header line in the file. Not specifying fields will output a headers file in the output directory&#39;</span><span class="p">)</span>
+    
+    <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+    <span class="n">lf</span> <span class="o">=</span> <span class="n">LogFile</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">init_split</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">end_split</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span></div>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Mark Weiss.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

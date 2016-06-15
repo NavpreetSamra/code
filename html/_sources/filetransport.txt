@@ -1,0 +1,38 @@
+filetransport package
+=====================
+
+Submodules
+----------
+
+filetransport.gen module
+------------------------
+
+.. automodule:: filetransport.gen
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+filetransport.owner module
+--------------------------
+
+.. automodule:: filetransport.owner
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+filetransport.slog module
+-------------------------
+
+.. automodule:: filetransport.slog
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: filetransport
+    :members:
+    :undoc-members:
+    :show-inheritance:
