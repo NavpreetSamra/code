@@ -11,10 +11,10 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   modules.rst
    cvcparser.rst
    filetransport.rst
    helpers.rst
-   modules.rst
    quadtree.rst
 
 
