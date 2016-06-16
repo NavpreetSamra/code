@@ -1,18 +1,19 @@
 import json
 import slog
 import gen
-import re
+import regex
 
 
 class Owner(object):
     """
     Owner for creating sftp objects and performing actions
     """
-    def __init__(self, json_path='/home/mweiss/Scripts/msw/sftp.config',
-                 log_path='/home/rapleaf/SftpAutomator/logs.json',
+    def __init__(self, json_path='/home/mweiss/code/sftp.config',
+                 log_path='/home/mweiss/code/logs.json',
                  name=None):
         """
         Constructor for Sftp Owner, requires config and log JSONs
+
         :param str json_file: json input file path containing metedata for pull
         :param str log_path: path to log file JSON
         """
@@ -30,7 +31,7 @@ class Owner(object):
         """
         self.json = json.load(self.json_handle)
         for account in self.json:
-            if account['name'] not in  self.log.json:
+            if account['name'] not in self.log.json:
                 self.log.json[account['name']] = None
             self.transport[account['name']] = gen.Gen(
 
@@ -43,38 +44,33 @@ class Owner(object):
                     verbose=True
                                                             )
             self.transport[account['name']].later_files()
-           
 
     def run_sftp_action(self):
         """
         Execute actions specified in object by config
         """
-        log_accounts = [i for i in self.log.json]
 
         for account in self.json:
             if self.log.json[account['name']]:
                 sftp_obj = self.transport[account['name']]
 
                 if sftp_obj.action:
-                    if bool(re.search(sftp_obj.action, 'pull')):
+                    if bool(regex.search(sftp_obj.action, 'pull')):
                         print(account['name'])
                         if 'sftp_stats' in sftp_obj.__dict__:
                             sftp_obj.pull()
 
-                    elif bool(re.search(sftp_obj.action, 'push')):
+                    elif bool(regex.search(sftp_obj.action, 'push')):
                         if 'sftp_stats' in sftp_obj.__dict__:
                             sftp_obj.push()
 
-                    else:
-                        raise valueerror('action not push or pull, invalid action \
-                                      for ' + account)
             if 'sftp_stats' in self.transport[account['name']].__dict__ and self.transport[account['name']].sftp_stats is not None:
                 self.log.extend_json(account['name'], self.transport[account['name']].sftp_stats)
         self.log_action()
 
     def log_action(self):
         """
-        Log files pulled by run_sftp_action
+        Log files and metadata
         """
         with open(self.log_path, 'w') as write_out:
             json.dump(self.log.json, write_out)

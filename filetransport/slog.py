@@ -25,7 +25,7 @@ class Slog(object):
     def extend_json(self, name, lstat):
         """
         Extend/Create logged file pulls. account keys file values
-        
+
         :param str name: name of account in log/config file
         :parm nd.recarray lstat: nx3 ('files' 'time' 'size')
         """

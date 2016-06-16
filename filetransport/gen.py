@@ -49,6 +49,7 @@ class Gen(pm.Transport):
 
         :parm bool ascending: default to oldest-> youngest.\
             Set to True for reverse
+        :param bool verbose: True for terminal  output on file information
         """
         files = self.sftp.listdir(self.remote_dir)
 
