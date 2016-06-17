@@ -16,3 +16,11 @@ def enforce_2d(data):
     else:
         data_nd = data.reshape(1, data.shape)
         return(data_nd)
+
+def gen_empty_write_record(self):
+    """
+    """
+    self.write_record = np.array(
+                                 tuple([' '] * len(self.fields)),
+                                     dtype=self.formats
+                                )

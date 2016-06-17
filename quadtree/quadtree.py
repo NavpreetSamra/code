@@ -23,6 +23,7 @@ class QuadTree(object):
 
         self.data = np.asarray(data)
         self.max_cell = max_cell
+        self.buff = buff
 
         xs = data[:, 0]
         ys = data[:, 1]
@@ -141,4 +142,3 @@ class QuadTree(object):
 
         plt.savefig(fig_name)
         plt.close()
-
