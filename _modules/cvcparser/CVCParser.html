@@ -39,8 +39,6 @@
             
   <h1>Source code for cvcparser.CVCParser</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python2.7</span>
-
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">regex</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">string</span>
@@ -50,31 +48,30 @@
 
 <div class="viewcode-block" id="LogFile"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile">[docs]</a><span class="k">class</span> <span class="nc">LogFile</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Class for processing id sync and referrer log files </span>
+<span class="sd">    Class for reformatting CVC Logs into csv and/or extracting specific fields</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">init_split</span><span class="o">=</span><span class="s1">&#39;ElmoLogEntry(&#39;</span><span class="p">,</span> 
-                 <span class="n">end_split</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_file</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span>
+                 <span class="n">init_split</span><span class="o">=</span><span class="s1">&#39;ElmoLogEntry(&#39;</span><span class="p">,</span> <span class="n">end_split</span><span class="o">=</span><span class="s2">&quot;)&quot;</span><span class="p">,</span> <span class="n">fields</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor for LogFile</span>
-<span class="sd">        </span>
+
 <span class="sd">        :param str input_file: file name to log file</span>
-<span class="sd">        :param str output_folder: path to output folder (you must have write access here) </span>
-<span class="sd">        :param str init_split: Initial split for marking beginning of line in log</span>
+<span class="sd">        :param str output_folder: path to output folder</span>
+<span class="sd">        :param str init_split: Initial split for marking beginning of line</span>
 <span class="sd">        :param str end_split: End split for marking end of line in log</span>
-<span class="sd">        :param array-like fields: fields to output. None will produce all fields in file</span>
+<span class="sd">        :param array-like fields: Option for extracing specific fields \</span>
+<span class="sd">                                  None produces all fields.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>  
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
         <span class="n">filename</span> <span class="o">=</span> <span class="n">path_leaf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">=</span>  <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/processed_logs&#39;</span><span class="p">)</span>  
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/processed_logs&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
-                            
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="p">):</span>
             <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="p">)</span>
-        
+
         <span class="k">if</span> <span class="n">fields</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
@@ -84,63 +81,60 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span> <span class="o">=</span> <span class="bp">False</span>
             <span class="n">fields</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">output_file</span> <span class="o">=</span>  <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.processed&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_file</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span> <span class="s1">&#39;.processed&#39;</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">fields</span> <span class="o">=</span> <span class="n">fields</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">&quot;(&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;\(&quot;</span><span class="p">,</span><span class="s2">&quot;\)&quot;</span><span class="p">]}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;(&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;\(&quot;</span><span class="p">,</span> <span class="s2">&quot;\)&quot;</span><span class="p">]}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">init_split</span> <span class="o">=</span> <span class="n">init_split</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">end_split</span> <span class="o">=</span> <span class="n">end_split</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">build_txt</span><span class="p">()</span>
 
 <div class="viewcode-block" id="LogFile.build_txt"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.build_txt">[docs]</a>    <span class="k">def</span> <span class="nf">build_txt</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build csv file writing each procesed line</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>        
+            <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle</span><span class="p">:</span>
-            <span class="c1">#Trim begginning of line</span>
             <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">init_split</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-            <span class="c1">#Trim end of line</span>
-            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_split</span> <span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="c1">#Parse line</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_split</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">read_line</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">])</span>    
-            
+                <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">])</span>
+
             <span class="n">write_out</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">write_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">])</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="n">write_out</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>        
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">write_out</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span> 
-            <span class="n">header_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;/headers&#39;</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span>
-            <span class="n">header_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>        
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">field_select</span><span class="p">:</span>
+            <span class="n">header_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_folder</span><span class="o">+</span><span class="s1">&#39;/headers&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+            <span class="n">header_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">header_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">txt_out</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 
-
 <div class="viewcode-block" id="LogFile.read_line"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.read_line">[docs]</a>    <span class="k">def</span> <span class="nf">read_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-       
-        <span class="n">end_line</span> <span class="o">=</span> <span class="bp">False</span>
-                   
-        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
-        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;{}&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
-        <span class="c1">#table = string.maketrans(&#39;&lt;&gt;&#39;, &#39;()&#39;)</span>
-        <span class="c1">#line = line.translate(table) </span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parse each line of file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">while</span> <span class="n">line</span><span class="p">:</span> 
-            
+        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;{}&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+
+        <span class="k">while</span> <span class="n">line</span><span class="p">:</span>
+
             <span class="p">[</span><span class="n">key</span><span class="p">,</span> <span class="n">l</span><span class="p">]</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="s1">&#39;=&#39;</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
                 <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
@@ -149,80 +143,43 @@
             <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="c1">#line = l.split(self.data[key]+ &#39;, &#39;, 1)[1]</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-                    <span class="n">end_line</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">elif</span> <span class="n">sep</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">line</span> <span class="o">=</span> <span class="n">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span><span class="p">)</span>
-                <span class="c1">#self.data[key] = l.split(value, 1)[0] + value  </span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">line</span> <span class="o">=</span> <span class="bp">None</span></div>
+                <span class="n">line</span> <span class="o">=</span> <span class="bp">None</span></div></div>
 
-<div class="viewcode-block" id="LogFile.read_line_fields"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.read_line_fields">[docs]</a>    <span class="k">def</span> <span class="nf">read_line_fields</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">):</span>
-
-        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;[]&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
-        <span class="n">table</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="s1">&#39;{}&#39;</span><span class="p">,</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span>
-        <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">table</span><span class="p">)</span> 
-        <span class="c1">#table = string.maketrans(&#39;&lt;&gt;&#39;, &#39;()&#39;)</span>
-        <span class="c1">#line = line.translate(table) </span>
-
-        
-        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
-            <span class="k">if</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">field</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">field</span> <span class="o">+</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-                <span class="n">sep</span> <span class="o">=</span> <span class="n">find_sep</span><span class="p">(</span><span class="n">l</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">sep</span> <span class="o">==</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span>
-                    <span class="k">try</span><span class="p">:</span>
-                        <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">],</span> <span class="n">rest</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">l</span>
-                        <span class="n">end_line</span> <span class="o">=</span> <span class="bp">True</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">],</span> <span class="n">null</span> <span class="o">=</span> <span class="n">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">sep_dict</span><span class="p">)</span>
-                    <span class="c1">#self.data[key] = l.split(value, 1)[0] + value  </span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span></div>
-
-
-
-
-
-<div class="viewcode-block" id="LogFile.gen_empty_write_record"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.LogFile.gen_empty_write_record">[docs]</a>    <span class="k">def</span> <span class="nf">gen_empty_write_record</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">write_record</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-                                     <span class="nb">tuple</span><span class="p">([</span><span class="s1">&#39; &#39;</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">)),</span>
-                                         <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">formats</span>
-                                    <span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="find_end_iter"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.find_end_iter">[docs]</a><span class="k">def</span> <span class="nf">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract value of key (field name) by finding the next \</span>
+<span class="sd">            iterator not contained in a subfield</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="n">exposed_comma</span> <span class="o">=</span> <span class="bp">False</span>
-    <span class="n">hold</span><span class="o">=</span><span class="p">[]</span>
-    
-    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+    <span class="n">hold</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>  <span class="c1"># field value does not have subfield</span>
         <span class="k">return</span> <span class="n">l</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
 
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">exposed_comma</span><span class="p">:</span> 
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">exposed_comma</span><span class="p">:</span>  <span class="c1"># iterate through to find end of un-nested field</span>
         <span class="k">if</span> <span class="s1">&#39;(&#39;</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span> 
-                <span class="n">l1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+                <span class="n">l1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
                 <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
                 <span class="n">exposed_comma</span> <span class="o">=</span> <span class="bp">True</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">hold_value</span> <span class="o">=</span> <span class="n">regex_gen</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">])</span>    
-                <span class="n">value</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">hold_value</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">hold_value</span> 
-                
+                <span class="n">hold_value</span> <span class="o">=</span> <span class="n">regex_gen</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">])</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">hold_value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">hold_value</span>
+
                 <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">exposed_comma</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hold</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">),</span> <span class="n">l</span></div>
 
-<div class="viewcode-block" id="regex_gen"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.regex_gen">[docs]</a><span class="k">def</span> <span class="nf">regex_gen</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">seps</span><span class="p">):</span> 
+<div class="viewcode-block" id="regex_gen"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.regex_gen">[docs]</a><span class="k">def</span> <span class="nf">regex_gen</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">seps</span><span class="p">):</span>
     <span class="p">[</span><span class="n">sep1</span><span class="p">,</span> <span class="n">sep2</span><span class="p">]</span> <span class="o">=</span> <span class="n">seps</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">r&#39;&#39;&#39;</span>
 <span class="s1">                            (?&lt;rec&gt; #capturing group rec</span>
@@ -241,6 +198,10 @@
 
 <div class="viewcode-block" id="find_sep"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.find_sep">[docs]</a><span class="k">def</span> <span class="nf">find_sep</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find next seperator in line (implies determining existence of subfield)</span>
+
+<span class="sd">    :param str l: string to parse </span>
+<span class="sd">    :return key: </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
@@ -253,10 +214,10 @@
 
     
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+        <span class="n">subkey</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="bp">None</span>
-    <span class="k">return</span> <span class="n">key</span></div>
+        <span class="n">subkey</span> <span class="o">=</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">subkey</span></div>
 
 <div class="viewcode-block" id="find_nth"><a class="viewcode-back" href="../../cvcparser.html#cvcparser.CVCParser.find_nth">[docs]</a><span class="k">def</span> <span class="nf">find_nth</span><span class="p">(</span><span class="n">haystack</span><span class="p">,</span> <span class="n">needle</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">haystack</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">needle</span><span class="p">)</span>
@@ -281,12 +242,17 @@
 
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-es&quot;</span><span class="p">,</span> <span class="s2">&quot;--end_split&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;)&gt;)&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;marks the end of a line , default is &quot;)&gt;)&quot;&#39;</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-f&quot;</span><span class="p">,</span> <span class="s2">&quot;--fields&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;+&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;fields to output. Default will produce all fields in file, NB file will not be rectangular as fields are added as they are found. Specifiying fields will include a header line in the file. Not specifying fields will output a headers file in the output directory&#39;</span><span class="p">)</span>
-    
+
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 
     <span class="n">lf</span> <span class="o">=</span> <span class="n">LogFile</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">input_file</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">output_folder</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">init_split</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">end_split</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">fields</span><span class="p">)</span></div>
 <span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="n">main</span><span class="p">()</span>
+
+
+
+
+
 </pre></div>
 
           </div>

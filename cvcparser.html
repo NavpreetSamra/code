@@ -24,8 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Public Code 0.0.1 documentation" href="index.html" />
+    <link rel="up" title="code" href="modules.html" />
     <link rel="next" title="filetransport package" href="filetransport.html" />
-    <link rel="prev" title="Welcome to Public Code’s documentation!" href="index.html" />
+    <link rel="prev" title="code" href="modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -49,33 +50,26 @@
 <dt id="cvcparser.CVCParser.LogFile">
 <em class="property">class </em><code class="descclassname">cvcparser.CVCParser.</code><code class="descname">LogFile</code><span class="sig-paren">(</span><em>input_file</em>, <em>output_folder='./'</em>, <em>init_split='ElmoLogEntry('</em>, <em>end_split=')'</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class for processing id sync and referrer log files</p>
+<p>Class for reformatting CVC Logs into csv and/or extracting specific fields</p>
 <dl class="method">
 <dt id="cvcparser.CVCParser.LogFile.build_txt">
 <code class="descname">build_txt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.build_txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.build_txt" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cvcparser.CVCParser.LogFile.gen_empty_write_record">
-<code class="descname">gen_empty_write_record</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.gen_empty_write_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.gen_empty_write_record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build csv file writing each procesed line</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="cvcparser.CVCParser.LogFile.read_line">
 <code class="descname">read_line</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.read_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.read_line" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="cvcparser.CVCParser.LogFile.read_line_fields">
-<code class="descname">read_line_fields</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.read_line_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.read_line_fields" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Parse each line of file</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="cvcparser.CVCParser.find_end_iter">
 <code class="descclassname">cvcparser.CVCParser.</code><code class="descname">find_end_iter</code><span class="sig-paren">(</span><em>l</em>, <em>sep_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#find_end_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.find_end_iter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Extract value of key (field name) by finding the next             iterator not contained in a subfield</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="cvcparser.CVCParser.find_nth">
@@ -85,7 +79,18 @@
 <dl class="function">
 <dt id="cvcparser.CVCParser.find_sep">
 <code class="descclassname">cvcparser.CVCParser.</code><code class="descname">find_sep</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#find_sep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.find_sep" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Find next seperator in line (implies determining existence of subfield)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string to parse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="cvcparser.CVCParser.main">
@@ -127,8 +132,10 @@
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Public Code&#8217;s documentation!</a></li>
+  <li><a href="modules.html">code</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">code</a></li>
       <li>Next: <a href="filetransport.html" title="next chapter">filetransport package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>
