@@ -3,7 +3,7 @@ import json
 
 class Slog(object):
     """
-    Class for managing Sftp Logs
+    Class for tracking synced files
     """
     def __init__(self, log_path):
         """
@@ -27,7 +27,7 @@ class Slog(object):
         Extend/Create logged file pulls. account keys file values
 
         :param str name: name of account in log/config file
-        :parm nd.recarray lstat: nx3 ('files' 'time' 'size')
+        :param nd.recarray lstat: nx3 ('files' 'time' 'size')
         """
 
         if self.json[name]:

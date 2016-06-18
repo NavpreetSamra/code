@@ -1,16 +1,17 @@
 import paramiko as pm
 import numpy as np
-import re
+import regex
 import os
 
 
 class Gen(pm.Transport):
     """
-    Class for creating and operating on SFTP objects from Paramiko.Transport
+    Class for creating, operating, and tracking objects from Paramiko.Transport
     """
 
-    def __init__(self, host, username, password, port=None, account=None, remote_dir='./',
-                 local_dir=None, action=None, pattern=None, log=None, verbose=False):
+    def __init__(self, host, username, password, port=None, remote_dir='./',
+                 local_dir='./', action=None, pattern=None, log=None,
+                 verbose=False):
         """
         :param str host: SFTPClient host
         :param str username: SFTPClient username
@@ -19,6 +20,7 @@ class Gen(pm.Transport):
         :param str remote_dir: remote directory on SFTP
         :param str local_dir: directory on local machine
         :param str action: push or pull (optional)
+        :param str pattern: regular expression to match files on remote machine
         :param Slog log: Slog object
         :param bool verbose: True for terminal  output on file information
         """
@@ -35,7 +37,6 @@ class Gen(pm.Transport):
         self.remote_dir = remote_dir
         self.action = action
         self.pattern = pattern
-        self.account = account
         self.log = log
         self.verbose = verbose
         if self.verbose:
@@ -44,7 +45,7 @@ class Gen(pm.Transport):
 
     def later_files(self, ascending=False, verbose=False):
         """
-        List files with stats in remote directory by time \
+        List files with metadata in remote directory by time \
             default oldest to youngest by modified time
 
         :parm bool ascending: default to oldest-> youngest.\
@@ -56,7 +57,7 @@ class Gen(pm.Transport):
         hold = []
         for file in files:
             if self.pattern:
-                if bool(re.search(self.pattern, file)):
+                if bool(regex.search(self.pattern, file)):
                     lstat = self.sftp.lstat(self.remote_dir + '/' + file)
                     hold.append(tuple([file, lstat.st_mtime, lstat.st_size]))
             else:
@@ -73,8 +74,11 @@ class Gen(pm.Transport):
     def pull(self, forced=False):
         """
         Pull file from remote location to local
+
+        :param bool forced: Force pull file even if existsin log
         """
 
+        # TODO Have log check, also check metadata size
         files = self.sftp_stats['files']
         if forced:
             l = np.array([True] * len(files))
@@ -96,16 +100,19 @@ class Gen(pm.Transport):
         else:
             self.sftp_stats = None
 
-    def check_pull(self, f):
+    def check_pull(self, filename):
         """
         Check if pulled local file has same size as remote file
+
+        :param str filename: name of file to sync
         """
-        size = self.sftp_stats['size'][np.in1d(self.sftp_stats['files'], f)]
+        size = self.sftp_stats['size'][np.in1d(self.sftp_stats['files'],
+                filename)]
         self.new_stat = os.lstat(self.local_path)
         if not int(self.new_stat.st_size) == int(size):
             try:
-                self.warning.extend(f)
+                self.warning.extend(filename)
             except AttributeError:
-                self.warning = list([f])
+                self.warning = list([filename])
         elif self.verbose:
-            print('pulled ' + f + ' successfully')
+            print('pulled ' + filename + ' successfully')

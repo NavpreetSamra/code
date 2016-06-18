@@ -6,13 +6,13 @@ import regex
 
 class Owner(object):
     """
-    Owner for creating sftp objects and performing actions
+    Owner for creating SFTP Objects and performing actions
     """
     def __init__(self, json_path='/home/mweiss/code/sftp.config',
                  log_path='/home/mweiss/code/logs.json',
                  name=None):
         """
-        Constructor for Sftp Owner, requires config and log JSONs
+        Constructor for SFTP Owner, requires config and log JSONs
 
         :param str json_file: json input file path containing metedata for pull
         :param str log_path: path to log file JSON
@@ -27,7 +27,7 @@ class Owner(object):
 
     def gen_sftp_objects(self, name):
         """
-        Create Sftp objects based on config files. store in Owner.
+        Create SFTP Objects based on config files. store in Owner.
         """
         self.json = json.load(self.json_handle)
         for account in self.json:
@@ -86,14 +86,15 @@ class Owner(object):
 
 class FileValidationError(Exception):
     """
-    This Exception should be thrown when a file doesn't transfer properly.
-    This is the case when the size on the SFTP doesn't match the size of the local file
+    FileValidationError throws when a file does not transfer correctly \
+            (confirmed by checking size of file.
     """
     def __init__(self, warnings):
         """
-        Constructor for Exception subclass. Logs invalid file transfers
+        Constructor for Exception subclass. Tracks invalid file transfers
 
-        :param dict warnings: keys = account names values = nd.array of string file names
+        :param dict warnings: keys - acount names \
+                              valuees - nd.array of string file names
         """
         Exception.__init__(self, "")
 
@@ -106,9 +107,3 @@ class FileValidationError(Exception):
             for file in self.warnings[account_name]:
                 error_message += "\n\t%s" % (file)
         return error_message
-
-
-
-if __name__ == 'main':
-    sftp_owner = Owner()
-    sftp_owner.run_sftp_action()
