@@ -1,0 +1,38 @@
+filesync package
+=====================
+
+Submodules
+----------
+
+filesync.gen module
+------------------------
+
+.. automodule:: filesync.gen
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+filesync.owner module
+--------------------------
+
+.. automodule:: filesync.owner
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+filesync.slog module
+-------------------------
+
+.. automodule:: filesync.slog
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: filesync
+    :members:
+    :undoc-members:
+    :show-inheritance:

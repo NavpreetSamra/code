@@ -5,6 +5,6 @@ code
    :maxdepth: 4
 
    cvcparser
-   filetransport
+   filesync
    helpers
    quadtree

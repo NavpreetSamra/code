@@ -44,116 +44,17 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-filetransport.gen">
-<span id="filetransport-gen-module"></span><h2>filetransport.gen module<a class="headerlink" href="#module-filetransport.gen" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="filetransport.gen.Gen">
-<em class="property">class </em><code class="descclassname">filetransport.gen.</code><code class="descname">Gen</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=None</em>, <em>account=None</em>, <em>remote_dir='./'</em>, <em>local_dir=None</em>, <em>action=None</em>, <em>pattern=None</em>, <em>log=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/gen.html#Gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.gen.Gen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">paramiko.transport.Transport</span></code></p>
-<p>Class for creating and operating on SFTP objects from Paramiko.Transport</p>
-<dl class="method">
-<dt id="filetransport.gen.Gen.check_pull">
-<code class="descname">check_pull</code><span class="sig-paren">(</span><em>f</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/gen.html#Gen.check_pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.gen.Gen.check_pull" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if pulled local file has same size as remote file</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="filetransport.gen.Gen.later_files">
-<code class="descname">later_files</code><span class="sig-paren">(</span><em>ascending=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/gen.html#Gen.later_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.gen.Gen.later_files" title="Permalink to this definition">¶</a></dt>
-<dd><p>List files with stats in remote directory by time             default oldest to youngest by modified time</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name" colspan="2">Parm bool ascending:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">default to oldest-&gt; youngest.            Set to True for reverse</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True for terminal  output on file information</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="filetransport.gen.Gen.pull">
-<code class="descname">pull</code><span class="sig-paren">(</span><em>forced=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/gen.html#Gen.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.gen.Gen.pull" title="Permalink to this definition">¶</a></dt>
-<dd><p>Pull file from remote location to local</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="filetransport-gen-module">
+<h2>filetransport.gen module<a class="headerlink" href="#filetransport-gen-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-filetransport.owner">
-<span id="filetransport-owner-module"></span><h2>filetransport.owner module<a class="headerlink" href="#module-filetransport.owner" title="Permalink to this headline">¶</a></h2>
-<dl class="exception">
-<dt id="filetransport.owner.FileValidationError">
-<em class="property">exception </em><code class="descclassname">filetransport.owner.</code><code class="descname">FileValidationError</code><span class="sig-paren">(</span><em>warnings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/owner.html#FileValidationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.owner.FileValidationError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
-<p>This Exception should be thrown when a file doesn&#8217;t transfer properly.
-This is the case when the size on the SFTP doesn&#8217;t match the size of the local file</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="filetransport.owner.Owner">
-<em class="property">class </em><code class="descclassname">filetransport.owner.</code><code class="descname">Owner</code><span class="sig-paren">(</span><em>json_path='/home/mweiss/code/sftp.config'</em>, <em>log_path='/home/mweiss/code/logs.json'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/owner.html#Owner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.owner.Owner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Owner for creating sftp objects and performing actions</p>
-<dl class="method">
-<dt id="filetransport.owner.Owner.gen_sftp_objects">
-<code class="descname">gen_sftp_objects</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/owner.html#Owner.gen_sftp_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.owner.Owner.gen_sftp_objects" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create Sftp objects based on config files. store in Owner.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="filetransport.owner.Owner.log_action">
-<code class="descname">log_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/owner.html#Owner.log_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.owner.Owner.log_action" title="Permalink to this definition">¶</a></dt>
-<dd><p>Log files and metadata</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="filetransport.owner.Owner.run_sftp_action">
-<code class="descname">run_sftp_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/owner.html#Owner.run_sftp_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.owner.Owner.run_sftp_action" title="Permalink to this definition">¶</a></dt>
-<dd><p>Execute actions specified in object by config</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="filetransport-owner-module">
+<h2>filetransport.owner module<a class="headerlink" href="#filetransport-owner-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-filetransport.slog">
-<span id="filetransport-slog-module"></span><h2>filetransport.slog module<a class="headerlink" href="#module-filetransport.slog" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="filetransport.slog.Slog">
-<em class="property">class </em><code class="descclassname">filetransport.slog.</code><code class="descname">Slog</code><span class="sig-paren">(</span><em>log_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/slog.html#Slog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.slog.Slog" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class for managing Sftp Logs</p>
-<dl class="method">
-<dt id="filetransport.slog.Slog.extend_json">
-<code class="descname">extend_json</code><span class="sig-paren">(</span><em>name</em>, <em>lstat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/slog.html#Slog.extend_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.slog.Slog.extend_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Extend/Create logged file pulls. account keys file values</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of account in log/config file</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Parm nd.recarray lstat:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">nx3 (&#8216;files&#8217; &#8216;time&#8217; &#8216;size&#8217;)</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="filetransport.slog.Slog.read_log">
-<code class="descname">read_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filetransport/slog.html#Slog.read_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filetransport.slog.Slog.read_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read JSON log, create empty dict if not exists</p>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="filetransport-slog-module">
+<h2>filetransport.slog module<a class="headerlink" href="#filetransport-slog-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-filetransport">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-filetransport" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -167,10 +68,10 @@ This is the case when the size on the SFTP doesn&#8217;t match the size of the l
   <ul>
 <li><a class="reference internal" href="#">filetransport package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-filetransport.gen">filetransport.gen module</a></li>
-<li><a class="reference internal" href="#module-filetransport.owner">filetransport.owner module</a></li>
-<li><a class="reference internal" href="#module-filetransport.slog">filetransport.slog module</a></li>
-<li><a class="reference internal" href="#module-filetransport">Module contents</a></li>
+<li><a class="reference internal" href="#filetransport-gen-module">filetransport.gen module</a></li>
+<li><a class="reference internal" href="#filetransport-owner-module">filetransport.owner module</a></li>
+<li><a class="reference internal" href="#filetransport-slog-module">filetransport.slog module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>

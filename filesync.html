@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>filesync package &mdash; Public Code 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Public Code 0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="quadtree package" href="quadtree.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="filesync-package">
+<h1>filesync package<a class="headerlink" href="#filesync-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-filesync.gen">
+<span id="filesync-gen-module"></span><h2>filesync.gen module<a class="headerlink" href="#module-filesync.gen" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="filesync.gen.Gen">
+<em class="property">class </em><code class="descclassname">filesync.gen.</code><code class="descname">Gen</code><span class="sig-paren">(</span><em>host</em>, <em>username</em>, <em>password</em>, <em>port=None</em>, <em>remote_dir='./'</em>, <em>local_dir='./'</em>, <em>action=None</em>, <em>pattern=None</em>, <em>log=None</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/gen.html#Gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.gen.Gen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">paramiko.transport.Transport</span></code></p>
+<p>Class for creating, operating, and tracking objects from Paramiko.Transport</p>
+<dl class="method">
+<dt id="filesync.gen.Gen.check_pull">
+<code class="descname">check_pull</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/gen.html#Gen.check_pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.gen.Gen.check_pull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if pulled local file has same size as remote file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of file to sync</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="filesync.gen.Gen.later_files">
+<code class="descname">later_files</code><span class="sig-paren">(</span><em>ascending=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/gen.html#Gen.later_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.gen.Gen.later_files" title="Permalink to this definition">¶</a></dt>
+<dd><p>List files with metadata in remote directory by time             default oldest to youngest by modified time</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name" colspan="2">Parm bool ascending:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body">default to oldest-&gt; youngest.            Set to True for reverse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Parameters:</th><td class="field-body"><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; True for terminal  output on file information</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="filesync.gen.Gen.pull">
+<code class="descname">pull</code><span class="sig-paren">(</span><em>forced=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/gen.html#Gen.pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.gen.Gen.pull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pull file from remote location to local</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>forced</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; Force pull file even if existsin log</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-filesync.owner">
+<span id="filesync-owner-module"></span><h2>filesync.owner module<a class="headerlink" href="#module-filesync.owner" title="Permalink to this headline">¶</a></h2>
+<dl class="exception">
+<dt id="filesync.owner.FileValidationError">
+<em class="property">exception </em><code class="descclassname">filesync.owner.</code><code class="descname">FileValidationError</code><span class="sig-paren">(</span><em>warnings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/owner.html#FileValidationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.owner.FileValidationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
+<p>FileValidationError throws when a file does not transfer correctly             (confirmed by checking size of file.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="filesync.owner.Owner">
+<em class="property">class </em><code class="descclassname">filesync.owner.</code><code class="descname">Owner</code><span class="sig-paren">(</span><em>json_path='/home/mweiss/code/sftp.config'</em>, <em>log_path='/home/mweiss/code/logs.json'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/owner.html#Owner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.owner.Owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Owner for creating SFTP Objects and performing actions</p>
+<dl class="method">
+<dt id="filesync.owner.Owner.gen_sftp_objects">
+<code class="descname">gen_sftp_objects</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/owner.html#Owner.gen_sftp_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.owner.Owner.gen_sftp_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create SFTP Objects based on config files. store in Owner.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="filesync.owner.Owner.log_action">
+<code class="descname">log_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/owner.html#Owner.log_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.owner.Owner.log_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log files and metadata</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="filesync.owner.Owner.run_sftp_action">
+<code class="descname">run_sftp_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/owner.html#Owner.run_sftp_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.owner.Owner.run_sftp_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute actions specified in object by config</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-filesync.slog">
+<span id="filesync-slog-module"></span><h2>filesync.slog module<a class="headerlink" href="#module-filesync.slog" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="filesync.slog.Slog">
+<em class="property">class </em><code class="descclassname">filesync.slog.</code><code class="descname">Slog</code><span class="sig-paren">(</span><em>log_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/slog.html#Slog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.slog.Slog" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for tracking synced files</p>
+<dl class="method">
+<dt id="filesync.slog.Slog.extend_json">
+<code class="descname">extend_json</code><span class="sig-paren">(</span><em>name</em>, <em>lstat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/slog.html#Slog.extend_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.slog.Slog.extend_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extend/Create logged file pulls. account keys file values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of account in log/config file</li>
+<li><strong>lstat</strong> (<em>nd.recarray</em>) &#8211; nx3 (&#8216;files&#8217; &#8216;time&#8217; &#8216;size&#8217;)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="filesync.slog.Slog.read_log">
+<code class="descname">read_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/slog.html#Slog.read_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.slog.Slog.read_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read JSON log, create empty dict if not exists</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-filesync">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-filesync" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">filesync package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-filesync.gen">filesync.gen module</a></li>
+<li><a class="reference internal" href="#module-filesync.owner">filesync.owner module</a></li>
+<li><a class="reference internal" href="#module-filesync.slog">filesync.slog module</a></li>
+<li><a class="reference internal" href="#module-filesync">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quadtree.html" title="previous chapter">quadtree package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/filesync.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Mark Weiss.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/filesync.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
