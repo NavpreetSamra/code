@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 2
 
    modules.rst
+   wikitravel.rst
    cvcparser.rst
    filesync.rst
    helpers.rst

@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>wikitravel package &mdash; Mark Weiss 0.0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html" />
+    <link rel="prev" title="quadtree package" href="quadtree.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="wikitravel-package">
+<h1>wikitravel package<a class="headerlink" href="#wikitravel-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-wikitravel.travel">
+<span id="wikitravel-travel-module"></span><h2>wikitravel.travel module<a class="headerlink" href="#module-wikitravel.travel" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="wikitravel.travel.Travel">
+<em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Travel</code><span class="sig-paren">(</span><em>location</em>, <em>gkey</em>, <em>results=4</em>, <em>radius=500</em>, <em>pop_date='201605'</em>, <em>factors=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for finding nearby sites of interest via google maps and wikipedia
+Site popularity evaluated by page views in the past (or specified month)</p>
+<dl class="method">
+<dt id="wikitravel.travel.Travel.local_search">
+<code class="descname">local_search</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.local_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.local_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find nearby sites to self.location</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Travel.locate">
+<code class="descname">locate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.locate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.locate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find major sight location: self.coordinates = [latitude, longitude]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Travel.user_select">
+<code class="descname">user_select</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.user_select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.user_select" title="Permalink to this definition">¶</a></dt>
+<dd><p>User selects additional sight to include for trip</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="wikitravel.travel.Trip">
+<em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Trip</code><span class="sig-paren">(</span><em>travel</em>, <em>start</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for optimizing paths from Travel</p>
+<dl class="method">
+<dt id="wikitravel.travel.Trip.astar_route">
+<code class="descname">astar_route</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.astar_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.astar_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use A* to optimize route (newtorkx)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.brute_route">
+<code class="descname">brute_route</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.brute_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.brute_route" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use brute force to optimize route (compute all permutations)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.build_graph">
+<code class="descname">build_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.build_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Link all locations together in graph (completely connected)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.find_routes">
+<code class="descname">find_routes</code><span class="sig-paren">(</span><em>route_method='AStar'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.find_routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.find_routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find route based on optimization method</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>route_method</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Currently supports &#8216;brute&#8217;(computes all permutations)                 and AStar (A* from networkx)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.get_directions">
+<code class="descname">get_directions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.get_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.get_directions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.populate_graph">
+<code class="descname">populate_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.populate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.populate_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Populate graph with distances between nodes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.print_directions">
+<code class="descname">print_directions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.print_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.print_directions" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.route_cost">
+<code class="descname">route_cost</code><span class="sig-paren">(</span><em>route</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.route_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.route_cost" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="wikitravel.travel.hidden_gems">
+<code class="descclassname">wikitravel.travel.</code><code class="descname">hidden_gems</code><span class="sig-paren">(</span><em>major_sight</em>, <em>gkey</em>, <em>radius=800</em>, <em>results=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#hidden_gems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.hidden_gems" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-wikitravel">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-wikitravel" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">wikitravel package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-wikitravel.travel">wikitravel.travel module</a></li>
+<li><a class="reference internal" href="#module-wikitravel">Module contents</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="quadtree.html" title="previous chapter">quadtree package</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/wikitravel.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Mark Weiss.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/wikitravel.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
