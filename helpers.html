@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>helpers package &mdash; Public Code 0.0.1 documentation</title>
+    <title>helpers package &mdash; Mark Weiss 0.0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -23,10 +23,10 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="Public Code 0.0.1 documentation" href="index.html" />
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html" />
     <link rel="up" title="code" href="modules.html" />
     <link rel="next" title="quadtree package" href="quadtree.html" />
-    <link rel="prev" title="filetransport package" href="filetransport.html" />
+    <link rel="prev" title="filesync package" href="filesync.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -46,6 +46,25 @@
 </div>
 <div class="section" id="module-helpers.math_h">
 <span id="helpers-math-h-module"></span><h2>helpers.math_h module<a class="headerlink" href="#module-helpers.math_h" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="helpers.math_h.basismap_3d">
+<code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find rigid body rotation and centroid translation between two states
+Default body centers are centroids</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> (<em>array-like</em>) &#8211; nx3 set of original coordinates in rigid body</li>
+<li><strong>b</strong> (<em>array-like</em>) &#8211; nx3 set of original coordinates in transformed body</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="function">
 <dt id="helpers.math_h.enforce_2d">
 <code class="descclassname">helpers.math_h.</code><code class="descname">enforce_2d</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#enforce_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.enforce_2d" title="Permalink to this definition">¶</a></dt>
@@ -164,7 +183,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">code</a><ul>
-      <li>Previous: <a href="filetransport.html" title="previous chapter">filetransport package</a></li>
+      <li>Previous: <a href="filesync.html" title="previous chapter">filesync package</a></li>
       <li>Next: <a href="quadtree.html" title="next chapter">quadtree package</a></li>
   </ul></li>
   </ul></li>
