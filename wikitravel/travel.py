@@ -6,7 +6,6 @@ import wikipedia as wk
 import googlemaps as gm
 import networkx
 import itertools
-import copy
 
 
 # TODOs
@@ -19,8 +18,8 @@ class Travel(object):
 
     """
 
-    def __init__(self, location, gkey, results=4, radius=500,
-                 pop_date='201605', factors=None, weights=None):
+    def __init__(self, location, gkey, results=15, radius=1000,
+                 pop_date='201506', factors=None, weights=None):
         """
         Create Travel object based on location, factors + weights (indev)
 
@@ -28,7 +27,8 @@ class Travel(object):
         :param str gkey: Google Maps api key
         :param int results: max number of wiki results to query for sight
         :param int radius: search radius (meters)
-        :param str pop_date: month to grab wiki page views from (YYYYMM)
+        :param str pop_date: month to grab wiki page views from (YYYYMM) \
+                note month pages must exist at http://stats.grok.se/
         :param dict factors: additional criteria INDEV
         :param dict weights: additional criteria INDEV
         """
@@ -37,6 +37,7 @@ class Travel(object):
         self.gkey = gkey
         self.results = results
         self.radius = radius
+        self.pop_date = pop_date
         self.factors = factors
         self.weights = weights
 
@@ -62,7 +63,7 @@ class Travel(object):
             maps = gm.Client(self.gkey)
             loc_resp = maps.geocode(self.location)
 
-            [latitude, longitude] = loc_resp[0]['geometry'] \
+            [latitude, longitude] = loc_resp[0]['geometry']\
                                                ['location'].values()
 
         self.coordinates = [latitude, longitude]
@@ -80,20 +81,17 @@ class Travel(object):
                                       results=self.results,
                                       radius=self.radius)
 
-        # !!!TODO cleanup into object
-        # Initialize rank and position as lists
         names = []
         ranks = []
         latitudes = []
         longitudes = []
 
-
-        #Set source for popularity information
-        pop_url = 'http://stats.grok.se/json/en/' + self.pop_date +'/'
+        # Set source for popularity information
+        pop_url = 'http://stats.grok.se/json/en/' + self.pop_date + '/'
 
         for resp in self.wiki_resp:
 
-            #Get Wikipedia page
+            # Get Wikipedia page
             wiki_page = wk.WikipediaPage(resp)
             wiki_url_tag = wiki_page.url.split('/')[-1]
 
@@ -164,139 +162,112 @@ class Trip(object):
 
         self.travel = travel
         self.start = start
+        self.sights = travel.df['place'].values
         if end is None:
             self.end = start
+            self.waypoints = len(self.sights) + 1
         else:
             self.end = end
-        self.sights = travel.df['place'].values
+            self.waypoints = len(self.sights)
+
+        self.graph = networkx.Graph()
+
+        self.maps = gm.Client(self.travel.gkey)
 
         # Assigned in methods
-        self.graph = networkx.empty_graph(len(self.sights))
-        self.route = {}
-        self.directions = {}
+        self.distances = []
+        self.routes = []
+        self.cost = None
+        self.route = None
+        self.directions = []
 
     def build_graph(self):
         """
         Link all locations together in graph (completely connected)
         """
-
-        if len(self.sights) > 1:
-            edges = itertools.combinations(self.sights, 2)
-            self.graph.add_edges_from(edges)
+        if len(self.sights) > 2:
+            self.graph.add_nodes_from(self.sights)
+            self.edges = itertools.combinations(self.sights, 2)
+            self.calculate_distances()
+            self.graph.add_weighted_edges_from(self.distances)
 
         else:
-            raise Exception('Not a trip, only one sight: ' + self.sights)
+            raise Exception('Not a trip, fewer then 3 sights: ' + self.sights)
 
-    def populate_graph(self):
+    def calculate_distances(self):
         """
-        Populate graph with distances between nodes
+        Calculate distances between sights to weight graph 
         """
-        maps = gm.Client(self.travel.gkey)
+        for i in self.edges:
+            l = np.in1d(self.travel.df['place'].values, i)
+            coords = self.travel.df[['latitude', 'longitude']].values
+            coords = coords[l, :]
+            coords1 = {'lat': coords[0, 0], 'lng': coords[0, 1]}
+            coords2 = {'lat': coords[1, 0], 'lng': coords[1, 1]}
 
-        for i in self.sights:
-            for k in self.graph[i]:
+            self.distances.append((i[0], i[1],
+                self.maps.distance_matrix(coords1, coords2, mode='walking')\
+                ['rows'][0]['elements'][0]['distance']['value']))
 
-                if self.graph[k][i]:
-                    self.graph[i][k] = self.graph[k][i]
-                else:
-                    l = np.in1d(self.travel.df['place'].values,
-                                np.array([i, k]))
-                    coords = self.travel.df[['latitude', 'longitude']].values
-                    coords = coords[l, :]
-                    coords1 = {'lat': coords[0, 0], 'lng': coords[0, 1]}
-                    coords2 = {'lat': coords[1, 0], 'lng': coords[1, 1]}
-
-                    dist = maps.distance_matrix(coords1, coords2,
-                                                mode='walking')\
-                            ['rows'][0]['elements'][0]['distance']['value']
-                    self.graph[i][k] = dist
-
-    def find_routes(self, route_method='AStar'):
+    def find_routes(self):
         """
-        Find route based on optimization method
-
-        :param str route_method: Currently supports 'brute'(computes all permutations) \
-                and AStar (A* from networkx)
+        Find shortest route for given constraints
         """
 
-        #Need parameter for fixed/free Initial Condition
-        nodes = copy.copy(self.sights.tolist())
-        nodes.remove(self.start)
+        routes = networkx.all_simple_paths(self.graph, source=self.start,
+                                           target=self.end,
+                                           cutoff=self.waypoints
+                                           )
 
-        if self.route_method == 'brute':
-            self.brute_route()
+        for route in routes:
+            if len(route) == self.waypoints:
+                self.routes.append(route)
+                cost = self.calculate_cost(route)
+                if not self.cost:
+                    self.cost = cost
+                    self.route = route
+                elif cost < self.cost:
+                    self.cost = cost
+                    self.route = route
 
-        elif self.route_method == 'AStar':
-            self.astar_route()
-
-        print('Your optimal route is:')
-        print(self.route)
-
-    def brute_route(self):
+    def calculate_cost(self, route):
         """
-        Use brute force to optimize route (compute all permutations)
+        Calculate the cost of a given route
+
+        :param array-like route: order of waypoints in route to evaluate
+        :return cost: cost of route based on weights in graph
+        :rtype float:
         """
+        starts = route[:-1]
+        ends = route[1:]
+        cost = 0.
 
-        perm = list(itertools.permutations(nodes))
-
-        for path_perm in perm:
-
-            path = list(path_perm)
-
-            path.insert(0, self.start)
-            path.append(self.end)
-
-            cost = self.route_cost(path)
-
-            if 'dist' in self.route.keys():
-                if self.route['distance (m)'] > cost:
-                    self.route['distance (m)'] = cost
-                    self.route['route'] = path 
-
-            else:
-                self.route['distance (m)'] = cost
-                self.route['route'] = path
-
-    def route_cost(self, route):
-        """
-        """
-
-        cost = 0
-
-        for i, j in zip(route[:-1], route[1:]):
-            cost += self.graph[i][j]
+        for i, j in zip(starts, ends):
+            cost += self.graph[i][j]['weight']
 
         return cost
 
-    def astar_route(self):
-        """
-        Use A* to optimize route (newtorkx)
-        """
-
     def get_directions(self):
         """
+        Get directions from Google Maps for route
         """
 
-        path = self.route['route']
-        count = 0
-        maps = gm.Client(self.travel.gkey)
-
-        for i, k in zip(path[:-1], path[1:]):
+        for i, k in zip(self.route[:-1], self.route[1:]):
             l = np.in1d(self.travel.df['place'].values, np.array([i, k]))
             coords = self.travel.df[['latitude', 'longitude']].values
             coords = coords[l, :]
             coords1 = {'lat': coords[0, 0], 'lng': coords[0, 1]}
             coords2 = {'lat': coords[1, 0], 'lng': coords[1, 1]}
 
-            directions = maps.directions(coords1, coords2, mode='walking')
+            directions = self.maps.directions(coords1, coords2, mode='walking')
 
-            self.directions[count] = directions
-            count += 1
+            self.directions.append(directions)
 
     def print_directions(self):
         """
+        Print out directions leg by leg for each sight
         """
-        for i in self.directions.itervalues():
+        for i in self.directions:
             count = 0
             for j in i[0]['legs'][0]['steps']:
                 count += 1
@@ -314,8 +285,9 @@ class Trip(object):
             raw_input()
 
 
-def hidden_gems(major_sight, gkey, radius=800, results=10):
+def wiki_travel(major_sight, gkey, radius=800, results=10):
     """
+    Front end for running Wiki Travel
     """
     start = major_sight
 
@@ -324,9 +296,8 @@ def hidden_gems(major_sight, gkey, radius=800, results=10):
     t.local_search()
     t.user_select()
 
-    r = Trip(t, gkey, start, start)
+    r = Trip(t, start, start)
     r.build_graph()
-    r.populate_graph(gkey)
     r.find_routes()
-    r.get_directions(gkey)
+    r.get_directions()
     r.print_directions()
