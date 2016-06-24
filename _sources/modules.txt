@@ -4,6 +4,7 @@ code
 .. toctree::
    :maxdepth: 4
 
+   wikitravel
    cvcparser
    filesync
    helpers
