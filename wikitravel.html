@@ -46,7 +46,7 @@
 <span id="wikitravel-travel-module"></span><h2>wikitravel.travel module<a class="headerlink" href="#module-wikitravel.travel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="wikitravel.travel.Travel">
-<em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Travel</code><span class="sig-paren">(</span><em>location</em>, <em>gkey</em>, <em>results=4</em>, <em>radius=500</em>, <em>pop_date='201605'</em>, <em>factors=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Travel</code><span class="sig-paren">(</span><em>location</em>, <em>gkey</em>, <em>results=15</em>, <em>radius=1000</em>, <em>pop_date='201506'</em>, <em>factors=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for finding nearby sites of interest via google maps and wikipedia
 Site popularity evaluated by page views in the past (or specified month)</p>
@@ -76,64 +76,60 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for optimizing paths from Travel</p>
 <dl class="method">
-<dt id="wikitravel.travel.Trip.astar_route">
-<code class="descname">astar_route</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.astar_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.astar_route" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use A* to optimize route (newtorkx)</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikitravel.travel.Trip.brute_route">
-<code class="descname">brute_route</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.brute_route"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.brute_route" title="Permalink to this definition">¶</a></dt>
-<dd><p>Use brute force to optimize route (compute all permutations)</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="wikitravel.travel.Trip.build_graph">
 <code class="descname">build_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.build_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Link all locations together in graph (completely connected)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="wikitravel.travel.Trip.find_routes">
-<code class="descname">find_routes</code><span class="sig-paren">(</span><em>route_method='AStar'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.find_routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.find_routes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find route based on optimization method</p>
+<dt id="wikitravel.travel.Trip.calculate_cost">
+<code class="descname">calculate_cost</code><span class="sig-paren">(</span><em>route</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.calculate_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.calculate_cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the cost of a given route</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>route_method</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Currently supports &#8216;brute&#8217;(computes all permutations)                 and AStar (A* from networkx)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>route</strong> (<em>array-like</em>) &#8211; order of waypoints in route to evaluate</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return cost:</th><td class="field-body">cost of route based on weights in graph</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rtype float:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
 <dl class="method">
-<dt id="wikitravel.travel.Trip.get_directions">
-<code class="descname">get_directions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.get_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.get_directions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="wikitravel.travel.Trip.calculate_distances">
+<code class="descname">calculate_distances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.calculate_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.calculate_distances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate distances between sights to weight graph</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="wikitravel.travel.Trip.populate_graph">
-<code class="descname">populate_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.populate_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.populate_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Populate graph with distances between nodes</p>
+<dt id="wikitravel.travel.Trip.find_routes">
+<code class="descname">find_routes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.find_routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.find_routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find shortest route for given constraints</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.get_directions">
+<code class="descname">get_directions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.get_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.get_directions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get directions from Google Maps for route</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="wikitravel.travel.Trip.print_directions">
 <code class="descname">print_directions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.print_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.print_directions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="wikitravel.travel.Trip.route_cost">
-<code class="descname">route_cost</code><span class="sig-paren">(</span><em>route</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.route_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.route_cost" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Print out directions leg by leg for each sight</p>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="wikitravel.travel.hidden_gems">
-<code class="descclassname">wikitravel.travel.</code><code class="descname">hidden_gems</code><span class="sig-paren">(</span><em>major_sight</em>, <em>gkey</em>, <em>radius=800</em>, <em>results=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#hidden_gems"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.hidden_gems" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="wikitravel.travel.wiki_travel">
+<code class="descclassname">wikitravel.travel.</code><code class="descname">wiki_travel</code><span class="sig-paren">(</span><em>major_sight</em>, <em>gkey</em>, <em>radius=800</em>, <em>results=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#wiki_travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.wiki_travel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Front end for running Wiki Travel</p>
+</dd></dl>
 
 </div>
 <div class="section" id="module-wikitravel">
