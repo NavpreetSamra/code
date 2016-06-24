@@ -47,16 +47,15 @@
 <div class="viewcode-block" id="Owner"><a class="viewcode-back" href="../../filesync.html#filesync.owner.Owner">[docs]</a><span class="k">class</span> <span class="nc">Owner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Owner for creating SFTP Objects and performing actions</span>
+
+<span class="sd">    Constructor for SFTP Owner, requires config and log JSONs</span>
+
+<span class="sd">    :param str json_file: json input file path containing metedata for pull</span>
+<span class="sd">    :param str log_path: path to log file JSON</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">json_path</span><span class="o">=</span><span class="s1">&#39;/home/mweiss/code/sftp.config&#39;</span><span class="p">,</span>
                  <span class="n">log_path</span><span class="o">=</span><span class="s1">&#39;/home/mweiss/code/logs.json&#39;</span><span class="p">,</span>
                  <span class="n">name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructor for SFTP Owner, requires config and log JSONs</span>
-
-<span class="sd">        :param str json_file: json input file path containing metedata for pull</span>
-<span class="sd">        :param str log_path: path to log file JSON</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">json_handle</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">transport</span> <span class="o">=</span> <span class="p">{}</span>
@@ -128,14 +127,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    FileValidationError throws when a file does not transfer correctly \</span>
 <span class="sd">            (confirmed by checking size of file.</span>
+
+<span class="sd">    Constructor for Exception subclass. Tracks invalid file transfers</span>
+
+<span class="sd">    :param dict warnings: keys - acount names \</span>
+<span class="sd">                          valuees - nd.array of string file names</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">warnings</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Constructor for Exception subclass. Tracks invalid file transfers</span>
-
-<span class="sd">        :param dict warnings: keys - acount names \</span>
-<span class="sd">                              valuees - nd.array of string file names</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">warnings</span> <span class="o">=</span> <span class="n">warnings</span>

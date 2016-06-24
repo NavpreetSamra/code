@@ -24,7 +24,9 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html" />
-    <link rel="prev" title="quadtree package" href="quadtree.html" />
+    <link rel="up" title="code" href="modules.html" />
+    <link rel="next" title="cvcparser package" href="cvcparser.html" />
+    <link rel="prev" title="code" href="modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -50,6 +52,24 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for finding nearby sites of interest via google maps and wikipedia
 Site popularity evaluated by page views in the past (or specified month)</p>
+<p>Create Travel object based on location, factors + weights (indev)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>location</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string specifying location, default is geocode</li>
+<li><strong>gkey</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Google Maps api key</li>
+<li><strong>results</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; max number of wiki results to query for sight</li>
+<li><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; search radius (meters)</li>
+<li><strong>pop_date</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; month to grab wiki page views from (YYYYMM)             note month pages must exist at <a class="reference external" href="http://stats.grok.se/">http://stats.grok.se/</a></li>
+<li><strong>factors</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
+<li><strong>weights</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="wikitravel.travel.Travel.local_search">
 <code class="descname">local_search</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.local_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.local_search" title="Permalink to this definition">¶</a></dt>
@@ -75,6 +95,20 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Trip</code><span class="sig-paren">(</span><em>travel</em>, <em>start</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for optimizing paths from Travel</p>
+<p>Constructor for Trip class, requries Travel &amp; Google Maps api key</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>travel</strong> (<a class="reference internal" href="#wikitravel.travel.Travel" title="wikitravel.travel.Travel"><em>Travel</em></a>) &#8211; Travel object (with df attribute)</li>
+<li><strong>start</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Starting point of trip</li>
+<li><strong>end</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Ending point of trip. Defaults to start</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="wikitravel.travel.Trip.build_graph">
 <code class="descname">build_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.build_graph" title="Permalink to this definition">¶</a></dt>
@@ -156,7 +190,10 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="quadtree.html" title="previous chapter">quadtree package</a></li>
+  <li><a href="modules.html">code</a><ul>
+      <li>Previous: <a href="modules.html" title="previous chapter">code</a></li>
+      <li>Next: <a href="cvcparser.html" title="next chapter">cvcparser package</a></li>
+  </ul></li>
   </ul></li>
 </ul>
 </div>

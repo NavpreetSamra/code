@@ -26,7 +26,7 @@
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html" />
     <link rel="up" title="code" href="modules.html" />
     <link rel="next" title="filesync package" href="filesync.html" />
-    <link rel="prev" title="code" href="modules.html" />
+    <link rel="prev" title="wikitravel package" href="wikitravel.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -51,6 +51,22 @@
 <em class="property">class </em><code class="descclassname">cvcparser.CVCParser.</code><code class="descname">LogFile</code><span class="sig-paren">(</span><em>input_file</em>, <em>output_folder='./'</em>, <em>init_split='ElmoLogEntry('</em>, <em>end_split=')'</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for reformatting CVC Logs into csv and/or extracting specific fields</p>
+<p>Constructor for LogFile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; file name to log file</li>
+<li><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to output folder</li>
+<li><strong>init_split</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Initial split for marking beginning of line</li>
+<li><strong>end_split</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; End split for marking end of line in log</li>
+<li><strong>fields</strong> (<em>array-like</em>) &#8211; Option for extracing specific fields                               None produces all fields.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="cvcparser.CVCParser.LogFile.build_txt">
 <code class="descname">build_txt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.build_txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.build_txt" title="Permalink to this definition">¶</a></dt>
@@ -133,7 +149,7 @@
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">code</a><ul>
-      <li>Previous: <a href="modules.html" title="previous chapter">code</a></li>
+      <li>Previous: <a href="wikitravel.html" title="previous chapter">wikitravel package</a></li>
       <li>Next: <a href="filesync.html" title="next chapter">filesync package</a></li>
   </ul></li>
   </ul></li>

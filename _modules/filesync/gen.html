@@ -47,22 +47,23 @@
 <div class="viewcode-block" id="Gen"><a class="viewcode-back" href="../../filesync.html#filesync.gen.Gen">[docs]</a><span class="k">class</span> <span class="nc">Gen</span><span class="p">(</span><span class="n">pm</span><span class="o">.</span><span class="n">Transport</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for creating, operating, and tracking objects from Paramiko.Transport</span>
+
+<span class="sd">    :param str host: SFTPClient host</span>
+<span class="sd">    :param str username: SFTPClient username</span>
+<span class="sd">    :param str password: SFTPClient password</span>
+<span class="sd">    :param str port: SFTPClient port</span>
+<span class="sd">    :param str remote_dir: remote directory on SFTP</span>
+<span class="sd">    :param str local_dir: directory on local machine</span>
+<span class="sd">    :param str action: push or pull (optional)</span>
+<span class="sd">    :param str pattern: regular expression to match files on remote machine</span>
+<span class="sd">    :param Slog log: Slog object</span>
+<span class="sd">    :param bool verbose: True for terminal  output on file information</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">remote_dir</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span>
                  <span class="n">local_dir</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">log</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        :param str host: SFTPClient host</span>
-<span class="sd">        :param str username: SFTPClient username</span>
-<span class="sd">        :param str password: SFTPClient password</span>
-<span class="sd">        :param str port: SFTPClient port</span>
-<span class="sd">        :param str remote_dir: remote directory on SFTP</span>
-<span class="sd">        :param str local_dir: directory on local machine</span>
-<span class="sd">        :param str action: push or pull (optional)</span>
-<span class="sd">        :param str pattern: regular expression to match files on remote machine</span>
-<span class="sd">        :param Slog log: Slog object</span>
-<span class="sd">        :param bool verbose: True for terminal  output on file information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">if</span> <span class="n">port</span><span class="p">:</span>

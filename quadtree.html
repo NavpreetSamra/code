@@ -52,6 +52,20 @@
 <p>Class for creating quadtree of two dimensional data
 Tree attribute is a dictionary keys are bounding box
 values are coordinates box self.tree[(x1,x2,y1,y2)] = data</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<em>array-like</em>) &#8211; nx2 array of cartesian points</li>
+<li><strong>max_cell</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; maximum number of points in a cell</li>
+<li><strong>buff</strong> (<em>array-like</em>) &#8211; (optional[x,y]) 1x2 add buffer to cells.         this includes points in buffer around cell. .25 add 12.5%         of cell length to include points outside the cell for functions
+that suffer from edge effects. [.1, .2] adds +/- 5% in x and 10% y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="quadtree.quadtree.QuadTree.add_buffer">
 <code class="descname">add_buffer</code><span class="sig-paren">(</span><em>box</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quadtree/quadtree.html#QuadTree.add_buffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quadtree.quadtree.QuadTree.add_buffer" title="Permalink to this definition">¶</a></dt>
