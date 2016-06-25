@@ -7,16 +7,15 @@ import regex
 class Owner(object):
     """
     Owner for creating SFTP Objects and performing actions
+
+    Constructor for SFTP Owner, requires config and log JSONs
+
+    :param str json_file: json input file path containing metedata for pull
+    :param str log_path: path to log file JSON
     """
     def __init__(self, json_path='/home/mweiss/code/sftp.config',
                  log_path='/home/mweiss/code/logs.json',
                  name=None):
-        """
-        Constructor for SFTP Owner, requires config and log JSONs
-
-        :param str json_file: json input file path containing metedata for pull
-        :param str log_path: path to log file JSON
-        """
 
         self.json_handle = open(json_path, 'r')
         self.transport = {}
@@ -88,14 +87,13 @@ class FileValidationError(Exception):
     """
     FileValidationError throws when a file does not transfer correctly \
             (confirmed by checking size of file.
+
+    Constructor for Exception subclass. Tracks invalid file transfers
+
+    :param dict warnings: keys - acount names \
+                          valuees - nd.array of string file names
     """
     def __init__(self, warnings):
-        """
-        Constructor for Exception subclass. Tracks invalid file transfers
-
-        :param dict warnings: keys - acount names \
-                              valuees - nd.array of string file names
-        """
         Exception.__init__(self, "")
 
         self.warnings = warnings

@@ -4,10 +4,13 @@ import json
 class Slog(object):
     """
     Class for tracking synced files
+
+    Constructor for Slog class, open and read existing log
+
+    :param str log_path: path to log file for account
     """
     def __init__(self, log_path):
         """
-        Constructor for Slog class, open and read existing log
         """
 
         self.log = open(log_path, 'r+')

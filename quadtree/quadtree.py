@@ -9,17 +9,15 @@ class QuadTree(object):
     Class for creating quadtree of two dimensional data
     Tree attribute is a dictionary keys are bounding box
     values are coordinates box self.tree[(x1,x2,y1,y2)] = data
+
+    :param array-like data: nx2 array of cartesian points
+    :param int max_cell: maximum number of points in a cell
+    :param array-like buff: (optional[x,y]) 1x2 add buffer to cells. \
+        this includes points in buffer around cell. .25 add 12.5% \
+        of cell length to include points outside the cell for functions
+        that suffer from edge effects. [.1, .2] adds +/- 5% in x and 10% y
     """
     def __init__(self, data, max_cell, buff=None):
-        """
-        :param array-like data: nx2 array of cartesian points
-        :param int max_cell: maximum number of points in a cell
-        :param array-like buff: (optional[x,y]) 1x2 add buffer to cells. \
-            this includes points in buffer around cell. .25 add 12.5% \
-            of cell length to include points outside the cell for functions
-            that suffer from edge effects. [.1, .2] adds +/- 5% in x and 10% y
-
-        """
 
         self.data = np.asarray(data)
         self.max_cell = max_cell

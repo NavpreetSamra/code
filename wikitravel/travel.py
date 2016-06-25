@@ -16,22 +16,20 @@ class Travel(object):
     Class for finding nearby sites of interest via google maps and wikipedia
     Site popularity evaluated by page views in the past (or specified month)
 
+    Create Travel object based on location, factors + weights (indev)
+
+    :param str location: string specifying location, default is geocode
+    :param str gkey: Google Maps api key
+    :param int results: max number of wiki results to query for sight
+    :param int radius: search radius (meters)
+    :param str pop_date: month to grab wiki page views from (YYYYMM) \
+            note month pages must exist at http://stats.grok.se/
+    :param dict factors: additional criteria INDEV
+    :param dict weights: additional criteria INDEV
     """
 
     def __init__(self, location, gkey, results=15, radius=1000,
                  pop_date='201506', factors=None, weights=None):
-        """
-        Create Travel object based on location, factors + weights (indev)
-
-        :param str location: string specifying location, default is geocode
-        :param str gkey: Google Maps api key
-        :param int results: max number of wiki results to query for sight
-        :param int radius: search radius (meters)
-        :param str pop_date: month to grab wiki page views from (YYYYMM) \
-                note month pages must exist at http://stats.grok.se/
-        :param dict factors: additional criteria INDEV
-        :param dict weights: additional criteria INDEV
-        """
 
         self.location = location
         self.gkey = gkey
@@ -148,17 +146,15 @@ class Trip(object):
     """
     Class for optimizing paths from Travel
 
+    Constructor for Trip class, requries Travel & Google Maps api key
+
+    :param Travel travel: Travel object (with df attribute)
+    :param str start: Starting point of trip
+    :param str end: Ending point of trip. Defaults to start
+
     """
 
     def __init__(self, travel, start, end=None):
-        """
-        Constructor for Trip class, requries Travel & Google Maps api key
-
-        :param Travel travel: Travel object (with df attribute)
-        :param str start: Starting point of trip
-        :param str end: Ending point of trip. Defaults to start
-
-        """
 
         self.travel = travel
         self.start = start

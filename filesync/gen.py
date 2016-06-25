@@ -7,22 +7,23 @@ import os
 class Gen(pm.Transport):
     """
     Class for creating, operating, and tracking objects from Paramiko.Transport
+
+    :param str host: SFTPClient host
+    :param str username: SFTPClient username
+    :param str password: SFTPClient password
+    :param str port: SFTPClient port
+    :param str remote_dir: remote directory on SFTP
+    :param str local_dir: directory on local machine
+    :param str action: push or pull (optional)
+    :param str pattern: regular expression to match files on remote machine
+    :param Slog log: Slog object
+    :param bool verbose: True for terminal  output on file information
     """
 
     def __init__(self, host, username, password, port=None, remote_dir='./',
                  local_dir='./', action=None, pattern=None, log=None,
                  verbose=False):
         """
-        :param str host: SFTPClient host
-        :param str username: SFTPClient username
-        :param str password: SFTPClient password
-        :param str port: SFTPClient port
-        :param str remote_dir: remote directory on SFTP
-        :param str local_dir: directory on local machine
-        :param str action: push or pull (optional)
-        :param str pattern: regular expression to match files on remote machine
-        :param Slog log: Slog object
-        :param bool verbose: True for terminal  output on file information
         """
 
         if port:

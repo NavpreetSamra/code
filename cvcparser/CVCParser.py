@@ -10,19 +10,17 @@ class LogFile(object):
     """
     Class for reformatting CVC Logs into csv and/or extracting specific fields
 
+    Constructor for LogFile
+
+    :param str input_file: file name to log file
+    :param str output_folder: path to output folder
+    :param str init_split: Initial split for marking beginning of line
+    :param str end_split: End split for marking end of line in log
+    :param array-like fields: Option for extracing specific fields \
+                              None produces all fields.
     """
     def __init__(self, input_file, output_folder='./',
                  init_split='ElmoLogEntry(', end_split=")", fields=None):
-        """
-        Constructor for LogFile
-
-        :param str input_file: file name to log file
-        :param str output_folder: path to output folder
-        :param str init_split: Initial split for marking beginning of line
-        :param str end_split: End split for marking end of line in log
-        :param array-like fields: Option for extracing specific fields \
-                                  None produces all fields.
-        """
 
         self.file_path = os.path.abspath(input_file)
         filename = path_leaf(self.file_path)
