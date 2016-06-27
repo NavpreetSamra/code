@@ -13,9 +13,9 @@ Contents:
 
    modules.rst
    wikitravel.rst
-   sirdisease.rst
+   sirdisease.sir_disease.rst
+   filesync.sync.rst
    cvcparser.rst
-   filesync.rst
    helpers.rst
    quadtree.rst
 
