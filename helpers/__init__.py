@@ -1,4 +1,4 @@
 import math_h
-import string_h
+import text_h 
 
 __version__ = "0.0.1"
