@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 
 def basismap_3d(a, b):
@@ -25,7 +26,7 @@ def basismap_3d(a, b):
 
     r = vt.T * u.T
 
-    # special reflection case (orientation correction)
+    # reflection orientation correction
     if np.linalg.det(r) < 0:
         vt[2, :] *= -1
         r = vt.T * u.T
@@ -33,6 +34,23 @@ def basismap_3d(a, b):
     t = -r * a_centroid.T + b_centroid.T
 
     return r, t
+
+
+def scatter_quick(data):
+    """
+    Quick scatter plots 2d and 3d
+
+    :param array-like data: nx[2,3] array to scatter plot
+    """
+    if data.shape[1] == 3:
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+        ax.scatter(data[:, 0], data[:, 1], data[:, 2])
+        plt.show()
+
+    elif data.shape[1] == 2:
+        plt.scatter(data[:, 0], data[:, 1])
+        plt.show()
 
 
 def enforce_2d(data):
