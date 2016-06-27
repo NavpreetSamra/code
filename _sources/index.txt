@@ -13,6 +13,7 @@ Contents:
 
    modules.rst
    wikitravel.rst
+   sir_disease.rst
    cvcparser.rst
    filesync.rst
    helpers.rst
@@ -25,4 +26,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-

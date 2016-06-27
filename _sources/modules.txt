@@ -5,6 +5,7 @@ code
    :maxdepth: 4
 
    wikitravel
+   sir_disease
    cvcparser
    filesync
    helpers

@@ -1,0 +1,10 @@
+sirdisease package
+==================
+
+Module contents
+---------------
+
+.. automodule:: sirdisease
+    :members:
+    :undoc-members:
+    :show-inheritance:
