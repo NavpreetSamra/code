@@ -13,7 +13,7 @@ Contents:
 
    modules.rst
    wikitravel.rst
-   sir_disease.rst
+   sirdisease.rst
    cvcparser.rst
    filesync.rst
    helpers.rst
