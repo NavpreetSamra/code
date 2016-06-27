@@ -12,6 +12,14 @@ helpers.math_h module
     :undoc-members:
     :show-inheritance:
 
+helpers.test module
+-------------------
+
+.. automodule:: helpers.test
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 helpers.text_h module
 ---------------------
 

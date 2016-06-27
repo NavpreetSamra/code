@@ -1,6 +1,13 @@
 sirdisease package
 ==================
 
+Subpackages
+-----------
+
+.. toctree::
+
+    sirdisease.sir_disease
+
 Module contents
 ---------------
 

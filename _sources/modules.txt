@@ -4,9 +4,9 @@ code
 .. toctree::
    :maxdepth: 4
 
-   wikitravel
-   sir_disease
    cvcparser
    filesync
    helpers
    quadtree
+   sirdisease
+   wikitravel

@@ -1,6 +1,9 @@
 wikitravel package
 ==================
 
+Submodules
+----------
+
 wikitravel.travel module
 ------------------------
 

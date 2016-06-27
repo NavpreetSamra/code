@@ -1,33 +1,12 @@
 filesync package
-=====================
+================
 
-Submodules
-----------
+Subpackages
+-----------
 
-filesync.gen module
-------------------------
+.. toctree::
 
-.. automodule:: filesync.gen
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-filesync.owner module
---------------------------
-
-.. automodule:: filesync.owner
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-filesync.slog module
--------------------------
-
-.. automodule:: filesync.slog
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+    filesync.sync
 
 Module contents
 ---------------
