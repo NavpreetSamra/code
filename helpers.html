@@ -44,135 +44,14 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-helpers.math_h">
-<span id="helpers-math-h-module"></span><h2>helpers.math_h module<a class="headerlink" href="#module-helpers.math_h" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.math_h.basismap_3d">
-<code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find rigid body rotation and centroid translation between two states
-Default body centers are centroids</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>a</strong> (<em>array-like</em>) &#8211; nx3 set of original coordinates in rigid body</li>
-<li><strong>b</strong> (<em>array-like</em>) &#8211; nx3 set of original coordinates in transformed body</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.enforce_2d">
-<code class="descclassname">helpers.math_h.</code><code class="descname">enforce_2d</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#enforce_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.enforce_2d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Enforce an array-like entity is a multidimensional ndarray</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>array-like</em>) &#8211; array of points</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return data_nd:</th><td class="field-body">multidimensional array of data</td>
-</tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Rtype np.ndarray:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.gen_empty_write_record">
-<code class="descclassname">helpers.math_h.</code><code class="descname">gen_empty_write_record</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#gen_empty_write_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.gen_empty_write_record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.scatter_quick">
-<code class="descclassname">helpers.math_h.</code><code class="descname">scatter_quick</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#scatter_quick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.scatter_quick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Quick scatter plots 2d and 3d</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>array-like</em>) &#8211; nx[2,3] array to scatter plot</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="helpers-math-h-module">
+<h2>helpers.math_h module<a class="headerlink" href="#helpers-math-h-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-helpers.text_h">
-<span id="helpers-text-h-module"></span><h2>helpers.text_h module<a class="headerlink" href="#module-helpers.text_h" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.text_h.find_end_iter">
-<code class="descclassname">helpers.text_h.</code><code class="descname">find_end_iter</code><span class="sig-paren">(</span><em>l</em>, <em>sep_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_end_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_end_iter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.find_nth">
-<code class="descclassname">helpers.text_h.</code><code class="descname">find_nth</code><span class="sig-paren">(</span><em>haystack</em>, <em>needle</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_nth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_nth" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.find_sep">
-<code class="descclassname">helpers.text_h.</code><code class="descname">find_sep</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_sep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_sep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find key value seperator in line</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line of log</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type: ( or ,</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.gen_empty_write_record">
-<code class="descclassname">helpers.text_h.</code><code class="descname">gen_empty_write_record</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#gen_empty_write_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.gen_empty_write_record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.path_leaf">
-<code class="descclassname">helpers.text_h.</code><code class="descname">path_leaf</code><span class="sig-paren">(</span><em>abspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#path_leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.path_leaf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.regex_gen">
-<code class="descclassname">helpers.text_h.</code><code class="descname">regex_gen</code><span class="sig-paren">(</span><em>txt, seps=['\\(', '\\)'], all_groups=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#regex_gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.regex_gen" title="Permalink to this definition">¶</a></dt>
-<dd><p>Regex for nested divider pairs for capturing
-(currently only works for parenthesis)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>txt</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line to parse</li>
-<li><strong>seps</strong> (<em>array-like</em>) &#8211; list of dividers</li>
-<li><strong>all_groups</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; return top level group(False). all groups (True)</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Return result.capture:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first">group(s) caputred</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Rtype str/list:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="helpers-text-h-module">
+<h2>helpers.text_h module<a class="headerlink" href="#helpers-text-h-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-helpers">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-helpers" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -186,9 +65,9 @@ Default body centers are centroids</p>
   <ul>
 <li><a class="reference internal" href="#">helpers package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-helpers.math_h">helpers.math_h module</a></li>
-<li><a class="reference internal" href="#module-helpers.text_h">helpers.text_h module</a></li>
-<li><a class="reference internal" href="#module-helpers">Module contents</a></li>
+<li><a class="reference internal" href="#helpers-math-h-module">helpers.math_h module</a></li>
+<li><a class="reference internal" href="#helpers-text-h-module">helpers.text_h module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
