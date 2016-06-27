@@ -2,7 +2,7 @@ from scipy import spatial as spl
 import scipy as sp
 import numpy as np
 import subject
-import h5infect
+#import h5infect
 from matplotlib import pyplot as plt
 
 #Metrics infection rate: density vs time, clusters(size + shape), critical saturation
