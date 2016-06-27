@@ -44,11 +44,88 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="cvcparser-cvcparser-module">
-<h2>cvcparser.CVCParser module<a class="headerlink" href="#cvcparser-cvcparser-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cvcparser.CVCParser">
+<span id="cvcparser-cvcparser-module"></span><h2>cvcparser.CVCParser module<a class="headerlink" href="#module-cvcparser.CVCParser" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="cvcparser.CVCParser.LogFile">
+<em class="property">class </em><code class="descclassname">cvcparser.CVCParser.</code><code class="descname">LogFile</code><span class="sig-paren">(</span><em>input_file</em>, <em>output_folder='./'</em>, <em>init_split='ElmoLogEntry('</em>, <em>end_split=')'</em>, <em>fields=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for reformatting CVC Logs into csv and/or extracting specific fields</p>
+<p>Constructor for LogFile</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>input_file</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; file name to log file</li>
+<li><strong>output_folder</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to output folder</li>
+<li><strong>init_split</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Initial split for marking beginning of line</li>
+<li><strong>end_split</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; End split for marking end of line in log</li>
+<li><strong>fields</strong> (<em>array-like</em>) &#8211; Option for extracing specific fields                               None produces all fields.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="cvcparser.CVCParser.LogFile.build_txt">
+<code class="descname">build_txt</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.build_txt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.build_txt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build csv file writing each procesed line</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cvcparser.CVCParser.LogFile.read_line">
+<code class="descname">read_line</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#LogFile.read_line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.LogFile.read_line" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse each line of file</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cvcparser.CVCParser.find_end_iter">
+<code class="descclassname">cvcparser.CVCParser.</code><code class="descname">find_end_iter</code><span class="sig-paren">(</span><em>l</em>, <em>sep_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#find_end_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.find_end_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract value of key (field name) by finding the next             iterator not contained in a subfield</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cvcparser.CVCParser.find_nth">
+<code class="descclassname">cvcparser.CVCParser.</code><code class="descname">find_nth</code><span class="sig-paren">(</span><em>haystack</em>, <em>needle</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#find_nth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.find_nth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cvcparser.CVCParser.find_sep">
+<code class="descclassname">cvcparser.CVCParser.</code><code class="descname">find_sep</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#find_sep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.find_sep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find next seperator in line (implies determining existence of subfield)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string to parse</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="cvcparser.CVCParser.main">
+<code class="descclassname">cvcparser.CVCParser.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cvcparser.CVCParser.path_leaf">
+<code class="descclassname">cvcparser.CVCParser.</code><code class="descname">path_leaf</code><span class="sig-paren">(</span><em>abspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#path_leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.path_leaf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="cvcparser.CVCParser.regex_gen">
+<code class="descclassname">cvcparser.CVCParser.</code><code class="descname">regex_gen</code><span class="sig-paren">(</span><em>txt</em>, <em>seps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cvcparser/CVCParser.html#regex_gen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cvcparser.CVCParser.regex_gen" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-cvcparser">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-cvcparser" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -62,8 +139,8 @@
   <ul>
 <li><a class="reference internal" href="#">cvcparser package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#cvcparser-cvcparser-module">cvcparser.CVCParser module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-cvcparser.CVCParser">cvcparser.CVCParser module</a></li>
+<li><a class="reference internal" href="#module-cvcparser">Module contents</a></li>
 </ul>
 </li>
 </ul>
