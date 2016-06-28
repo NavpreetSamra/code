@@ -4,10 +4,10 @@ sirdisease.sir_disease package
 Submodules
 ----------
 
-sirdisease.sir_disease.owner module
+sirdisease.sir_disease.model module
 -----------------------------------
 
-.. automodule:: sirdisease.sir_disease.owner
+.. automodule:: sirdisease.sir_disease.model
     :members:
     :undoc-members:
     :show-inheritance:

@@ -44,48 +44,52 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-sirdisease.sir_disease.owner">
-<span id="sirdisease-sir-disease-owner-module"></span><h2>sirdisease.sir_disease.owner module<a class="headerlink" href="#module-sirdisease.sir_disease.owner" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-sirdisease.sir_disease.model">
+<span id="sirdisease-sir-disease-model-module"></span><h2>sirdisease.sir_disease.model module<a class="headerlink" href="#module-sirdisease.sir_disease.model" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="sirdisease.sir_disease.owner.kd_infect">
-<em class="property">class </em><code class="descclassname">sirdisease.sir_disease.owner.</code><code class="descname">kd_infect</code><span class="sig-paren">(</span><em>members=1000</em>, <em>size=(1</em>, <em>1)</em>, <em>infect_points=1</em>, <em>dist_type='uniform'</em>, <em>infect_radius=0.001</em>, <em>infect_pct=0.01</em>, <em>susceptible_pct=0.85</em>, <em>duration=2</em>, <em>time=0</em>, <em>record_name=None</em>, <em>local_path=None</em>, <em>group_name='default'</em><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect" title="Permalink to this definition">¶</a></dt>
+<dt id="sirdisease.sir_disease.model.kd_sir">
+<em class="property">class </em><code class="descclassname">sirdisease.sir_disease.model.</code><code class="descname">kd_sir</code><span class="sig-paren">(</span><em>members=1000</em>, <em>size=(1</em>, <em>1)</em>, <em>infect_points=1</em>, <em>dist_type='uniform'</em>, <em>infect_radius=0.001</em>, <em>infect_pct=0.01</em>, <em>susceptible_pct=0.85</em>, <em>duration=2</em>, <em>time=0</em>, <em>record=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sirdisease/sir_disease/model.html#kd_sir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sirdisease.sir_disease.model.kd_sir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">scipy.spatial.kdtree.KDTree</span></code></p>
+<p>Class for modeling SIR infectious disease</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>members</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; initial population size</li>
+<li><strong>size</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; (1x2) cell dimensions</li>
+<li><strong>infect_points</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of initially infected members</li>
+<li><strong>dist_type</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; distribution of members in cell</li>
+<li><strong>infect_radius</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; distance constraint a member can infect            another member</li>
+<li><strong>infect_pct</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; percent chance an interaction leads to infection</li>
+<li><strong>susceptible_pct</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; percent chance an individual is not immune</li>
+<li><strong>duration</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; duration of infection</li>
+<li><strong>time</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; initial day of model</li>
+<li><strong>record</strong> (<em>sirlog</em>) &#8211; object to handle recording simulation data</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="sirdisease.sir_disease.owner.kd_infect.create_empty_write_record">
-<code class="descname">create_empty_write_record</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect.create_empty_write_record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="sirdisease.sir_disease.owner.kd_infect.format_record">
-<code class="descname">format_record</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect.format_record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="sirdisease.sir_disease.owner.kd_infect.init_infect">
-<code class="descname">init_infect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect.init_infect" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="sirdisease.sir_disease.owner.kd_infect.plot_step">
-<code class="descname">plot_step</code><span class="sig-paren">(</span><em>file_path</em><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect.plot_step" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="sirdisease.sir_disease.owner.kd_infect.record_step">
-<code class="descname">record_step</code><span class="sig-paren">(</span><em>file_path</em>, <em>local_path</em>, <em>group_name</em><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect.record_step" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="sirdisease.sir_disease.owner.kd_infect.step_time">
-<code class="descname">step_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.kd_infect.step_time" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dt id="sirdisease.sir_disease.model.kd_sir.init_infect">
+<code class="descname">init_infect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sirdisease/sir_disease/model.html#kd_sir.init_infect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sirdisease.sir_disease.model.kd_sir.init_infect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize members with attributes</p>
 </dd></dl>
 
-<dl class="function">
-<dt id="sirdisease.sir_disease.owner.rnum">
-<code class="descclassname">sirdisease.sir_disease.owner.</code><code class="descname">rnum</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#sirdisease.sir_disease.owner.rnum" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dl class="method">
+<dt id="sirdisease.sir_disease.model.kd_sir.plot_step">
+<code class="descname">plot_step</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sirdisease/sir_disease/model.html#kd_sir.plot_step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sirdisease.sir_disease.model.kd_sir.plot_step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot current state</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="sirdisease.sir_disease.model.kd_sir.step_time">
+<code class="descname">step_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/sirdisease/sir_disease/model.html#kd_sir.step_time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#sirdisease.sir_disease.model.kd_sir.step_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Step forward 1 cycle</p>
+</dd></dl>
+
+</dd></dl>
 
 </div>
 <div class="section" id="module-sirdisease.sir_disease.subject">
@@ -122,7 +126,7 @@
   <ul>
 <li><a class="reference internal" href="#">sirdisease.sir_disease package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-sirdisease.sir_disease.owner">sirdisease.sir_disease.owner module</a></li>
+<li><a class="reference internal" href="#module-sirdisease.sir_disease.model">sirdisease.sir_disease.model module</a></li>
 <li><a class="reference internal" href="#module-sirdisease.sir_disease.subject">sirdisease.sir_disease.subject module</a></li>
 <li><a class="reference internal" href="#module-sirdisease.sir_disease">Module contents</a></li>
 </ul>
