@@ -20,7 +20,7 @@ class Travel(object):
 
     :param str location: string specifying location, default is geocode
     :param str gkey: Google Maps api key
-    :param int results: max number of wiki results to query for sight
+    :param int results: max number of wiki results to query for site
     :param int radius: search radius (meters)
     :param str pop_date: month to grab wiki page views from (YYYYMM) \
             note month pages must exist at http://stats.grok.se/
@@ -46,7 +46,7 @@ class Travel(object):
 
     def locate(self):
         """
-        Find major sight location: self.coordinates = [latitude, longitude]
+        Find major site location: self.coordinates = [latitude, longitude]
         """
 
         # Check if wiki page exists to grab meta data from
@@ -119,7 +119,7 @@ class Travel(object):
 
     def user_select(self):
         """
-        User selects additional sight to include for trip
+        User selects additional site to include for trip
 
         """
 
@@ -158,13 +158,13 @@ class Trip(object):
 
         self.travel = travel
         self.start = start
-        self.sights = travel.df['place'].values
+        self.sites = travel.df['place'].values
         if end is None:
             self.end = start
-            self.waypoints = len(self.sights) + 1
+            self.waypoints = len(self.sites) + 1
         else:
             self.end = end
-            self.waypoints = len(self.sights)
+            self.waypoints = len(self.sites)
 
         self.graph = networkx.Graph()
 
@@ -181,18 +181,18 @@ class Trip(object):
         """
         Link all locations together in graph (completely connected)
         """
-        if len(self.sights) > 2:
-            self.graph.add_nodes_from(self.sights)
-            self.edges = itertools.combinations(self.sights, 2)
+        if len(self.sites) > 2:
+            self.graph.add_nodes_from(self.sites)
+            self.edges = itertools.combinations(self.sites, 2)
             self.calculate_distances()
             self.graph.add_weighted_edges_from(self.distances)
 
         else:
-            raise Exception('Not a trip, fewer then 3 sights: ' + self.sights)
+            raise Exception('Not a trip, fewer then 3 sites: ' + self.sites)
 
     def calculate_distances(self):
         """
-        Calculate distances between sights to weight graph 
+        Calculate distances between sites to weight graph 
         """
         for i in self.edges:
             l = np.in1d(self.travel.df['place'].values, i)
@@ -261,7 +261,7 @@ class Trip(object):
 
     def print_directions(self):
         """
-        Print out directions leg by leg for each sight
+        Print out directions leg by leg for each site
         """
         for i in self.directions:
             count = 0
@@ -281,13 +281,13 @@ class Trip(object):
             raw_input()
 
 
-def wiki_travel(major_sight, gkey, radius=800, results=10):
+def wiki_travel(major_site, gkey, radius=800, results=10):
     """
     Front end for running Wiki Travel
     """
-    start = major_sight
+    start = major_site
 
-    t = Travel(major_sight, radius=radius, results=results)
+    t = Travel(major_site, radius=radius, results=results)
     t.locate(gkey)
     t.local_search()
     t.user_select()
