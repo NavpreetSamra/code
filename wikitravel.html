@@ -25,7 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html" />
     <link rel="up" title="code" href="modules.html" />
-    <link rel="prev" title="sirdisease.sir_disease package" href="sirdisease.sir_disease.html" />
+    <link rel="next" title="sirdisease package" href="sirdisease.html" />
+    <link rel="prev" title="code" href="modules.html" />
    
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -59,7 +60,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>location</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string specifying location, default is geocode</li>
 <li><strong>gkey</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Google Maps api key</li>
-<li><strong>results</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; max number of wiki results to query for sight</li>
+<li><strong>results</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; max number of wiki results to query for site</li>
 <li><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; search radius (meters)</li>
 <li><strong>pop_date</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; month to grab wiki page views from (YYYYMM)             note month pages must exist at <a class="reference external" href="http://stats.grok.se/">http://stats.grok.se/</a></li>
 <li><strong>factors</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
@@ -78,13 +79,13 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <dl class="method">
 <dt id="wikitravel.travel.Travel.locate">
 <code class="descname">locate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.locate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.locate" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find major sight location: self.coordinates = [latitude, longitude]</p>
+<dd><p>Find major site location: self.coordinates = [latitude, longitude]</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="wikitravel.travel.Travel.user_select">
 <code class="descname">user_select</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.user_select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.user_select" title="Permalink to this definition">¶</a></dt>
-<dd><p>User selects additional sight to include for trip</p>
+<dd><p>User selects additional site to include for trip</p>
 </dd></dl>
 
 </dd></dl>
@@ -135,7 +136,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <dl class="method">
 <dt id="wikitravel.travel.Trip.calculate_distances">
 <code class="descname">calculate_distances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.calculate_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.calculate_distances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate distances between sights to weight graph</p>
+<dd><p>Calculate distances between sites to weight graph</p>
 </dd></dl>
 
 <dl class="method">
@@ -153,14 +154,14 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <dl class="method">
 <dt id="wikitravel.travel.Trip.print_directions">
 <code class="descname">print_directions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.print_directions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.print_directions" title="Permalink to this definition">¶</a></dt>
-<dd><p>Print out directions leg by leg for each sight</p>
+<dd><p>Print out directions leg by leg for each site</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
 <dt id="wikitravel.travel.wiki_travel">
-<code class="descclassname">wikitravel.travel.</code><code class="descname">wiki_travel</code><span class="sig-paren">(</span><em>major_sight</em>, <em>gkey</em>, <em>radius=800</em>, <em>results=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#wiki_travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.wiki_travel" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">wikitravel.travel.</code><code class="descname">wiki_travel</code><span class="sig-paren">(</span><em>major_site</em>, <em>gkey</em>, <em>radius=800</em>, <em>results=10</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#wiki_travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.wiki_travel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Front end for running Wiki Travel</p>
 </dd></dl>
 
@@ -190,7 +191,8 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">code</a><ul>
-      <li>Previous: <a href="sirdisease.sir_disease.html" title="previous chapter">sirdisease.sir_disease package</a></li>
+      <li>Previous: <a href="modules.html" title="previous chapter">code</a></li>
+      <li>Next: <a href="sirdisease.html" title="next chapter">sirdisease package</a></li>
   </ul></li>
   </ul></li>
 </ul>
