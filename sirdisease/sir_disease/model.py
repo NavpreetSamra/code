@@ -19,7 +19,7 @@ class kd_sir(spl.kdtree.KDTree):
     :param float susceptible_pct: percent chance an individual is not immune
     :param int duration: duration of infection
     :param int time: initial day of model
-    :param sirlog record: object to handle recording simulation data
+    :param sirlog record: object to handle recording simulation data #INDEV
 
     """
     def __init__(self, members=1000, size=(1, 1), infect_points=1,
