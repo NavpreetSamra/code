@@ -4,7 +4,7 @@ import networkx as nx
 import itertools
 
 
-class tree_graph(nx.Graph):
+class TreeGraph(nx.Graph):
     """
     Subclass of networkx Graph for path search applications
     """
@@ -13,7 +13,7 @@ class tree_graph(nx.Graph):
         """
         Find diameter node pairs and path in graph
         """
-        
+
         self.cost = None
 
         nodes = self.nodes()
@@ -22,10 +22,10 @@ class tree_graph(nx.Graph):
 
         edges = []
         [edges.extend(list(i)) for i in self.edges()]
-        edge_array = np.flatten(edges)
-        counts, bins = np.histogram(edge_array, bins=node_max - node_min + 1)
-        logical = counts == 1
-        leaves = bins[logical]
+        edge_array = np.asarray(edges).flatten()
+        self.counts, self.bins = np.histogram(edge_array, bins=node_max - node_min + 1)
+        logical = self.counts == 1
+        leaves = self.bins[logical]
         iter_paths = itertools.combinations(leaves, 2)
 
         for tree_path in iter_paths:
