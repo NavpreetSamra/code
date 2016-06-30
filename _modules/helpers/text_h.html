@@ -77,23 +77,22 @@
     <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hold</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">),</span> <span class="n">l</span></div>
 
 
-<div class="viewcode-block" id="regex_gen"><a class="viewcode-back" href="../../helpers.html#helpers.text_h.regex_gen">[docs]</a><span class="k">def</span> <span class="nf">regex_gen</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">seps</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;\(&quot;</span><span class="p">,</span> <span class="s2">&quot;\)&quot;</span><span class="p">],</span> <span class="n">all_groups</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="regex_recursive"><a class="viewcode-back" href="../../helpers.html#helpers.text_h.regex_recursive">[docs]</a><span class="k">def</span> <span class="nf">regex_recursive</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">seps</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;\(&quot;</span><span class="p">,</span> <span class="s2">&quot;\)&quot;</span><span class="p">],</span> <span class="n">all_groups</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Regex for nested divider pairs for capturing</span>
-<span class="sd">    (currently only works for parenthesis)</span>
 
 <span class="sd">    :param str txt: line to parse</span>
 <span class="sd">    :param array-like seps: list of dividers</span>
 <span class="sd">    :param bool all_groups: return top level group(False). all groups (True)</span>
 <span class="sd">    :return result.capture: group(s) caputred</span>
-<span class="sd">    :rtype str/list:</span>
+<span class="sd">    :rtype: str | list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="p">[</span><span class="n">sep1</span><span class="p">,</span> <span class="n">sep2</span><span class="p">]</span> <span class="o">=</span> <span class="n">seps</span>
     <span class="n">result</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s1">r&#39;&#39;&#39;</span>
 <span class="s1">                            (?&lt;rec&gt;</span>
 <span class="s1">                             &#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">sep1</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;</span>
 <span class="s1">                             (?:</span>
-<span class="s1">                              [^()]++</span>
+<span class="s1">                              [^&#39;&#39;&#39;</span> <span class="o">+</span> <span class="n">sep1</span> <span class="o">+</span> <span class="n">sep2</span> <span class="o">+</span> <span class="s1">&#39;&#39;&#39;+)]++</span>
 <span class="s1">                              |</span>
 <span class="s1">                               (?&amp;rec)</span>
 <span class="s1">                             )*</span>
