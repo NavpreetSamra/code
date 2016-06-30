@@ -1,5 +1,35 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import networkx as nx
+import itertools
+
+
+class tree_graph(nx.Graph):
+
+    def tree_diameter(self):
+        """
+        Find diameter node pairs and path in graph
+        """
+        
+        self.cost = None
+
+        nodes = self.nodes()
+        node_min = np.min(nodes)
+        node_max = np.max(nodes)
+
+        edges = []
+        [edges.extend(list(i)) for i in self.edges()]
+        edge_array = np.flatten(edges)
+        counts, bins = np.histogram(edge_array, bins=node_max - node_min + 1)
+        logical = counts == 1
+        leaves = bins[logical]
+        iter_paths = itertools.combinations(leaves, 2)
+
+        for tree_path in iter_paths:
+            cost = nx.shortest_path_length(self, tree_path[0], tree_path[1])
+            if cost > self.diameter:
+                self.diameter = cost
+                self.diameter_path = nx.shortest_path(self, tree_path[0], tree_path[1])
 
 
 def basismap_3d(a, b):
@@ -69,6 +99,7 @@ def enforce_2d(data):
     else:
         data_nd = data.reshape(1, data.shape)
         return(data_nd)
+
 
 
 def gen_empty_write_record(self):
