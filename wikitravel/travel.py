@@ -232,7 +232,7 @@ class Trip(object):
 
         :param array-like route: order of waypoints in route to evaluate
         :return cost: cost of route based on weights in graph
-        :rtype float:
+        :rtype: float
         """
         starts = route[:-1]
         ends = route[1:]
