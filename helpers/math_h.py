@@ -5,6 +5,9 @@ import itertools
 
 
 class tree_graph(nx.Graph):
+    """
+    Subclass of networkx Graph for path search applications
+    """
 
     def tree_diameter(self):
         """
