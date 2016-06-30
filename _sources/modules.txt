@@ -5,8 +5,8 @@ code
    :maxdepth: 4
 
    wikitravel
-   sirdisease
    cvcparser
    filesync
-   quadtree
    helpers
+   quadtree
+   sirdisease

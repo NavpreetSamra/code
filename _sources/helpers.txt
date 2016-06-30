@@ -12,6 +12,14 @@ helpers.math_h module
     :undoc-members:
     :show-inheritance:
 
+helpers.sql_h module
+--------------------
+
+.. automodule:: helpers.sql_h
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 helpers.test module
 -------------------
 
