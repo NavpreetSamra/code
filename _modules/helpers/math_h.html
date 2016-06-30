@@ -40,6 +40,36 @@
   <h1>Source code for helpers.math_h</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+
+
+<div class="viewcode-block" id="tree_graph"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.tree_graph">[docs]</a><span class="k">class</span> <span class="nc">tree_graph</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+
+<div class="viewcode-block" id="tree_graph.tree_diameter"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.tree_graph.tree_diameter">[docs]</a>    <span class="k">def</span> <span class="nf">tree_diameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find diameter node pairs and path in graph</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+        <span class="n">node_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+        <span class="n">node_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
+        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="p">[</span><span class="n">edges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">()]</span>
+        <span class="n">edge_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
+        <span class="n">counts</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">edge_array</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">node_max</span> <span class="o">-</span> <span class="n">node_min</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">logical</span> <span class="o">=</span> <span class="n">counts</span> <span class="o">==</span> <span class="mi">1</span>
+        <span class="n">leaves</span> <span class="o">=</span> <span class="n">bins</span><span class="p">[</span><span class="n">logical</span><span class="p">]</span>
+        <span class="n">iter_paths</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">leaves</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">tree_path</span> <span class="ow">in</span> <span class="n">iter_paths</span><span class="p">:</span>
+            <span class="n">cost</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">cost</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="n">cost</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">diameter_path</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div></div>
 
 
 <div class="viewcode-block" id="basismap_3d"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.basismap_3d">[docs]</a><span class="k">def</span> <span class="nf">basismap_3d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
