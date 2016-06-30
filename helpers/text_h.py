@@ -37,23 +37,22 @@ def find_end_iter(l, sep_dict):
     return "".join(hold).rstrip(','), l
 
 
-def regex_gen(txt, seps=["\(", "\)"], all_groups=False):
+def regex_recursive(txt, seps=["\(", "\)"], all_groups=False):
     """
     Regex for nested divider pairs for capturing
-    (currently only works for parenthesis)
 
     :param str txt: line to parse
     :param array-like seps: list of dividers
     :param bool all_groups: return top level group(False). all groups (True)
     :return result.capture: group(s) caputred
-    :rtype str/list:
+    :rtype: str | list
     """
     [sep1, sep2] = seps
     result = regex.search(r'''
                             (?<rec>
                              ''' + sep1 + '''
                              (?:
-                              [^()]++
+                              [^''' + sep1 + sep2 + '''+)]++
                               |
                                (?&rec)
                              )*
