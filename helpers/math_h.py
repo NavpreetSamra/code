@@ -14,7 +14,7 @@ class TreeGraph(nx.Graph):
         Find diameter node pairs and path in graph
         """
 
-        self.cost = None
+        self.diameter = None
 
         nodes = self.nodes()
         node_min = np.min(nodes)
@@ -23,9 +23,11 @@ class TreeGraph(nx.Graph):
         edges = []
         [edges.extend(list(i)) for i in self.edges()]
         edge_array = np.asarray(edges).flatten()
-        self.counts, self.bins = np.histogram(edge_array, bins=node_max - node_min + 1)
+        self.counts, self.bins = np.histogram(edge_array,
+                                              bins=np.arange(node_min, node_max)
+                                              )
         logical = self.counts == 1
-        leaves = self.bins[logical]
+        leaves = [int(i) for i in self.bins[logical]]
         iter_paths = itertools.combinations(leaves, 2)
 
         for tree_path in iter_paths:
