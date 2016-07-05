@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
 import itertools
 
@@ -80,12 +81,11 @@ def scatter_quick(data):
     if data.shape[1] == 3:
         fig = plt.figure()
         ax = fig.add_subplot(111, projection='3d')
-        ax.scatter(data[:, 0], data[:, 1], data[:, 2])
+        ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, 2])
         plt.show()
 
     elif data.shape[1] == 2:
         plt.scatter(data[:, 0], data[:, 1])
-        plt.show()
 
 
 def enforce_2d(data):

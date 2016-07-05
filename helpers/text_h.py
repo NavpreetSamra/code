@@ -3,16 +3,9 @@ import regex
 import ntpath
 
 
-def gen_empty_write_record(self):
-    """
-    """
-    self.write_record = np.array(
-                                 tuple([' '] * len(self.fields)),
-                                 dtype=self.formats
-                                )
-
 def find_end_iter(l, sep_dict):
     """
+    Find end of iteration based on 
     """
     exposed_comma = False
     hold = []
@@ -21,13 +14,13 @@ def find_end_iter(l, sep_dict):
         return l, ""
 
     while not exposed_comma:
-        if '(' in l:
-            if l.index('(') > l.index(','):
+        if sep_dict.key() in l:
+            if l.index(sep_dict.key()) > l.index(','):
                 l1, l = l.split(', ', 1)
                 hold.extend(l1)
                 exposed_comma = True
             else:
-                hold_value = regex_gen(l, sep_dict["("])
+                hold_value = regex_recursive(l, sep_dict["("])
                 value = l.split(hold_value, 1)[0] + hold_value
 
                 hold.extend(value)
@@ -42,7 +35,7 @@ def regex_recursive(txt, seps=["\(", "\)"], all_groups=False):
     Regex for nested divider pairs for capturing
 
     :param str txt: line to parse
-    :param array-like seps: list of dividers
+    :param array-like seps: list of capturing group
     :param bool all_groups: return top level group(False). all groups (True)
     :return result.capture: group(s) caputred
     :rtype: str | list
@@ -70,7 +63,7 @@ def find_sep(l):
     Find key value seperator in line
 
     :param str l: line of log
-    :return key: seperator type: ( or ,
+    :return key: seperator type
     :rtype str:
     """
 
