@@ -116,7 +116,7 @@ Default body centers are centroids</p>
 <span id="helpers-sql-h-module"></span><h2>helpers.sql_h module<a class="headerlink" href="#module-helpers.sql_h" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="helpers.sql_h.Db">
-<em class="property">class </em><code class="descclassname">helpers.sql_h.</code><code class="descname">Db</code><span class="sig-paren">(</span><em>db_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/sql_h.html#Db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql_h.Db" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">helpers.sql_h.</code><code class="descname">Db</code><span class="sig-paren">(</span><em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#helpers.sql_h.Db" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Front end for sqlite 3 databases</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -129,7 +129,7 @@ Default body centers are centroids</p>
 </table>
 <dl class="method">
 <dt id="helpers.sql_h.Db.create_table">
-<code class="descname">create_table</code><span class="sig-paren">(</span><em>name</em>, <em>contents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/sql_h.html#Db.create_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.sql_h.Db.create_table" title="Permalink to this definition">¶</a></dt>
+<code class="descname">create_table</code><span class="sig-paren">(</span><em>name</em>, <em>contents</em><span class="sig-paren">)</span><a class="headerlink" href="#helpers.sql_h.Db.create_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create table</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -161,7 +161,8 @@ Default body centers are centroids</p>
 <dl class="function">
 <dt id="helpers.text_h.find_end_iter">
 <code class="descclassname">helpers.text_h.</code><code class="descname">find_end_iter</code><span class="sig-paren">(</span><em>l</em>, <em>sep_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_end_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_end_iter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Find end of iteration based on</p>
+</dd></dl>
 
 <dl class="function">
 <dt id="helpers.text_h.find_nth">
@@ -178,18 +179,13 @@ Default body centers are centroids</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line of log</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type: ( or ,</td>
+<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.gen_empty_write_record">
-<code class="descclassname">helpers.text_h.</code><code class="descname">gen_empty_write_record</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#gen_empty_write_record"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.gen_empty_write_record" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="function">
 <dt id="helpers.text_h.path_leaf">
@@ -206,7 +202,7 @@ Default body centers are centroids</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>txt</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line to parse</li>
-<li><strong>seps</strong> (<em>array-like</em>) &#8211; list of dividers</li>
+<li><strong>seps</strong> (<em>array-like</em>) &#8211; list of capturing group</li>
 <li><strong>all_groups</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; return top level group(False). all groups (True)</li>
 </ul>
 </td>
