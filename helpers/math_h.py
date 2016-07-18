@@ -38,20 +38,26 @@ class TreeGraph(nx.Graph):
                 self.diameter_path = nx.shortest_path(self, tree_path[0], tree_path[1])
 
 
-def basismap_3d(a, b):
+def basismap_3d(a, b, centroids=None):
     """
     Find rigid body rotation and centroid translation between two states
     Default body centers are centroids
 
-    :param array-like a: nx3 set of original coordinates in rigid body
-    :param array-like b: nx3 set of original coordinates in transformed body
+    :param array-like a: nx3 set of coordinates in rigid body
+    :param array-like b: nx3 set of coordinates in transformed body
+    :param array-like centroids: 2x3 array to specify centroids [[ax,ay,az],[bx,by,bz]] \ 
+                                 defaults to [centroid(a), centroid(b)]
     """
     a = enforce_2d(a)
     b = enforce_2d(b)
     num_points = a.shape[0]
-
-    a_centroid = np.mean(a, axis=0)
-    b_centroid = np.mean(b, axis=0)
+    if centroids:
+        centroids = np.asarray(centroids)
+        a_centroid = centroids[0, :]
+        b_centroid = centroids[1, :]
+    else:
+        a_centroid = np.mean(a, axis=0)
+        b_centroid = np.mean(b, axis=0)
 
     a_centered = a - np.tile(a_centroid, (num_points, 1))
     b_centered = b - np.tile(b_centroid, (num_points, 1))
@@ -62,7 +68,7 @@ def basismap_3d(a, b):
 
     r = vt.T * u.T
 
-    # reflection orientation correction
+    # Reflection orientation correction
     if np.linalg.det(r) < 0:
         vt[2, :] *= -1
         r = vt.T * u.T
