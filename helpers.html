@@ -61,7 +61,7 @@
 
 <dl class="function">
 <dt id="helpers.math_h.basismap_3d">
-<code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>centroids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find rigid body rotation and centroid translation between two states
 Default body centers are centroids</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -69,8 +69,10 @@ Default body centers are centroids</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>a</strong> (<em>array-like</em>) &#8211; nx3 set of original coordinates in rigid body</li>
-<li><strong>b</strong> (<em>array-like</em>) &#8211; nx3 set of original coordinates in transformed body</li>
+<li><strong>a</strong> (<em>array-like</em>) &#8211; nx3 set of coordinates in rigid body</li>
+<li><strong>b</strong> (<em>array-like</em>) &#8211; nx3 set of coordinates in transformed body</li>
+<li><strong>centroids</strong> (<em>array-like</em>) &#8211; 2x3 array to specify centroids [[ax,ay,az],[bx,by,bz]] 
+defaults to [centroid(a), centroid(b)]</li>
 </ul>
 </td>
 </tr>

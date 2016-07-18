@@ -78,20 +78,26 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">diameter_path</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div></div>
 
 
-<div class="viewcode-block" id="basismap_3d"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.basismap_3d">[docs]</a><span class="k">def</span> <span class="nf">basismap_3d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<div class="viewcode-block" id="basismap_3d"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.basismap_3d">[docs]</a><span class="k">def</span> <span class="nf">basismap_3d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">centroids</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find rigid body rotation and centroid translation between two states</span>
 <span class="sd">    Default body centers are centroids</span>
 
-<span class="sd">    :param array-like a: nx3 set of original coordinates in rigid body</span>
-<span class="sd">    :param array-like b: nx3 set of original coordinates in transformed body</span>
+<span class="sd">    :param array-like a: nx3 set of coordinates in rigid body</span>
+<span class="sd">    :param array-like b: nx3 set of coordinates in transformed body</span>
+<span class="sd">    :param array-like centroids: 2x3 array to specify centroids [[ax,ay,az],[bx,by,bz]] \ </span>
+<span class="sd">                                 defaults to [centroid(a), centroid(b)]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">enforce_2d</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">enforce_2d</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
     <span class="n">num_points</span> <span class="o">=</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="n">a_centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">b_centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">centroids</span><span class="p">:</span>
+        <span class="n">centroids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">centroids</span><span class="p">)</span>
+        <span class="n">a_centroid</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="n">b_centroid</span> <span class="o">=</span> <span class="n">centroids</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">a_centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">b_centroid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
     <span class="n">a_centered</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">a_centroid</span><span class="p">,</span> <span class="p">(</span><span class="n">num_points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
     <span class="n">b_centered</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">b_centroid</span><span class="p">,</span> <span class="p">(</span><span class="n">num_points</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
@@ -102,7 +108,7 @@
 
     <span class="n">r</span> <span class="o">=</span> <span class="n">vt</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">T</span>
 
-    <span class="c1"># reflection orientation correction</span>
+    <span class="c1"># Reflection orientation correction</span>
     <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">vt</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="p">:]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">vt</span><span class="o">.</span><span class="n">T</span> <span class="o">*</span> <span class="n">u</span><span class="o">.</span><span class="n">T</span>
