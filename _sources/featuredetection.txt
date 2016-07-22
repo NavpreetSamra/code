@@ -1,0 +1,17 @@
+featuredetection package
+========================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    featuredetection.feature_detect
+
+Module contents
+---------------
+
+.. automodule:: featuredetection
+    :members:
+    :undoc-members:
+    :show-inheritance:
