@@ -10,10 +10,19 @@ class SystemNetwork(object):
     """
     Class for identifying systems of networks from sets of MAC address peer links
 
+    SystemNetwork takes mappings between nodes via MAC addresses and the link's
+    quality and creates clusters of networks by partitioning nodes via
+    walking through the mesh. Then SystemNetwork evaluates each network to ensure each node
+    has a quality (>= 8 MCS on 2.4 GHz or >=6 on 5GHz) link with each other node
+    in its network. Networks are attributed True(paths exists with quality links 
+    to/from each node) or False. If there is only 1 node in a network it is recorded
+    as not a network and a warning indicating such is reported. 
+
+
     :param dict nodeMap: map from MAC to node id {MAC: Node} ; {str: str}
-    :param dict macMap: map from node id to MACs {Node: [Mac1, Mac2]} ; {str: list.str}
-    :param dict mesh: MAC mesh {MAC: [MAC1, ... Maci]} ; {str, list.str}
-    :param dict links: link quality (NB not bidirectional) from Mac1 to Mac2 {(Mac1, Mac2): val}; {tuple.str, int}
+    :param dict macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}
+    :param dict mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
+    :param dict links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
     """
     def __init__(self, nodeMap, macMap, mesh, links):
         self.nodeMap = nodeMap
@@ -25,7 +34,7 @@ class SystemNetwork(object):
         self.mac_list = self.nodeMap.keys()
 
         self.networks = {}
-        self.nodes = {i:[] for i in self.node_list}
+        self.nodes = {i: [] for i in self.node_list}
         self.nodeLinks = {}
         self.graphs = {}
         self.results = {}
@@ -33,14 +42,14 @@ class SystemNetwork(object):
         self._seed = self.node_list[0]
         self.networks = {0: list([self._seed])}
         self._nodeTrack = np.array(self.node_list[1:])
-  
+
         self.macs_to_nodes()
         self.partition_system(self._seed)
         self.eval_networks()
 
     def macs_to_nodes(self):
         """
-        Convert Mac Links to Node Links
+        Convert MAC Links to Node Links
         """
         for node in self.node_list:
             for mac in self.macMap[node]:
@@ -64,7 +73,7 @@ class SystemNetwork(object):
 
     def partition_system(self, new_nodes, index=0):
         """
-        Partition mesh into networks 
+        Partition mesh into networks
 
         :param int i: network id (increments via recursion)
         """
@@ -118,8 +127,8 @@ class SystemNetwork(object):
         """
         Build directed graph for a network
 
-        :param array-like netwrk: array of nodes in network
         :param int index: index of network in system
+        :param array-like netwrk: array of nodes in network
         :return connected: whether or not all nodes are connected to all other nodes with quality connections
         :rtype: bool
         """
@@ -140,6 +149,9 @@ class SystemNetwork(object):
         return connected
 
     def create_json(self, fname='analysis.json'):
+        """
+        Create json written to fname with results
+        """
         out = {}
         for i in self.networks:
             d = {}
