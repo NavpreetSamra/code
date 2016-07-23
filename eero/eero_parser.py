@@ -13,10 +13,7 @@ def parse(fileName):
     :return macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}
     :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
     :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
-    :return nodeMap: map from MAC to node id {MAC: Node} ; {str: str}
-    :return macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}
-    :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
-    :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
+    :return badlinks: links where the rx_bitrate is  <= 11.0 MB/s and did not qualify for MCS index 
     :rtype: dict
     """
     expression = regex.compile(r"(VHT-MCS )([0-9]+)")
