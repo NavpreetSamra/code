@@ -72,17 +72,19 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">macMap</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mac_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-
+        
+        <span class="c1">#Populated in methods</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">list</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">])}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Seed for mesh walk</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">list</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">])}</span> <span class="c1"># Initilize networks for mesh walk</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span> <span class="c1"># Tracker for mesh walk</span>
 
+        <span class="c1"># Can be moved to owner or front end depending on model implementation </span>
         <span class="bp">self</span><span class="o">.</span><span class="n">macs_to_nodes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partition_system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">eval_networks</span><span class="p">()</span>
@@ -114,8 +116,9 @@
 <div class="viewcode-block" id="SystemNetwork.partition_system"><a class="viewcode-back" href="../../eero.html#eero.network_analysis.SystemNetwork.partition_system">[docs]</a>    <span class="k">def</span> <span class="nf">partition_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nodes</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Partition mesh into networks</span>
-
-<span class="sd">        :param int i: network id (increments via recursion)</span>
+<span class="sd">        </span>
+<span class="sd">        :param array-like new_nodes: iterable of new_nodes found in mesh crawl (or seed)</span>
+<span class="sd">        :param int index: network id (increments via recursion)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
             <span class="n">new_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">new_nodes</span><span class="p">])</span>
@@ -165,7 +168,7 @@
 
 <div class="viewcode-block" id="SystemNetwork.build_graph"><a class="viewcode-back" href="../../eero.html#eero.network_analysis.SystemNetwork.build_graph">[docs]</a>    <span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">netwrk</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Build directed graph for a network</span>
+<span class="sd">        Build directed graph for a networka and evaulate its quality</span>
 
 <span class="sd">        :param int index: index of network in system</span>
 <span class="sd">        :param array-like netwrk: array of nodes in network</span>
@@ -191,6 +194,8 @@
 <div class="viewcode-block" id="SystemNetwork.create_json"><a class="viewcode-back" href="../../eero.html#eero.network_analysis.SystemNetwork.create_json">[docs]</a>    <span class="k">def</span> <span class="nf">create_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;analysis.json&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create json written to fname with results</span>
+
+<span class="sd">        :param str fname: name of file to write data out to as json</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">:</span>

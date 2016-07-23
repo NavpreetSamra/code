@@ -51,6 +51,32 @@
 <code class="descclassname">eero.eero_parser.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/eero_parser.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.eero_parser.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse csv with node id + JSON blob
 Note this parser is built to handle a specifically malformed Json blob where both &#8220;{&#8220;&#8221;key&#8221;&#8221;:&#8221;&#8220;val&#8221;&#8220;}&#8221; &#8220;{&#8220;&#8221;key&#8221;&#8221;:val&#8221;&#8220;}&#8221; exist inline</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Relative path to csv with node id + JSON blob</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return nodeMap:</th><td class="field-body">map from MAC to node id {MAC: Node} ; {str: str}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return macMap:</th><td class="field-body">map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return mesh:</th><td class="field-body">MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return links:</th><td class="field-body">link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return nodeMap:</th><td class="field-body">map from MAC to node id {MAC: Node} ; {str: str}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return macMap:</th><td class="field-body">map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return mesh:</th><td class="field-body">MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return links:</th><td class="field-body">link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -85,7 +111,7 @@ as not a network and a warning indicating such is reported.</p>
 <dl class="method">
 <dt id="eero.network_analysis.SystemNetwork.build_graph">
 <code class="descname">build_graph</code><span class="sig-paren">(</span><em>index</em>, <em>netwrk</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.build_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build directed graph for a network</p>
+<dd><p>Build directed graph for a networka and evaulate its quality</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -111,6 +137,14 @@ as not a network and a warning indicating such is reported.</p>
 <dt id="eero.network_analysis.SystemNetwork.create_json">
 <code class="descname">create_json</code><span class="sig-paren">(</span><em>fname='analysis.json'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.create_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.create_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create json written to fname with results</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of file to write data out to as json</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -133,7 +167,11 @@ as not a network and a warning indicating such is reported.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; network id (increments via recursion)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>new_nodes</strong> (<em>array-like</em>) &#8211; iterable of new_nodes found in mesh crawl (or seed)</li>
+<li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; network id (increments via recursion)</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>

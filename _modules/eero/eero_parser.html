@@ -46,6 +46,18 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parse csv with node id + JSON blob</span>
 <span class="sd">    Note this parser is built to handle a specifically malformed Json blob where both &quot;{&quot;&quot;key&quot;&quot;:&quot;&quot;val&quot;&quot;}&quot; &quot;{&quot;&quot;key&quot;&quot;:val&quot;&quot;}&quot; exist inline</span>
+
+<span class="sd">    :param str fileName: Relative path to csv with node id + JSON blob</span>
+
+<span class="sd">    :return nodeMap: map from MAC to node id {MAC: Node} ; {str: str}</span>
+<span class="sd">    :return macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</span>
+<span class="sd">    :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</span>
+<span class="sd">    :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</span>
+<span class="sd">    :return nodeMap: map from MAC to node id {MAC: Node} ; {str: str}</span>
+<span class="sd">    :return macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</span>
+<span class="sd">    :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</span>
+<span class="sd">    :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</span>
+<span class="sd">    :rtype: dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">expression</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">r&quot;(VHT-MCS )([0-9]+)&quot;</span><span class="p">)</span>
 
