@@ -6,6 +6,18 @@ def parse(fileName):
     """
     Parse csv with node id + JSON blob
     Note this parser is built to handle a specifically malformed Json blob where both "{""key"":""val""}" "{""key"":val""}" exist inline
+
+    :param str fileName: Relative path to csv with node id + JSON blob
+
+    :return nodeMap: map from MAC to node id {MAC: Node} ; {str: str}
+    :return macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}
+    :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
+    :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
+    :return nodeMap: map from MAC to node id {MAC: Node} ; {str: str}
+    :return macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}
+    :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
+    :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
+    :rtype: dict
     """
     expression = regex.compile(r"(VHT-MCS )([0-9]+)")
 

@@ -32,17 +32,19 @@ class SystemNetwork(object):
 
         self.node_list = self.macMap.keys()
         self.mac_list = self.nodeMap.keys()
-
+        
+        #Populated in methods
         self.networks = {}
         self.nodes = {i: [] for i in self.node_list}
         self.nodeLinks = {}
         self.graphs = {}
         self.results = {}
 
-        self._seed = self.node_list[0]
-        self.networks = {0: list([self._seed])}
-        self._nodeTrack = np.array(self.node_list[1:])
+        self._seed = self.node_list[0] # Seed for mesh walk
+        self.networks = {0: list([self._seed])} # Initilize networks for mesh walk
+        self._nodeTrack = np.array(self.node_list[1:]) # Tracker for mesh walk
 
+        # Can be moved to owner or front end depending on model implementation 
         self.macs_to_nodes()
         self.partition_system(self._seed)
         self.eval_networks()
@@ -74,8 +76,9 @@ class SystemNetwork(object):
     def partition_system(self, new_nodes, index=0):
         """
         Partition mesh into networks
-
-        :param int i: network id (increments via recursion)
+        
+        :param array-like new_nodes: iterable of new_nodes found in mesh crawl (or seed)
+        :param int index: network id (increments via recursion)
         """
         if not isinstance(new_nodes, list):
             new_nodes = list([new_nodes])
@@ -125,7 +128,7 @@ class SystemNetwork(object):
 
     def build_graph(self, index, netwrk):
         """
-        Build directed graph for a network
+        Build directed graph for a networka and evaulate its quality
 
         :param int index: index of network in system
         :param array-like netwrk: array of nodes in network
@@ -151,6 +154,8 @@ class SystemNetwork(object):
     def create_json(self, fname='analysis.json'):
         """
         Create json written to fname with results
+
+        :param str fname: name of file to write data out to as json
         """
         out = {}
         for i in self.networks:
