@@ -132,7 +132,7 @@ class SystemNetwork(object):
 
         :param int index: index of network in system
         :param array-like netwrk: array of nodes in network
-        :return connected: whether or not all nodes are connected to all other nodes with quality connections
+        :return: connected - whether or not all nodes are connected to all other nodes with quality connections
         :rtype: bool
         """
         self.graphs[index] = nx.DiGraph()
