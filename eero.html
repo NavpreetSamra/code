@@ -44,42 +44,6 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-eero.eero_parser">
-<span id="eero-eero-parser-module"></span><h2>eero.eero_parser module<a class="headerlink" href="#module-eero.eero_parser" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="eero.eero_parser.parse">
-<code class="descclassname">eero.eero_parser.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/eero_parser.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.eero_parser.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse csv with node id + JSON blob
-Note this parser is built to handle a specifically malformed Json blob where both &#8220;{&#8220;&#8221;key&#8221;&#8221;:&#8221;&#8220;val&#8221;&#8220;}&#8221; &#8220;{&#8220;&#8221;key&#8221;&#8221;:val&#8221;&#8220;}&#8221; exist inline</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Relative path to csv with node id + JSON blob</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return nodeMap:</th><td class="field-body">map from MAC to node id {MAC: Node} ; {str: str}</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return macMap:</th><td class="field-body">map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return mesh:</th><td class="field-body">MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return links:</th><td class="field-body">link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return nodeMap:</th><td class="field-body">map from MAC to node id {MAC: Node} ; {str: str}</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return macMap:</th><td class="field-body">map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return mesh:</th><td class="field-body">MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return links:</th><td class="field-body">link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
 <div class="section" id="module-eero.network_analysis">
 <span id="eero-network-analysis-module"></span><h2>eero.network_analysis module<a class="headerlink" href="#module-eero.network_analysis" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -180,6 +144,37 @@ as not a network and a warning indicating such is reported.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="module-eero.eero_parser">
+<span id="eero-eero-parser-module"></span><h2>eero.eero_parser module<a class="headerlink" href="#module-eero.eero_parser" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="eero.eero_parser.parse">
+<code class="descclassname">eero.eero_parser.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/eero_parser.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.eero_parser.parse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse csv with node id + JSON blob
+Note this parser is built to handle a specifically malformed Json blob where both &#8220;{&#8220;&#8221;key&#8221;&#8221;:&#8221;&#8220;val&#8221;&#8220;}&#8221; &#8220;{&#8220;&#8221;key&#8221;&#8221;:val&#8221;&#8220;}&#8221; exist inline</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Relative path to csv with node id + JSON blob</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return nodeMap:</th><td class="field-body">map from MAC to node id {MAC: Node} ; {str: str}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return macMap:</th><td class="field-body">map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return mesh:</th><td class="field-body">MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return links:</th><td class="field-body">link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return badlinks:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">links where the rx_bitrate is  &lt;= 11.0 MB/s and did not qualify for MCS index</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
 <div class="section" id="module-eero">
 <span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-eero" title="Permalink to this headline">¶</a></h2>
 </div>
@@ -195,8 +190,8 @@ as not a network and a warning indicating such is reported.</p>
   <ul>
 <li><a class="reference internal" href="#">eero package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-eero.eero_parser">eero.eero_parser module</a></li>
 <li><a class="reference internal" href="#module-eero.network_analysis">eero.network_analysis module</a></li>
+<li><a class="reference internal" href="#module-eero.eero_parser">eero.eero_parser module</a></li>
 <li><a class="reference internal" href="#module-eero">Module contents</a></li>
 </ul>
 </li>

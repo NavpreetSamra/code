@@ -4,14 +4,6 @@ eero package
 Submodules
 ----------
 
-eero.eero_parser module
------------------------
-
-.. automodule:: eero.eero_parser
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 eero.network_analysis module
 ----------------------------
 
@@ -20,6 +12,14 @@ eero.network_analysis module
     :undoc-members:
     :show-inheritance:
 
+
+eero.eero_parser module
+-----------------------
+
+.. automodule:: eero.eero_parser
+    :members:
+    :undoc-members:
+    :show-inheritance:
 
 Module contents
 ---------------
