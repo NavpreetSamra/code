@@ -44,138 +44,14 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-eero.network_analysis">
-<span id="eero-network-analysis-module"></span><h2>eero.network_analysis module<a class="headerlink" href="#module-eero.network_analysis" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="eero.network_analysis.SystemNetwork">
-<em class="property">class </em><code class="descclassname">eero.network_analysis.</code><code class="descname">SystemNetwork</code><span class="sig-paren">(</span><em>nodeMap</em>, <em>macMap</em>, <em>mesh</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class for identifying systems of networks from sets of MAC address peer links</p>
-<p>SystemNetwork takes mappings between nodes via MAC addresses and the link&#8217;s
-quality and creates clusters of networks by partitioning nodes via
-walking through the mesh. Then SystemNetwork evaluates each network to ensure each node
-has a quality (&gt;= 8 MCS on 2.4 GHz or &gt;=6 on 5GHz) link with each other node
-in its network. Networks are attributed True(paths exists with quality links 
-to/from each node) or False. If there is only 1 node in a network it is recorded
-as not a network and a warning indicating such is reported.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>nodeMap</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from MAC to node id {MAC: Node} ; {str: str}</li>
-<li><strong>macMap</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</li>
-<li><strong>mesh</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</li>
-<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="eero.network_analysis.SystemNetwork.build_graph">
-<code class="descname">build_graph</code><span class="sig-paren">(</span><em>index</em>, <em>netwrk</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.build_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build directed graph for a networka and evaulate its quality</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; index of network in system</li>
-<li><strong>netwrk</strong> (<em>array-like</em>) &#8211; array of nodes in network</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">connected - whether or not all nodes are connected to all other nodes with quality connections</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="eero.network_analysis.SystemNetwork.create_json">
-<code class="descname">create_json</code><span class="sig-paren">(</span><em>fname='analysis.json'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.create_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.create_json" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create json written to fname with results</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of file to write data out to as json</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="eero.network_analysis.SystemNetwork.eval_networks">
-<code class="descname">eval_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.eval_networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.eval_networks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate quality of networks found in partition_system</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="eero.network_analysis.SystemNetwork.macs_to_nodes">
-<code class="descname">macs_to_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.macs_to_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.macs_to_nodes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert MAC Links to Node Links</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="eero.network_analysis.SystemNetwork.partition_system">
-<code class="descname">partition_system</code><span class="sig-paren">(</span><em>new_nodes</em>, <em>index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/network_analysis.html#SystemNetwork.partition_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.network_analysis.SystemNetwork.partition_system" title="Permalink to this definition">¶</a></dt>
-<dd><p>Partition mesh into networks</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>new_nodes</strong> (<em>array-like</em>) &#8211; iterable of new_nodes found in mesh crawl (or seed)</li>
-<li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; network id (increments via recursion)</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="eero-network-analysis-module">
+<h2>eero.network_analysis module<a class="headerlink" href="#eero-network-analysis-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-eero.eero_parser">
-<span id="eero-eero-parser-module"></span><h2>eero.eero_parser module<a class="headerlink" href="#module-eero.eero_parser" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="eero.eero_parser.parse">
-<code class="descclassname">eero.eero_parser.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/eero/eero_parser.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#eero.eero_parser.parse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Parse csv with node id + JSON blob
-Note this parser is built to handle a specifically malformed Json blob where both &#8220;{&#8220;&#8221;key&#8221;&#8221;:&#8221;&#8220;val&#8221;&#8220;}&#8221; &#8220;{&#8220;&#8221;key&#8221;&#8221;:val&#8221;&#8220;}&#8221; exist inline</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fileName</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Relative path to csv with node id + JSON blob</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return nodeMap:</th><td class="field-body">map from MAC to node id {MAC: Node} ; {str: str}</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return macMap:</th><td class="field-body">map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return mesh:</th><td class="field-body">MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return links:</th><td class="field-body">link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</td>
-</tr>
-<tr class="field-even field"><th class="field-name" colspan="2">Return badlinks:</th></tr>
-<tr class="field-even field"><td>&nbsp;</td><td class="field-body">links where the rx_bitrate is  &lt;= 11.0 MB/s and did not qualify for MCS index</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)">dict</a></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
+<div class="section" id="eero-eero-parser-module">
+<h2>eero.eero_parser module<a class="headerlink" href="#eero-eero-parser-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-eero">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-eero" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-contents">
+<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -189,9 +65,9 @@ Note this parser is built to handle a specifically malformed Json blob where bot
   <ul>
 <li><a class="reference internal" href="#">eero package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-eero.network_analysis">eero.network_analysis module</a></li>
-<li><a class="reference internal" href="#module-eero.eero_parser">eero.eero_parser module</a></li>
-<li><a class="reference internal" href="#module-eero">Module contents</a></li>
+<li><a class="reference internal" href="#eero-network-analysis-module">eero.network_analysis module</a></li>
+<li><a class="reference internal" href="#eero-eero-parser-module">eero.eero_parser module</a></li>
+<li><a class="reference internal" href="#module-contents">Module contents</a></li>
 </ul>
 </li>
 </ul>
