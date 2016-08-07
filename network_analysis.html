@@ -50,13 +50,13 @@
 <dt id="network_analysis.network_analysis.SystemNetwork">
 <em class="property">class </em><code class="descclassname">network_analysis.network_analysis.</code><code class="descname">SystemNetwork</code><span class="sig-paren">(</span><em>nodeMap</em>, <em>macMap</em>, <em>mesh</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class for identifying systems of networks from sets of MAC address peer links</p>
+<p>Class for identifying systems of networks from sets of     MAC address peer links</p>
 <p>SystemNetwork takes mappings between nodes via MAC addresses and the link&#8217;s
 quality and creates clusters of networks by partitioning nodes via
-walking through the mesh. Then SystemNetwork evaluates each network to ensure each node
-has a quality (&gt;= 8 MCS on 2.4 GHz or &gt;=6 on 5GHz) link with each other node
-in its network. Networks are attributed True(paths exists with quality links 
-to/from each node) or False. If there is only 1 node in a network it is recorded
+walking through the mesh. Then SystemNetwork evaluates      each network to ensure each node
+has a quality (&gt;= 8 MCS on 2.4 GHz or &gt;=6 on 5GHz)             link with each other node
+in its network. Networks are attributed             True(paths exists with quality links
+to/from each node) or False. If there is only 1 node in a             network it is recorded
 as not a network and a warning indicating such is reported.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -64,9 +64,9 @@ as not a network and a warning indicating such is reported.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>nodeMap</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from MAC to node id {MAC: Node} ; {str: str}</li>
-<li><strong>macMap</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}</li>
+<li><strong>macMap</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from node id to MACs {Node: [MAC1, MAC2]}             ; {str: list.str}</li>
 <li><strong>mesh</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</li>
-<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</li>
+<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; link quality (NB not bidirectional)             from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</li>
 </ul>
 </td>
 </tr>
@@ -86,7 +86,7 @@ as not a network and a warning indicating such is reported.</p>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">connected - whether or not all nodes are connected to all other nodes with quality connections</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">connected - whether or not all nodes are connected to all                 other nodes with quality connections</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
@@ -131,7 +131,7 @@ as not a network and a warning indicating such is reported.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>new_nodes</strong> (<em>array-like</em>) &#8211; iterable of new_nodes found in mesh crawl (or seed)</li>
+<li><strong>new_nodes</strong> (<em>array-like</em>) &#8211; iterable of new_nodes found in crawl</li>
 <li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; network id (increments via recursion)</li>
 </ul>
 </td>
