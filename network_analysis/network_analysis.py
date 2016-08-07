@@ -8,21 +8,28 @@ sys.setrecursionlimit(1000)
 
 class SystemNetwork(object):
     """
-    Class for identifying systems of networks from sets of MAC address peer links
+    Class for identifying systems of networks from sets of \
+    MAC address peer links
 
     SystemNetwork takes mappings between nodes via MAC addresses and the link's
     quality and creates clusters of networks by partitioning nodes via
-    walking through the mesh. Then SystemNetwork evaluates each network to ensure each node
-    has a quality (>= 8 MCS on 2.4 GHz or >=6 on 5GHz) link with each other node
-    in its network. Networks are attributed True(paths exists with quality links 
-    to/from each node) or False. If there is only 1 node in a network it is recorded
-    as not a network and a warning indicating such is reported. 
+    walking through the mesh. Then SystemNetwork evaluates  \
+    each network to ensure each node
+    has a quality (>= 8 MCS on 2.4 GHz or >=6 on 5GHz) \
+            link with each other node
+    in its network. Networks are attributed \
+            True(paths exists with quality links
+    to/from each node) or False. If there is only 1 node in a \
+            network it is recorded
+    as not a network and a warning indicating such is reported.
 
 
     :param dict nodeMap: map from MAC to node id {MAC: Node} ; {str: str}
-    :param dict macMap: map from node id to MACs {Node: [MAC1, MAC2]} ; {str: list.str}
+    :param dict macMap: map from node id to MACs {Node: [MAC1, MAC2]} \
+            ; {str: list.str}
     :param dict mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
-    :param dict links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
+    :param dict links: link quality (NB not bidirectional) \
+            from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
     """
     def __init__(self, nodeMap, macMap, mesh, links):
         self.nodeMap = nodeMap
@@ -32,19 +39,22 @@ class SystemNetwork(object):
 
         self.node_list = self.macMap.keys()
         self.mac_list = self.nodeMap.keys()
-        
-        #Populated in methods
+
+        # Populated in methods
         self.networks = {}
         self.nodes = {i: [] for i in self.node_list}
         self.nodeLinks = {}
         self.graphs = {}
         self.results = {}
 
-        self._seed = self.node_list[0] # Seed for mesh walk
-        self.networks = {0: list([self._seed])} # Initilize networks for mesh walk
-        self._nodeTrack = np.array(self.node_list[1:]) # Tracker for mesh walk
+        # Seed for mesh walk
+        self._seed = self.node_list[0]
+        # Initilize networks for mesh walk
+        self.networks = {0: list([self._seed])}
+        # Tracker for mesh walk
+        self._nodeTrack = np.array(self.node_list[1:])
 
-        # Can be moved to owner or front end depending on model implementation 
+        # Can be moved to owner or front end depending on model implementation
         self.macs_to_nodes()
         self.partition_system(self._seed)
         self.eval_networks()
@@ -63,9 +73,10 @@ class SystemNetwork(object):
                         self.nodeLinks[(self.nodeMap[l], node)] = True
                     elif l[-1] == '3' and self.links[(l, mac)] >= 6:
                         self.nodeLinks[(self.nodeMap[l], node)] = True
-                    # This undirects the graphs to ensure that all associated ...
-                    # links are found in partitioning if graph isn't completely connected
-                    # Filtering by connection will re-instate direction
+                    # This undirects the graphs to ensure that all associated
+                    # links are found in partitioning if graph is not
+                    # completely connected iltering by connection will
+                    # re-instate direction
                     nl = self.nodeMap[l]
                     self.nodes[node].extend([nl])
                     self.nodes[nl].extend([node])
@@ -75,8 +86,8 @@ class SystemNetwork(object):
     def partition_system(self, new_nodes, index=0):
         """
         Partition mesh into networks
-        
-        :param array-like new_nodes: iterable of new_nodes found in mesh crawl (or seed)
+
+        :param array-like new_nodes: iterable of new_nodes found in crawl
         :param int index: network id (increments via recursion)
         """
         if not isinstance(new_nodes, list):
@@ -92,7 +103,9 @@ class SystemNetwork(object):
                     new_nodes.extend(list([i]))
             if any(new_nodes):
                 self.networks[index].extend(new_nodes)
-                self._nodeTrack = self._nodeTrack[np.in1d(self._nodeTrack, np.asarray(new_nodes), invert=True)]
+                self._nodeTrack = self._nodeTrack[np.in1d(self._nodeTrack,
+                                                          np.array(new_nodes),
+                                                          invert=True)]
                 self.partition_system(new_nodes, index)
 
         if any(self._nodeTrack):
@@ -104,7 +117,7 @@ class SystemNetwork(object):
             else:
                 self._nodeTrack = np.array([])
             self.partition_system(seed, index)
-    
+
     def eval_networks(self):
         """
         Evaluate quality of networks found in partition_system
@@ -122,7 +135,8 @@ class SystemNetwork(object):
 
         :param int index: index of network in system
         :param array-like netwrk: array of nodes in network
-        :return: connected - whether or not all nodes are connected to all other nodes with quality connections
+        :return: connected - whether or not all nodes are connected to all \
+                other nodes with quality connections
         :rtype: bool
         """
         self.graphs[index] = nx.DiGraph()
@@ -133,10 +147,11 @@ class SystemNetwork(object):
                     self.graphs[index].add_edge(i[0], i[1])
         connected = True
         for i in it.permutations(netwrk, 2):
-            if i[0] not in self.graphs[index] or i[1] not in self.graphs[index]:
+            graph = self.graphs[index]
+            if i[0] not in graph or i[1] not in graph:
                 connected = False
                 break
-            elif not nx.has_path(self.graphs[index], i[0], i[1]):
+            elif not nx.has_path(graph, i[0], i[1]):
                 connected = False
                 break
         return connected
