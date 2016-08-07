@@ -5,7 +5,7 @@ code
    :maxdepth: 4
 
    wikitravel
-   eero
+   network_analysis
    cvcparser
    filesync
    helpers

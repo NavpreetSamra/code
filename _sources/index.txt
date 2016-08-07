@@ -13,7 +13,7 @@ Contents:
 
    modules.rst
    wikitravel.rst
-   eero.rst
+   network_analysis.rst
    sirdisease.sir_disease.rst
    filesync.sync.rst
    cvcparser.rst
