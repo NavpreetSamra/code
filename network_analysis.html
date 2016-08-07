@@ -47,6 +47,55 @@
 <div class="section" id="module-network_analysis.network_analysis">
 <span id="network-analysis-network-analysis-module"></span><h2>network_analysis.network_analysis module<a class="headerlink" href="#module-network_analysis.network_analysis" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
+<dt id="network_analysis.network_analysis.MeshGraph">
+<em class="property">class </em><code class="descclassname">network_analysis.network_analysis.</code><code class="descname">MeshGraph</code><span class="sig-paren">(</span><em>network</em>, <em>nodeLinks</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#MeshGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.MeshGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">networkx.classes.digraph.DiGraph</span></code></p>
+<p>Subclass of :mod:networkx.DiGraph to add tracking attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>network</strong> (<em>array-like</em>) &#8211; list of node ids in network</li>
+<li><strong>nodeLinks</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dict of quality links from n1-&gt; n2             {(n1,n2)} : {tuple(int, int)}</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="network_analysis.network_analysis.MeshGraph.build_graph">
+<code class="descname">build_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#MeshGraph.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.MeshGraph.build_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build directed graph for a network and evaulate its quality</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; index of network in system</li>
+<li><strong>network</strong> (<em>array-like</em>) &#8211; array of nodes in network</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="network_analysis.network_analysis.MeshGraph.check_graph">
+<code class="descname">check_graph</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#MeshGraph.check_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.MeshGraph.check_graph" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="network_analysis.network_analysis.MeshGraph.result">
+<code class="descname">result</code><a class="headerlink" href="#network_analysis.network_analysis.MeshGraph.result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Boolean of whether network has quality paths from
+all nodes to all other nodes</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="network_analysis.network_analysis.SystemNetwork">
 <em class="property">class </em><code class="descclassname">network_analysis.network_analysis.</code><code class="descname">SystemNetwork</code><span class="sig-paren">(</span><em>nodeMap</em>, <em>macMap</em>, <em>mesh</em>, <em>links</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
@@ -73,30 +122,6 @@ as not a network and a warning indicating such is reported.</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="network_analysis.network_analysis.SystemNetwork.build_graph">
-<code class="descname">build_graph</code><span class="sig-paren">(</span><em>index</em>, <em>netwrk</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.build_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.build_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build directed graph for a networka and evaulate its quality</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; index of network in system</li>
-<li><strong>netwrk</strong> (<em>array-like</em>) &#8211; array of nodes in network</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">connected - whether or not all nodes are connected to all                 other nodes with quality connections</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="network_analysis.network_analysis.SystemNetwork.create_json">
 <code class="descname">create_json</code><span class="sig-paren">(</span><em>fname='analysis.json'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.create_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.create_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create json written to fname with results</p>
@@ -111,9 +136,9 @@ as not a network and a warning indicating such is reported.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="network_analysis.network_analysis.SystemNetwork.eval_networks">
-<code class="descname">eval_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.eval_networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.eval_networks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluate quality of networks found in partition_system</p>
+<dt id="network_analysis.network_analysis.SystemNetwork.evaluate_networks">
+<code class="descname">evaluate_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.evaluate_networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.evaluate_networks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create MeshGraphs from node lists in networks and evaluate quality</p>
 </dd></dl>
 
 <dl class="method">
