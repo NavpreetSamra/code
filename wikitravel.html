@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html" />
     <link rel="up" title="code" href="modules.html" />
-    <link rel="next" title="cvcparser package" href="cvcparser.html" />
+    <link rel="next" title="network_analysis package" href="network_analysis.html" />
     <link rel="prev" title="code" href="modules.html" />
    
   
@@ -71,15 +71,15 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 </tbody>
 </table>
 <dl class="method">
-<dt id="wikitravel.travel.Travel.local_search">
-<code class="descname">local_search</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.local_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.local_search" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find nearby sites to self.location</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="wikitravel.travel.Travel.locate">
 <code class="descname">locate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.locate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.locate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find major site location: self.coordinates = [latitude, longitude]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Travel.local_search">
+<code class="descname">local_search</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.local_search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.local_search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find nearby sites to self.location</p>
 </dd></dl>
 
 <dl class="method">
@@ -116,6 +116,18 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="wikitravel.travel.Trip.calculate_distances">
+<code class="descname">calculate_distances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.calculate_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.calculate_distances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate distances between sites to weight graph</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wikitravel.travel.Trip.find_routes">
+<code class="descname">find_routes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.find_routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.find_routes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find shortest route for given constraints</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="wikitravel.travel.Trip.calculate_cost">
 <code class="descname">calculate_cost</code><span class="sig-paren">(</span><em>route</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.calculate_cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.calculate_cost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the cost of a given route</p>
@@ -131,18 +143,6 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikitravel.travel.Trip.calculate_distances">
-<code class="descname">calculate_distances</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.calculate_distances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.calculate_distances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate distances between sites to weight graph</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="wikitravel.travel.Trip.find_routes">
-<code class="descname">find_routes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip.find_routes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip.find_routes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find shortest route for given constraints</p>
 </dd></dl>
 
 <dl class="method">
@@ -192,7 +192,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">code</a><ul>
       <li>Previous: <a href="modules.html" title="previous chapter">code</a></li>
-      <li>Next: <a href="cvcparser.html" title="next chapter">cvcparser package</a></li>
+      <li>Next: <a href="network_analysis.html" title="next chapter">network_analysis package</a></li>
   </ul></li>
   </ul></li>
 </ul>

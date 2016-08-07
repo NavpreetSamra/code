@@ -72,20 +72,6 @@
 </tbody>
 </table>
 <dl class="method">
-<dt id="filesync.sync.gen.Gen.check_pull">
-<code class="descname">check_pull</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/gen.html#Gen.check_pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.gen.Gen.check_pull" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if pulled local file has same size as remote file</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of file to sync</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="filesync.sync.gen.Gen.later_files">
 <code class="descname">later_files</code><span class="sig-paren">(</span><em>ascending=False</em>, <em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/gen.html#Gen.later_files"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.gen.Gen.later_files" title="Permalink to this definition">¶</a></dt>
 <dd><p>List files with metadata in remote directory by time             default oldest to youngest by modified time</p>
@@ -116,27 +102,25 @@
 </table>
 </dd></dl>
 
-</dd></dl>
-
-</div>
-<div class="section" id="module-filesync.sync.owner">
-<span id="filesync-sync-owner-module"></span><h2>filesync.sync.owner module<a class="headerlink" href="#module-filesync.sync.owner" title="Permalink to this headline">¶</a></h2>
-<dl class="exception">
-<dt id="filesync.sync.owner.FileValidationError">
-<em class="property">exception </em><code class="descclassname">filesync.sync.owner.</code><code class="descname">FileValidationError</code><span class="sig-paren">(</span><em>warnings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/owner.html#FileValidationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.owner.FileValidationError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
-<p>FileValidationError throws when a file does not transfer correctly             (confirmed by checking size of file.</p>
-<p>Constructor for Exception subclass. Tracks invalid file transfers</p>
+<dl class="method">
+<dt id="filesync.sync.gen.Gen.check_pull">
+<code class="descname">check_pull</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/gen.html#Gen.check_pull"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.gen.Gen.check_pull" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if pulled local file has same size as remote file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>warnings</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; keys - acount names                           valuees - nd.array of string file names</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of file to sync</td>
 </tr>
 </tbody>
 </table>
 </dd></dl>
 
+</dd></dl>
+
+</div>
+<div class="section" id="module-filesync.sync.owner">
+<span id="filesync-sync-owner-module"></span><h2>filesync.sync.owner module<a class="headerlink" href="#module-filesync.sync.owner" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="filesync.sync.owner.Owner">
 <em class="property">class </em><code class="descclassname">filesync.sync.owner.</code><code class="descname">Owner</code><span class="sig-paren">(</span><em>json_path='/home/mweiss/code/sftp.config'</em>, <em>log_path='/home/mweiss/code/logs.json'</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/owner.html#Owner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.owner.Owner" title="Permalink to this definition">¶</a></dt>
@@ -162,17 +146,33 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="filesync.sync.owner.Owner.log_action">
-<code class="descname">log_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/owner.html#Owner.log_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.owner.Owner.log_action" title="Permalink to this definition">¶</a></dt>
-<dd><p>Log files and metadata</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="filesync.sync.owner.Owner.run_sftp_action">
 <code class="descname">run_sftp_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/owner.html#Owner.run_sftp_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.owner.Owner.run_sftp_action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute actions specified in object by config</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="filesync.sync.owner.Owner.log_action">
+<code class="descname">log_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/owner.html#Owner.log_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.owner.Owner.log_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Log files and metadata</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="filesync.sync.owner.FileValidationError">
+<em class="property">exception </em><code class="descclassname">filesync.sync.owner.</code><code class="descname">FileValidationError</code><span class="sig-paren">(</span><em>warnings</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/owner.html#FileValidationError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.owner.FileValidationError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/exceptions.html#exceptions.Exception" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></code></a></p>
+<p>FileValidationError throws when a file does not transfer correctly             (confirmed by checking size of file.</p>
+<p>Constructor for Exception subclass. Tracks invalid file transfers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>warnings</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; keys - acount names                           valuees - nd.array of string file names</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -193,6 +193,12 @@
 </tbody>
 </table>
 <dl class="method">
+<dt id="filesync.sync.slog.Slog.read_log">
+<code class="descname">read_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/slog.html#Slog.read_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.slog.Slog.read_log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read JSON log, create empty dict if not exists</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="filesync.sync.slog.Slog.extend_json">
 <code class="descname">extend_json</code><span class="sig-paren">(</span><em>name</em>, <em>lstat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/slog.html#Slog.extend_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.slog.Slog.extend_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extend/Create logged file pulls. account keys file values</p>
@@ -208,12 +214,6 @@
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="filesync.sync.slog.Slog.read_log">
-<code class="descname">read_log</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/filesync/sync/slog.html#Slog.read_log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#filesync.sync.slog.Slog.read_log" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read JSON log, create empty dict if not exists</p>
 </dd></dl>
 
 </dd></dl>

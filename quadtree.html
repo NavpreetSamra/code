@@ -68,20 +68,6 @@ that suffer from edge effects. [.1, .2] adds +/- 5% in x and 10% y</li>
 </tbody>
 </table>
 <dl class="method">
-<dt id="quadtree.quadtree.QuadTree.add_buffer">
-<code class="descname">add_buffer</code><span class="sig-paren">(</span><em>box</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quadtree/quadtree.html#QuadTree.add_buffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quadtree.quadtree.QuadTree.add_buffer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add list of buffer points to buffer attribute of self with shared key to tree</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>box</strong> (<em>array-like</em>) &#8211; [x1, x2, y1, y2] corners of bounding box</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
 <dt id="quadtree.quadtree.QuadTree.parse">
 <code class="descname">parse</code><span class="sig-paren">(</span><em>data</em>, <em>box</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quadtree/quadtree.html#QuadTree.parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quadtree.quadtree.QuadTree.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursive function for building leaves</p>
@@ -94,6 +80,20 @@ that suffer from edge effects. [.1, .2] adds +/- 5% in x and 10% y</li>
 <li><strong>box</strong> (<em>array-like</em>) &#8211; [x1, x2, y1, y2] corners of bounding box</li>
 </ul>
 </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="quadtree.quadtree.QuadTree.add_buffer">
+<code class="descname">add_buffer</code><span class="sig-paren">(</span><em>box</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/quadtree/quadtree.html#QuadTree.add_buffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#quadtree.quadtree.QuadTree.add_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add list of buffer points to buffer attribute of self with shared key to tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>box</strong> (<em>array-like</em>) &#8211; [x1, x2, y1, y2] corners of bounding box</td>
 </tr>
 </tbody>
 </table>

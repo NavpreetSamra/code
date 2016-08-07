@@ -81,6 +81,20 @@ defaults to [centroid(a), centroid(b)]</li>
 </dd></dl>
 
 <dl class="function">
+<dt id="helpers.math_h.scatter_quick">
+<code class="descclassname">helpers.math_h.</code><code class="descname">scatter_quick</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#scatter_quick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.scatter_quick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick scatter plots 2d and 3d</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>array-like</em>) &#8211; nx[2,3] array to scatter plot</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="helpers.math_h.enforce_2d">
 <code class="descclassname">helpers.math_h.</code><code class="descname">enforce_2d</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#enforce_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.enforce_2d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enforce an array-like entity is a multidimensional ndarray</p>
@@ -94,20 +108,6 @@ defaults to [centroid(a), centroid(b)]</li>
 </tr>
 <tr class="field-odd field"><th class="field-name" colspan="2">Rtype np.ndarray:</th></tr>
 <tr class="field-odd field"><td>&nbsp;</td><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.scatter_quick">
-<code class="descclassname">helpers.math_h.</code><code class="descname">scatter_quick</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#scatter_quick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.scatter_quick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Quick scatter plots 2d and 3d</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>array-like</em>) &#8211; nx[2,3] array to scatter plot</td>
 </tr>
 </tbody>
 </table>
@@ -167,34 +167,6 @@ defaults to [centroid(a), centroid(b)]</li>
 </dd></dl>
 
 <dl class="function">
-<dt id="helpers.text_h.find_nth">
-<code class="descclassname">helpers.text_h.</code><code class="descname">find_nth</code><span class="sig-paren">(</span><em>haystack</em>, <em>needle</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_nth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_nth" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.find_sep">
-<code class="descclassname">helpers.text_h.</code><code class="descname">find_sep</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_sep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_sep" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find key value seperator in line</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line of log</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="helpers.text_h.path_leaf">
-<code class="descclassname">helpers.text_h.</code><code class="descname">path_leaf</code><span class="sig-paren">(</span><em>abspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#path_leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.path_leaf" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
 <dt id="helpers.text_h.regex_recursive">
 <code class="descclassname">helpers.text_h.</code><code class="descname">regex_recursive</code><span class="sig-paren">(</span><em>txt, seps=['\\(', '\\)'], all_groups=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#regex_recursive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.regex_recursive" title="Permalink to this definition">¶</a></dt>
 <dd><p>Regex for nested divider pairs for capturing</p>
@@ -219,6 +191,34 @@ defaults to [centroid(a), centroid(b)]</li>
 </tbody>
 </table>
 </dd></dl>
+
+<dl class="function">
+<dt id="helpers.text_h.find_sep">
+<code class="descclassname">helpers.text_h.</code><code class="descname">find_sep</code><span class="sig-paren">(</span><em>l</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_sep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_sep" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find key value seperator in line</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line of log</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.text_h.find_nth">
+<code class="descclassname">helpers.text_h.</code><code class="descname">find_nth</code><span class="sig-paren">(</span><em>haystack</em>, <em>needle</em>, <em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_nth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_nth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.text_h.path_leaf">
+<code class="descclassname">helpers.text_h.</code><code class="descname">path_leaf</code><span class="sig-paren">(</span><em>abspath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#path_leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.path_leaf" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 <div class="section" id="module-helpers">
