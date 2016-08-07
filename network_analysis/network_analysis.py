@@ -57,7 +57,7 @@ class SystemNetwork(object):
         # Can be moved to owner or front end depending on model implementation
         self.macs_to_nodes()
         self.partition_system(self._seed)
-        self.eval_networks()
+        self.evaluate_networks()
 
     def macs_to_nodes(self):
         """
@@ -80,6 +80,7 @@ class SystemNetwork(object):
                     nl = self.nodeMap[l]
                     self.nodes[node].extend([nl])
                     self.nodes[nl].extend([node])
+
         for node in self.node_list:
             self.nodes[node] = list(set(self.nodes[node]))
 
@@ -118,43 +119,13 @@ class SystemNetwork(object):
                 self._nodeTrack = np.array([])
             self.partition_system(seed, index)
 
-    def eval_networks(self):
+    def evaluate_networks(self):
         """
-        Evaluate quality of networks found in partition_system
+        Create MeshGraphs from node lists in networks and evaluate quality
         """
-        for i in self.networks:
-            ntw = self.networks[i]
-            if len(ntw) > 1:
-                self.results[i] = self.build_graph(i, ntw)
-            else:
-                self.results[i] = 'Single node network: has no Peers'
 
-    def build_graph(self, index, netwrk):
-        """
-        Build directed graph for a networka and evaulate its quality
-
-        :param int index: index of network in system
-        :param array-like netwrk: array of nodes in network
-        :return: connected - whether or not all nodes are connected to all \
-                other nodes with quality connections
-        :rtype: bool
-        """
-        self.graphs[index] = nx.DiGraph()
-        connections = it.permutations(netwrk, 2)
-        for i in connections:
-            if i in self.nodeLinks:
-                if self.nodeLinks[i]:
-                    self.graphs[index].add_edge(i[0], i[1])
-        connected = True
-        for i in it.permutations(netwrk, 2):
-            graph = self.graphs[index]
-            if i[0] not in graph or i[1] not in graph:
-                connected = False
-                break
-            elif not nx.has_path(graph, i[0], i[1]):
-                connected = False
-                break
-        return connected
+        for i, network in enumerate(self.networks.values()):
+            self.graphs[i] = MeshGraph(network, self.nodeLinks)
 
     def create_json(self, fname='analysis.json'):
         """
@@ -165,10 +136,62 @@ class SystemNetwork(object):
         out = {}
         for i in self.networks:
             d = {}
-            d['Connected'] = self.results[i]
-            d['Network'] = self.networks[i]
+            d['Connected'] = self.graphs[i].result
+            d['Network'] = self.graphs[i].nodes()
             out[i] = d
         outjson = open(fname, 'w')
         j = json.dumps(out, indent=4)
         print >> outjson, j
         outjson.close()
+
+
+class MeshGraph(nx.DiGraph):
+    """
+    Subclass of :mod:networkx.DiGraph to add tracking attributes
+
+    :param array-like network: list of node ids in network
+    :param dict nodeLinks: dict of quality links from n1-> n2 \
+            {(n1,n2)} : {tuple(int, int)}
+    """
+    def __init__(self, network, nodeLinks, *args, **kwargs):
+        super(MeshGraph, self).__init__(*args, **kwargs)
+        self.network = network
+
+        self.add_nodes_from(self.network)
+        if len(self.network) < 2:
+            self._result = "Single node, not a network"
+        else:
+            self.nodeLinks = nodeLinks
+
+            self._result = None
+
+            self.build_graph()
+            self.check_graph()
+
+    @property
+    def result(self):
+        """
+        Boolean of whether network has quality paths from
+        all nodes to all other nodes
+        """
+        return self._result
+
+    def build_graph(self):
+        """
+        Build directed graph for a network and evaulate its quality
+
+        :param int index: index of network in system
+        :param array-like network: array of nodes in network
+        """
+        connections = it.permutations(self.network, 2)
+        for i in connections:
+            if i in self.nodeLinks:
+                if self.nodeLinks[i]:
+                    self.add_edge(i[0], i[1])
+
+    def check_graph(self):
+        self._result = True
+        for i in it.permutations(self.nodes(), 2):
+            if not nx.has_path(self, i[0], i[1]):
+                self._result = False
+                break
