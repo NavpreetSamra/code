@@ -161,7 +161,7 @@
 
 <div class="viewcode-block" id="SystemNetwork.evaluate_networks"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.SystemNetwork.evaluate_networks">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_networks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Create MeshGraphs from node lists in networks and evaluate quality</span>
+<span class="sd">        Create :class:`.MeshGraph` from node lists in networks and evaluate quality</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">network</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
@@ -187,7 +187,7 @@
 
 <div class="viewcode-block" id="MeshGraph"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.MeshGraph">[docs]</a><span class="k">class</span> <span class="nc">MeshGraph</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">DiGraph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Subclass of :mod:networkx.DiGraph to add tracking attributes</span>
+<span class="sd">    Subclass of :class:`nx.DiGraph` to add tracking attributes</span>
 
 <span class="sd">    :param array-like network: list of node ids in network</span>
 <span class="sd">    :param dict nodeLinks: dict of quality links from n1-&gt; n2 \</span>
