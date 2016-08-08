@@ -121,7 +121,7 @@ class SystemNetwork(object):
 
     def evaluate_networks(self):
         """
-        Create MeshGraphs from node lists in networks and evaluate quality
+        Create :class:`.MeshGraph` from node lists in networks and evaluate quality
         """
 
         for i, network in enumerate(self.networks.values()):
@@ -147,7 +147,7 @@ class SystemNetwork(object):
 
 class MeshGraph(nx.DiGraph):
     """
-    Subclass of :mod:networkx.DiGraph to add tracking attributes
+    Subclass of :class:`nx.DiGraph` to add tracking attributes
 
     :param array-like network: list of node ids in network
     :param dict nodeLinks: dict of quality links from n1-> n2 \
