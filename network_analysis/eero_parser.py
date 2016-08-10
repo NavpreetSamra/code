@@ -14,7 +14,7 @@ def parse(fileName):
     :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
     :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
     :return badlinks: links where the rx_bitrate is  <= 11.0 MB/s and did not qualify for MCS index 
-    :rtype: dict
+    :rtype: tuple.dicts
     """
     expression = regex.compile(r"(VHT-MCS )([0-9]+)")
 
