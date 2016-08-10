@@ -150,7 +150,7 @@
 <span class="sd">    :return mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</span>
 <span class="sd">    :return links: link quality (NB not bidirectional) from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</span>
 <span class="sd">    :return badlinks: links where the rx_bitrate is  &lt;= 11.0 MB/s and did not qualify for MCS index </span>
-<span class="sd">    :rtype: tuple.dicts</span>
+<span class="sd">    :rtype: tuple.dict</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">expression</span> <span class="o">=</span> <span class="n">regex</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">r&quot;(VHT-MCS )([0-9]+)&quot;</span><span class="p">)</span>
 
