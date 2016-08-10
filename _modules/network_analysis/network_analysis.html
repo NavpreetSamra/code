@@ -315,9 +315,6 @@
 <div class="viewcode-block" id="MeshGraph.build_graph"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.MeshGraph.build_graph">[docs]</a>    <span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Build directed graph for a network and evaulate its quality</span>
-
-<span class="sd">        :param int index: index of network in system</span>
-<span class="sd">        :param array-like network: array of nodes in network</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">connections</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">network</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">connections</span><span class="p">:</span>
