@@ -1,5 +1,5 @@
 network_analysis package
-============
+========================
 
 Submodules
 ----------
