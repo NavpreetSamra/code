@@ -147,7 +147,7 @@ class SystemNetwork(object):
 
 class MeshGraph(nx.DiGraph):
     """
-    Subclass of :class:`nx.DiGraph` to add tracking attributes
+    Subclass of :py:func:`networkx.DiGraph` to add tracking attributes
 
     :param array-like network: list of node ids in network
     :param dict nodeLinks: dict of quality links from n1-> n2 \
@@ -179,9 +179,6 @@ class MeshGraph(nx.DiGraph):
     def build_graph(self):
         """
         Build directed graph for a network and evaulate its quality
-
-        :param int index: index of network in system
-        :param array-like network: array of nodes in network
         """
         connections = it.permutations(self.network, 2)
         for i in connections:
