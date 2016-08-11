@@ -165,7 +165,7 @@
 <span id="wikitravel-travel-module"></span><h2>wikitravel.travel module<a class="headerlink" href="#module-wikitravel.travel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="wikitravel.travel.Travel">
-<em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Travel</code><span class="sig-paren">(</span><em>location</em>, <em>gkey</em>, <em>results=15</em>, <em>radius=1000</em>, <em>pop_date='201506'</em>, <em>factors=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Travel</code><span class="sig-paren">(</span><em>location</em>, <em>gkey</em>, <em>numResults=15</em>, <em>radius=1000</em>, <em>popDate='201506'</em>, <em>factors=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for finding nearby sites of interest via google maps and wikipedia
 Site popularity evaluated by page views in the past (or specified month)</p>
@@ -179,7 +179,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <li><strong>gkey</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Google Maps api key</li>
 <li><strong>results</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; max number of wiki results to query for site</li>
 <li><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; search radius (meters)</li>
-<li><strong>pop_date</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; month to grab wiki page views from (YYYYMM)             note month pages must exist at <a class="reference external" href="http://stats.grok.se/">http://stats.grok.se/</a></li>
+<li><strong>popDate</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; month to grab wiki page views from (YYYYMM)             note month pages must exist at <a class="reference external" href="http://stats.grok.se/">http://stats.grok.se/</a></li>
 <li><strong>factors</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
 <li><strong>weights</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
 </ul>
@@ -187,6 +187,42 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 </tr>
 </tbody>
 </table>
+<dl class="attribute">
+<dt id="wikitravel.travel.Travel.location">
+<code class="descname">location</code><a class="headerlink" href="#wikitravel.travel.Travel.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial location</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wikitravel.travel.Travel.numResults">
+<code class="descname">numResults</code><a class="headerlink" href="#wikitravel.travel.Travel.numResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of restults to search for in each wiki geocode search</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wikitravel.travel.Travel.radius">
+<code class="descname">radius</code><a class="headerlink" href="#wikitravel.travel.Travel.radius" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search radius for wiki geocode search</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wikitravel.travel.Travel.popDate">
+<code class="descname">popDate</code><a class="headerlink" href="#wikitravel.travel.Travel.popDate" title="Permalink to this definition">¶</a></dt>
+<dd><p>YYYYMM for popularity search (if applicable)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wikitravel.travel.Travel.factors">
+<code class="descname">factors</code><a class="headerlink" href="#wikitravel.travel.Travel.factors" title="Permalink to this definition">¶</a></dt>
+<dd><p>(IN DEV)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wikitravel.travel.Travel.weights">
+<code class="descname">weights</code><a class="headerlink" href="#wikitravel.travel.Travel.weights" title="Permalink to this definition">¶</a></dt>
+<dd><p>(IN DEV)</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="wikitravel.travel.Travel.locate">
 <code class="descname">locate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.locate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.locate" title="Permalink to this definition">¶</a></dt>

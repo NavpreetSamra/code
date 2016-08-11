@@ -158,27 +158,69 @@
 <span class="sd">    :param str gkey: Google Maps api key</span>
 <span class="sd">    :param int results: max number of wiki results to query for site</span>
 <span class="sd">    :param int radius: search radius (meters)</span>
-<span class="sd">    :param str pop_date: month to grab wiki page views from (YYYYMM) \</span>
+<span class="sd">    :param str popDate: month to grab wiki page views from (YYYYMM) \</span>
 <span class="sd">            note month pages must exist at http://stats.grok.se/</span>
 <span class="sd">    :param dict factors: additional criteria INDEV</span>
 <span class="sd">    :param dict weights: additional criteria INDEV</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">gkey</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">pop_date</span><span class="o">=</span><span class="s1">&#39;201506&#39;</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">gkey</span><span class="p">,</span> <span class="n">numResults</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                 <span class="n">popDate</span><span class="o">=</span><span class="s1">&#39;201506&#39;</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">gkey</span> <span class="o">=</span> <span class="n">gkey</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="n">results</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">radius</span> <span class="o">=</span> <span class="n">radius</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">pop_date</span> <span class="o">=</span> <span class="n">pop_date</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">factors</span> <span class="o">=</span> <span class="n">factors</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">weights</span> <span class="o">=</span> <span class="n">weights</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_location</span> <span class="o">=</span> <span class="n">location</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gkey</span> <span class="o">=</span> <span class="n">gkey</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_numResults</span> <span class="o">=</span> <span class="n">numResults</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_radius</span> <span class="o">=</span> <span class="n">radius</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_popDate</span> <span class="o">=</span> <span class="n">popDate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span> <span class="o">=</span> <span class="n">factors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span> <span class="o">=</span> <span class="n">weights</span>
 
         <span class="c1"># Populated by methods</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span> <span class="o">=</span> <span class="bp">None</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">location</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Initial location</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_location</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">numResults</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of restults to search for in each wiki geocode search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_numResults</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">radius</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Search radius for wiki geocode search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_radius</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">popDate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        YYYYMM for popularity search (if applicable)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_popDate</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">factors</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (IN DEV)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_factors</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        (IN DEV)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_weights</span>
 
 <div class="viewcode-block" id="Travel.locate"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Travel.locate">[docs]</a>    <span class="k">def</span> <span class="nf">locate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -221,7 +263,7 @@
         <span class="n">longitudes</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># Set source for popularity information</span>
-        <span class="n">pop_url</span> <span class="o">=</span> <span class="s1">&#39;http://stats.grok.se/json/en/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">pop_date</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+        <span class="n">pop_url</span> <span class="o">=</span> <span class="s1">&#39;http://stats.grok.se/json/en/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">popDate</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
 
         <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span><span class="p">:</span>
 
