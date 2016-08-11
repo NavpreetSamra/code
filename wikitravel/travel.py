@@ -43,7 +43,7 @@ class Travel(object):
         self.coordinates = []
         self.df = pd.DataFrame()
         self.wiki_resp = None
-    
+
     @property
     def location(self):
         """
@@ -88,7 +88,7 @@ class Travel(object):
 
     def locate(self):
         """
-        Find major site location: self.coordinates = [latitude, longitude]
+        Find major site location: self.coordinates = (latitude, longitude)
         """
 
         # Check if wiki page exists to grab meta data from
@@ -103,24 +103,23 @@ class Travel(object):
             maps = gm.Client(self.gkey)
             loc_resp = maps.geocode(self.location)
 
-            [latitude, longitude] = loc_resp[0]['geometry']\
+            (latitude, longitude) = loc_resp[0]['geometry']\
                                                ['location'].values()
 
-        self.coordinates = [latitude, longitude]
+        self._coordinates = (latitude, longitude)
 
     def local_search(self):
         """
         Find nearby sites to self.location
         """
 
-        latitude = self.coordinates[0]
-        longitude = self.coordinates[1]
-
         # Search Wikipedia for nearby pages
-        self.wiki_resp = wk.geosearch(latitude, longitude,
+        self.wiki_resp = wk.geosearch(self._coordinates[0],
+                                      self._coordinates[1],
                                       results=self.results,
                                       radius=self.radius)
-
+    
+    def build_df(self):
         names = []
         ranks = []
         latitudes = []
