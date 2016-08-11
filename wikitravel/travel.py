@@ -22,27 +22,69 @@ class Travel(object):
     :param str gkey: Google Maps api key
     :param int results: max number of wiki results to query for site
     :param int radius: search radius (meters)
-    :param str pop_date: month to grab wiki page views from (YYYYMM) \
+    :param str popDate: month to grab wiki page views from (YYYYMM) \
             note month pages must exist at http://stats.grok.se/
     :param dict factors: additional criteria INDEV
     :param dict weights: additional criteria INDEV
     """
 
-    def __init__(self, location, gkey, results=15, radius=1000,
-                 pop_date='201506', factors=None, weights=None):
+    def __init__(self, location, gkey, numResults=15, radius=1000,
+                 popDate='201506', factors=None, weights=None):
 
-        self.location = location
-        self.gkey = gkey
-        self.results = results
-        self.radius = radius
-        self.pop_date = pop_date
-        self.factors = factors
-        self.weights = weights
+        self._location = location
+        self._gkey = gkey
+        self._numResults = numResults
+        self._radius = radius
+        self._popDate = popDate
+        self._factors = factors
+        self._weights = weights
 
         # Populated by methods
         self.coordinates = []
         self.df = pd.DataFrame()
         self.wiki_resp = None
+    
+    @property
+    def location(self):
+        """
+        Initial location
+        """
+        return self._location
+
+    @property
+    def numResults(self):
+        """
+        Number of restults to search for in each wiki geocode search
+        """
+        return self._numResults
+
+    @property
+    def radius(self):
+        """
+        Search radius for wiki geocode search
+        """
+        return self._radius
+
+    @property
+    def popDate(self):
+        """
+        YYYYMM for popularity search (if applicable)
+        """
+        return self._popDate
+
+    @property
+    def factors(self):
+        """
+        (IN DEV)
+        """
+        return self._factors
+
+    @property
+    def weights(self):
+        """
+        (IN DEV)
+        """
+        return self._weights
 
     def locate(self):
         """
@@ -85,7 +127,7 @@ class Travel(object):
         longitudes = []
 
         # Set source for popularity information
-        pop_url = 'http://stats.grok.se/json/en/' + self.pop_date + '/'
+        pop_url = 'http://stats.grok.se/json/en/' + self.popDate + '/'
 
         for resp in self.wiki_resp:
 
