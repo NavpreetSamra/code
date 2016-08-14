@@ -134,12 +134,12 @@
            <div itemprop="articleBody">
             
   <h1>Source code for wikitravel.travel</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">urllib2</span>
-<span class="kn">import</span> <span class="nn">wikipedia</span> <span class="kn">as</span> <span class="nn">wk</span>
-<span class="kn">import</span> <span class="nn">googlemaps</span> <span class="kn">as</span> <span class="nn">gm</span>
+<span class="kn">import</span> <span class="nn">wikipedia</span> <span class="k">as</span> <span class="nn">wk</span>
+<span class="kn">import</span> <span class="nn">googlemaps</span> <span class="k">as</span> <span class="nn">gm</span>
 <span class="kn">import</span> <span class="nn">networkx</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 
@@ -165,7 +165,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">gkey</span><span class="p">,</span> <span class="n">numResults</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
-                 <span class="n">popDate</span><span class="o">=</span><span class="s1">&#39;201506&#39;</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+                 <span class="n">popDate</span><span class="o">=</span><span class="s1">&#39;201506&#39;</span><span class="p">,</span> <span class="n">factors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_location</span> <span class="o">=</span> <span class="n">location</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_gkey</span> <span class="o">=</span> <span class="n">gkey</span>
@@ -178,8 +178,8 @@
         <span class="c1"># Populated by methods</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span> <span class="o">=</span> <span class="bp">None</span>
-    
+        <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span> <span class="o">=</span> <span class="kc">None</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">location</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -224,7 +224,7 @@
 
 <div class="viewcode-block" id="Travel.locate"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Travel.locate">[docs]</a>    <span class="k">def</span> <span class="nf">locate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find major site location: self.coordinates = [latitude, longitude]</span>
+<span class="sd">        Find major site location: self.coordinates = (latitude, longitude)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># Check if wiki page exists to grab meta data from</span>
@@ -239,73 +239,66 @@
             <span class="n">maps</span> <span class="o">=</span> <span class="n">gm</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gkey</span><span class="p">)</span>
             <span class="n">loc_resp</span> <span class="o">=</span> <span class="n">maps</span><span class="o">.</span><span class="n">geocode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
 
-            <span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">]</span> <span class="o">=</span> <span class="n">loc_resp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span>\
+            <span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">)</span> <span class="o">=</span> <span class="n">loc_resp</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;geometry&#39;</span><span class="p">]</span>\
                                                <span class="p">[</span><span class="s1">&#39;location&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span> <span class="o">=</span> <span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_coordinates</span> <span class="o">=</span> <span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Travel.local_search"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Travel.local_search">[docs]</a>    <span class="k">def</span> <span class="nf">local_search</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Find nearby sites to self.location</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">latitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">longitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-
         <span class="c1"># Search Wikipedia for nearby pages</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">geosearch</span><span class="p">(</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">,</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">geosearch</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                                      <span class="bp">self</span><span class="o">.</span><span class="n">_coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
                                       <span class="n">results</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">,</span>
-                                      <span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span>
+                                      <span class="n">radius</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">)</span></div>
 
-        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">ranks</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">latitudes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">longitudes</span> <span class="o">=</span> <span class="p">[]</span>
+<div class="viewcode-block" id="Travel.build_df"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Travel.build_df">[docs]</a>    <span class="k">def</span> <span class="nf">build_df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build :py:class:`pandas.DataFrame` sorted by popularity containing</span>
 
+<span class="sd">        * name</span>
+<span class="sd">        * page views</span>
+<span class="sd">        * latitude</span>
+<span class="sd">        * longitude</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Set source for popularity information</span>
         <span class="n">pop_url</span> <span class="o">=</span> <span class="s1">&#39;http://stats.grok.se/json/en/&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">popDate</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
 
-        <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span><span class="p">:</span>
+        <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">,</span> <span class="s1">&#39;longitude&#39;</span><span class="p">,</span> <span class="s1">&#39;pageViews&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">columns</span><span class="p">)</span>
 
+        <span class="k">for</span> <span class="n">resp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">wiki_resp</span><span class="p">:</span>
             <span class="c1"># Get Wikipedia page</span>
             <span class="n">wiki_page</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">WikipediaPage</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
             <span class="n">wiki_url_tag</span> <span class="o">=</span> <span class="n">wiki_page</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-            <span class="n">latitudes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wiki_page</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-            <span class="n">longitudes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">wiki_page</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-
             <span class="c1"># Get popularity</span>
             <span class="n">url_resp</span> <span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">pop_url</span> <span class="o">+</span> <span class="n">wiki_url_tag</span><span class="p">)</span>
             <span class="n">json_resp</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">url_resp</span><span class="p">)</span>
-            <span class="n">num_views</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">json_resp</span><span class="p">[</span><span class="s1">&#39;daily_views&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">itervalues</span><span class="p">())</span>
+            <span class="n">numViews</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">json_resp</span><span class="p">[</span><span class="s1">&#39;daily_views&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">itervalues</span><span class="p">())</span>
 
-            <span class="n">ranks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">num_views</span><span class="p">)</span>
-            <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+            <span class="c1"># Try Except Patch, with google maps (needs new method)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;latitude&#39;</span><span class="p">][</span><span class="n">resp</span><span class="p">]</span> <span class="o">=</span> <span class="n">wiki_page</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;longitude&#39;</span><span class="p">][</span><span class="n">resp</span><span class="p">]</span> <span class="o">=</span> <span class="n">wiki_page</span><span class="o">.</span><span class="n">coordinates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;pageViews&#39;</span><span class="p">][</span><span class="n">resp</span><span class="p">]</span> <span class="o">=</span> <span class="n">numViews</span>
 
-        <span class="c1"># Populate Pandas Data Frame</span>
-        <span class="n">latitudes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">latitudes</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-        <span class="n">longitudes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">longitudes</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;place&#39;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span>
-                                     <span class="s1">&#39;latitude&#39;</span><span class="p">:</span> <span class="n">latitudes</span><span class="p">,</span>
-                                     <span class="s1">&#39;longitude&#39;</span><span class="p">:</span> <span class="n">longitudes</span><span class="p">,</span>
-                                     <span class="s1">&#39;views&#39;</span><span class="p">:</span> <span class="n">ranks</span>
-                                     <span class="p">})</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s1">&#39;views&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">sort</span><span class="p">([</span><span class="s1">&#39;pageViews&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Travel.user_select"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Travel.user_select">[docs]</a>    <span class="k">def</span> <span class="nf">user_select</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        User selects additional site to include for trip</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Select indices of places to visit i.e. 1 2 4 :&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Select indices of places to visit i.e. 1 2 4 :&#39;</span><span class="p">)</span>
 
         <span class="n">indices</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">index_input</span> <span class="o">=</span> <span class="nb">raw_input</span><span class="p">()</span>
+        <span class="n">index_input</span> <span class="o">=</span> <span class="n">raw_input</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">index_input</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
@@ -316,8 +309,8 @@
 
         <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">logical</span><span class="p">]</span>
 
-        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Your trip selections:&#39;</span><span class="p">)</span>
-        <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span></div></div>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Your trip selections:&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="Trip"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Trip">[docs]</a><span class="k">class</span> <span class="nc">Trip</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -329,15 +322,14 @@
 <span class="sd">    :param Travel travel: Travel object (with df attribute)</span>
 <span class="sd">    :param str start: Starting point of trip</span>
 <span class="sd">    :param str end: Ending point of trip. Defaults to start</span>
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">travel</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">travel</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">travel</span> <span class="o">=</span> <span class="n">travel</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sites</span> <span class="o">=</span> <span class="n">travel</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;place&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-        <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">end</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">start</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">waypoints</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sites</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
         <span class="k">else</span><span class="p">:</span>
@@ -351,8 +343,8 @@
         <span class="c1"># Assigned in methods</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">distances</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">routes</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="bp">None</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">route</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">directions</span> <span class="o">=</span> <span class="p">[]</span>
 
 <div class="viewcode-block" id="Trip.build_graph"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.Trip.build_graph">[docs]</a>    <span class="k">def</span> <span class="nf">build_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -409,6 +401,7 @@
 <span class="sd">        Calculate the cost of a given route</span>
 
 <span class="sd">        :param array-like route: order of waypoints in route to evaluate</span>
+
 <span class="sd">        :return cost: cost of route based on weights in graph</span>
 <span class="sd">        :rtype: float</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -445,18 +438,18 @@
             <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;legs&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;steps&#39;</span><span class="p">]:</span>
                 <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; Leg of Trip : &#39;</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;html_instructions&#39;</span><span class="p">])</span>
-                <span class="k">print</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
-                <span class="k">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
-                <span class="nb">raw_input</span><span class="p">()</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; Leg of Trip : &#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;html_instructions&#39;</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">j</span><span class="p">[</span><span class="s1">&#39;distance&#39;</span><span class="p">][</span><span class="s1">&#39;text&#39;</span><span class="p">])</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+                <span class="n">raw_input</span><span class="p">()</span>
 
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
-            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;You Have Arrived at your destination&#39;</span><span class="p">)</span>
-            <span class="nb">raw_input</span><span class="p">()</span></div></div>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;#&#39;</span> <span class="o">*</span> <span class="mi">30</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;You Have Arrived at your destination&#39;</span><span class="p">)</span>
+            <span class="n">raw_input</span><span class="p">()</span></div></div>
 
 
 <div class="viewcode-block" id="wiki_travel"><a class="viewcode-back" href="../../wikitravel.html#wikitravel.travel.wiki_travel">[docs]</a><span class="k">def</span> <span class="nf">wiki_travel</span><span class="p">(</span><span class="n">major_site</span><span class="p">,</span> <span class="n">gkey</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">800</span><span class="p">,</span> <span class="n">results</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>

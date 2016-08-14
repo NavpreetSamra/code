@@ -135,9 +135,9 @@
             
   <h1>Source code for network_analysis.network_analysis</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">itertools</span> <span class="kn">as</span> <span class="nn">it</span>
-<span class="kn">import</span> <span class="nn">networkx</span> <span class="kn">as</span> <span class="nn">nx</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">setrecursionlimit</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
 
@@ -206,9 +206,9 @@
                     <span class="n">links</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">links</span><span class="p">])</span>
                 <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">[(</span><span class="n">l</span><span class="p">,</span> <span class="n">mac</span><span class="p">)]</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">node</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">node</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">[(</span><span class="n">l</span><span class="p">,</span> <span class="n">mac</span><span class="p">)]</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">node</span><span class="p">)]</span> <span class="o">=</span> <span class="bp">True</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">node</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="c1"># This undirects the graphs to ensure that all associated</span>
                     <span class="c1"># links are found in partitioning if graph is not</span>
                     <span class="c1"># completely connected iltering by connection will</span>
@@ -242,7 +242,7 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">,</span>
                                                           <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">),</span>
-                                                          <span class="n">invert</span><span class="o">=</span><span class="bp">True</span><span class="p">)]</span>
+                                                          <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">partition_system</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">):</span>
@@ -277,7 +277,7 @@
             <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">d</span>
         <span class="n">outjson</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
         <span class="n">j</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-        <span class="k">print</span> <span class="o">&gt;&gt;</span> <span class="n">outjson</span><span class="p">,</span> <span class="n">j</span>
+        <span class="nb">print</span> <span class="o">&gt;&gt;</span> <span class="n">outjson</span><span class="p">,</span> <span class="n">j</span>
         <span class="n">outjson</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div></div>
 
 
@@ -299,7 +299,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span> <span class="o">=</span> <span class="n">nodeLinks</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="kc">None</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">build_graph</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">check_graph</span><span class="p">()</span>
@@ -323,10 +323,10 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 <div class="viewcode-block" id="MeshGraph.check_graph"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.MeshGraph.check_graph">[docs]</a>    <span class="k">def</span> <span class="nf">check_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">it</span><span class="o">.</span><span class="n">permutations</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">(),</span> <span class="mi">2</span><span class="p">):</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">nx</span><span class="o">.</span><span class="n">has_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_result</span> <span class="o">=</span> <span class="kc">False</span>
                 <span class="k">break</span></div></div>
 </pre></div>
 
