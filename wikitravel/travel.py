@@ -122,6 +122,7 @@ class Travel(object):
     def build_df(self):
         """
         Build :py:class:`pandas.DataFrame` sorted by popularity containing
+
         * name
         * page views
         * latitude
