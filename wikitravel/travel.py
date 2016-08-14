@@ -118,50 +118,43 @@ class Travel(object):
                                       self._coordinates[1],
                                       results=self.results,
                                       radius=self.radius)
-    
-    def build_df(self):
-        names = []
-        ranks = []
-        latitudes = []
-        longitudes = []
 
+    def build_df(self):
+        """
+        Build :py:class:`pandas.DataFrame` sorted by popularity containing
+        * name
+        * page views
+        * latitude
+        * longitude
+
+        """
         # Set source for popularity information
         pop_url = 'http://stats.grok.se/json/en/' + self.popDate + '/'
 
-        for resp in self.wiki_resp:
+        index = self.wiki_resp
+        columns = ['latitude', 'longitude', 'pageViews']
+        self.df = pd.DataFrame(index=index, columns=columns)
 
+        for resp in self.wiki_resp:
             # Get Wikipedia page
             wiki_page = wk.WikipediaPage(resp)
             wiki_url_tag = wiki_page.url.split('/')[-1]
 
-            latitudes.append(wiki_page.coordinates[0])
-            longitudes.append(wiki_page.coordinates[1])
-
             # Get popularity
             url_resp = urllib2.urlopen(pop_url + wiki_url_tag)
             json_resp = json.load(url_resp)
-            num_views = sum(json_resp['daily_views'].itervalues())
+            numViews = sum(json_resp['daily_views'].itervalues())
 
-            ranks.append(num_views)
-            names.append(resp)
+            # Try Except Patch, with google maps (needs new method)
+            self.df['latitude'][resp] = wiki_page.coordinates[0]
+            self.df['longitude'][resp] = wiki_page.coordinates[1]
+            self.df['pageViews'][resp] = numViews
 
-        # Populate Pandas Data Frame
-        latitudes = np.asarray(latitudes).astype(float)
-        longitudes = np.asarray(longitudes).astype(float)
-
-        self.df = pd.DataFrame(data={'place': names,
-                                     'latitude': latitudes,
-                                     'longitude': longitudes,
-                                     'views': ranks
-                                     })
-
-        self.df = self.df.sort(['views'], ascending=False)
-        self.df.index = np.arange(len(self.df)) + 1
+        self.df = self.df.sort(['pageViews'], ascending=False)
 
     def user_select(self):
         """
         User selects additional site to include for trip
-
         """
 
         print(self.df)
@@ -192,7 +185,6 @@ class Trip(object):
     :param Travel travel: Travel object (with df attribute)
     :param str start: Starting point of trip
     :param str end: Ending point of trip. Defaults to start
-
     """
 
     def __init__(self, travel, start, end=None):
@@ -272,6 +264,7 @@ class Trip(object):
         Calculate the cost of a given route
 
         :param array-like route: order of waypoints in route to evaluate
+
         :return cost: cost of route based on weights in graph
         :rtype: float
         """
