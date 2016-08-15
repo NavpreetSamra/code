@@ -167,11 +167,11 @@ class Travel(object):
             try:
                 indices.append(int(i))
             except:
+                # -> error handling
                 pass
 
-        logical = np.in1d(self.df.index, indices)
-
-        self.df = self.df[logical]
+        # mask = np.in1d(self.df.index, indices)
+        self.df = self.df.ix[indices]
 
         print('Your trip selections:')
         print(self.df)
