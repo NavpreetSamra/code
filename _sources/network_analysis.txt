@@ -13,10 +13,10 @@ network_analysis.network_analysis module
     :show-inheritance:
 
 
-network_analysis.eero_parser module
------------------------------------
+network_analysis.example_parser module
+--------------------------------------
 
-.. automodule:: network_analysis.eero_parser
+.. automodule:: network_analysis.example_parser
     :members:
     :undoc-members:
     :show-inheritance:
