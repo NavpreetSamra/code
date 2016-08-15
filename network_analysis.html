@@ -172,8 +172,7 @@
 <p>Class for identifying systems of networks from sets of     MAC address peer links</p>
 <p>SystemNetwork takes mappings between nodes via MAC addresses and the link&#8217;s
 quality and creates clusters of networks by partitioning nodes via
-walking through the mesh. Then SystemNetwork evaluates      each network to ensure each node
-has a quality (&gt;= 8 MCS on 2.4 GHz or &gt;=6 on 5GHz)             link with each other node
+walking through the mesh. Then SystemNetwork evaluates      each network to ensure each node has a quality link with each other node
 in its network. Networks are attributed             True(paths exists with quality links
 to/from each node) or False. If there is only 1 node in a             network it is recorded
 as not a network and a warning indicating such is reported.</p>
@@ -185,12 +184,14 @@ as not a network and a warning indicating such is reported.</p>
 <li><strong>nodeMap</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from MAC to node id {MAC: Node} ; {str: str}</li>
 <li><strong>macMap</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map from node id to MACs {Node: [MAC1, MAC2]}             ; {str: list.str}</li>
 <li><strong>mesh</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</li>
-<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; link quality (NB not bidirectional)             from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</li>
+<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; link quality (NB not bidirectional)             from MAC1 to MAC2 {(MAC1, MAC2): None}; {tuple.str, int}</li>
 </ul>
 </td>
 </tr>
 </tbody>
 </table>
+<p>The <em>file peer_link_example.csv</em> is an example file which can be loaded
+with the <cite>.example_parser</cite> to generate the inputs for system network</p>
 <dl class="method">
 <dt id="network_analysis.network_analysis.SystemNetwork.macs_to_nodes">
 <code class="descname">macs_to_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.macs_to_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.macs_to_nodes" title="Permalink to this definition">¶</a></dt>
@@ -279,7 +280,7 @@ all nodes to all other nodes</p>
 <span id="network-analysis-eero-parser-module"></span><h2>network_analysis.eero_parser module<a class="headerlink" href="#module-network_analysis.eero_parser" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="network_analysis.eero_parser.parse">
-<code class="descclassname">network_analysis.eero_parser.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/eero_parser.html#parse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.eero_parser.parse" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">network_analysis.eero_parser.</code><code class="descname">parse</code><span class="sig-paren">(</span><em>fileName</em><span class="sig-paren">)</span><a class="headerlink" href="#network_analysis.eero_parser.parse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse csv with node id + JSON blob
 Note this parser is built to handle a specifically malformed Json blob where both &#8220;{&#8220;&#8221;key&#8221;&#8221;:&#8221;&#8220;val&#8221;&#8220;}&#8221; &#8220;{&#8220;&#8221;key&#8221;&#8221;:val&#8221;&#8220;}&#8221; exist inline</p>
 <table class="docutils field-list" frame="void" rules="none">

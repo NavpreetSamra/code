@@ -150,22 +150,22 @@
 <span class="sd">    SystemNetwork takes mappings between nodes via MAC addresses and the link&#39;s</span>
 <span class="sd">    quality and creates clusters of networks by partitioning nodes via</span>
 <span class="sd">    walking through the mesh. Then SystemNetwork evaluates  \</span>
-<span class="sd">    each network to ensure each node</span>
-<span class="sd">    has a quality (&gt;= 8 MCS on 2.4 GHz or &gt;=6 on 5GHz) \</span>
-<span class="sd">            link with each other node</span>
+<span class="sd">    each network to ensure each node has a quality link with each other node</span>
 <span class="sd">    in its network. Networks are attributed \</span>
 <span class="sd">            True(paths exists with quality links</span>
 <span class="sd">    to/from each node) or False. If there is only 1 node in a \</span>
 <span class="sd">            network it is recorded</span>
 <span class="sd">    as not a network and a warning indicating such is reported.</span>
 
-
 <span class="sd">    :param dict nodeMap: map from MAC to node id {MAC: Node} ; {str: str}</span>
 <span class="sd">    :param dict macMap: map from node id to MACs {Node: [MAC1, MAC2]} \</span>
 <span class="sd">            ; {str: list.str}</span>
 <span class="sd">    :param dict mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}</span>
 <span class="sd">    :param dict links: link quality (NB not bidirectional) \</span>
-<span class="sd">            from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}</span>
+<span class="sd">            from MAC1 to MAC2 {(MAC1, MAC2): None}; {tuple.str, int}</span>
+
+<span class="sd">    The *file peer_link_example.csv* is an example file which can be loaded</span>
+<span class="sd">    with the `.example_parser` to generate the inputs for system network</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeMap</span><span class="p">,</span> <span class="n">macMap</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">links</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span> <span class="o">=</span> <span class="n">nodeMap</span>
@@ -205,13 +205,12 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">links</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
                     <span class="n">links</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">links</span><span class="p">])</span>
                 <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">links</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;4&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">[(</span><span class="n">l</span><span class="p">,</span> <span class="n">mac</span><span class="p">)]</span> <span class="o">&gt;=</span> <span class="mi">8</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">[(</span><span class="n">l</span><span class="p">,</span> <span class="n">mac</span><span class="p">)]</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">node</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
-                    <span class="k">elif</span> <span class="n">l</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;3&#39;</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">links</span><span class="p">[(</span><span class="n">l</span><span class="p">,</span> <span class="n">mac</span><span class="p">)]</span> <span class="o">&gt;=</span> <span class="mi">6</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span><span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">],</span> <span class="n">node</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">True</span>
+
                     <span class="c1"># This undirects the graphs to ensure that all associated</span>
                     <span class="c1"># links are found in partitioning if graph is not</span>
-                    <span class="c1"># completely connected iltering by connection will</span>
+                    <span class="c1"># completely connected. Filtering by connection will</span>
                     <span class="c1"># re-instate direction</span>
                     <span class="n">nl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodeMap</span><span class="p">[</span><span class="n">l</span><span class="p">]</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="n">nl</span><span class="p">])</span>
