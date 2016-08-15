@@ -25,11 +25,11 @@ class SystemNetwork(object):
     :param dict macMap: map from node id to MACs {Node: [MAC1, MAC2]} \
             ; {str: list.str}
     :param dict mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
-    :param dict links: link quality (NB not bidirectional) \
-            from MAC1 to MAC2 {(MAC1, MAC2): None}; {tuple.str, int}
+    :param dict links: link with quality (NB not bidirectional) \
+            from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, bool}
 
     The *file peer_link_example.csv* is an example file which can be loaded
-    with the `.example_parser` to generate the inputs for system network
+    with the :func:`.example_parser.parse` to generate the inputs for SystemNetwork
     """
     def __init__(self, nodeMap, macMap, mesh, links):
         self.nodeMap = nodeMap
