@@ -14,22 +14,22 @@ class SystemNetwork(object):
     SystemNetwork takes mappings between nodes via MAC addresses and the link's
     quality and creates clusters of networks by partitioning nodes via
     walking through the mesh. Then SystemNetwork evaluates  \
-    each network to ensure each node
-    has a quality (>= 8 MCS on 2.4 GHz or >=6 on 5GHz) \
-            link with each other node
+    each network to ensure each node has a quality link with each other node
     in its network. Networks are attributed \
             True(paths exists with quality links
     to/from each node) or False. If there is only 1 node in a \
             network it is recorded
     as not a network and a warning indicating such is reported.
 
-
     :param dict nodeMap: map from MAC to node id {MAC: Node} ; {str: str}
     :param dict macMap: map from node id to MACs {Node: [MAC1, MAC2]} \
             ; {str: list.str}
     :param dict mesh: MAC mesh {MAC: [MAC1, ... MACi]} ; {str, list.str}
     :param dict links: link quality (NB not bidirectional) \
-            from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, int}
+            from MAC1 to MAC2 {(MAC1, MAC2): None}; {tuple.str, int}
+
+    The *file peer_link_example.csv* is an example file which can be loaded
+    with the `.example_parser` to generate the inputs for system network
     """
     def __init__(self, nodeMap, macMap, mesh, links):
         self.nodeMap = nodeMap
@@ -69,13 +69,12 @@ class SystemNetwork(object):
                 if not isinstance(links, list):
                     links = list([links])
                 for l in links:
-                    if l[-1] == '4' and self.links[(l, mac)] >= 8:
+                    if self.links[(l, mac)] is True:
                         self.nodeLinks[(self.nodeMap[l], node)] = True
-                    elif l[-1] == '3' and self.links[(l, mac)] >= 6:
-                        self.nodeLinks[(self.nodeMap[l], node)] = True
+
                     # This undirects the graphs to ensure that all associated
                     # links are found in partitioning if graph is not
-                    # completely connected iltering by connection will
+                    # completely connected. Filtering by connection will
                     # re-instate direction
                     nl = self.nodeMap[l]
                     self.nodes[node].extend([nl])
