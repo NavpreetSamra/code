@@ -94,7 +94,7 @@ class Travel(object):
         # Check if wiki page exists to grab meta data from
         try:
             self.wiki = wk.WikipediaPage(self.location)
-            [latitude, longitude] = list(self.wiki.coordinates)
+            latitude, longitude = self.wiki.coordinates
 
         # If not check with google maps
         except wk.PageError:
@@ -167,11 +167,11 @@ class Travel(object):
             try:
                 indices.append(int(i))
             except:
+                # !!TODO need error handling
                 pass
 
-        logical = np.in1d(self.df.index, indices)
-
-        self.df = self.df[logical]
+        # mask = np.in1d(self.df.index, indices)
+        self.df = self.df.ix[indices]
 
         print('Your trip selections:')
         print(self.df)

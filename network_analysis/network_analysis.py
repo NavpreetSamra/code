@@ -28,8 +28,9 @@ class SystemNetwork(object):
     :param dict links: link with quality (NB not bidirectional) \
             from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, bool}
 
-    The *file peer_link_example.csv* is an example file which can be loaded
-    with the :func:`.example_parser.parse` to generate the inputs for SystemNetwork
+    The file `peer_link_example.csv <https://github.com/marksweissma/code/blob/master/network_analysis/peer_link_example.csv>`_
+    is an example file which can be loaded with the `.example_parser` \
+            to generate the inputs for system network
     """
     def __init__(self, nodeMap, macMap, mesh, links):
         self.nodeMap = nodeMap
