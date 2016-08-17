@@ -230,7 +230,7 @@
         <span class="c1"># Check if wiki page exists to grab meta data from</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">wiki</span> <span class="o">=</span> <span class="n">wk</span><span class="o">.</span><span class="n">WikipediaPage</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">location</span><span class="p">)</span>
-            <span class="p">[</span><span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">wiki</span><span class="o">.</span><span class="n">coordinates</span><span class="p">)</span>
+            <span class="n">latitude</span><span class="p">,</span> <span class="n">longitude</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wiki</span><span class="o">.</span><span class="n">coordinates</span>
 
         <span class="c1"># If not check with google maps</span>
         <span class="k">except</span> <span class="n">wk</span><span class="o">.</span><span class="n">PageError</span><span class="p">:</span>
@@ -303,7 +303,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">indices</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
             <span class="k">except</span><span class="p">:</span>
-                <span class="c1"># -&gt; error handling</span>
+                <span class="c1"># !!TODO need error handling</span>
                 <span class="k">pass</span>
 
         <span class="c1"># mask = np.in1d(self.df.index, indices)</span>
