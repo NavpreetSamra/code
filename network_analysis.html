@@ -191,7 +191,7 @@ as not a network and a warning indicating such is reported.</p>
 </tbody>
 </table>
 <p>The file <a class="reference external" href="https://github.com/marksweissma/code/blob/master/network_analysis/peer_link_example.csv">peer_link_example.csv</a>
-is an example file which can be loaded with the <cite>.example_parser</cite>             to generate the inputs for system network</p>
+is an example file which can be loaded with the <a class="reference internal" href="#network_analysis.example_parser.parse" title="network_analysis.example_parser.parse"><code class="xref py py-class docutils literal"><span class="pre">network_analysis.example_parser.parse</span></code></a>             to generate the inputs for system network</p>
 <dl class="method">
 <dt id="network_analysis.network_analysis.SystemNetwork.macs_to_nodes">
 <code class="descname">macs_to_nodes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.macs_to_nodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.macs_to_nodes" title="Permalink to this definition">¶</a></dt>
@@ -200,14 +200,14 @@ is an example file which can be loaded with the <cite>.example_parser</cite>    
 
 <dl class="method">
 <dt id="network_analysis.network_analysis.SystemNetwork.partition_system">
-<code class="descname">partition_system</code><span class="sig-paren">(</span><em>new_nodes</em>, <em>index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.partition_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.partition_system" title="Permalink to this definition">¶</a></dt>
+<code class="descname">partition_system</code><span class="sig-paren">(</span><em>added_nodes</em>, <em>index=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.partition_system"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.partition_system" title="Permalink to this definition">¶</a></dt>
 <dd><p>Partition mesh into networks</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>new_nodes</strong> (<em>array-like</em>) &#8211; iterable of new_nodes found in crawl</li>
+<li><strong>added_nodes</strong> (<em>array-like</em>) &#8211; iterable of nodes found in last                 step of crawl</li>
 <li><strong>index</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; network id (increments via recursion)</li>
 </ul>
 </td>

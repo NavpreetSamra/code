@@ -165,7 +165,7 @@
 <span class="sd">            from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, bool}</span>
 
 <span class="sd">    The file `peer_link_example.csv &lt;https://github.com/marksweissma/code/blob/master/network_analysis/peer_link_example.csv&gt;`_</span>
-<span class="sd">    is an example file which can be loaded with the `.example_parser` \</span>
+<span class="sd">    is an example file which can be loaded with the :class:`network_analysis.example_parser.parse` \</span>
 <span class="sd">            to generate the inputs for system network</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodeMap</span><span class="p">,</span> <span class="n">macMap</span><span class="p">,</span> <span class="n">mesh</span><span class="p">,</span> <span class="n">links</span><span class="p">):</span>
@@ -182,15 +182,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">{</span><span class="n">i</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nodeLinks</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
 
-        <span class="c1"># Seed for mesh walk</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="c1"># Initilize networks for mesh walk</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">list</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">])}</span>
         <span class="c1"># Tracker for mesh walk</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:])</span>
-
+        <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="p">{</span><span class="n">node</span><span class="p">:</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">[</span><span class="mi">1</span><span class="p">:]}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">networks</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="nb">set</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">])}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_ntErrors</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># Can be moved to owner or front end depending on model implementation</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">macs_to_nodes</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">partition_system</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_seed</span><span class="p">)</span>
@@ -220,39 +217,37 @@
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">node_list</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">]))</span></div>
 
-<div class="viewcode-block" id="SystemNetwork.partition_system"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.SystemNetwork.partition_system">[docs]</a>    <span class="k">def</span> <span class="nf">partition_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_nodes</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<div class="viewcode-block" id="SystemNetwork.partition_system"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.SystemNetwork.partition_system">[docs]</a>    <span class="k">def</span> <span class="nf">partition_system</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">added_nodes</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Partition mesh into networks</span>
 
-<span class="sd">        :param array-like new_nodes: iterable of new_nodes found in crawl</span>
+<span class="sd">        :param array-like added_nodes: iterable of nodes found in last \</span>
+<span class="sd">                step of crawl</span>
 <span class="sd">        :param int index: network id (increments via recursion)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-            <span class="n">new_nodes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">new_nodes</span><span class="p">])</span>
-        <span class="n">hold</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">new_nodes</span><span class="p">:</span>
-            <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
-        <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">hold</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">nodes</span><span class="p">:</span>
-            <span class="n">new_nodes</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">nodes</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]:</span>
-                    <span class="n">new_nodes</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">([</span><span class="n">i</span><span class="p">]))</span>
-            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">):</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">,</span>
-                                                          <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">),</span>
-                                                          <span class="n">invert</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">partition_system</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">added_nodes</span><span class="p">,</span> <span class="nb">set</span><span class="p">):</span>
+            <span class="n">added_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">added_nodes</span><span class="p">])</span>
+        <span class="n">nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">added_nodes</span><span class="p">:</span>
+            <span class="n">nodes</span> <span class="o">=</span> <span class="n">nodes</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">node</span><span class="p">])</span>
 
-        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">):</span>
+        <span class="c1"># Set subtraction required to see if network changed</span>
+        <span class="n">new_nodes</span> <span class="o">=</span> <span class="n">nodes</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">union</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">new_nodes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">new_nodes</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_ntErrors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">partition_system</span><span class="p">(</span><span class="n">new_nodes</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">:</span>
             <span class="n">index</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">seed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">([</span><span class="n">seed</span><span class="p">])</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+            <span class="n">seed</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_nodeTrack</span><span class="o">.</span><span class="n">popitem</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">networks</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">seed</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">partition_system</span><span class="p">(</span><span class="n">seed</span><span class="p">,</span> <span class="n">index</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="SystemNetwork.evaluate_networks"><a class="viewcode-back" href="../../network_analysis.html#network_analysis.network_analysis.SystemNetwork.evaluate_networks">[docs]</a>    <span class="k">def</span> <span class="nf">evaluate_networks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
