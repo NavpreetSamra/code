@@ -53,7 +53,7 @@ class SystemNetwork(object):
         # Initilize networks for mesh walk
         self.networks = {0: list([self._seed])}
         # Tracker for mesh walk
-        self._nodeTrack = np.array(self.node_list[1:])
+        self._nodeTrack = {node: None for node in self.node_list[1:]}
 
         # Can be moved to owner or front end depending on model implementation
         self.macs_to_nodes()
@@ -102,11 +102,11 @@ class SystemNetwork(object):
             for i in nodes:
                 if i not in self.networks[index]:
                     new_nodes.extend(list([i]))
-            if any(new_nodes):
+            if new_nodes:
                 self.networks[index].extend(new_nodes)
-                self._nodeTrack = self._nodeTrack[np.in1d(self._nodeTrack,
-                                                          np.array(new_nodes),
-                                                          invert=True)]
+                for node in new_nodes:
+                    if node in self._nodeTrack:
+                        del self._nodeTrack[node]
                 self.partition_system(new_nodes, index)
 
         if any(self._nodeTrack):
