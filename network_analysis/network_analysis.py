@@ -29,7 +29,7 @@ class SystemNetwork(object):
             from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, bool}
 
     The file `peer_link_example.csv <https://github.com/marksweissma/code/blob/master/network_analysis/peer_link_example.csv>`_
-    is an example file which can be loaded with the `.example_parser` \
+    is an example file which can be loaded with the :class:`network_analysis.example_parser.parse` \
             to generate the inputs for system network
     """
     def __init__(self, nodeMap, macMap, mesh, links):
@@ -46,15 +46,12 @@ class SystemNetwork(object):
         self.nodes = {i: [] for i in self.node_list}
         self.nodeLinks = {}
         self.graphs = {}
-        self.results = {}
 
-        # Seed for mesh walk
-        self._seed = self.node_list[0]
-        # Initilize networks for mesh walk
-        self.networks = {0: list([self._seed])}
         # Tracker for mesh walk
         self._nodeTrack = {node: None for node in self.node_list[1:]}
-
+        self._seed, value = self._nodeTrack.popitem()
+        self.networks = {0: set([self._seed])}
+        self._ntErrors = []
         # Can be moved to owner or front end depending on model implementation
         self.macs_to_nodes()
         self.partition_system(self._seed)
@@ -84,39 +81,37 @@ class SystemNetwork(object):
         for node in self.node_list:
             self.nodes[node] = list(set(self.nodes[node]))
 
-    def partition_system(self, new_nodes, index=0):
+    def partition_system(self, added_nodes, index=0):
         """
         Partition mesh into networks
 
-        :param array-like new_nodes: iterable of new_nodes found in crawl
+        :param array-like added_nodes: iterable of nodes found in last \
+                step of crawl
         :param int index: network id (increments via recursion)
         """
-        if not isinstance(new_nodes, list):
-            new_nodes = list([new_nodes])
-        hold = []
-        for i in new_nodes:
-            hold.extend(self.nodes[i])
-        nodes = set(hold)
-        if nodes:
-            new_nodes = []
-            for i in nodes:
-                if i not in self.networks[index]:
-                    new_nodes.extend(list([i]))
-            if new_nodes:
-                self.networks[index].extend(new_nodes)
-                for node in new_nodes:
-                    if node in self._nodeTrack:
-                        del self._nodeTrack[node]
-                self.partition_system(new_nodes, index)
+        if not isinstance(added_nodes, set):
+            added_nodes = set([added_nodes])
+        nodes = set([])
+        for node in added_nodes:
+            nodes = nodes.union(self.nodes[node])
 
-        if any(self._nodeTrack):
+        # Set subtraction required to see if network changed
+        new_nodes = nodes - self.networks[index]
+        self.networks[index] = self.networks[index].union(new_nodes)
+
+        if new_nodes:
+            for node in new_nodes:
+                try:
+                    del self._nodeTrack[node]
+                except KeyError:
+                    self._ntErrors.append(node)
+
+            self.partition_system(new_nodes, index)
+
+        if self._nodeTrack:
             index += 1
-            seed = self._nodeTrack[0]
-            self.networks[index] = list([seed])
-            if len(self._nodeTrack) > 1:
-                self._nodeTrack = self._nodeTrack[1:]
-            else:
-                self._nodeTrack = np.array([])
+            seed, value = self._nodeTrack.popitem()
+            self.networks[index] = set([seed])
             self.partition_system(seed, index)
 
     def evaluate_networks(self):
