@@ -42,20 +42,27 @@ class SystemNetwork(object):
         self.mac_list = self.nodeMap.keys()
 
         # Populated in methods
-        self.networks = {}
-        self.nodes = {i: [] for i in self.node_list}
+        self._networks = {}
+        self.nodes = {i: set([]) for i in self.node_list}
         self.nodeLinks = {}
-        self.graphs = {}
+        self._graphs = {}
 
         # Tracker for mesh walk
         self._nodeTrack = {node: None for node in self.node_list[1:]}
         self._seed, value = self._nodeTrack.popitem()
-        self.networks = {0: set([self._seed])}
+        self._networks = {0: set([self._seed])}
         self._ntErrors = []
         # Can be moved to owner or front end depending on model implementation
         self.macs_to_nodes()
         self.partition_system(self._seed)
         self.evaluate_networks()
+
+    @property
+    def graphs(self):
+        """
+        Dictionary of :class:`.MeshGraph` containing networks
+        """
+        return self._graphs
 
     def macs_to_nodes(self):
         """
@@ -75,11 +82,9 @@ class SystemNetwork(object):
                     # completely connected. Filtering by connection will
                     # re-instate direction
                     nl = self.nodeMap[l]
-                    self.nodes[node].extend([nl])
-                    self.nodes[nl].extend([node])
+                    self.nodes[node] = self.nodes[node].union([nl])
+                    self.nodes[nl] = self.nodes[nl].union([node])
 
-        for node in self.node_list:
-            self.nodes[node] = list(set(self.nodes[node]))
 
     def partition_system(self, added_nodes, index=0):
         """
@@ -96,8 +101,8 @@ class SystemNetwork(object):
             nodes = nodes.union(self.nodes[node])
 
         # Set subtraction required to see if network changed
-        new_nodes = nodes - self.networks[index]
-        self.networks[index] = self.networks[index].union(new_nodes)
+        new_nodes = nodes - self._networks[index]
+        self._networks[index] = self._networks[index].union(new_nodes)
 
         if new_nodes:
             for node in new_nodes:
@@ -111,7 +116,7 @@ class SystemNetwork(object):
         if self._nodeTrack:
             index += 1
             seed, value = self._nodeTrack.popitem()
-            self.networks[index] = set([seed])
+            self._networks[index] = set([seed])
             self.partition_system(seed, index)
 
     def evaluate_networks(self):
@@ -119,8 +124,8 @@ class SystemNetwork(object):
         Create :class:`.MeshGraph` from node lists in networks and evaluate quality
         """
 
-        for i, network in enumerate(self.networks.values()):
-            self.graphs[i] = MeshGraph(network, self.nodeLinks)
+        for i, network in enumerate(self._networks.values()):
+            self._graphs[i] = MeshGraph(network, self.nodeLinks)
 
     def create_json(self, fname='analysis.json'):
         """
@@ -129,10 +134,10 @@ class SystemNetwork(object):
         :param str fname: name of file to write data out to as json
         """
         out = {}
-        for i in self.networks:
+        for i in self._networks:
             d = {}
-            d['Connected'] = self.graphs[i].result
-            d['Network'] = self.graphs[i].nodes()
+            d['Connected'] = self._graphs[i].result
+            d['Network'] = self._graphs[i].nodes()
             out[i] = d
         outjson = open(fname, 'w')
         j = json.dumps(out, indent=4)
