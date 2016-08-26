@@ -5,39 +5,6 @@ import networkx as nx
 import itertools
 
 
-class TreeGraph(nx.Graph):
-    """
-    Subclass of networkx Graph for path search applications
-    """
-
-    def tree_diameter(self):
-        """
-        Find diameter node pairs and path in graph
-        """
-
-        self.diameter = None
-
-        nodes = self.nodes()
-        node_min = np.min(nodes)
-        node_max = np.max(nodes)
-
-        edges = []
-        [edges.extend(list(i)) for i in self.edges()]
-        edge_array = np.asarray(edges).flatten()
-        self.counts, self.bins = np.histogram(edge_array,
-                                              bins=np.arange(node_min, node_max)
-                                              )
-        logical = self.counts == 1
-        leaves = [int(i) for i in self.bins[logical]]
-        iter_paths = itertools.combinations(leaves, 2)
-
-        for tree_path in iter_paths:
-            cost = nx.shortest_path_length(self, tree_path[0], tree_path[1])
-            if cost > self.diameter:
-                self.diameter = cost
-                self.diameter_path = nx.shortest_path(self, tree_path[0], tree_path[1])
-
-
 def basismap_3d(a, b, centroids=None):
     """
     Find rigid body rotation and centroid translation between two states
@@ -110,3 +77,37 @@ def enforce_2d(data):
     else:
         data_nd = data.reshape(1, data.shape)
         return(data_nd)
+
+
+class TreeGraph(nx.Graph):
+    """
+    Subclass of networkx Graph for path search applications
+    """
+
+    def tree_diameter(self):
+        """
+        Find diameter node pairs and path in graph
+        """
+
+        self.diameter = None
+
+        nodes = self.nodes()
+        node_min = np.min(nodes)
+        node_max = np.max(nodes)
+
+        edges = []
+        [edges.extend(list(i)) for i in self.edges()]
+        edge_array = np.asarray(edges).flatten()
+        self.counts, self.bins = np.histogram(edge_array,
+                                              bins=np.arange(node_min, node_max)
+                                              )
+        logical = self.counts == 1
+        leaves = [int(i) for i in self.bins[logical]]
+        iter_paths = itertools.combinations(leaves, 2)
+
+        for tree_path in iter_paths:
+            cost = nx.shortest_path_length(self, tree_path[0], tree_path[1])
+            if cost > self.diameter:
+                self.diameter = cost
+                self.diameter_path = nx.shortest_path(self, tree_path[0], tree_path[1])
+
