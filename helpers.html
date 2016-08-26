@@ -91,8 +91,6 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">helpers package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-helpers.math_h">helpers.math_h module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-helpers.sql_h">helpers.sql_h module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-helpers.test">helpers.test module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-helpers.text_h">helpers.text_h module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-helpers">Module contents</a></li>
 </ul>
@@ -109,8 +107,6 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">helpers package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-helpers.math_h">helpers.math_h module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-helpers.sql_h">helpers.sql_h module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-helpers.test">helpers.test module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-helpers.text_h">helpers.text_h module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-helpers">Module contents</a></li>
 </ul>
@@ -235,50 +231,6 @@ defaults to [centroid(a), centroid(b)]</li>
 </tbody>
 </table>
 </dd></dl>
-
-</div>
-<div class="section" id="module-helpers.sql_h">
-<span id="helpers-sql-h-module"></span><h2>helpers.sql_h module<a class="headerlink" href="#module-helpers.sql_h" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="helpers.sql_h.Db">
-<em class="property">class </em><code class="descclassname">helpers.sql_h.</code><code class="descname">Db</code><span class="sig-paren">(</span><em>db_name</em><span class="sig-paren">)</span><a class="headerlink" href="#helpers.sql_h.Db" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Front end for sqlite 3 databases</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>db_name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; connect, create if not exist</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="helpers.sql_h.Db.create_table">
-<code class="descname">create_table</code><span class="sig-paren">(</span><em>name</em>, <em>contents</em><span class="sig-paren">)</span><a class="headerlink" href="#helpers.sql_h.Db.create_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create table</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name of table</li>
-<li><strong>contents</strong> (<em>np.ndarray</em>) &#8211; ndarray datatypes are table types</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-helpers.test">
-<span id="helpers-test-module"></span><h2>helpers.test module<a class="headerlink" href="#module-helpers.test" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.test.Test">
-<code class="descclassname">helpers.test.</code><code class="descname">Test</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/test.html#Test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.test.Test" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-helpers.text_h">
