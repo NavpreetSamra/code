@@ -84,8 +84,8 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">helpers package</a><ul>
@@ -99,8 +99,8 @@
 <li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filesync.sync.html">filesync.sync package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -165,19 +165,6 @@
 </div>
 <div class="section" id="module-helpers.math_h">
 <span id="helpers-math-h-module"></span><h2>helpers.math_h module<a class="headerlink" href="#module-helpers.math_h" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="helpers.math_h.TreeGraph">
-<em class="property">class </em><code class="descclassname">helpers.math_h.</code><code class="descname">TreeGraph</code><span class="sig-paren">(</span><em>data=None</em>, <em>**attr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#TreeGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.TreeGraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">networkx.classes.graph.Graph</span></code></p>
-<p>Subclass of networkx Graph for path search applications</p>
-<dl class="method">
-<dt id="helpers.math_h.TreeGraph.tree_diameter">
-<code class="descname">tree_diameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#TreeGraph.tree_diameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.TreeGraph.tree_diameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find diameter node pairs and path in graph</p>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="function">
 <dt id="helpers.math_h.basismap_3d">
 <code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>centroids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
@@ -230,6 +217,19 @@ defaults to [centroid(a), centroid(b)]</li>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="class">
+<dt id="helpers.math_h.TreeGraph">
+<em class="property">class </em><code class="descclassname">helpers.math_h.</code><code class="descname">TreeGraph</code><span class="sig-paren">(</span><em>data=None</em>, <em>**attr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#TreeGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.TreeGraph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">networkx.classes.graph.Graph</span></code></p>
+<p>Subclass of networkx Graph for path search applications</p>
+<dl class="method">
+<dt id="helpers.math_h.TreeGraph.tree_diameter">
+<code class="descname">tree_diameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#TreeGraph.tree_diameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.TreeGraph.tree_diameter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find diameter node pairs and path in graph</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
