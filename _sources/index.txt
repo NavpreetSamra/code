@@ -12,8 +12,8 @@ Contents:
    :maxdepth: 4
 
    modules.rst
-   wikitravel.rst
    network_analysis.rst
+   wikitravel.rst
    sirdisease.sir_disease.rst
    filesync.sync.rst
    cvcparser.rst
