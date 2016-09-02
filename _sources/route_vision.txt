@@ -1,0 +1,22 @@
+route_vision package
+====================
+
+Submodules
+----------
+
+route_vision.route_vision module
+--------------------------------
+
+.. automodule:: route_vision.route_vision
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: route_vision
+    :members:
+    :undoc-members:
+    :show-inheritance:

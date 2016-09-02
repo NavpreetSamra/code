@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>churn_study.churn_model &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../churn_study.html">churn_study package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../filesync.sync.html">filesync.sync package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../helpers.html">helpers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quadtree.html">quadtree package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>churn_study.churn_model</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for churn_study.churn_model</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="k">import</span> <span class="n">train_test_split</span> <span class="k">as</span> <span class="n">tts</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Cleaner"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner">[docs]</a><span class="k">class</span> <span class="nc">Cleaner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clean and reorganize data</span>
+
+<span class="sd">    * convert times to datetime dtype</span>
+<span class="sd">    * remove users &lt; 30 days (None in current data)</span>
+<span class="sd">    * move phone to bool</span>
+<span class="sd">    * (diff in driver rider ratings potentially)</span>
+<span class="sd">    * isnull flag for avg_ratings, then replace with mean</span>
+<span class="sd">    * create churn flag</span>
+<span class="sd">    * split city</span>
+
+<span class="sd">    :param str fpath: path to file to generate DataFrame</span>
+<span class="sd">    :param pandas.DataFrame data: DataFrame of data</span>
+<span class="sd">    :param array-like timeCols: str time columns to convert to date time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fpath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">timeCols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;last_trip_date&#39;</span><span class="p">,</span> <span class="s1">&#39;signup_date&#39;</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timeCols</span> <span class="o">=</span> <span class="n">timeCols</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">clean_ratings</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">normalize_floats</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clean_car</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">clean_phone</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convert_time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">combine_surge</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_churn</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">split_city</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Cleaner.clean_ratings"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.clean_ratings">[docs]</a>    <span class="k">def</span> <span class="nf">clean_ratings</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create not null flags for avg ratings, then replace with mean val</span>
+
+<span class="sd">        * by driver mean=4.77 std=.45</span>
+<span class="sd">        * of driver mean=4.60 std=.61</span>
+
+<span class="sd">        Point of future work move this to post city split</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">notBy</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_rating_by_driver</span><span class="p">)</span>
+        <span class="n">notOf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">isnull</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_rating_of_driver</span><span class="p">)</span>
+        <span class="n">byMean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_rating_by_driver</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="n">ofMean</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_rating_of_driver</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;notBy&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">notBy</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;notOf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">notOf</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_rating_by_driver</span><span class="p">[</span><span class="n">notBy</span><span class="p">]</span> <span class="o">=</span> <span class="n">byMean</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_rating_of_driver</span><span class="p">[</span><span class="n">notOf</span><span class="p">]</span> <span class="o">=</span> <span class="n">ofMean</span></div>
+
+<div class="viewcode-block" id="Cleaner.normalize_floats"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.normalize_floats">[docs]</a>    <span class="k">def</span> <span class="nf">normalize_floats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Subtract mean divide by variance of float data types</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">scaleCols</span><span class="o">=</span><span class="p">[</span><span class="s1">u&#39;avg_dist&#39;</span><span class="p">,</span> <span class="s1">u&#39;avg_rating_by_driver&#39;</span><span class="p">,</span> <span class="s1">u&#39;avg_rating_of_driver&#39;</span><span class="p">,</span><span class="s1">u&#39;avg_surge&#39;</span><span class="p">,</span> <span class="s1">u&#39;surge_pct&#39;</span><span class="p">,</span> <span class="s1">u&#39;weekday_pct&#39;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">scaleCols</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="n">col</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Cleaner.clean_car"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.clean_car">[docs]</a>    <span class="k">def</span> <span class="nf">clean_car</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Luxure Car: 1 for user 0 for non user</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">luxury_car_user</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">luxury_car_user</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Cleaner.clean_phone"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.clean_phone">[docs]</a>    <span class="k">def</span> <span class="nf">clean_phone</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        iPhone=1, Android=0, nan=.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pval</span> <span class="o">=</span> <span class="o">.</span><span class="mi">5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">pval</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="s2">&quot;iPhone&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.</span>
+        <span class="n">pval</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="o">.</span><span class="n">values</span> <span class="o">==</span> <span class="s2">&quot;Android&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;phone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pval</span></div>
+
+<div class="viewcode-block" id="Cleaner.convert_time"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.convert_time">[docs]</a>    <span class="k">def</span> <span class="nf">convert_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert timestamps to date time dtype</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">timeCols</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Cleaner.combine_surge"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.combine_surge">[docs]</a>    <span class="k">def</span> <span class="nf">combine_surge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create surge_total, surge_pct * avg_surge</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;surge_total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">surge_pct</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">avg_surge</span></div>
+
+<div class="viewcode-block" id="Cleaner.create_churn"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.create_churn">[docs]</a>    <span class="k">def</span> <span class="nf">create_churn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create boolean.astyp(int) churn attribute of DataFrame</span>
+
+<span class="sd">        37.6% churn</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">last_trip_date</span><span class="p">)</span> <span class="o">+</span> <span class="n">pd</span><span class="o">.</span><span class="n">DateOffset</span><span class="p">(</span><span class="mi">30</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">last_trip_date</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;churn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Cleaner.split_city"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.Cleaner.split_city">[docs]</a>    <span class="k">def</span> <span class="nf">split_city</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split by city</span>
+
+<span class="sd">        * King&#39;s Landing 62.8</span>
+<span class="sd">        * Winterfell 35.2</span>
+<span class="sd">        * Astapor 25.5</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">city</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="s1">&#39;all&#39;</span><span class="p">][</span><span class="s1">&#39;df&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">city</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">city</span> <span class="o">==</span> <span class="n">i</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s1">&#39;df&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span></div></div>
+
+
+<div class="viewcode-block" id="ChurnAnalysis"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.ChurnAnalysis">[docs]</a><span class="k">class</span> <span class="nc">ChurnAnalysis</span><span class="p">(</span><span class="n">Cleaner</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Churn analysis of cleaned data set</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ChurnAnalysis.churn_analysis_categorical"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.ChurnAnalysis.churn_analysis_categorical">[docs]</a>    <span class="k">def</span> <span class="nf">churn_analysis_categorical</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        =====  ===============  ========  ==============</span>
+<span class="sd">        all    luxury_car_user   iPhone   overall %churn</span>
+<span class="sd">        =====  ===============  ========  ==============</span>
+<span class="sd">        False         0.701182  0.790574   0.62392</span>
+<span class="sd">        True          0.496287  0.551067       NA</span>
+<span class="sd">        %True         0.377080  0.697162        1</span>
+<span class="sd">        =====  ===============  ========  ==============</span>
+
+<span class="sd">        =============   ===============     ======== ==============</span>
+<span class="sd">        King&#39; Landing   luxury_car_user     iPhone   overall %churn</span>
+<span class="sd">        =============   ===============     ======== ==============</span>
+<span class="sd">        False                 0.471303      0.562850    0.371866</span>
+<span class="sd">        True                  0.231812      0.308536        NA</span>
+<span class="sd">        %True                 0.415202      0.751838         1</span>
+<span class="sd">        =============   ===============     ======== ==============</span>
+
+<span class="sd">        ======= ===============  ======== ================</span>
+<span class="sd">        Astapor luxury_car_user    iPhone overall % churn</span>
+<span class="sd">        ======= ===============  ======== ================</span>
+<span class="sd">        False          0.816943  0.877002         0.744285</span>
+<span class="sd">        True           0.631465  0.681887               NA</span>
+<span class="sd">        %True          0.391738  0.680497                1</span>
+<span class="sd">        ======= ===============  ======== ================</span>
+
+<span class="sd">        ==========   ===============    =======   ===============</span>
+<span class="sd">        Winterfell   luxury_car_user    iPhone    overall % churn</span>
+<span class="sd">        ==========   ===============    =======   ===============</span>
+<span class="sd">        False         0.714210          0.80645           0.64805</span>
+<span class="sd">        True          0.525272          0.57469                NA</span>
+<span class="sd">        %True         0.350146          0.68518                 1</span>
+<span class="sd">        ==========   ===============    =======   ===============</span>
+
+<span class="sd">        Churn analysis by city, and phone/luxury</span>
+
+<span class="sd">        Categorical Variables churn percent:</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;df&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;churn&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">][</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">churn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">][</span><span class="s1">&#39;cat&#39;</span><span class="p">]</span>
+            <span class="n">churn</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;churn&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span>\
+                                          <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">churn</span><span class="p">[</span><span class="s1">&#39;phone&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_churn</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">phone</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">churn</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+            <span class="n">churn</span><span class="p">[</span><span class="s1">&#39;luxury_car_user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">col_churn</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">luxury_car_user</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                                                     <span class="n">df</span><span class="o">.</span><span class="n">churn</span><span class="o">.</span><span class="n">values</span>
+                                                     <span class="p">)</span></div>
+
+<div class="viewcode-block" id="ChurnAnalysis.churn_analysis_float"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.ChurnAnalysis.churn_analysis_float">[docs]</a>    <span class="k">def</span> <span class="nf">churn_analysis_float</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;avg_dist&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_rating_by_driver&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_rating_of_driver&#39;</span><span class="p">,</span> <span class="s1">&#39;avg_surge&#39;</span><span class="p">,</span> <span class="s1">&#39;surge_pct&#39;</span><span class="p">,</span> <span class="s1">&#39;surge_total&#39;</span><span class="p">,</span> <span class="s1">&#39;trips_in_first_30_days&#39;</span><span class="p">,</span> <span class="s1">&#39;weekday_pct&#39;</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Churn correlation by city:</span>
+
+<span class="sd">        ====================== ========= ========== ==============   ==========</span>
+<span class="sd">        Feature                all       Winterfell King&#39;s Landing   Astapor</span>
+<span class="sd">        ====================== ========= ========== ==============   ==========</span>
+<span class="sd">        avg_dist                0.092780  0.105282       0.101743      0.106677</span>
+<span class="sd">        surge_total             0.067061  0.045784       0.091571      0.073322</span>
+<span class="sd">        avg_rating_by_driver    0.026748  0.049790       0.032315      0.045040</span>
+<span class="sd">        avg_rating_of_driver    0.010829  0.041890      -0.036124      0.042859</span>
+<span class="sd">        avg_surge               0.003333 -0.009527      -0.002302      0.008276</span>
+<span class="sd">        weekday_pct            -0.009693  0.002306      -0.013424     -0.000101</span>
+<span class="sd">        surge_pct              -0.011797 -0.012254      -0.037769      0.008995</span>
+<span class="sd">        trips_in_first_30_days -0.210463 -0.258505      -0.138044     -0.179542</span>
+<span class="sd">        ====================== ========= ========== ==============   ==========</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;churn&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;df&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s1">&#39;churn&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">][</span><span class="s1">&#39;flt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">churn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">][</span><span class="s1">&#39;flt&#39;</span><span class="p">]</span>
+            <span class="n">corrdf</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+            <span class="n">corr</span> <span class="o">=</span> <span class="n">corrdf</span><span class="o">.</span><span class="n">corr</span><span class="p">()[</span><span class="n">cols</span><span class="p">]</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="s1">&#39;churn&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+                <span class="n">churn</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">corr</span><span class="p">[</span><span class="n">col</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ChurnAnalysis.print_category"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.ChurnAnalysis.print_category">[docs]</a>    <span class="k">def</span> <span class="nf">print_category</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">][</span><span class="s1">&#39;cat&#39;</span><span class="p">],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;False&#39;</span><span class="p">,</span><span class="s1">&#39;True&#39;</span><span class="p">,</span><span class="s1">&#39;%True&#39;</span><span class="p">])</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="s1">&#39;True&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="s1">&#39;%True&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;1&#39;</span>
+            <span class="nb">print</span> <span class="n">city</span>
+            <span class="nb">print</span> <span class="n">d</span></div></div>
+
+<div class="viewcode-block" id="col_churn"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.col_churn">[docs]</a><span class="k">def</span> <span class="nf">col_churn</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">churn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    calculate churn rate based on boolean column, with conversion if nec.</span>
+
+<span class="sd">    :param str col: column name of column in DataFrame</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">col</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">col</span> <span class="o">==</span> <span class="mf">1.</span><span class="p">,</span> <span class="n">col</span> <span class="o">==</span> <span class="mf">0.</span><span class="p">)</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
+        <span class="n">churn</span> <span class="o">=</span> <span class="n">churn</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;bool&#39;</span><span class="p">)</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">churn</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">churn</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+    <span class="n">neg</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">churn</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">col</span><span class="p">)]</span><span class="o">.</span><span class="n">sum</span><span class="p">())</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">churn</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">col</span><span class="p">)])</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">neg</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="nb">sum</span><span class="p">(</span><span class="n">col</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">col</span><span class="p">))</span> <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="churn_score"><a class="viewcode-back" href="../../churn_study.html#churn_study.churn_model.churn_score">[docs]</a><span class="k">def</span> <span class="nf">churn_score</span><span class="p">(</span><span class="n">clean</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;trips_in_first_30_days&#39;</span><span class="p">,</span> <span class="s1">&#39;luxury_car_user&#39;</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logistic Regressions</span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            trips 30 days    score</span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            all              0.656</span>
+<span class="sd">            King&#39;s Landing   0.626</span>
+<span class="sd">            Astapor          0.750</span>
+<span class="sd">            Winterfell       0.687</span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            </span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            trip + luxury    score</span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            all              0.680</span>
+<span class="sd">            King&#39;s Landing   0.662</span>
+<span class="sd">            Astapor          0.763</span>
+<span class="sd">            Winterfell       0.700 </span>
+<span class="sd">            ==============   =====</span>
+
+
+<span class="sd">    Random Forest - 30 trees - no time series includes :( </span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            Zone             score</span>
+<span class="sd">            ==============   =====</span>
+<span class="sd">            all              0.727</span>
+<span class="sd">            King&#39;s Landing   0.722</span>
+<span class="sd">            Astapor          0.773</span>
+<span class="sd">            Winterfell       0.756</span>
+<span class="sd">            ==============   =====</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">city</span> <span class="ow">in</span> <span class="n">clean</span><span class="o">.</span><span class="n">city</span><span class="p">:</span>
+        <span class="n">X</span> <span class="o">=</span> <span class="n">clean</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="n">cols</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">clean</span><span class="o">.</span><span class="n">city</span><span class="p">[</span><span class="n">city</span><span class="p">][</span><span class="s1">&#39;df&#39;</span><span class="p">][</span><span class="s1">&#39;churn&#39;</span><span class="p">]</span>
+        <span class="n">trt</span> <span class="o">=</span> <span class="n">tts</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">fit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">trt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">trt</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+        <span class="nb">print</span> <span class="n">city</span><span class="p">,</span> <span class="n">fit</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">trt</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">trt</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

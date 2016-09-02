@@ -6,6 +6,7 @@ code
 
    network_analysis
    wikitravel
+   churn_study
    cvcparser
    filesync
    helpers

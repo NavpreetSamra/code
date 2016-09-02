@@ -1,0 +1,22 @@
+churn_study package
+===================
+
+Submodules
+----------
+
+churn_study.churn_model module
+------------------------------
+
+.. automodule:: churn_study.churn_model
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: churn_study
+    :members:
+    :undoc-members:
+    :show-inheritance:
