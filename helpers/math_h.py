@@ -14,6 +14,9 @@ def basismap_3d(a, b, centroids=None):
     :param array-like b: nx3 set of coordinates in transformed body
     :param array-like centroids: 2x3 array to specify centroids [[ax,ay,az],[bx,by,bz]] \ 
                                  defaults to [centroid(a), centroid(b)]
+
+    :return: (r, t) rotation matrix, translation array
+    :rtype: tuple
     """
     a = enforce_2d(a)
     b = enforce_2d(b)
@@ -80,7 +83,7 @@ def enforce_2d(data):
     :param array-like  data: array of points
 
     :return data_nd: multidimensional array of data
-    :rtype np.ndarray:
+    :rtype: np.ndarray
     """
 
     data = np.asarray(data)

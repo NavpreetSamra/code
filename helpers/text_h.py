@@ -3,32 +3,6 @@ import regex
 import ntpath
 
 
-def find_end_iter(l, sep_dict):
-    """
-    Find end of iteration based on 
-    """
-    exposed_comma = False
-    hold = []
-
-    if ',' not in l:
-        return l, ""
-
-    while not exposed_comma:
-        if sep_dict.key() in l:
-            if l.index(sep_dict.key()) > l.index(','):
-                l1, l = l.split(', ', 1)
-                hold.extend(l1)
-                exposed_comma = True
-            else:
-                hold_value = regex_recursive(l, sep_dict["("])
-                value = l.split(hold_value, 1)[0] + hold_value
-
-                hold.extend(value)
-                l = l.split(value, 1)[1]
-        else:
-            exposed_comma = True
-    return "".join(hold).rstrip(','), l
-
 
 def regex_recursive(txt, seps=["\(", "\)"], all_groups=False):
     """
@@ -37,6 +11,7 @@ def regex_recursive(txt, seps=["\(", "\)"], all_groups=False):
     :param str txt: line to parse
     :param array-like seps: list of capturing group
     :param bool all_groups: return top level group(False). all groups (True)
+
     :return result.capture: group(s) caputred
     :rtype: str | list
     """
@@ -63,8 +38,9 @@ def find_sep(l):
     Find key value seperator in line
 
     :param str l: line of log
+
     :return key: seperator type
-    :rtype str:
+    :rtype: str
     """
 
     d = {}
@@ -80,6 +56,39 @@ def find_sep(l):
         key = None
     return key
 
+
+def find_end_iter(l, sep_dict):
+    """
+    Find end of iteration based on seperator and return first split accounting for \
+            nested separators
+    
+    :param str l: line to parse
+    :param dict sep_dict: dictionary of bounding pair for recursive search
+
+    :return: (l1, l2)
+    :rtype: tuple
+    """
+    exposed_comma = False
+    hold = []
+
+    if ',' not in l:
+        return l, ""
+
+    while not exposed_comma:
+        if sep_dict.key() in l:
+            if l.index(sep_dict.key()) > l.index(','):
+                l1, l = l.split(', ', 1)
+                hold.extend(l1)
+                exposed_comma = True
+            else:
+                hold_value = regex_recursive(l, sep_dict["("])
+                value = l.split(hold_value, 1)[0] + hold_value
+
+                hold.extend(value)
+                l = l.split(value, 1)[1]
+        else:
+            exposed_comma = True
+    return "".join(hold).rstrip(','), l
 
 def find_nth(haystack, needle, n):
     start = haystack.find(needle)
