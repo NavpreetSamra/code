@@ -86,6 +86,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">helpers package</a><ul>
@@ -101,6 +102,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filesync.sync.html">filesync.sync package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -188,13 +190,19 @@ defaults to [centroid(a), centroid(b)]</li>
 
 <dl class="function">
 <dt id="helpers.math_h.scatter_quick">
-<code class="descclassname">helpers.math_h.</code><code class="descname">scatter_quick</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#scatter_quick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.scatter_quick" title="Permalink to this definition">¶</a></dt>
-<dd><p>Quick scatter plots 2d and 3d</p>
+<code class="descclassname">helpers.math_h.</code><code class="descname">scatter_quick</code><span class="sig-paren">(</span><em>data</em>, <em>save=None</em>, <em>proj=111</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#scatter_quick"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.scatter_quick" title="Permalink to this definition">¶</a></dt>
+<dd><p>Quick scatter plots 2d and 3d
+Note: nx3 plots will be colored to 3rd dim</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>array-like</em>) &#8211; nx[2,3] array to scatter plot</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<em>array-like</em>) &#8211; n x [2, 3, 4] array to scatter plot</li>
+<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; default behaviour display plot else save to string name</li>
+<li><strong>proj</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; projected view for 3d plots</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
