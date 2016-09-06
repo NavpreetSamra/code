@@ -45,21 +45,33 @@ def basismap_3d(a, b, centroids=None):
     return r, t
 
 
-def scatter_quick(data):
+def scatter_quick(data, save=None, proj=111):
     """
     Quick scatter plots 2d and 3d
+    Note: nx3 plots will be colored to 3rd dim
 
-    :param array-like data: nx[2,3] array to scatter plot
+    :param array-like data: n x [2, 3, 4] array to scatter plot
+    :param str save: default behaviour display plot else save to string name
+    :param int proj: projected view for 3d plots
+
     """
     if data.shape[1] == 3:
         fig = plt.figure()
-        ax = fig.add_subplot(111, projection='3d')
+        ax = fig.add_subplot(proj, projection='3d')
         ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, 2])
-        plt.show()
 
     elif data.shape[1] == 2:
         plt.scatter(data[:, 0], data[:, 1])
 
+    elif data.shape[1] == 4:
+        fig = plt.figure()
+        ax = fig.add_subplot(proj, projection='3d')
+        ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, 3])
+
+    if save:
+        plt.savefig(save)
+    else:
+        plt.show()
 
 def enforce_2d(data):
     """
