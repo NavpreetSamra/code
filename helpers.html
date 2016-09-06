@@ -176,12 +176,18 @@ Default body centers are centroids</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>a</strong> (<em>array-like</em>) &#8211; nx3 set of coordinates in rigid body</li>
 <li><strong>b</strong> (<em>array-like</em>) &#8211; nx3 set of coordinates in transformed body</li>
 <li><strong>centroids</strong> (<em>array-like</em>) &#8211; 2x3 array to specify centroids [[ax,ay,az],[bx,by,bz]] 
 defaults to [centroid(a), centroid(b)]</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(r, t) rotation matrix, translation array</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
 </td>
 </tr>
 </tbody>
@@ -220,8 +226,7 @@ Note: nx3 plots will be colored to 3rd dim</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Return data_nd:</th><td class="field-body">multidimensional array of data</td>
 </tr>
-<tr class="field-odd field"><th class="field-name" colspan="2">Rtype np.ndarray:</th></tr>
-<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">np.ndarray</td>
 </tr>
 </tbody>
 </table>
@@ -243,12 +248,6 @@ Note: nx3 plots will be colored to 3rd dim</p>
 </div>
 <div class="section" id="module-helpers.text_h">
 <span id="helpers-text-h-module"></span><h2>helpers.text_h module<a class="headerlink" href="#module-helpers.text_h" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.text_h.find_end_iter">
-<code class="descclassname">helpers.text_h.</code><code class="descname">find_end_iter</code><span class="sig-paren">(</span><em>l</em>, <em>sep_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_end_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_end_iter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find end of iteration based on</p>
-</dd></dl>
-
 <dl class="function">
 <dt id="helpers.text_h.regex_recursive">
 <code class="descclassname">helpers.text_h.</code><code class="descname">regex_recursive</code><span class="sig-paren">(</span><em>txt, seps=['\\(', '\\)'], all_groups=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#regex_recursive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.regex_recursive" title="Permalink to this definition">¶</a></dt>
@@ -287,7 +286,31 @@ Note: nx3 plots will be colored to 3rd dim</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Rtype str:</th><td class="field-body"></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="helpers.text_h.find_end_iter">
+<code class="descclassname">helpers.text_h.</code><code class="descname">find_end_iter</code><span class="sig-paren">(</span><em>l</em>, <em>sep_dict</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/text_h.html#find_end_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.text_h.find_end_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find end of iteration based on seperator and return first split accounting for             nested separators</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>l</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line to parse</li>
+<li><strong>sep_dict</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictionary of bounding pair for recursive search</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(l1, l2)</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+</td>
 </tr>
 </tbody>
 </table>

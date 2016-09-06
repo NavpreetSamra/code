@@ -151,6 +151,9 @@
 <span class="sd">    :param array-like b: nx3 set of coordinates in transformed body</span>
 <span class="sd">    :param array-like centroids: 2x3 array to specify centroids [[ax,ay,az],[bx,by,bz]] \ </span>
 <span class="sd">                                 defaults to [centroid(a), centroid(b)]</span>
+
+<span class="sd">    :return: (r, t) rotation matrix, translation array</span>
+<span class="sd">    :rtype: tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">enforce_2d</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
     <span class="n">b</span> <span class="o">=</span> <span class="n">enforce_2d</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
@@ -217,7 +220,7 @@
 <span class="sd">    :param array-like  data: array of points</span>
 
 <span class="sd">    :return data_nd: multidimensional array of data</span>
-<span class="sd">    :rtype np.ndarray:</span>
+<span class="sd">    :rtype: np.ndarray</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>

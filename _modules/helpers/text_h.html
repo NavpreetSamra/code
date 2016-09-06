@@ -140,32 +140,6 @@
 <span class="kn">import</span> <span class="nn">ntpath</span>
 
 
-<div class="viewcode-block" id="find_end_iter"><a class="viewcode-back" href="../../helpers.html#helpers.text_h.find_end_iter">[docs]</a><span class="k">def</span> <span class="nf">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find end of iteration based on </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">exposed_comma</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">hold</span> <span class="o">=</span> <span class="p">[]</span>
-
-    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">l</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
-
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">exposed_comma</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">sep_dict</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">sep_dict</span><span class="o">.</span><span class="n">key</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
-                <span class="n">l1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
-                <span class="n">exposed_comma</span> <span class="o">=</span> <span class="kc">True</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">hold_value</span> <span class="o">=</span> <span class="n">regex_recursive</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">])</span>
-                <span class="n">value</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">hold_value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">hold_value</span>
-
-                <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
-                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">exposed_comma</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hold</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">),</span> <span class="n">l</span></div>
-
 
 <div class="viewcode-block" id="regex_recursive"><a class="viewcode-back" href="../../helpers.html#helpers.text_h.regex_recursive">[docs]</a><span class="k">def</span> <span class="nf">regex_recursive</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">seps</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;\(&quot;</span><span class="p">,</span> <span class="s2">&quot;\)&quot;</span><span class="p">],</span> <span class="n">all_groups</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -174,6 +148,7 @@
 <span class="sd">    :param str txt: line to parse</span>
 <span class="sd">    :param array-like seps: list of capturing group</span>
 <span class="sd">    :param bool all_groups: return top level group(False). all groups (True)</span>
+
 <span class="sd">    :return result.capture: group(s) caputred</span>
 <span class="sd">    :rtype: str | list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -200,8 +175,9 @@
 <span class="sd">    Find key value seperator in line</span>
 
 <span class="sd">    :param str l: line of log</span>
+
 <span class="sd">    :return key: seperator type</span>
-<span class="sd">    :rtype str:</span>
+<span class="sd">    :rtype: str</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
@@ -217,6 +193,39 @@
         <span class="n">key</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">key</span></div>
 
+
+<div class="viewcode-block" id="find_end_iter"><a class="viewcode-back" href="../../helpers.html#helpers.text_h.find_end_iter">[docs]</a><span class="k">def</span> <span class="nf">find_end_iter</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find end of iteration based on seperator and return first split accounting for \</span>
+<span class="sd">            nested separators</span>
+<span class="sd">    </span>
+<span class="sd">    :param str l: line to parse</span>
+<span class="sd">    :param dict sep_dict: dictionary of bounding pair for recursive search</span>
+
+<span class="sd">    :return: (l1, l2)</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">exposed_comma</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">hold</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="s1">&#39;,&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">l</span><span class="p">,</span> <span class="s2">&quot;&quot;</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="n">exposed_comma</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">sep_dict</span><span class="o">.</span><span class="n">key</span><span class="p">()</span> <span class="ow">in</span> <span class="n">l</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">sep_dict</span><span class="o">.</span><span class="n">key</span><span class="p">())</span> <span class="o">&gt;</span> <span class="n">l</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">):</span>
+                <span class="n">l1</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">l1</span><span class="p">)</span>
+                <span class="n">exposed_comma</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">hold_value</span> <span class="o">=</span> <span class="n">regex_recursive</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">sep_dict</span><span class="p">[</span><span class="s2">&quot;(&quot;</span><span class="p">])</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">hold_value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">hold_value</span>
+
+                <span class="n">hold</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="n">l</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">exposed_comma</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">hold</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">),</span> <span class="n">l</span></div>
 
 <div class="viewcode-block" id="find_nth"><a class="viewcode-back" href="../../helpers.html#helpers.text_h.find_nth">[docs]</a><span class="k">def</span> <span class="nf">find_nth</span><span class="p">(</span><span class="n">haystack</span><span class="p">,</span> <span class="n">needle</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">haystack</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">needle</span><span class="p">)</span>
