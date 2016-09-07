@@ -58,18 +58,14 @@ def scatter_quick(data, save=None, proj=111):
     :param int proj: projected view for 3d plots
 
     """
-    if data.shape[1] == 3:
-        fig = plt.figure()
-        ax = fig.add_subplot(proj, projection='3d')
-        ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, 2])
 
-    elif data.shape[1] == 2:
+    if data.shape[1] == 2:
         plt.scatter(data[:, 0], data[:, 1])
 
-    elif data.shape[1] == 4:
+    else:
         fig = plt.figure()
         ax = fig.add_subplot(proj, projection='3d')
-        ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, 3])
+        ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, -1])
 
     if save:
         plt.savefig(save)
