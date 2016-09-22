@@ -29,7 +29,7 @@ class SystemNetwork(object):
             from MAC1 to MAC2 {(MAC1, MAC2): val}; {tuple.str, bool}
 
     The file `peer_link_example.csv <https://github.com/marksweissma/code/blob/master/network_analysis/peer_link_example.csv>`_
-    is an example file which can be loaded with the :class:`network_analysis.example_parser.parse` \
+    is an example file which can be loaded with the :class:`network_analysis.example_parser.parse`  function\
             to generate the inputs for system network
     """
     def __init__(self, nodeMap, macMap, mesh, links):
@@ -85,7 +85,6 @@ class SystemNetwork(object):
                     self.nodes[node] = self.nodes[node].union([nl])
                     self.nodes[nl] = self.nodes[nl].union([node])
 
-
     def partition_system(self, added_nodes, index=0):
         """
         Partition mesh into networks
@@ -121,7 +120,7 @@ class SystemNetwork(object):
 
     def evaluate_networks(self):
         """
-        Create :class:`.MeshGraph` from node lists in networks and evaluate quality
+        Create :class:`.MeshGraph` objects from node lists in networks and evaluate quality
         """
 
         for i, network in enumerate(self._networks.values()):
