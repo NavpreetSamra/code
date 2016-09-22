@@ -2,9 +2,10 @@ import pandas as pd
 import numpy as np
 from datetime import timedelta
 import itertools as it
+from sklearn.cross_validation import KFold
 
 
-class Cleaner(object):
+class Cleaned(object):
     """
     """
     def __init__(self, fUsers, fEngage, adoption=(3, 7),
@@ -18,6 +19,7 @@ class Cleaner(object):
         self._split_non_users()
         self._convert_user_time()
         self._evaluate_users()
+        self._merge_non_users()
         self._dummify_source()
 
     def _pull_data(self, fUsers, fEngage, drops):
@@ -45,6 +47,9 @@ class Cleaner(object):
 
         self.dfs['users'].columns = columnsRename
         self.dfs['users'].set_index('object_id', inplace=True)
+        self.dfs['users']['invited_by_user'] =\
+            self.dfs.invited_by_user_id.notnull()
+
         self.dfs['users']['adopted'] = np.zeros(self.dfs['users'].shape[0],
                                                 ).astype(bool)
 
@@ -92,6 +97,47 @@ class Cleaner(object):
                                                      ['creation_source'])
 
 
+
+class FeatureAnalysis(Cleaned):
+    """
+    """
+    def merge_users(self):
+        """
+        """
+        self.dfs['users'] = pd.concat([
+    self.
+
+
+class AdoptionModel(object):
+    """
+    """
+    def __init__(self, cleaned, model, folds=10):
+        self.cleaned = cleaned
+        self.model = model
+        self.folds = folds
+        self.df = pd.DataFrame(index=self.cleaned.dfs['users'].index)
+
+    def model_prep(self, cdf, columns):
+        """
+        """
+        self.df = pd.concat([self.df, self.cleaned[cdf][columns]], axis=1)
+
+    def kfold_features(self, X=None, y=None):
+        """
+        """
+        if not X:
+            self.X = self.df.values
+        if not y:
+            self.y = self.cleaned.dfs['users']['adopted']
+        self.results = []
+        self.feature
+        kfolds = KFold(self.df.shape[0], n_folds=self.folds)
+        for train_index, test_index in kfolds:
+            X_train, X_test = self.X[train_index], self.X[test_index]
+            y_train, y_test = y[train_index], y[test_index]
+            fit = self.model.fit(X_train, y_train)
+            self.results.append(fit.score(X_test, y_test))
+
 def evaluate_logins(logins, adoption):
     """
     Evalue login  Dates to meet adoption criteria
@@ -105,13 +151,14 @@ def evaluate_logins(logins, adoption):
     :return: boolean
     :rtype: bool
     """
-    if len(logins) < 3:
+    hits = adoption['hits']
+    window = adoption['window']
+    if len(logins) < hits:
         return False
     else:
         logins.sort()
-        hits = adoption['hits'] - 1
-        window = adoption['window']
 
+    hits -= 1
     for l1, l2, in it.izip(logins[:-hits], logins[hits:]):
         if l2 - l1 <= window:
             return True
