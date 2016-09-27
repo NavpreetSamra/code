@@ -48,7 +48,7 @@ class UserAdoption(object):
             table, we proceed by calculating whether or not a user has adopted\
             given the criteria (3 logins in a 7 day window) and joining that\
             data to our *users table*. To do so, we group the login data\
-            by user id, sort by timestamp represented as pd.DateTime and\
+            by *user_id*, sort by timestamp represented as :py:class:`pandas.DatetimeIndex` and\
             pass a window over the array to check for length of time between\
             a login and the login after the following login, (i, i+2). If that\
             time is less then or equal to 7 days we break out of our iteration\
@@ -65,13 +65,13 @@ class UserAdoption(object):
             signifigant role.
 
     **CLEANING**
-        We remove name and email from our table. While it's possible\
+        We remove *name* and *email* from our table. While it's possible\
             certain types of email addresses can be indicative of\
             browser types and trends do exist within of names\
             (see Freakanomics) that analysis is deprioritized here\
             and those fields are removed from our feature space.
 
-        Since creation_source is nominal with 5 unique values we dummify\
+        Since *creation_source* is nominal with 5 unique values we dummify\
             the column and store it. It is important to note that the\
             stored data has not dropped a column, so a category\
             should be dropped before modeling to combat collinearity.
@@ -105,9 +105,10 @@ class UserAdoption(object):
                 general knowledge they are likley not the cause
 
     .. image:: ../images/LoginsPerDay.png
+       :scale: 50 % 
+       :align: center
 
- 
-    **Initial Analysis**
+    **INITIAL ANALYSIS**
         With a clean and numeric representation of the data we are now able\
             to investigate the impact of features on adoption.\
             To do so we will look at extracting feature importance\
@@ -125,7 +126,7 @@ class UserAdoption(object):
         <table>
 
 
-    **Modeling**
+    **MODELING**
         An initial exploration into feature importance gives insight into\
             what is avaiable at the surface of our data. However, to\
             better understand Asana users and what drives adoption\
@@ -136,17 +137,18 @@ class UserAdoption(object):
             which is a first step in identifying mavens.
 
         Calculating organization size is straighforward. We group users by\
-            org_id and count them. From there we begin to build a framework to analyze mavens\
+            *org_id* and count them. From there we begin to build a framework to analyze mavens\
             with the available data. We are only able to investigate users\
             who have or exist in the  *invited_by_user_id* field
 
         We hypothesize that inertia of tool usage exists within organizations\
-            - that when a user is succesful with a tool, the tool is more\
+            and look to understand that spread through a usage and knowledge levels\
+            When a user is succesful with a tool, the tool is more\
             likely to spread because the user will recommend it to other\
             members of the organization-0th level.\
-            The next level of this is a team wide decision to use a common\
+            A team wide decision to use a common\
             tool for a specific function- 1st level\
-            The extension of this to the next level is **mavens**.\
+            The extension of this upward to the 2nd level is **mavens**.\
             **Mavens** are users\
             who work to become power users and then act as advocates/\
             evangelists for the software which is likely to increase\
@@ -155,10 +157,10 @@ class UserAdoption(object):
             shallower learning curve for new users and an increase\
             in adoption due to learning curve + maven usage. Combining with\
             tool/software standardization across teams and throughout\
-            verticals, **mavens** provide us with a target profile to\
-            model with goal of understanding tool flow throughout\
+            verticals, **mavens** provide us a target profile to\
+            model with a goal of understanding tool flow throughout\
             organizations. This knowledge is critical for a succesfull\
-            product.
+            product and company evolution.
 
         We will begin building the framework to model **mavens** by\
             investigating connectivity.\
@@ -170,7 +172,7 @@ class UserAdoption(object):
             We also threshold a connected component having at least a\
             local rank of 3 for emphasis. This can be further investigated\
             in future work.\
-            We also have the ability to easily switch to a directed graph\
+            We maintain the ability to easily switch to a directed graph\
             moving forward if that structure suites our needs better.\
             Now we are able to add connected component rank of\
             a user as well as how many children\
@@ -425,7 +427,7 @@ class AdoptionModel(object):
 
     def collinear_vif(self, magnitude=3.):
         """
-        Check for colinear features
+        Check for collinear features
         """
         for ind in range(self.X.shape[1]):
             value = vif(self.X, ind)
