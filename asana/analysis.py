@@ -17,15 +17,15 @@ class UserAdoption(object):
         1. This data is artificial
         2. We do not have infinite time
 
-        As a result of point 2,  we prioritize\
-                deriving meaningful and interpretable results that can manifest\
-                into productive business driven insights. The following details\
-                an inspection and exploration process of the data available in an\
-                effort to determine what factors have the greatest impact on\
-                predicting user adoption. From there we will attempt to embed the\
-                **maven** user as as feature and improve our ability to predict\
-                as well as understand drivers of user adoption. (Maven\
-                as described by Malcom Gladwell in The Tipping Point <link>)
+        As a result of point 2, we prioritize\
+            deriving meaningful and interpretable results that can manifest\
+            into productive business driven insights. The following details\
+            an inspection and exploration process of the data available in an\
+            effort to determine what factors have the greatest impact on\
+            predicting user adoption. From there we will begin to embed the\
+            **maven** user as as feature and improve our ability to predict\
+            as well as understand drivers of user adoption. (Maven\
+            as described by Malcom Gladwell in The Tipping Point <link>)
 
         Our inspection of the data begins with 2 broad categorizations:
 
@@ -58,7 +58,9 @@ class UserAdoption(object):
             we must be very careful when including logins/\
             login time in any prediction of user adoption, otherwise we\
             will suffer from leakage. We also note that at casual inspection\
-            there are no drastic outliers in the users table. Further analysis\
+            there are no drastic outliers in the *users table*, however there is\
+            potentially an issue with the *engagement table* data that we will address\
+            in the next section. Further analysis of *users table*\
             with studentized-t residuals can be used to investigate, however\
             beacuse our analysis will mainly pertain to\
             categorical data, outlier analysis will likely not play a \
@@ -76,20 +78,33 @@ class UserAdoption(object):
             stored data has not dropped a column, so a category\
             should be dropped before modeling to combat collinearity.
 
+        One path we can follow here is to investigate adoption rate within\
+            organizations. This is logical, however given this approach, we\
+            would look to preform this after embedding the **maven**\
+            (assuming we can find them), and to produce the most useful\
+            information from the analysis, we need more information about\
+            the organizations themselve (size, industry, growth, etc).\
+            This would be one of the next few steps \
+            to follow our approach begun in the `MODELING` section\
+            below, but going back to point 2 in `INTRODUCTION`, in\
+            the interest of prioritizing our time we have not yet\
+            performed that analysis.
+
+
         We choose to remove time from our predictions for two reasons,
 
-                1. Time (ours, not the datas). Because we use time\
-                        in our calculation of adoption rate, we must be \
-                        extremely careful with building features that\
-                        incorporate the same data. Also, given the\
-                        suggested time to spend on this analysis we\
-                        choose to allocate our time on what we hope\
-                        will be more accesible and lower hanging but\
-                        also interesting fruit.
-                2. To properly understand the impact of time\
-                        on our system we need more information\
-                        about the product, feature releases, market\
-                        ecosystem, company history, and outreach.
+            1. Time (ours, not the datas). Because we use time\
+                    in our calculation of adoption rate, we must be \
+                    extremely careful with building features that\
+                    incorporate the same data. Also, given the\
+                    suggested time to spend on this analysis we\
+                    choose to allocate our time on what we hope\
+                    will be more accesible and lower hanging but\
+                    also interesting fruit.
+            2. To properly understand the impact of time\
+                    on our system we need more information\
+                    about the product, feature releases, market\
+                    ecosystem, company history, and outreach.
 
         That all being said, we can still look at time and gain useful\
                 information. Plotting logins by day we see an\
@@ -99,7 +114,7 @@ class UserAdoption(object):
         The data after that point demonstrates a system level impact that\
                 indicates a catastrophic failing. A likley scenerio here\
                 is that the logging of logins began to fail, whether\
-                because of a snapshot push or other issues, it spreads slowly\
+                because of a snapshot push or other issues, it begins to spread\
                 and then the bottom drops out on 2014-06-05. While world,\
                 or product/company catastrophy is possible, given our\
                 general knowledge they are likley not the cause
@@ -112,15 +127,26 @@ class UserAdoption(object):
         With a clean and numeric representation of the data we are now able\
             to investigate the impact of features on adoption.\
             To do so we will look at extracting feature importance\
-            from two modeling techniques: Logistic Regression, and\
-            Decision Trees. The magnitude of coefficients\
+            from three modeling techniques: Logistic Regression, and\
+            Decision Trees, and Random Forest. The magnitude of coefficients\
             of (scaled) features in Logistic Regression represent that\
-            feature's relative contribution to final classification,\
-            (with the caveat of holding all other features constant)\
+            feature's relative contribution to final classification, by\
+            it's contribution to the slope definig the hyperplane
+            associated with that feature\
+            (with the caveat of holding all other features constant).\
+            Logistic Regression direct readability of the impact variations\
+            in a feature have make it a useful tool for it's interpretability\
+            as well as it's tolerance to overfitting when the number of features\
+            fed into it are large compared ot the volume of data (because it\
+            is searching for a single hyperplane to partition the data)\
             Decision Trees, while highly prone to overfitting for\
             predicative modeling are useful for their intrepretability\
             of feature importance by calculating the gain of information\
-            of a split on a feature at a node.
+            of a split on a feature at a node. Random Forests can improve on\
+            Decision Trees predicative abilities, by reducing overfitting,\
+            as well as ranking feature importance. For those not familiar,\
+            Random Forests are aggregate of multiple decision trees each of\
+            which is operating on a random subset of the data.
 
         With this analysis we find:
         <table>
@@ -229,22 +255,22 @@ class Cleaned(object):
                  drops=['name', 'email']):
 
         self.fUsers = fUsers
-        self.fEngage =fEngage
+        self.fEngage = fEngage
         self.adoption = {'hits': adoption[0],
                          'window': timedelta(days=adoption[1])}
         self.drops = drops
         self.dfs = {}
 
-        self._pull_data(fUsers, fEngage, drops)
+        self._pull_data()
         self._dummify_source()
         self._split_non_users()
         self._convert_user_time()
-        self._evaluate_users()
+        # self._evaluate_users()
         self._merge_non_users()
 
     def _pull_data(self):
         """
-        Pull, partitioni, drop
+        Pull, partition, drop
         """
         if isinstance(self.fUsers, str):
             self.dfs['users'] = pd.read_csv(self.fUsers)
@@ -268,8 +294,7 @@ class Cleaned(object):
 
         self.dfs['users'].columns = columnsRename
         self.dfs['users'].set_index('object_id', drop=False, inplace=True)
-        self.dfs['users']['invited_by_user'] =\
-            self.dfs['users'].invited_by_user_id.notnull()
+        self.dfs['users']['local_rank'] = 0
 
         self.dfs['users']['creation_time'] =\
             pd.to_datetime(self.dfs['users']['creation_time']).dt.date
@@ -333,6 +358,8 @@ class FeatureAnalysis(Cleaned):
     def org_size(self):
         """
         Calculate org_size and degree where applicable
+
+        Note org_size is number of Users with that a common org_id, not actual size
         """
         self.groups = {}
         self.dfs['users']['degree'] = 0
@@ -347,24 +374,31 @@ class FeatureAnalysis(Cleaned):
         """
         self.graphs = {}
         for group, df in self.groups['org_id']:
-            graph_df = df[df.invited_by_user_id.notnull()]
+            graph_df = df[['invited_by_user_id', 'object_id']][df.invited_by_user_id.notnull()].astype(int)
             if graph_df.shape[0] > 1:
-                graph = nx.from_pandas_dataframe(graph_df,
+                graph = nx.from_pandas_dataframe(graph_df.astype(int),
                                      'invited_by_user_id', 'object_id')
                 self.graphs[group] = graph
                 degrees = np.array(graph.degree().items()).astype(int)
                 self.dfs['users']['degree'].loc[degrees[:, 0]] = degrees[:, 1]
+                for g in nx.connected_component_subgraphs(graph):
+                    nodes = g.nodes()
+                    lenNodes = len(nodes)
+                    if lenNodes > 3:
+                        self.dfs['users']['local_rank'].loc[nodes] = len(nodes)
 
-        self.dfs['users']['children'] = self.dfs['users']['degree'] - self.dfs['users']['invited_by_user'].astype(int)
+        self.dfs['users']['children'] = self.dfs['users']['degree'] -\
+                                        self.dfs['users']['invited_by_user_id'].notnull()
 
 
 class AdoptionModel(object):
     """
     """
-    def __init__(self, cleaned, model, importances=None, isTree=True, folds=10,
+    def __init__(self, cleaned, model, importances=None, isTree=False, isForest=False, folds=10,
+                 vifMagnitude=3.0,
                  autoRun={'dfs': [('users', ['opted_in_to_mailing_list',
                                              'enabled_for_marketing_drip',
-                                             'org_size',
+                                             'org_size', 'local_rank',
                                              'children']),
                                   ('sources', ['GUEST_INVITE', 'ORG_INVITE',
                                                'PERSONAL_PROJECTS', 'SIGNUP'])],
@@ -375,7 +409,9 @@ class AdoptionModel(object):
         self.model = model
         self.importances = importances
         self.isTree = isTree
+        self.isForest = isForest
         self.folds = folds
+        self.vifMagnitude = vifMagnitude
         self.df = pd.DataFrame(index=self.cleaned.dfs['users'].index)
         self.collinear = False
         if autoRun:
@@ -423,15 +459,15 @@ class AdoptionModel(object):
             self.y = self.df[y].values
         self.X = self.X.astype('float')
         self.y = self.y.astype('int')
-        self.collinear_vif()
+        self._collinear_vif()
 
-    def collinear_vif(self, magnitude=3.):
+    def _collinear_vif(self):
         """
         Check for collinear features
         """
         for ind in range(self.X.shape[1]):
             value = vif(self.X, ind)
-            if value > magnitude:
+            if value > self.vifMagnitude:
                 print self.header[ind] + ' has vif ' + str(value)
                 self.collinear = True
         if self.collinear:
@@ -455,7 +491,9 @@ class AdoptionModel(object):
             y_train, y_test = self.y[train_index], self.y[test_index]
             fit = self.model.fit(X_train, y_train)
             if self.isTree:
-                self.featureValues.append(fit.tree_.compute_feature_importances)
+                self.featureValues.append(fit.tree_.compute_feature_importances())
+            elif self.isForest:
+                self.featureValues.append(fit.feature_importances_)
             else:
                 self.featureValues.append(fit.__dict__[self.importances][0])
             self.scores.append(fit.score(X_test, y_test))
