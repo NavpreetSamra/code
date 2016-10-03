@@ -85,6 +85,7 @@
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asana.html">asana package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -100,6 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="asana.html">asana package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
@@ -168,6 +170,16 @@
 <div class="section" id="module-helpers.math_h">
 <span id="helpers-math-h-module"></span><h2>helpers.math_h module<a class="headerlink" href="#module-helpers.math_h" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="helpers.math_h.butter_lowpass">
+<code class="descclassname">helpers.math_h.</code><code class="descname">butter_lowpass</code><span class="sig-paren">(</span><em>cutoff</em>, <em>fs</em>, <em>order=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#butter_lowpass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.butter_lowpass" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.butter_lowpass_filter">
+<code class="descclassname">helpers.math_h.</code><code class="descname">butter_lowpass_filter</code><span class="sig-paren">(</span><em>data</em>, <em>cutoff</em>, <em>fs</em>, <em>order=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#butter_lowpass_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.butter_lowpass_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
 <dt id="helpers.math_h.basismap_3d">
 <code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>centroids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find rigid body rotation and centroid translation between two states
@@ -232,17 +244,24 @@ Note: nx3 plots will be colored to 3rd dim</p>
 </table>
 </dd></dl>
 
-<dl class="class">
-<dt id="helpers.math_h.TreeGraph">
-<em class="property">class </em><code class="descclassname">helpers.math_h.</code><code class="descname">TreeGraph</code><span class="sig-paren">(</span><em>data=None</em>, <em>**attr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#TreeGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.TreeGraph" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">networkx.classes.graph.Graph</span></code></p>
-<p>Subclass of networkx Graph for path search applications</p>
-<dl class="method">
-<dt id="helpers.math_h.TreeGraph.tree_diameter">
-<code class="descname">tree_diameter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#TreeGraph.tree_diameter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.TreeGraph.tree_diameter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Find diameter node pairs and path in graph</p>
-</dd></dl>
-
+<dl class="function">
+<dt id="helpers.math_h.spiral">
+<code class="descclassname">helpers.math_h.</code><code class="descname">spiral</code><span class="sig-paren">(</span><em>a</em>, <em>cond=&lt;function &lt;lambda&gt;&gt;</em>, <em>cpy=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#spiral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.spiral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spiral unpack a list of lists via counterclock rotation             until a condition is met</p>
+<p>NB: Function utilizes pop, use cpy to preserve original if you are             unsure of impact in the applied namespace</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> (<em>array-like</em>) &#8211; if a is not list, it will be converted by list(a)</li>
+<li><strong>cond</strong> (<em>func</em>) &#8211; conditional expression to stop at while spiraling a.</li>
+<li><strong>cpy</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; deepycopy input</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

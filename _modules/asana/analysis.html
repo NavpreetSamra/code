@@ -1,0 +1,946 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>asana.analysis &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../asana.html">asana package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../churn_study.html">churn_study package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../filesync.sync.html">filesync.sync package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../helpers.html">helpers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quadtree.html">quadtree package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      
+    <li>asana.analysis</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for asana.analysis</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="nn">it</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="k">import</span> <span class="n">KFold</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.outliers_influence</span> <span class="k">import</span> <span class="n">variance_inflation_factor</span> <span class="k">as</span> <span class="n">vif</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="k">import</span> <span class="n">DecisionTreeClassifier</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestClassifier</span>
+
+
+<div class="viewcode-block" id="UserAdoption"><a class="viewcode-back" href="../../asana.html#asana.analysis.UserAdoption">[docs]</a><span class="k">class</span> <span class="nc">UserAdoption</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    **INTRODUCTION**</span>
+<span class="sd">        The purpose of this analysis is to understand what features of a user\</span>
+<span class="sd">                contribute to user adoption.</span>
+<span class="sd">        Before proceeding, two critical points to remember throughout\</span>
+<span class="sd">                this process are:</span>
+
+<span class="sd">        1. This data is artificial</span>
+<span class="sd">        2. We do not have infinite time</span>
+
+<span class="sd">        As a result of point 2, we prioritize\</span>
+<span class="sd">            guiding our work toward interpretable results that can manifest\</span>
+<span class="sd">            into productive business driven insights. The following details\</span>
+<span class="sd">            an inspection and exploration process of the provided data in an\</span>
+<span class="sd">            effort to determine what factors have the greatest impact on\</span>
+<span class="sd">            predicting user adoption. From there we will begin to embed the\</span>
+<span class="sd">            **maven** user as\</span>
+<span class="sd">            a feature with the goal of improving prediction\</span>
+<span class="sd">            as well as better understanding drivers of user adoption. The `Maven\</span>
+<span class="sd">            &lt;https://en.wikipedia.org/wiki/Maven&gt;`_ as described by Malcom\</span>
+<span class="sd">            Gladwell in\</span>
+<span class="sd">            `The Tipping Point &lt;https://en.wikipedia.org/wiki/The_Tipping_Point&gt;`_</span>
+
+
+<span class="sd">        Data inspection reveals attributes belonging to\</span>
+<span class="sd">            2 broad categorizations:</span>
+
+<span class="sd">                1) User</span>
+<span class="sd">                    * name</span>
+<span class="sd">                    * object_id</span>
+<span class="sd">                    * email</span>
+<span class="sd">                    * org_id</span>
+<span class="sd">                    * last_session_create_time</span>
+<span class="sd">                    * opted_in_to_mailing_list</span>
+<span class="sd">                    * enabled_for_marketing_drip</span>
+<span class="sd">                    * login history (timestamp)</span>
+
+<span class="sd">                2) Path to Asana</span>
+<span class="sd">                    * creation_source (5 categories)</span>
+<span class="sd">                    * creation_time</span>
+<span class="sd">                    * invited_by_user_id</span>
+
+<span class="sd">        With the exception of *login history*, this data is organized in a single\</span>
+<span class="sd">            table. We proceed by calculating whether or not a user has adopted\</span>
+<span class="sd">            given the criteria (3 logins in a 7 day window) and joining that\</span>
+<span class="sd">            data to our *users table*. To do so, we group the login data\</span>
+<span class="sd">            by *user_id*, sort by timestamp represented as :py:class:`pandas.DatetimeIndex` and\</span>
+<span class="sd">            pass a window over the array to check for length of time between\</span>
+<span class="sd">            a login and the login after the following login, (i, i+2). If that\</span>
+<span class="sd">            delta in time is less then or equal to 7 days we break out of our iteration\</span>
+<span class="sd">            and record the user as *adopted*. An important note\</span>
+<span class="sd">            throughout this analysis: we have utilized login time\</span>
+<span class="sd">            and frequency to create the target for our prediction and consequently\</span>
+<span class="sd">            we must be very careful when including number of logins\</span>
+<span class="sd">            in any prediction of user adoption, otherwise we\</span>
+<span class="sd">            will suffer from leakage. We also note that at casual inspection\</span>
+<span class="sd">            there are no drastic outliers in the *users table*, however there is\</span>
+<span class="sd">            potentially an issue with the *engagement table* data that we will address\</span>
+<span class="sd">            in the next section. Further analysis of *users table*\</span>
+<span class="sd">            with studentized-t residuals can be used to investigate outliers, however\</span>
+<span class="sd">            beacuse our analysis will mainly pertain to\</span>
+<span class="sd">            categorical data, outlier analysis will likely not play a \</span>
+<span class="sd">            signifigant role.</span>
+
+<span class="sd">    **CLEANING**</span>
+<span class="sd">        We remove *name* and *email* from our table. While it&#39;s possible\</span>
+<span class="sd">            certain types of email addresses can be indicative of\</span>
+<span class="sd">            browser types and trends do exist within names\</span>
+<span class="sd">            (see Freakanomics) that analysis is deprioritized here\</span>
+<span class="sd">            and those fields are removed from our feature space.</span>
+
+<span class="sd">        Since *creation_source* is nominal with 5 unique values we dummify\</span>
+<span class="sd">            the column and store it. It is important to note that the\</span>
+<span class="sd">            stored data has not dropped a column, so a category\</span>
+<span class="sd">            should be dropped before modeling to combat collinearity.</span>
+
+<span class="sd">        One path we can follow here is to investigate adoption rate within\</span>
+<span class="sd">            organizations. This is logical, however given this approach, we\</span>
+<span class="sd">            would look to perform this after embedding the **maven**\</span>
+<span class="sd">            (assuming we can find them). To produce the most useful\</span>
+<span class="sd">            information from the analysis, we need more information about\</span>
+<span class="sd">            the organizations themselves (size, industry, growth, etc).\</span>
+<span class="sd">            This would be one of the next few steps\</span>
+<span class="sd">            to follow our approach begun in the `MODELING` section\</span>
+<span class="sd">            below. Going back to point 2 in `INTRODUCTION`, in\</span>
+<span class="sd">            the interest of prioritizing our time we have not yet\</span>
+<span class="sd">            performed that analysis.</span>
+
+
+<span class="sd">        We choose to remove time from our predictions for two reasons,</span>
+
+<span class="sd">            1. Time (ours, not the datas). Because we use time\</span>
+<span class="sd">                    in our calculation of adoption rate, we must be \</span>
+<span class="sd">                    extremely careful with building features that\</span>
+<span class="sd">                    incorporate the same data. Also, given the\</span>
+<span class="sd">                    suggested time to spend on this analysis we\</span>
+<span class="sd">                    choose to allocate our time on what we hope\</span>
+<span class="sd">                    will be more accesible and lower hanging but\</span>
+<span class="sd">                    also interesting fruit.</span>
+<span class="sd">            2. To properly understand the impact of time\</span>
+<span class="sd">                    on our system we need more information\</span>
+<span class="sd">                    about the product, feature releases, market\</span>
+<span class="sd">                    ecosystem, company history, and outreach.</span>
+
+<span class="sd">        That all being said, we can still look at time and gain useful\</span>
+<span class="sd">                information. Plotting logins by day we see an\</span>
+<span class="sd">                increasing rate of logins per day (a good sign\</span>
+<span class="sd">                for product health!) until 2014-05-21.</span>
+
+<span class="sd">        The data after that point demonstrates a system level impact that\</span>
+<span class="sd">                indicates a catastrophic failure. A likley scenerio here\</span>
+<span class="sd">                is that the logging of logins began to fail, whether\</span>
+<span class="sd">                because of a snapshot push or other issues, it begins to spread\</span>
+<span class="sd">                and then the bottom drops out on 2014-06-05. While world,\</span>
+<span class="sd">                or product/company catastrophy is possible, given our\</span>
+<span class="sd">                general knowledge they are likley not the cause.</span>
+
+<span class="sd">    .. image:: ../images/LoginsPerDay.png</span>
+<span class="sd">       :scale: 75 %</span>
+<span class="sd">       :align: center</span>
+
+<span class="sd">    .. image:: ../images/users_data.png</span>
+<span class="sd">       :scale: 75 %</span>
+<span class="sd">       :align: center</span>
+
+
+
+<span class="sd">    The number of accounts created by day likely confirms\</span>
+<span class="sd">        this theory, and \</span>
+<span class="sd">        suggests that the increase in rate of account\</span>
+<span class="sd">        creation at the end of this timeframe exceeded the load the system\</span>
+<span class="sd">        was designed to handle leading to the failure in capturing logins,\</span>
+<span class="sd">        without ruling out some of the possibilities enumerated above.</span>
+
+<span class="sd">    **INITIAL ANALYSIS**</span>
+<span class="sd">        With a clean and numeric representation of the data we are now able\</span>
+<span class="sd">            to investigate the impact of features on adoption.\</span>
+<span class="sd">            To do so we will look at extracting feature importance\</span>
+<span class="sd">            from three modeling techniques: Logistic Regression, \</span>
+<span class="sd">            Decision Trees, and Random Forests. The magnitude of coefficients\</span>
+<span class="sd">            of (scaled) features in Logistic Regression represent that\</span>
+<span class="sd">            feature&#39;s relative contribution to final classification, by\</span>
+<span class="sd">            it&#39;s contribution to the slope defining the hyperplane\</span>
+<span class="sd">            associated with that feature&#39;s component\</span>
+<span class="sd">            (with the caveat of holding all other features constant).\</span>
+<span class="sd">            Logistic Regression&#39;s direct readability of the impact variations\</span>
+<span class="sd">            in a feature make it a useful tool for it&#39;s interpretability\</span>
+<span class="sd">            as well as it&#39;s tolerance to overfitting when the number of features\</span>
+<span class="sd">            fed into it are large compared to the volume of data (because it\</span>
+<span class="sd">            is searching for a single hyperplane to partition the data)\</span>
+<span class="sd">            Decision Trees, while highly prone to overfitting for\</span>
+<span class="sd">            predicative modeling are useful for their interpretability\</span>
+<span class="sd">            of feature importance by calculating the gain of information\</span>
+<span class="sd">            of a split on a feature at a node. Random Forests can improve on\</span>
+<span class="sd">            Decision Trees predicative abilities, by reducing overfitting,\</span>
+<span class="sd">            as well as contribute to ranking feature importance albeit\</span>
+<span class="sd">            with a different approach to determination.\</span>
+<span class="sd">            For those not familiar,\</span>
+<span class="sd">            Random Forests are aggregate of multiple decision trees each of\</span>
+<span class="sd">            which is operating on a random subset of the data.</span>
+
+<span class="sd">        With this analysis we find feature coefficients for Logistic Regression\</span>
+<span class="sd">            and normalized gini impurity for tree/ensemble methods. The results in the\</span>
+<span class="sd">            following tables represent values from averaging 10 fold cross\</span>
+<span class="sd">            validation where standard deviations of all values are 1-2 orders\</span>
+<span class="sd">            of magniutde less then the values presented (excluding 0s). The following models\</span>
+<span class="sd">            were run with default parameters from\</span>
+<span class="sd">            `sklearn &lt;https://http://scikit-learn.org/stable/documentation.html&gt;`_\</span>
+<span class="sd">            as this is an initial investigation.\</span>
+<span class="sd">            Because the number of users to number of features ratio is large\</span>
+<span class="sd">            and with no clear outlier data yet\</span>
+<span class="sd">            we do not expect to need regularization for our Logistic\</span>
+<span class="sd">            Regression. We also take the opportunity here to address\</span>
+<span class="sd">            why we decided not to dummify *org_id*. As discussed (and\</span>
+<span class="sd">            will continue to be discussed) a lack of information about\</span>
+<span class="sd">            the orgs is a contributing factor, but also would render\</span>
+<span class="sd">            a Decision Tree intractable as well as a sizeable increase in\</span>
+<span class="sd">            computation time for a Random Forest (we recognize that\</span>
+<span class="sd">            RFs are parallizable but given the context of this analysis).</span>
+
+
+<span class="sd">+--------+--------------+----------------+--------------+------------+----------+--------+</span>
+<span class="sd">|Model   | mailing_list | marketing_drip | GUEST_INVITE | ORG_INVITE | PERSONAL | SIGNUP |</span>
+<span class="sd">+========+==============+================+==============+============+==========+========+</span>
+<span class="sd">|Tree    | 0.023        |    0.038       |    0.025     |   0.144    |     0.69 |  0.08  |</span>
+<span class="sd">+--------+--------------+----------------+--------------+------------+----------+--------+</span>
+<span class="sd">|Forest  | 0.068        |    0.074       |    0.132     |    0.1     |    0.562 | 0.065  |</span>
+<span class="sd">+--------+--------------+----------------+--------------+------------+----------+--------+</span>
+<span class="sd">|Logistic| 0.047        |    0.021       |    -0.015    |   -0.291   |    -0.85 | -0.21  |</span>
+<span class="sd">+--------+--------------+----------------+--------------+------------+----------+--------+</span>
+
+<span class="sd">        The take away from this analysis is that the methods of invitation\</span>
+<span class="sd">            are more important then being on the mailing list or a marketing drip.\</span>
+<span class="sd">            Also please note, that values of our tree based methods represent\</span>
+<span class="sd">            magnitude and not direction (another perk of Logistic Regression).\</span>
+<span class="sd">            Since all our features are categorical, coefficients of the Logistic\</span>
+<span class="sd">            Regression are easy to compare.</span>
+
+
+<span class="sd">    **MODELING**</span>
+<span class="sd">        An initial exploration into feature importance gives insight into\</span>
+<span class="sd">            what is available at the surface of our data. However, to\</span>
+<span class="sd">            better understand Asana users and what drives adoption\</span>
+<span class="sd">            we look to understand the impact and types of users and\</span>
+<span class="sd">            organizations. While there is a wide breadth of directions\</span>
+<span class="sd">            we can proceed from here, we will focus on one organizational\</span>
+<span class="sd">            attribute -size- to help inform  one aspect of users\</span>
+<span class="sd">            - sign up connectivity- which is a first step in\</span>
+<span class="sd">            identifying **mavens**.</span>
+
+<span class="sd">        Calculating organization size, in the context of this analysis is\</span>
+<span class="sd">            the number of Asana users in the organzation,\</span>
+<span class="sd">            is straighforward. We group users by\</span>
+<span class="sd">            *org_id* and count them. From there we begin to build a framework\</span>
+<span class="sd">            to analyze **mavens**.\</span>
+<span class="sd">            With the available data we are only able to investigate users\</span>
+<span class="sd">            who have or exist in the *invited_by_user_id* field</span>
+
+<span class="sd">        We hypothesize that inertia of tool usage exists within organizations\</span>
+<span class="sd">            and look to understand that spread through usage and knowledge levels\</span>
+
+<span class="sd">            * 0th level - When a user is succesful with a tool, the tool is more\</span>
+<span class="sd">            likely to spread because the user will recommend it to other\</span>
+<span class="sd">            members of the organization.</span>
+<span class="sd">            * 1st level - A team wide decision to use a common\</span>
+<span class="sd">            tool for a specific function</span>
+<span class="sd">            * 2nd level - The next extension is **mavens**.\</span>
+<span class="sd">            **Mavens** are users\</span>
+<span class="sd">            who work to become power users and then act as advocates/\</span>
+<span class="sd">            evangelists for the software which is likely to increase\</span>
+<span class="sd">            the signup rate and adoption rate of those users.\</span>
+<span class="sd">            The **maven** will share the power of the tool, yielding a\</span>
+<span class="sd">            shallower learning curve for new users and an increase\</span>
+<span class="sd">            in adoption due to learning curve + **maven** usage. Combining with\</span>
+<span class="sd">            tool/software standardization across teams and throughout\</span>
+<span class="sd">            verticals, **mavens** provide us a target profile to\</span>
+<span class="sd">            model with a goal of understanding tool flow throughout\</span>
+<span class="sd">            organizations.</span>
+
+<span class="sd">        We will begin building the framework to model **mavens** by\</span>
+<span class="sd">            investigating connectivity.\</span>
+<span class="sd">            In order to integrate connectivity as a feature for modeling\</span>
+<span class="sd">            we build an undirected graph of each organization. Because\</span>
+<span class="sd">            a node can only have 1 parent, and we have that recorded\</span>
+<span class="sd">            in our features we can use an undirected graph to make the\</span>
+<span class="sd">            computation of calculating connected subcomponents faster.\</span>
+<span class="sd">            We also threshold a connected component having a local rank\</span>
+<span class="sd">            greater then 3 for emphasis. This can be further investigated\</span>
+<span class="sd">            in future work.\</span>
+<span class="sd">            We maintain the ability to easily switch to a directed graph\</span>
+<span class="sd">            moving forward if that structure suits our needs better.\</span>
+<span class="sd">            Now we are able to add the local connected component rank of\</span>
+<span class="sd">            a user as well as how many children\</span>
+<span class="sd">            that user has to our design matrix.</span>
+
+
+<span class="sd">        With these new features we look at the impact on feature importance\</span>
+<span class="sd">            and predictive ability in our three models (Note org_size is\</span>
+<span class="sd">            number of Asana accounts belonging to that user&#39;s *org_id*\</span>
+<span class="sd">            and continuous variables have been normalized to have a\</span>
+<span class="sd">            standard deviation of 1 in the design matrix\</span>
+<span class="sd">            which implies dx for a continuous variable is interpreted\</span>
+<span class="sd">            differently from a categorical variable in Logistic Regression\</span>
+<span class="sd">            coefficients:</span>
+
+<span class="sd">+--------+--------------+----------------+----------+------------+----------+-----------+---------+----------+--------+</span>
+<span class="sd">|Model   | mailing_list | marketing_drip | org_size | local_rank | children | GUEST_INV | ORG_INV | PERSONAL | SIGNUP |</span>
+<span class="sd">+========+==============+================+==========+============+==========+===========+=========+==========+========+</span>
+<span class="sd">|Tree    |    0.084     |     0.054      |   0.4    |   0.234    |  0.133   |    0.03   |  0.024  |  0.013   | 0.027  |</span>
+<span class="sd">+--------+--------------+----------------+----------+------------+----------+-----------+---------+----------+--------+</span>
+<span class="sd">|Forest  |    0.036     |     0.029      |   0.55   |    0.23    |  0.104   |   0.012   |  0.013  |  0.013   | 0.013  |</span>
+<span class="sd">+--------+--------------+----------------+----------+------------+----------+-----------+---------+----------+--------+</span>
+<span class="sd">|Logistic|    0.041     |      0.01      |  -0.339  |    0.0     |  0.111   |   -0.035  |  -0.302 |  -0.867  | -0.229 |</span>
+<span class="sd">+--------+--------------+----------------+----------+------------+----------+-----------+---------+----------+--------+</span>
+
+<span class="sd">        While the tree based methods find our engineered features\</span>
+<span class="sd">            rich in information. The Logistic Regression throws away *local_rank*.\</span>
+<span class="sd">            Given how we&#39;ve constructed these features in our design matrix\</span>
+<span class="sd">            there is some redundancy\</span>
+<span class="sd">            of information. Creating different models based on grouping sign up\</span>
+<span class="sd">            methods could be a good direction to take our work and garner more\</span>
+<span class="sd">            insight into features contributing to adoption. We note that our\</span>
+<span class="sd">            pipeline includes a check of **Variance Inflation Factor** in\</span>
+<span class="sd">            constructing our design matrix, and will raise an exception\</span>
+<span class="sd">            if the magnitude of any feature exceeds a VIF of 3.</span>
+
+<span class="sd">        Closer inspection reveals an overall downard trend of *org_size*\</span>
+<span class="sd">            as we would expect from our Logit coefficient. One interesting\</span>
+<span class="sd">            phenomenon that we did not expect and likely hinders the success\</span>
+<span class="sd">            of *children* and *local_rank* features is the 0. adoption rate\</span>
+<span class="sd">            among users with 11 or more children. This is contrary to our\</span>
+<span class="sd">            **maven** hypothesis. One potential explanation for these users\</span>
+<span class="sd">            is they send the reference link and are part of onboarding process but choose\</span>
+<span class="sd">            another tool within their own team. As we have adressed multiple\</span>
+<span class="sd">            times we do not have time within this analysis to include login\</span>
+<span class="sd">            frequency in a constructive manner, however this attribute would likely\</span>
+<span class="sd">            help us partition **mavens** from **connectors** and improve our model.</span>
+
+<span class="sd">    .. image:: ../images/size_adopted.png</span>
+<span class="sd">       :scale: 65 %</span>
+<span class="sd">    .. image:: ../images/children_adoption.png</span>
+<span class="sd">       :scale: 65 %</span>
+<span class="sd">    .. image:: ../images/rank_adoption.png</span>
+<span class="sd">       :scale: 65 %</span>
+
+
+<span class="sd">    We continue to find *mailing_list* and *marketing_drip* to not\</span>
+<span class="sd">        effectively contribute. At this point if we were to continue\</span>
+<span class="sd">        to build our model we would try dropping these features and\</span>
+<span class="sd">        measure the impact on accuracy as well as recall and precision.\</span>
+
+<span class="sd">        We will take this opportunity to discuss class imbalance in our\</span>
+<span class="sd">            system. With only a 13.8% adoption rate, when moving forward\</span>
+<span class="sd">            with modeling efforts we will need to account for this. In a\</span>
+<span class="sd">            parallel thread we also bring up that accuracy is likely not the best\</span>
+<span class="sd">            scoring metric, but to give a more useful scoring metric\</span>
+<span class="sd">            and direction to take the model we need to better understand\</span>
+<span class="sd">            what the results are going to drive.</span>
+
+<span class="sd">        These factors all combine to yield no signifigant change in the\</span>
+<span class="sd">                accuracy of our model calculated during cross validation.</span>
+
+<span class="sd">        Again, this is just the initial framework. From here\</span>
+<span class="sd">            we could incorporate usage frequency at time of recommendation,\</span>
+<span class="sd">            success rate of invited members, and the velocity of the rank\</span>
+<span class="sd">            of the graph as potentially interesting and meaningful features\</span>
+<span class="sd">            in our model.</span>
+
+<span class="sd">    **CONCLUSION**</span>
+<span class="sd">        Ultimately succesfully modeling users\</span>
+<span class="sd">            and organizations requires more information and time then\</span>
+<span class="sd">            we currently have.\</span>
+<span class="sd">            With more information about organizations and specific users, user\</span>
+<span class="sd">            and organizational profiles can help drive product development\</span>
+<span class="sd">            and pricing (pricing, because we then have a way to evaluate\</span>
+<span class="sd">            traction within organizations). Moving forward we can look to\</span>
+<span class="sd">            incorporate more detailed information about types of organizations\</span>
+<span class="sd">            as well as user application and use history/profiles.</span>
+
+<span class="sd">        While these next steps all appear to contain great power,\</span>
+<span class="sd">            they are meaningless if the computation to perform the analysis is\</span>
+<span class="sd">            intractable. The pulling of data can be moved to a database style\</span>
+<span class="sd">            context which is optimized for grouping and reorganizing data\</span>
+<span class="sd">            around an index. The structure of the code below lends itself\</span>
+<span class="sd">            well to partitioning for parallel processing with (key, value) pairs.\</span>
+<span class="sd">            An advantage of user and organizationl profiling is the creation of\</span>
+<span class="sd">            intuitive ways to partition the data. Once profiles are complete\</span>
+<span class="sd">            we can track the change in profiles by comparing subsets windowed\</span>
+<span class="sd">            by time  which again provides\</span>
+<span class="sd">            natural partitions to our processing. If our data become so verbose\</span>
+<span class="sd">            that Spark and AWS computation become intractable, we can sample\</span>
+<span class="sd">            from our data for modeling.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fUsers</span><span class="p">,</span> <span class="n">fEngage</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="c1"># Note to readers: this is a front end for a specific</span>
+        <span class="c1"># analysis that makes use</span>
+        <span class="c1"># of the rest of this package&#39;s architecture. We recommend</span>
+        <span class="c1"># that you begin with class Cleaned and/or proceed downward</span>
+        <span class="c1"># before looking at the contents in this constructor as</span>
+        <span class="c1"># they will likey be unintelligable without familiarity with</span>
+        <span class="c1"># the rest of the module.</span>
+
+        <span class="n">models</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;LOGISTIC&#39;</span><span class="p">:</span> <span class="n">LogisticRegression</span><span class="p">(),</span>
+                  <span class="s1">&#39;TREE&#39;</span><span class="p">:</span> <span class="n">DecisionTreeClassifier</span><span class="p">(),</span>
+                  <span class="s1">&#39;FOREST&#39;</span><span class="p">:</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
+                  <span class="p">}</span>
+        <span class="n">runs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">runs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span>\
+               <span class="p">{</span><span class="s1">&#39;dfs&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;opted_in_to_mailing_list&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;enabled_for_marketing_drip&#39;</span>
+                                   <span class="p">]),</span>
+                        <span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GUEST_INVITE&#39;</span><span class="p">,</span> <span class="s1">&#39;ORG_INVITE&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;PERSONAL_PROJECTS&#39;</span><span class="p">,</span> <span class="s1">&#39;SIGNUP&#39;</span><span class="p">])]</span>
+                <span class="p">}</span>
+
+        <span class="n">runs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span>\
+               <span class="p">{</span><span class="s1">&#39;dfs&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;opted_in_to_mailing_list&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;enabled_for_marketing_drip&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;org_size&#39;</span><span class="p">,</span> <span class="s1">&#39;local_rank&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;children&#39;</span>
+                                   <span class="p">]),</span>
+                        <span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GUEST_INVITE&#39;</span><span class="p">,</span> <span class="s1">&#39;ORG_INVITE&#39;</span><span class="p">,</span>
+                                     <span class="s1">&#39;PERSONAL_PROJECTS&#39;</span><span class="p">,</span> <span class="s1">&#39;SIGNUP&#39;</span><span class="p">])],</span>
+                <span class="s1">&#39;var_scale&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;org_size&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">]</span>
+                <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">importances</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">std</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scores</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">FeatureAnalysis</span><span class="p">(</span><span class="n">fUsers</span><span class="p">,</span> <span class="n">fEngage</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">org_size</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">build_org_networks</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">run</span> <span class="ow">in</span> <span class="n">runs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">importances</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">m</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">isLogistic</span><span class="p">,</span> <span class="n">isTree</span><span class="p">,</span> <span class="n">isForest</span> <span class="o">=</span> <span class="p">[</span><span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">m</span> <span class="ow">is</span> <span class="s1">&#39;LOGISTIC&#39;</span><span class="p">:</span>
+                    <span class="n">isLogistic</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">m</span> <span class="ow">is</span> <span class="s1">&#39;TREE&#39;</span><span class="p">:</span>
+                    <span class="n">isTree</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">m</span> <span class="ow">is</span> <span class="s1">&#39;FOREST&#39;</span><span class="p">:</span>
+                    <span class="n">isForest</span> <span class="o">=</span> <span class="kc">True</span>
+
+                <span class="n">result</span> <span class="o">=</span> <span class="n">AdoptionModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span>
+                                       <span class="n">isLogistic</span><span class="o">=</span><span class="n">isLogistic</span><span class="p">,</span>
+                                       <span class="n">isTree</span><span class="o">=</span><span class="n">isTree</span><span class="p">,</span>
+                                       <span class="n">isForest</span><span class="o">=</span><span class="n">isForest</span><span class="p">,</span>
+                                       <span class="n">autoRun</span><span class="o">=</span><span class="n">run</span>
+                                       <span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">importances</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">featureValues</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">std</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">featureValues</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">scores</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">scores</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Cleaned"><a class="viewcode-back" href="../../asana.html#asana.analysis.Cleaned">[docs]</a><span class="k">class</span> <span class="nc">Cleaned</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for pulling, cleaning, and aggregating data</span>
+
+<span class="sd">    For details inspect embedded source of encapsulated methods</span>
+
+<span class="sd">    :param str/pd.DataFrame fUsers: Path or DataFrame of user data</span>
+<span class="sd">    :param str/pd.DataFrame fEngage: Path or DataFrame of user engagement data</span>
+<span class="sd">    :param tuple.(int,int) adoption: (number of logins, within window)</span>
+<span class="sd">    :param array-like drops: names of columns to drop</span>
+
+
+<span class="sd">    TODO: list attributes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fUsers</span><span class="p">,</span> <span class="n">fEngage</span><span class="p">,</span> <span class="n">adoption</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">),</span>
+                 <span class="n">drops</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">]):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fUsers</span> <span class="o">=</span> <span class="n">fUsers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fEngage</span> <span class="o">=</span> <span class="n">fEngage</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adoption</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;hits&#39;</span><span class="p">:</span> <span class="n">adoption</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                         <span class="s1">&#39;window&#39;</span><span class="p">:</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">adoption</span><span class="p">[</span><span class="mi">1</span><span class="p">])}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">drops</span> <span class="o">=</span> <span class="n">drops</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pull_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dummify_source</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_split_non_users</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_convert_user_time</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_evaluate_users</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_merge_non_users</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_pull_data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pull, partition, drop</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fUsers</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fUsers</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fUsers</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fUsers</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;fUsers not path or DataFrame&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fEngage</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;engage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fEngage</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fEngage</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;engage&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fEngage</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;fEngage not path or DataFrame&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">drops</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">drops</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="n">columnsRename</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s1">&#39;last_session_creation_time&#39;</span> <span class="k">else</span>
+                         <span class="s1">&#39;last_ses&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">columnsRename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;object_id&#39;</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;local_rank&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;creation_time&#39;</span><span class="p">]</span> <span class="o">=</span>\
+            <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;creation_time&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;adopted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">_dummify_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create dummified creation_source DataFrame\</span>
+<span class="sd">                Store in as sources in dfs attribute</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;sources&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span>\
+                                                     <span class="p">[</span><span class="s1">&#39;creation_source&#39;</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_split_non_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split accounts that have never logged in to separate df</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;last_ses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;non_users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">invert</span><span class="p">(</span><span class="n">mask</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">_convert_user_time</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert time_stamp creation_time and last_session_creaetd\</span>
+<span class="sd">                fields of pd.DF to DateTime objects</span>
+
+<span class="sd">        NB this does not clean non_user DataFrame time stamps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;last_ses&#39;</span><span class="p">]</span> <span class="o">=</span>\
+            <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;last_ses&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+                           <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;s&#39;</span>
+                           <span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;engage&#39;</span><span class="p">][</span><span class="s1">&#39;time_stamp&#39;</span><span class="p">]</span> <span class="o">=</span>\
+            <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;engage&#39;</span><span class="p">][</span><span class="s1">&#39;time_stamp&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">date</span>
+
+    <span class="k">def</span> <span class="nf">_evaluate_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Evaluate whether or not a user meets adoption criteria</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">user_history</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;engage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;user_id&#39;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">user</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="n">user_history</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">evaluate_logins</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">time_stamp</span><span class="o">.</span><span class="n">values</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">adoption</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;adopted&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="k">def</span> <span class="nf">_merge_non_users</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge non users back into users df</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">],</span>
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;non_users&#39;</span><span class="p">]])</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;non_users&#39;</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="FeatureAnalysis"><a class="viewcode-back" href="../../asana.html#asana.analysis.FeatureAnalysis">[docs]</a><span class="k">class</span> <span class="nc">FeatureAnalysis</span><span class="p">(</span><span class="n">Cleaned</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate organization sizes, networks, and graph attributes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="FeatureAnalysis.org_size"><a class="viewcode-back" href="../../asana.html#asana.analysis.FeatureAnalysis.org_size">[docs]</a>    <span class="k">def</span> <span class="nf">org_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate org_size and degree where applicable</span>
+
+<span class="sd">        Note org_size is number of Users with that a common org_id, not actual size</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;degree&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;org_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;org_id&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;org_size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;org_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;count&#39;</span><span class="p">)[</span><span class="s1">&#39;adopted&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="FeatureAnalysis.build_org_networks"><a class="viewcode-back" href="../../asana.html#asana.analysis.FeatureAnalysis.build_org_networks">[docs]</a>    <span class="k">def</span> <span class="nf">build_org_networks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build graphs for connected users where applicable</span>
+
+<span class="sd">        Note degree and children will have high correlation</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">group</span><span class="p">,</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">[</span><span class="s1">&#39;org_id&#39;</span><span class="p">]:</span>
+            <span class="n">graph_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;invited_by_user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;object_id&#39;</span><span class="p">]][</span><span class="n">df</span><span class="o">.</span><span class="n">invited_by_user_id</span><span class="o">.</span><span class="n">notnull</span><span class="p">()]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">graph_df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">graph</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">from_pandas_dataframe</span><span class="p">(</span><span class="n">graph_df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span>
+                                     <span class="s1">&#39;invited_by_user_id&#39;</span><span class="p">,</span> <span class="s1">&#39;object_id&#39;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">graphs</span><span class="p">[</span><span class="n">group</span><span class="p">]</span> <span class="o">=</span> <span class="n">graph</span>
+                <span class="n">degrees</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">())</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;degree&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">degrees</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">degrees</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">nx</span><span class="o">.</span><span class="n">connected_component_subgraphs</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
+                    <span class="n">nodes</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
+                    <span class="n">lenNodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">lenNodes</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;local_rank&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">nodes</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;children&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;degree&#39;</span><span class="p">]</span> <span class="o">-</span>\
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">][</span><span class="s1">&#39;invited_by_user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">notnull</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="AdoptionModel"><a class="viewcode-back" href="../../asana.html#asana.analysis.AdoptionModel">[docs]</a><span class="k">class</span> <span class="nc">AdoptionModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for evaluating models on :class:FeatureAnalysis objects</span>
+
+<span class="sd">    :param FeatureAnalysis cleaned: Cleaned data with engineered features</span>
+<span class="sd">    :param sklearn model: scikit learn model, currently works with Logistic Regression, DecistionTree\</span>
+<span class="sd">            Classifier and RandomForest Classifier</span>
+<span class="sd">    :param bool isLogistic: boolean for model type. note this notation due to different access points\</span>
+<span class="sd">            for coefficients and feature importances in fit models</span>
+<span class="sd">    :param bool isTree: boolean for model type.</span>
+<span class="sd">    :param bool isForest: boolean for model type.</span>
+<span class="sd">    :param int folds: Number of folds to run in cross validation</span>
+<span class="sd">    :param float vifMagnitude: threshold for variance inflation factor</span>
+<span class="sd">    :param dict autoRun: dictionary for automating runs, examples and front end INDEV</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cleaned</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">isLogistic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">isTree</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">isForest</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">folds</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+                 <span class="n">vifMagnitude</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+                 <span class="n">autoRun</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dfs&#39;</span><span class="p">:</span> <span class="p">[(</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;opted_in_to_mailing_list&#39;</span><span class="p">,</span>
+                                             <span class="s1">&#39;enabled_for_marketing_drip&#39;</span><span class="p">,</span>
+                                             <span class="s1">&#39;org_size&#39;</span><span class="p">,</span> <span class="s1">&#39;local_rank&#39;</span><span class="p">,</span>
+                                             <span class="s1">&#39;children&#39;</span>
+                                             <span class="p">]),</span>
+                                  <span class="p">(</span><span class="s1">&#39;sources&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;GUEST_INVITE&#39;</span><span class="p">,</span> <span class="s1">&#39;ORG_INVITE&#39;</span><span class="p">,</span>
+                                               <span class="s1">&#39;PERSONAL_PROJECTS&#39;</span><span class="p">,</span> <span class="s1">&#39;SIGNUP&#39;</span><span class="p">])],</span>
+                          <span class="s1">&#39;var_scale&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;org_size&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">]</span>
+                          <span class="p">}</span>
+                 <span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cleaned</span> <span class="o">=</span> <span class="n">cleaned</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isLogistic</span> <span class="o">=</span> <span class="n">isLogistic</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isTree</span> <span class="o">=</span> <span class="n">isTree</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isForest</span> <span class="o">=</span> <span class="n">isForest</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">folds</span> <span class="o">=</span> <span class="n">folds</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vifMagnitude</span> <span class="o">=</span> <span class="n">vifMagnitude</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cleaned</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="s1">&#39;users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collinear</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">autoRun</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">autoRun</span><span class="p">[</span><span class="s1">&#39;dfs&#39;</span><span class="p">]:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">model_prep</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model_prep</span><span class="p">(</span><span class="s1">&#39;users&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;adopted&#39;</span><span class="p">])</span>
+
+            <span class="k">if</span> <span class="s1">&#39;var_scale&#39;</span> <span class="ow">in</span> <span class="n">autoRun</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">autoRun</span><span class="p">[</span><span class="s1">&#39;var_scale&#39;</span><span class="p">]:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">feature_importance</span><span class="p">()</span>
+
+<div class="viewcode-block" id="AdoptionModel.model_prep"><a class="viewcode-back" href="../../asana.html#asana.analysis.AdoptionModel.model_prep">[docs]</a>    <span class="k">def</span> <span class="nf">model_prep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cdf</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Merge DataFrames into df attribute to create design matrix</span>
+
+<span class="sd">        :param str cdf: key of cleaned.dfs to access DataFrame</span>
+<span class="sd">        :param int/str columns: index/column name of DataFrame to grab</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaned</span><span class="o">.</span><span class="n">dfs</span><span class="p">[</span><span class="n">cdf</span><span class="p">][</span><span class="n">columns</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="AdoptionModel.scale"><a class="viewcode-back" href="../../asana.html#asana.analysis.AdoptionModel.scale">[docs]</a>    <span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Scale column of df by standard deviation</span>
+
+<span class="sd">        :param str i: column header</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># move too standard scalar </span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AdoptionModel.design"><a class="viewcode-back" href="../../asana.html#asana.analysis.AdoptionModel.design">[docs]</a>    <span class="k">def</span> <span class="nf">design</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split target from features. Store in attributes X, y</span>
+
+<span class="sd">        :param str y: column name of the y feature to split\</span>
+<span class="sd">                default is the last column</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">y</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">y</span><span class="p">]]</span><span class="o">.</span><span class="n">values</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">header</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
+                                           <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">y</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="n">y</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;float&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;int&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_collinear_vif</span><span class="p">()</span></div>
+
+    <span class="k">def</span> <span class="nf">_collinear_vif</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check for collinear features</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">vif</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">vifMagnitude</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; has vif &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">collinear</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collinear</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Collinear feature risk&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="AdoptionModel.feature_importance"><a class="viewcode-back" href="../../asana.html#asana.analysis.AdoptionModel.feature_importance">[docs]</a>    <span class="k">def</span> <span class="nf">feature_importance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Run analysis with KFolds. (With room to add other aspects)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kfold_features</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="AdoptionModel.kfold_features"><a class="viewcode-back" href="../../asana.html#asana.analysis.AdoptionModel.kfold_features">[docs]</a>    <span class="k">def</span> <span class="nf">kfold_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        KFold model prediction with feature importance and model</span>
+<span class="sd">        scores stored per fold.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scores</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">featureValues</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">kfolds</span> <span class="o">=</span> <span class="n">KFold</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n_folds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">folds</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span> <span class="ow">in</span> <span class="n">kfolds</span><span class="p">:</span>
+            <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">train_index</span><span class="p">,</span> <span class="p">:],</span> <span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">[</span><span class="n">test_index</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">test_index</span><span class="p">]</span>
+            <span class="n">fit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isTree</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">featureValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">tree_</span><span class="o">.</span><span class="n">compute_feature_importances</span><span class="p">())</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">isForest</span><span class="p">:</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">featureValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">feature_importances_</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">isLogistic</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">featureValues</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">coef_</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">scores</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fit</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">))</span></div></div>
+
+
+
+<div class="viewcode-block" id="evaluate_logins"><a class="viewcode-back" href="../../asana.html#asana.analysis.evaluate_logins">[docs]</a><span class="k">def</span> <span class="nf">evaluate_logins</span><span class="p">(</span><span class="n">logins</span><span class="p">,</span> <span class="n">adoption</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evalue login  Dates to meet adoption criteria</span>
+
+<span class="sd">    :param array-like logins: array of DateTime objects</span>
+<span class="sd">    :param dict adoption: adoption criteria {&#39;hits&#39;: int \</span>
+<span class="sd">            &#39;window&#39;: int} specifying the number of logins\</span>
+<span class="sd">            or &#39;hits&#39; required in a given &#39;window&#39; to\</span>
+<span class="sd">            constitute an adopted user</span>
+
+<span class="sd">    :return: boolean</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">hits</span> <span class="o">=</span> <span class="n">adoption</span><span class="p">[</span><span class="s1">&#39;hits&#39;</span><span class="p">]</span>
+    <span class="n">window</span> <span class="o">=</span> <span class="n">adoption</span><span class="p">[</span><span class="s1">&#39;window&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">logins</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">hits</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">logins</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+
+    <span class="n">hits</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">l1</span><span class="p">,</span> <span class="n">l2</span><span class="p">,</span> <span class="ow">in</span> <span class="n">it</span><span class="o">.</span><span class="n">izip</span><span class="p">(</span><span class="n">logins</span><span class="p">[:</span><span class="o">-</span><span class="n">hits</span><span class="p">],</span> <span class="n">logins</span><span class="p">[</span><span class="n">hits</span><span class="p">:]):</span>
+        <span class="k">if</span> <span class="n">l2</span> <span class="o">-</span> <span class="n">l1</span> <span class="o">&lt;=</span> <span class="n">window</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="k">return</span> <span class="kc">False</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

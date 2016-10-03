@@ -32,8 +32,8 @@
   
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
         <link rel="up" title="code" href="modules.html"/>
-        <link rel="next" title="cvcparser package" href="cvcparser.html"/>
-        <link rel="prev" title="wikitravel package" href="wikitravel.html"/> 
+        <link rel="next" title="asana package" href="asana.html"/>
+        <link rel="prev" title="code" href="modules.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,7 +84,6 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">network_analysis package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-network_analysis.network_analysis">network_analysis.network_analysis module</a></li>
@@ -92,6 +91,9 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-network_analysis">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="asana.html">asana package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="helpers.html">helpers package</a></li>
@@ -99,7 +101,7 @@
 <li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="asana.html">asana package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">network_analysis package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-network_analysis.network_analysis">network_analysis.network_analysis module</a></li>
@@ -107,6 +109,8 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-network_analysis">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="filesync.sync.html">filesync.sync package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -191,7 +195,7 @@ as not a network and a warning indicating such is reported.</p>
 </tbody>
 </table>
 <p>The file <a class="reference external" href="https://github.com/marksweissma/code/blob/master/network_analysis/peer_link_example.csv">peer_link_example.csv</a>
-is an example file which can be loaded with the <a class="reference internal" href="#network_analysis.example_parser.parse" title="network_analysis.example_parser.parse"><code class="xref py py-class docutils literal"><span class="pre">network_analysis.example_parser.parse</span></code></a>             to generate the inputs for system network</p>
+is an example file which can be loaded with the <a class="reference internal" href="#network_analysis.example_parser.parse" title="network_analysis.example_parser.parse"><code class="xref py py-class docutils literal"><span class="pre">network_analysis.example_parser.parse</span></code></a>  function            to generate the inputs for system network</p>
 <dl class="attribute">
 <dt id="network_analysis.network_analysis.SystemNetwork.graphs">
 <code class="descname">graphs</code><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.graphs" title="Permalink to this definition">¶</a></dt>
@@ -225,7 +229,7 @@ is an example file which can be loaded with the <a class="reference internal" hr
 <dl class="method">
 <dt id="network_analysis.network_analysis.SystemNetwork.evaluate_networks">
 <code class="descname">evaluate_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/network_analysis/network_analysis.html#SystemNetwork.evaluate_networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#network_analysis.network_analysis.SystemNetwork.evaluate_networks" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create <a class="reference internal" href="#network_analysis.network_analysis.MeshGraph" title="network_analysis.network_analysis.MeshGraph"><code class="xref py py-class docutils literal"><span class="pre">MeshGraph</span></code></a> from node lists in networks and evaluate quality</p>
+<dd><p>Create <a class="reference internal" href="#network_analysis.network_analysis.MeshGraph" title="network_analysis.network_analysis.MeshGraph"><code class="xref py py-class docutils literal"><span class="pre">MeshGraph</span></code></a> objects from node lists in networks and evaluate quality</p>
 </dd></dl>
 
 <dl class="method">
@@ -329,10 +333,10 @@ all nodes to all other nodes</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cvcparser.html" class="btn btn-neutral float-right" title="cvcparser package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="asana.html" class="btn btn-neutral float-right" title="asana package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="wikitravel.html" class="btn btn-neutral" title="wikitravel package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral" title="code" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

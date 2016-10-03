@@ -82,6 +82,7 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../asana.html">asana package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../churn_study.html">churn_study package</a></li>
@@ -140,7 +141,19 @@
 <span class="kn">from</span> <span class="nn">mpl_toolkits.mplot3d</span> <span class="k">import</span> <span class="n">Axes3D</span>
 <span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">butter</span><span class="p">,</span> <span class="n">lfilter</span><span class="p">,</span> <span class="n">freqz</span>
 
+<div class="viewcode-block" id="butter_lowpass"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.butter_lowpass">[docs]</a><span class="k">def</span> <span class="nf">butter_lowpass</span><span class="p">(</span><span class="n">cutoff</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">nyq</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">fs</span>
+    <span class="n">normal_cutoff</span> <span class="o">=</span> <span class="n">cutoff</span> <span class="o">/</span> <span class="n">nyq</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">butter</span><span class="p">(</span><span class="n">order</span><span class="p">,</span> <span class="n">normal_cutoff</span><span class="p">,</span> <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;low&#39;</span><span class="p">,</span> <span class="n">analog</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span></div>
+
+<div class="viewcode-block" id="butter_lowpass_filter"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.butter_lowpass_filter">[docs]</a><span class="k">def</span> <span class="nf">butter_lowpass_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">cutoff</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="n">butter_lowpass</span><span class="p">(</span><span class="n">cutoff</span><span class="p">,</span> <span class="n">fs</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">lfilter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">y</span></div>
 
 <div class="viewcode-block" id="basismap_3d"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.basismap_3d">[docs]</a><span class="k">def</span> <span class="nf">basismap_3d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">centroids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -227,37 +240,32 @@
         <span class="k">return</span><span class="p">(</span><span class="n">data_nd</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="TreeGraph"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.TreeGraph">[docs]</a><span class="k">class</span> <span class="nc">TreeGraph</span><span class="p">(</span><span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">):</span>
+<div class="viewcode-block" id="spiral"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.spiral">[docs]</a><span class="k">def</span> <span class="nf">spiral</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">cond</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">cpy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Subclass of networkx Graph for path search applications</span>
+<span class="sd">    Spiral unpack a list of lists via counterclock rotation \</span>
+<span class="sd">            until a condition is met</span>
+
+<span class="sd">    NB: Function utilizes pop, use cpy to preserve original if you are \</span>
+<span class="sd">            unsure of impact in the applied namespace</span>
+
+<span class="sd">    :param array-like a: if a is not list, it will be converted by list(a)</span>
+<span class="sd">    :param func cond: conditional expression to stop at while spiraling a.</span>
+<span class="sd">    :param bool cpy: deepycopy input</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="TreeGraph.tree_diameter"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.TreeGraph.tree_diameter">[docs]</a>    <span class="k">def</span> <span class="nf">tree_diameter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Find diameter node pairs and path in graph</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="p">[]</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cpy</span><span class="p">:</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
 
-        <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">()</span>
-        <span class="n">node_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
-        <span class="n">node_max</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">cond</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+        <span class="n">output</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="c1"># Pivot matrix counter clockwise</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">a</span><span class="p">)][::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span></div>
 
-        <span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="p">[</span><span class="n">edges</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">()]</span>
-        <span class="n">edge_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">counts</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">edge_array</span><span class="p">,</span>
-                                              <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">node_min</span><span class="p">,</span> <span class="n">node_max</span><span class="p">)</span>
-                                              <span class="p">)</span>
-        <span class="n">logical</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">counts</span> <span class="o">==</span> <span class="mi">1</span>
-        <span class="n">leaves</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="p">[</span><span class="n">logical</span><span class="p">]]</span>
-        <span class="n">iter_paths</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">leaves</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-
-        <span class="k">for</span> <span class="n">tree_path</span> <span class="ow">in</span> <span class="n">iter_paths</span><span class="p">:</span>
-            <span class="n">cost</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path_length</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">if</span> <span class="n">cost</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">diameter</span> <span class="o">=</span> <span class="n">cost</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">diameter_path</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">tree_path</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div></div>
 
 </pre></div>
 

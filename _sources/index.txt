@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 4
 
    modules.rst
+   asana.rst
    network_analysis.rst
    wikitravel.rst
    churn_study.rst
