@@ -5,6 +5,7 @@ code
    :maxdepth: 4
 
    network_analysis
+   route_vision
    wikitravel
    churn_study
    cvcparser

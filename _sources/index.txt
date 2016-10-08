@@ -12,6 +12,7 @@ Contents:
    :maxdepth: 4
 
    modules.rst
+   route_vision.rst
    network_analysis.rst
    wikitravel.rst
    churn_study.rst

@@ -1,0 +1,453 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>route_vision package &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="code" href="modules.html"/>
+        <link rel="next" title="wikitravel package" href="wikitravel.html"/>
+        <link rel="prev" title="network_analysis package" href="network_analysis.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">route_vision package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-route_vision.astar">route_vision.astar module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-route_vision.frame">route_vision.frame module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-route_vision.gif">route_vision.gif module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-route_vision.grid">route_vision.grid module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-route_vision">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">helpers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">route_vision package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-route_vision.astar">route_vision.astar module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-route_vision.frame">route_vision.frame module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-route_vision.gif">route_vision.gif module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-route_vision.grid">route_vision.grid module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-route_vision">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filesync.sync.html">filesync.sync package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">helpers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">code</a> &raquo;</li>
+      
+    <li>route_vision package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/route_vision.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="route-vision-package">
+<h1>route_vision package<a class="headerlink" href="#route-vision-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-route_vision.astar">
+<span id="route-vision-astar-module"></span><h2>route_vision.astar module<a class="headerlink" href="#module-route_vision.astar" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="route_vision.astar.AStar">
+<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>auto=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a></p>
+<p>AStar class, designed to search paths from <code class="xref py py-class docutils literal"><span class="pre">grid.Grid</span></code></p>
+<dl class="method">
+<dt id="route_vision.astar.AStar.heuristic_component">
+<code class="descname">heuristic_component</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.heuristic_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.heuristic_component" title="Permalink to this definition">¶</a></dt>
+<dd><p>E[t] for search</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>int) a</strong> (<em>tuple.(int,</em>) &#8211; node id in graph for target node</li>
+<li><strong>int) b</strong> (<em>tuple.(int,</em>) &#8211; node id in graph for current node</li>
+<li><strong>int) n</strong> (<em>tuple.(int,</em>) &#8211; node id in graph for source node</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.astar.AStar.cost">
+<code class="descname">cost</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.cost" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cost of edge in time:=distance/velocity</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>int) a</strong> (<em>tuple.(int,</em>) &#8211; node id</li>
+<li><strong>int) b</strong> (<em>tuple.(int,</em>) &#8211; node id</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.astar.AStar.search">
+<code class="descname">search</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.search" title="Permalink to this definition">¶</a></dt>
+<dd><p>Search path from n[0] to n[1]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>int) n</strong> (<em>tuple.tuple.(int,</em>) &#8211; pair of node ids in graph (source, target)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.astar.AStar.plot">
+<code class="descname">plot</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot current state in search</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.astar.AStar.path_eval">
+<code class="descname">path_eval</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.path_eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.path_eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create list of nodes in path</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.astar.AStar.octile_dist">
+<code class="descname">octile_dist</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.octile_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.octile_dist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute octile (L_inf) norm distance</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>a</strong> (<em>array-like</em>) &#8211; point a</li>
+<li><strong>b</strong> (<em>array-like</em>) &#8211; point b</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dist</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-route_vision.frame">
+<span id="route-vision-frame-module"></span><h2>route_vision.frame module<a class="headerlink" href="#module-route_vision.frame" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="route_vision.frame.Frame">
+<em class="property">class </em><code class="descclassname">route_vision.frame.</code><code class="descname">Frame</code><a class="reference internal" href="_modules/route_vision/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-route_vision.gif">
+<span id="route-vision-gif-module"></span><h2>route_vision.gif module<a class="headerlink" href="#module-route_vision.gif" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="route_vision.gif.GIF">
+<em class="property">class </em><code class="descclassname">route_vision.gif.</code><code class="descname">GIF</code><span class="sig-paren">(</span><em>ima</em>, <em>imb</em>, <em>static=None</em>, <em>processed='images/comp'</em>, <em>repeat_end=20</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/gif.html#GIF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.gif.GIF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for concatenating images to make GIFs with</p>
+<dl class="method">
+<dt id="route_vision.gif.GIF.cat">
+<code class="descname">cat</code><span class="sig-paren">(</span><em>fa</em>, <em>fb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/gif.html#GIF.cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.gif.GIF.cat" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="route_vision.gif.GIF.hor_cat">
+<code class="descname">hor_cat</code><span class="sig-paren">(</span><em>imgs</em>, <em>count</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/gif.html#GIF.hor_cat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.gif.GIF.hor_cat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines color images side-by-side.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="route_vision.gif.replicate">
+<code class="descclassname">route_vision.gif.</code><code class="descname">replicate</code><span class="sig-paren">(</span><em>f</em>, <em>d</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/gif.html#replicate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.gif.replicate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-route_vision.grid">
+<span id="route-vision-grid-module"></span><h2>route_vision.grid module<a class="headerlink" href="#module-route_vision.grid" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="route_vision.grid.Grid">
+<em class="property">class </em><code class="descclassname">route_vision.grid.</code><code class="descname">Grid</code><span class="sig-paren">(</span><em>data=None</em>, <em>meshSize=(3</em>, <em>3)</em>, <em>distMetric='euclidean'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class to setup and create graphs for <code class="xref py py-class docutils literal"><span class="pre">astar.AStar</span></code> analysis</p>
+<dl class="method">
+<dt id="route_vision.grid.Grid.point_diff">
+<code class="descname">point_diff</code><span class="sig-paren">(</span><em>p1=[1, 3], p2=[2, 6]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.point_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.point_diff" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.dist_grids">
+<code class="descname">dist_grids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.dist_grids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.dist_grids" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.calc_pdist">
+<code class="descname">calc_pdist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.calc_pdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.calc_pdist" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.velocity_profile">
+<code class="descname">velocity_profile</code><span class="sig-paren">(</span><em>profile='uniform'</em>, <em>attrs={'scalar': 1.0}</em>, <em>norm=True</em>, <em>scale=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_profile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate either uniform or harmonic profile prescribeed by attrs</p>
+<p>example- &#8216;harmonic&#8217;,{&#8216;scalar&#8217;:1., &#8216;xf&#8217;:2., &#8216;yf&#8217;:2., &#8216;xa&#8217;:1.,&#8217;ya&#8217;:1.}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.velocity_update">
+<code class="descname">velocity_update</code><span class="sig-paren">(</span><em>update</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>update velocity of prescribed cells to values</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.to_graph">
+<code class="descname">to_graph</code><span class="sig-paren">(</span><em>directions=[(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)], nodes=True, edges=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.to_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>create graph from grid</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.plot_graph">
+<code class="descname">plot_graph</code><span class="sig-paren">(</span><em>fName='t.png'</em>, <em>edge_color='vel'</em>, <em>node_color=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>plott edge velocities in graph</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.plot_state">
+<code class="descname">plot_state</code><span class="sig-paren">(</span><em>openNodes</em>, <em>closedNodes</em>, <em>edges=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot state in a search</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.template_fig">
+<code class="descname">template_fig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.template_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.template_fig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create template for figures</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.plot_obstacle">
+<code class="descname">plot_obstacle</code><span class="sig-paren">(</span><em>nodes</em>, <em>color='r'</em>, <em>size='75'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_obstacle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_obstacle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot obstacle or feature nodes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="route_vision.grid.Grid.plot_path">
+<code class="descname">plot_path</code><span class="sig-paren">(</span><em>nodes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot path of nodes</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-route_vision">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-route_vision" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="wikitravel.html" class="btn btn-neutral float-right" title="wikitravel package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="network_analysis.html" class="btn btn-neutral" title="network_analysis package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
