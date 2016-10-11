@@ -17,8 +17,8 @@ class Grid(object):
                                     np.arange(data.shape[1])
                                     )
         if not data:
-            self.mesh = np.meshgrid(np.arange(meshSize[0]),
-                                    np.arange(meshSize[1]))
+            self.mesh = np.meshgrid(np.arange(meshSize[1]),
+                                    np.arange(meshSize[0]))
             data = np.ones_like(self.mesh)
         self.data = data
         self.x = self.mesh[0]
@@ -66,7 +66,7 @@ class Grid(object):
     def velocity_profile(self, profile='uniform', attrs={'scalar':1.},
                          norm=True, scale=False):
         """
-        Generate either uniform or harmonic profile prescribeed by attrs
+        Generate either uniform or harmonic profile perscribed by attrs
 
         example- 'harmonic',{'scalar':1., 'xf':2., 'yf':2., 'xa':1.,'ya':1.}
         """
@@ -98,24 +98,30 @@ class Grid(object):
         for cell, value in zip(cells, values):
             self.velocity[cell] = value
 
-    def to_graph(self, directions=[(0, 1), (0, -1), (1, 0), (-1, 0),
-                                   (1, 1), (1, -1), (-1, 1), (-1, -1)],
+    def to_graph(self, links=8,
                  nodes=True,
                  edges=True
                  ):
         """
         create graph from grid
         """
+        if links == 8:
+            directions = [(0, 1), (0, -1), (1, 0), (-1, 0),
+                          (1, 1), (1, -1), (-1, 1), (-1, -1)]
+        elif links == 4:
+            directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+
         distances = np.linalg.norm(np.array(directions), axis=1)
 
         self.graph = nx.DiGraph()
-        for i in range(self.meshSize[1]):
-            for j in range(self.meshSize[0]):
+        s = self.velocity.shape
+        for i in range(self.meshSize[0]):
+            for j in range(self.meshSize[1]):
                 for direct, dist in zip(directions, distances):
                     n1 = (i, j)
                     n2 = (i + direct[0], j + direct[1])
-                    if (n2[0] >= 0 and n2[0] <= (self.meshSize[1] - 1)) and\
-                       (n2[1] >= 0 and n2[1] <= (self.meshSize[0] - 1)):
+                    if all([n2[0] >= 0,  n2[0] < self.meshSize[0],
+                       n2[1] >= 0, n2[1] < self.meshSize[1]]):
 
                         v1 = self.velocity[n1[0], n1[1]]
                         v2 = self.velocity[n2[0], n2[1]]
@@ -126,17 +132,20 @@ class Grid(object):
                                  'direct': direct
                                  }
                         self.graph.add_edge(n1, n2, attr_dict=attrs)
-                # self.graph[n1]['vel'] = v1
+                    if s != self.velocity.shape:
+                        print i, j, n1, n2
+                self.graph[n1]['vel'] = v1
         if nodes:
-            self.nodes = self.graph.nodes()
+            self.nodes = [i for i in self.graph.nodes() if not any([isinstance(i[0], str), isinstance(i[1], str)])]
         if edges:
-            self.edges = self.graph.edges()
+            self.edges = [i for i in self.graph.edges() if not any([isinstance(i[0], str), isinstance(i[1], str)])]
 
     def plot_graph(self, fName='t.png', edge_color='vel', node_color=None):
         """
         plott edge velocities in graph
         """
-        uGraph = nx.Graph(self.graph)
+        uGraph = nx.Graph()
+        uGraph.add_edges_from(self.edges)
         self.pos = {i: np.array(i) for i in self.nodes}
         edge_colors = [self.graph[i[0]][i[1]][edge_color]
                        for i in uGraph.edges()]
@@ -165,7 +174,8 @@ class Grid(object):
         """
         Plot state in a search
         """
-        uGraph = nx.Graph(self.graph)
+        uGraph = nx.Graph()
+        uGraph.add_edges_from(self.edges)
         self.pos = {i: np.array(i) for i in self.nodes}
         if 'ax' not in self.__dict__:
             self.template_fig()
@@ -186,14 +196,15 @@ class Grid(object):
         self.ax = plt.Axes(self.fig, [0., 0., 1., 1.])
         self.ax.set_axis_off()
         self.fig.add_axes(self.ax)
-        self.ax.set_xlim([-1, self.meshSize[1]])
-        self.ax.set_ylim([-1, self.meshSize[0]])
+        self.ax.set_xlim([-1, self.meshSize[0]])
+        self.ax.set_ylim([-1, self.meshSize[1]])
 
     def plot_obstacle(self, nodes, color='r', size='75'):
         """
         Plot obstacle or feature nodes
         """
-        uGraph = nx.Graph(self.graph)
+        uGraph = nx.Graph()
+        uGraph.add_edges_from(self.edges)
         nx.draw_networkx_nodes(uGraph, self.pos, nodelist=nodes,
                 node_size=size, node_color=color, ax=self.ax)
 
@@ -201,7 +212,8 @@ class Grid(object):
         """
         Plot path of nodes
         """
-        uGraph = nx.Graph(self.graph)
+        uGraph = nx.Graph()
+        uGraph.add_edges_from(self.edges)
 
         edges = [(i, j) for i, j in zip(nodes[:-1], nodes[1:])]
         print edges

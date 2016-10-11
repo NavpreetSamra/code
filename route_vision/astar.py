@@ -8,7 +8,7 @@ from scipy.spatial.distance import pdist
 
 class AStar(grid.Grid):
     """
-    AStar class, designed to search paths from :py:class:`grid.Grid`
+    AStar class, designed to search paths from :py:class:Grid.grid
 
     """
     def __init__(self, meshSize=(3, 3), plots=None,
@@ -18,7 +18,8 @@ class AStar(grid.Grid):
                  heur={'comp': 'vel', 'metric': 'octile', 'alpha': 1.},
                  heur_weight=5,
                  embedPath=None,
-                 auto=True
+                 auto=True,
+                 links=8
                  ):
 
         super(AStar, self).__init__(meshSize=meshSize)
@@ -29,10 +30,10 @@ class AStar(grid.Grid):
             self.velocity_profile(velocity_type, velocity_attrs)
             if embedPath:
                 self.velocity_update(embedPath)
-            self.to_graph()
+            self.to_graph(links)
         self.rt2 = np.sqrt(2)
 
-    def heuristic_component(self, n):
+    def heuristic_component(self, node, neighbor):
         """
         E[t] for search
 
@@ -47,17 +48,21 @@ class AStar(grid.Grid):
         comp = self.heur['comp']
         alpha = self.heur['alpha']
 
-        vel = self.velocity[n[0], n[1]]
+        # vel = self.velocity[n[0], n[1]]
+        vel = self.graph[neighbor]['vel']
         if metric == 'octile':
-            dist1 = self.octil_dist(self.n2, n)
+            dist1 = self.octile_dist(self.n2, neighbor)
         else:
-            dist1 = pdist([self.n2, n], metric=metric)
+            dist1 = pdist([self.n2, neighbor], metric=metric)
 
         if comp == 'vel':
-            dist2 = self.octil_dist(self.n1, n)
+            dist2 = self.octile_dist(self.n1, neighbor)
             value = dist1 + dist1 / ((dist1 + dist2) * vel)
+        elif comp == 'veld':
+            dist2 = self.octile_dist(self.n1, neighbor)
+            value = dist1 + (dist1 * self.graph[node][neighbor]['dist']) / ((dist1 + dist2) * vel)
         elif comp == 'eig':
-            value = dist1 + 1 / np.mean([vel, self.norm_scores[n]])
+            value = dist1 + 1 / np.mean([vel, self.norm_scores[neighbor]])
         elif comp == 'stock':
             value = dist1
         return 1 + alpha * (value - 1)
@@ -70,6 +75,17 @@ class AStar(grid.Grid):
         :param tuple.(int, int) b: node id
         """
         return self.graph[a][b]['dist'] / float(self.graph[a][b]['vel'])
+
+    def build_city(self):
+        """
+        """
+        self.velocity_profile('uniform')
+        self.velocity[2:55, 15:25] = .0001
+        self.velocity[[10, 20, 30, 40, 50], :] = 2
+        self.velocity[[10, 20, 30], :] = 2
+        self.velocity[10:20, [10, 30]] = 2
+        self.velocity[30:40, [10, 30]] = 2
+        self.to_graph(4)
 
     def search(self, n):
         """
@@ -105,7 +121,7 @@ class AStar(grid.Grid):
                 if self.plots:
                     self.plot()
                 break
-            neighbors = self.graph.neighbors(node)
+            neighbors = [i for i in self.graph.neighbors(node) if not isinstance(i, str)]
             for neighbor in neighbors:
                 neighborCost = self.pathCost[node] + self.cost(node, neighbor)
                 if neighbor not in self.pathCost or\
@@ -113,7 +129,7 @@ class AStar(grid.Grid):
                     self.callCount += 1
                     self.pathCost[neighbor] = neighborCost
                     value = neighborCost + self.heur_weight *\
-                            self.heuristic_component(self.n2, neighbor)
+                            self.heuristic_component(node, neighbor)
 
                     self.pq.put((value, neighbor))
                     self.pathFrom[neighbor] = node
@@ -135,7 +151,7 @@ class AStar(grid.Grid):
         self.fig.savefig(self.plots+str(self.iterCount).zfill(4)+'.png')
         grid.plt.close(self.fig)
 
-    def path_eval(self):
+    def path_eval(self, plots='vel_path.png'):
         """
         Create list of nodes in path
         """
@@ -144,6 +160,10 @@ class AStar(grid.Grid):
         while self.pathFrom[node]:
             node = self.pathFrom[node]
             self.path_found.insert(0, node)
+    
+        if plots:
+            self.plot_graph()
+            self.plot_path(self.path_found)
 
     def octile_dist(self, a, b):
         """
