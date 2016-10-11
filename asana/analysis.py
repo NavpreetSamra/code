@@ -9,30 +9,34 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier
 
+
 class UserAdoption(object):
     """
     **INTRODUCTION**
         The purpose of this analysis is to understand what features of a user\
                 contribute to user adoption.
-        Two critical points to remember throughout this process are:
+        Before proceeding, two critical points to remember throughout\
+                this process are:
 
         1. This data is artificial
         2. We do not have infinite time
 
         As a result of point 2, we prioritize\
-            deriving meaningful and interpretable results that can manifest\
+            guiding our work toward interpretable results that can manifest\
             into productive business driven insights. The following details\
-            an inspection and exploration process of the data available in an\
+            an inspection and exploration process of the provided data in an\
             effort to determine what factors have the greatest impact on\
             predicting user adoption. From there we will begin to embed the\
-            **maven** user as as feature in an attempt to improve our ability to\
-            predict as well as understand drivers of user adoption. `Maven\
+            **maven** user as\
+            a feature with the goal of improving prediction\
+            as well as better understanding drivers of user adoption. The `Maven\
             <https://en.wikipedia.org/wiki/Maven>`_ as described by Malcom\
             Gladwell in\
             `The Tipping Point <https://en.wikipedia.org/wiki/The_Tipping_Point>`_
 
 
-        Our inspection of the data begins with 2 broad categorizations:
+        Data inspection reveals attributes belonging to\
+            2 broad categorizations:
 
                 1) User
                     * name
@@ -49,24 +53,24 @@ class UserAdoption(object):
                     * creation_time
                     * invited_by_user_id
 
-        Because all of this data except login history is organized in a single\
-            table, we proceed by calculating whether or not a user has adopted\
+        With the exception of *login history*, this data is organized in a single\
+            table. We proceed by calculating whether or not a user has adopted\
             given the criteria (3 logins in a 7 day window) and joining that\
             data to our *users table*. To do so, we group the login data\
             by *user_id*, sort by timestamp represented as :py:class:`pandas.DatetimeIndex` and\
             pass a window over the array to check for length of time between\
             a login and the login after the following login, (i, i+2). If that\
-            time is less then or equal to 7 days we break out of our iteration\
-            and record the user as adopted. An important note to recall\
-            throughout this analysis is that because we have utilized login time,\
-            and frequency to create the target for our prediction\
-            we must be very careful when including logins/\
-            login time in any prediction of user adoption, otherwise we\
+            delta in time is less then or equal to 7 days we break out of our iteration\
+            and record the user as *adopted*. An important note\
+            throughout this analysis: we have utilized login time\
+            and frequency to create the target for our prediction and consequently\
+            we must be very careful when including number of logins\
+            in any prediction of user adoption, otherwise we\
             will suffer from leakage. We also note that at casual inspection\
             there are no drastic outliers in the *users table*, however there is\
             potentially an issue with the *engagement table* data that we will address\
             in the next section. Further analysis of *users table*\
-            with studentized-t residuals can be used to investigate, however\
+            with studentized-t residuals can be used to investigate outliers, however\
             beacuse our analysis will mainly pertain to\
             categorical data, outlier analysis will likely not play a \
             signifigant role.
@@ -74,7 +78,7 @@ class UserAdoption(object):
     **CLEANING**
         We remove *name* and *email* from our table. While it's possible\
             certain types of email addresses can be indicative of\
-            browser types and trends do exist within of names\
+            browser types and trends do exist within names\
             (see Freakanomics) that analysis is deprioritized here\
             and those fields are removed from our feature space.
 
@@ -91,7 +95,7 @@ class UserAdoption(object):
             the organizations themselves (size, industry, growth, etc).\
             This would be one of the next few steps\
             to follow our approach begun in the `MODELING` section\
-            below, but going back to point 2 in `INTRODUCTION`, in\
+            below. Going back to point 2 in `INTRODUCTION`, in\
             the interest of prioritizing our time we have not yet\
             performed that analysis.
 
@@ -128,6 +132,19 @@ class UserAdoption(object):
        :scale: 75 %
        :align: center
 
+    .. image:: ../images/users_data.png
+       :scale: 75 %
+       :align: center
+
+
+
+    The number of accounts created by day likely confirms\
+        this theory, and \
+        suggests that the increase in rate of account\
+        creation at the end of this timeframe exceeded the load the system\
+        was designed to handle leading to the failure in capturing logins,\
+        without ruling out some of the possibilities enumerated above.
+
     **INITIAL ANALYSIS**
         With a clean and numeric representation of the data we are now able\
             to investigate the impact of features on adoption.\
@@ -142,30 +159,35 @@ class UserAdoption(object):
             Logistic Regression's direct readability of the impact variations\
             in a feature make it a useful tool for it's interpretability\
             as well as it's tolerance to overfitting when the number of features\
-            fed into it are large compared ot the volume of data (because it\
+            fed into it are large compared to the volume of data (because it\
             is searching for a single hyperplane to partition the data)\
             Decision Trees, while highly prone to overfitting for\
-            predicative modeling are useful for their intrepretability\
+            predicative modeling are useful for their interpretability\
             of feature importance by calculating the gain of information\
             of a split on a feature at a node. Random Forests can improve on\
             Decision Trees predicative abilities, by reducing overfitting,\
-            as well as ranking feature importance. For those not familiar,\
+            as well as contribute to ranking feature importance albeit\
+            with a different approach to determination.\
+            For those not familiar,\
             Random Forests are aggregate of multiple decision trees each of\
             which is operating on a random subset of the data.
 
         With this analysis we find feature coefficients for Logistic Regression\
-            and normalized gini index for tree methods. The results in the\
+            and normalized gini impurity for tree/ensemble methods. The results in the\
             following tables represent values from averaging 10 fold cross\
             validation where standard deviations of all values are 1-2 orders\
-            of magniutde less then the values presented. The following models\
-            were with stock parameters as this is initial investigation and\
-            because the number of users to number of features ratio is large\
+            of magniutde less then the values presented (excluding 0s). The following models\
+            were run with default parameters from\
+            `sklearn <https://http://scikit-learn.org/stable/documentation.html>`_\
+            as this is an initial investigation.\
+            Because the number of users to number of features ratio is large\
+            and with no clear outlier data yet\
             we do not expect to need regularization for our Logistic\
             Regression. We also take the opportunity here to address\
             why we decided not to dummify *org_id*. As discussed (and\
             will continue to be discussed) a lack of information about\
             the orgs is a contributing factor, but also would render\
-            a Decision Tree intractable and a sizeable increase in\
+            a Decision Tree intractable as well as a sizeable increase in\
             computation time for a Random Forest (we recognize that\
             RFs are parallizable but given the context of this analysis).
 
@@ -184,43 +206,45 @@ class UserAdoption(object):
             are more important then being on the mailing list or a marketing drip.\
             Also please note, that values of our tree based methods represent\
             magnitude and not direction (another perk of Logistic Regression).\
-            Since all our features are categorical coefficients of the Logistic\
-            Regression are also very easily interpretable.
+            Since all our features are categorical, coefficients of the Logistic\
+            Regression are easy to compare.
 
 
     **MODELING**
         An initial exploration into feature importance gives insight into\
-            what is avaiable at the surface of our data. However, to\
+            what is available at the surface of our data. However, to\
             better understand Asana users and what drives adoption\
             we look to understand the impact and types of users and\
             organizations. While there is a wide breadth of directions\
             we can proceed from here, we will focus on one organizational\
             attribute -size- to help inform  one aspect of users\
             - sign up connectivity- which is a first step in\
-            identifying mavens.
+            identifying **mavens**.
 
-        Calculating organization size is straighforward. We group users by\
+        Calculating organization size, in the context of this analysis is\
+            the number of Asana users in the organzation,\
+            is straighforward. We group users by\
             *org_id* and count them. From there we begin to build a framework\
-            to analyze mavens\
-            with the available data. We are only able to investigate users\
-            who have or exist in the  *invited_by_user_id* field
+            to analyze **mavens**.\
+            With the available data we are only able to investigate users\
+            who have or exist in the *invited_by_user_id* field
 
         We hypothesize that inertia of tool usage exists within organizations\
             and look to understand that spread through usage and knowledge levels\
-            
+
             * 0th level - When a user is succesful with a tool, the tool is more\
             likely to spread because the user will recommend it to other\
             members of the organization.
             * 1st level - A team wide decision to use a common\
             tool for a specific function
-            * 2nd level - The extension of this upward is **mavens**.\
+            * 2nd level - The next extension is **mavens**.\
             **Mavens** are users\
             who work to become power users and then act as advocates/\
             evangelists for the software which is likely to increase\
             the signup rate and adoption rate of those users.\
             The **maven** will share the power of the tool, yielding a\
             shallower learning curve for new users and an increase\
-            in adoption due to learning curve + maven usage. Combining with\
+            in adoption due to learning curve + **maven** usage. Combining with\
             tool/software standardization across teams and throughout\
             verticals, **mavens** provide us a target profile to\
             model with a goal of understanding tool flow throughout\
@@ -232,20 +256,25 @@ class UserAdoption(object):
             we build an undirected graph of each organization. Because\
             a node can only have 1 parent, and we have that recorded\
             in our features we can use an undirected graph to make the\
-            computation of calculated connected subcomponents faster.\
+            computation of calculating connected subcomponents faster.\
             We also threshold a connected component having a local rank\
             greater then 3 for emphasis. This can be further investigated\
             in future work.\
             We maintain the ability to easily switch to a directed graph\
-            moving forward if that structure suites our needs better.\
-            Now we are able to add connected component rank of\
+            moving forward if that structure suits our needs better.\
+            Now we are able to add the local connected component rank of\
             a user as well as how many children\
             that user has to our design matrix.
 
 
         With these new features we look at the impact on feature importance\
             and predictive ability in our three models (Note org_size is\
-            number of Asana accounts belonging to that user's *org_id*:
+            number of Asana accounts belonging to that user's *org_id*\
+            and continuous variables have been normalized to have a\
+            standard deviation of 1 in the design matrix\
+            which implies dx for a continuous variable is interpreted\
+            differently from a categorical variable in Logistic Regression\
+            coefficients:
 
 +--------+--------------+----------------+----------+------------+----------+-----------+---------+----------+--------+
 |Model   | mailing_list | marketing_drip | org_size | local_rank | children | GUEST_INV | ORG_INV | PERSONAL | SIGNUP |
@@ -257,10 +286,56 @@ class UserAdoption(object):
 |Logistic|    0.041     |      0.01      |  -0.339  |    0.0     |  0.111   |   -0.035  |  -0.302 |  -0.867  | -0.229 |
 +--------+--------------+----------------+----------+------------+----------+-----------+---------+----------+--------+
 
+        While the tree based methods find our engineered features\
+            rich in information. The Logistic Regression throws away *local_rank*.\
+            Given how we've constructed these features in our design matrix\
+            there is some redundancy\
+            of information. Creating different models based on grouping sign up\
+            methods could be a good direction to take our work and garner more\
+            insight into features contributing to adoption. We note that our\
+            pipeline includes a check of **Variance Inflation Factor** in\
+            constructing our design matrix, and will raise an exception\
+            if the magnitude of any feature exceeds a VIF of 3.
 
-        Again, is just the initial framework. From here\
-            we could incorporate usage frequecy at time of recommendation,\
-            success rate of invited memebers, and the velocity of the rank\
+        Closer inspection reveals an overall downard trend of *org_size*\
+            as we would expect from our Logit coefficient. One interesting\
+            phenomenon that we did not expect and likely hinders the success\
+            of *children* and *local_rank* features is the 0. adoption rate\
+            among users with 11 or more children. This is contrary to our\
+            **maven** hypothesis. One potential explanation for these users\
+            is they send the reference link and are part of onboarding process but choose\
+            another tool within their own team. As we have adressed multiple\
+            times we do not have time within this analysis to include login\
+            frequency in a constructive manner, however this attribute would likely\
+            help us partition **mavens** from **connectors** and improve our model.
+
+    .. image:: ../images/size_adopted.png
+       :scale: 65 %
+    .. image:: ../images/children_adoption.png
+       :scale: 65 %
+    .. image:: ../images/rank_adoption.png
+       :scale: 65 %
+
+
+    We continue to find *mailing_list* and *marketing_drip* to not\
+        effectively contribute. At this point if we were to continue\
+        to build our model we would try dropping these features and\
+        measure the impact on accuracy as well as recall and precision.\
+
+        We will take this opportunity to discuss class imbalance in our\
+            system. With only a 13.8% adoption rate, when moving forward\
+            with modeling efforts we will need to account for this. In a\
+            parallel thread we also bring up that accuracy is likely not the best\
+            scoring metric, but to give a more useful scoring metric\
+            and direction to take the model we need to better understand\
+            what the results are going to drive.
+
+        These factors all combine to yield no signifigant change in the\
+                accuracy of our model calculated during cross validation.
+
+        Again, this is just the initial framework. From here\
+            we could incorporate usage frequency at time of recommendation,\
+            success rate of invited members, and the velocity of the rank\
             of the graph as potentially interesting and meaningful features\
             in our model.
 
@@ -270,12 +345,12 @@ class UserAdoption(object):
             we currently have.\
             With more information about organizations and specific users, user\
             and organizational profiles can help drive product development\
-            and pricing (pricing, because we now have a way to evaluate\
+            and pricing (pricing, because we then have a way to evaluate\
             traction within organizations). Moving forward we can look to\
-            incorporate more detailed information about types of organization\
-            as well as user application and use history.
+            incorporate more detailed information about types of organizations\
+            as well as user application and use history/profiles.
 
-        While these next steps all appear to be contain great power,\
+        While these next steps all appear to contain great power,\
             they are meaningless if the computation to perform the analysis is\
             intractable. The pulling of data can be moved to a database style\
             context which is optimized for grouping and reorganizing data\
@@ -284,7 +359,7 @@ class UserAdoption(object):
             An advantage of user and organizationl profiling is the creation of\
             intuitive ways to partition the data. Once profiles are complete\
             we can track the change in profiles by comparing subsets windowed\
-            by time  which agian provides\
+            by time  which again provides\
             natural partitions to our processing. If our data become so verbose\
             that Spark and AWS computation become intractable, we can sample\
             from our data for modeling.
@@ -329,11 +404,12 @@ class UserAdoption(object):
         self.std = {}
         self.scores = {}
 
-
         if data:
             self.data = data
         else:
             self.data = FeatureAnalysis(fUsers, fEngage)
+            self.data.org_size()
+            self.data.build_org_networks()
 
         for i, run in runs.items():
             self.results[i] = {}
@@ -389,7 +465,7 @@ class Cleaned(object):
         self._dummify_source()
         self._split_non_users()
         self._convert_user_time()
-        # self._evaluate_users()
+        self._evaluate_users()
         self._merge_non_users()
 
     def _pull_data(self):
@@ -517,6 +593,18 @@ class FeatureAnalysis(Cleaned):
 
 class AdoptionModel(object):
     """
+    Class for evaluating models on :class:FeatureAnalysis objects
+
+    :param FeatureAnalysis cleaned: Cleaned data with engineered features
+    :param sklearn model: scikit learn model, currently works with Logistic Regression, DecistionTree\
+            Classifier and RandomForest Classifier
+    :param bool isLogistic: boolean for model type. note this notation due to different access points\
+            for coefficients and feature importances in fit models
+    :param bool isTree: boolean for model type.
+    :param bool isForest: boolean for model type.
+    :param int folds: Number of folds to run in cross validation
+    :param float vifMagnitude: threshold for variance inflation factor
+    :param dict autoRun: dictionary for automating runs, examples and front end INDEV
     """
     def __init__(self, cleaned, model, isLogistic=False, isTree=False, isForest=False, folds=10,
                  vifMagnitude=3.0,
@@ -562,6 +650,9 @@ class AdoptionModel(object):
 
     def scale(self, i):
         """
+        Scale column of df by standard deviation
+
+        :param str i: column header
         """
         # move too standard scalar 
         self.df[i] /= self.df[i].std()
@@ -600,13 +691,15 @@ class AdoptionModel(object):
 
     def feature_importance(self):
         """
+        Run analysis with KFolds. (With room to add other aspects)
         """
         self.kfold_features()
 
 
-
     def kfold_features(self):
         """
+        KFold model prediction with feature importance and model
+        scores stored per fold.
         """
         self.scores = []
         self.featureValues = []
