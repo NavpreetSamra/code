@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Route Vision &mdash; Mark Weiss 0.0.1 documentation</title>
+  <title>ROUTE VISION &mdash; Mark Weiss 0.0.1 documentation</title>
   
 
   
@@ -30,7 +30,8 @@
   
 
   
-    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/> 
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="prev" title="sirdisease.sir_disease package" href="sirdisease.sir_disease.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,7 +80,7 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
@@ -90,6 +91,19 @@
 <li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helpers.html">helpers package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">ROUTE VISION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#motivation">MOTIVATION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#level-sets-ffm">LEVEL SETS &amp; FFM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#solution">SOLUTION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalar">SCALAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalar-comparison">SCALAR COMPARISON</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalar-stability-robustness">Scalar stability &amp; Robustness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vector">Vector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vector-comparison">Vector Comparison</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-work">Future Work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#appendix">Appendix</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -120,7 +134,7 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>Route Vision</li>
+    <li>ROUTE VISION</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -135,10 +149,10 @@
            <div itemprop="articleBody">
             
   <div class="section" id="route-vision">
-<h1>Route Vision<a class="headerlink" href="#route-vision" title="Permalink to this headline">¶</a></h1>
+<h1>ROUTE VISION<a class="headerlink" href="#route-vision" title="Permalink to this headline">¶</a></h1>
 <p><strong>Mark Weiss</strong></p>
 <div class="section" id="motivation">
-<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<h2>MOTIVATION<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>A* costs grow geometrically</li>
 <li>Hierarchal methods cannot dynamically update edge weights</li>
@@ -147,7 +161,7 @@
 <p>Image of heading into traffic jam</p>
 </div>
 <div class="section" id="level-sets-ffm">
-<h2>Level Sets &amp; FFM<a class="headerlink" href="#level-sets-ffm" title="Permalink to this headline">¶</a></h2>
+<h2>LEVEL SETS &amp; FFM<a class="headerlink" href="#level-sets-ffm" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Level Sets and FFM can be used for path finding</li>
 <li>But they do not solve the computation time problem we need to address</li>
@@ -155,20 +169,20 @@
 <p>Some sweet level set figures</p>
 </div>
 <div class="section" id="solution">
-<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<h2>SOLUTION<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Can we embed computationally inexpensive &amp; latent local data in our graph to communicate information.</li>
 <li>This gives A* the potential to reduce cost by behaing intelligently without giving up the robustness that makes it viable</li>
 </ul>
 </div>
 <div class="section" id="scalar">
-<h2>Scalar<a class="headerlink" href="#scalar" title="Permalink to this headline">¶</a></h2>
+<h2>SCALAR<a class="headerlink" href="#scalar" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Some Math</li>
+<li>Math</li>
 </ul>
 </div>
 <div class="section" id="scalar-comparison">
-<h2>Scalar Comparison<a class="headerlink" href="#scalar-comparison" title="Permalink to this headline">¶</a></h2>
+<h2>SCALAR COMPARISON<a class="headerlink" href="#scalar-comparison" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt>Slow Zone</dt>
 <dd><ul class="first last simple">
@@ -196,9 +210,32 @@
 </tr>
 </tbody>
 </table>
-<ul class="simple">
-<li>Figure of convolution</li>
+<dl class="docutils">
+<dt>Harmonic Profile</dt>
+<dd><ul class="first last simple">
+<li>Variable velocity field (min at 10 % Vmax)</li>
 </ul>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/harmonic.png"><img alt="_images/harmonic.png" class="align-center" src="_images/harmonic.png" style="width: 400.0px; height: 300.0px;" /></a>
+<a class="reference internal image-reference" href="_images/comp_harm.gif"><img alt="_images/comp_harm.gif" class="align-center" src="_images/comp_harm.gif" style="width: 800.0px; height: 300.0px;" /></a>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="2%" />
+<col width="49%" />
+<col width="34%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Method</td>
+<td>A*</td>
+<td>&nbsp;</td>
+<td>A* with embedded scalar field</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="scalar-stability-robustness">
 <h2>Scalar stability &amp; Robustness<a class="headerlink" href="#scalar-stability-robustness" title="Permalink to this headline">¶</a></h2>
@@ -207,10 +244,7 @@
 <li>Cycle behavior</li>
 </ul>
 <p>Figures that are hard to understand</p>
-<p>Note the spike is due to relative scale (See appendix tables)</p>
-<ul class="simple">
-<li>IMAGE OF SCALAR FIELD</li>
-</ul>
+<p>Note the spike is due to relative weighting (See appendix tables)</p>
 <a class="reference internal image-reference" href="_images/count.png"><img alt="_images/count.png" class="align-center" src="_images/count.png" style="width: 600.0px; height: 450.0px;" /></a>
 <a class="reference internal image-reference" href="_images/cost.png"><img alt="_images/cost.png" class="align-center" src="_images/cost.png" style="width: 600.0px; height: 450.0px;" /></a>
 <p>Table that is easy to understand</p>
@@ -220,7 +254,7 @@
 <h2>Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Math - kernel I just made</li>
-<li>image of Kernel</li>
+<li>Image of Kernel</li>
 </ul>
 </div>
 <div class="section" id="vector-comparison">
@@ -602,6 +636,13 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="sirdisease.sir_disease.html" class="btn btn-neutral" title="sirdisease.sir_disease package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

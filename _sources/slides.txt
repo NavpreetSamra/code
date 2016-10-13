@@ -1,9 +1,9 @@
-Route Vision
+ROUTE VISION
 ============
 
 **Mark Weiss**
 
-Motivation
+MOTIVATION
 ----------
 * A* costs grow geometrically
 * Hierarchal methods cannot dynamically update edge weights
@@ -12,23 +12,23 @@ A* GIF
 
 Image of heading into traffic jam
 
-Level Sets & FFM
+LEVEL SETS & FFM
 ----------------
 * Level Sets and FFM can be used for path finding
 * But they do not solve the computation time problem we need to address
 
 Some sweet level set figures
 
-Solution
+SOLUTION
 --------
 * Can we embed computationally inexpensive & latent local data in our graph to communicate information.
 * This gives A* the potential to reduce cost by behaing intelligently without giving up the robustness that makes it viable
 
-Scalar
+SCALAR
 ------
-* Some Math
+* Math
 
-Scalar Comparison
+SCALAR COMPARISON
 -----------------
 
 Slow Zone
@@ -47,7 +47,21 @@ Finding best route with optimal heuristic weighting around obstacle requires dou
 Method A*                                             A* with embedded scalar field       
 ====== == ==========================================  ============================= ======
 
-* Figure of convolution
+
+Harmonic Profile
+    * Variable velocity field (min at 10 % Vmax) 
+
+.. image:: ../images/harmonic.png
+   :align: center
+   :scale: 50 %
+
+.. image:: ../images/comp_harm.gif
+   :align: center
+   :scale: 50 %
+
+====== == ==========================================  ============================= ======
+Method A*                                             A* with embedded scalar field       
+====== == ==========================================  ============================= ======
 
 Scalar stability & Robustness
 -----------------------------
@@ -56,9 +70,8 @@ Scalar stability & Robustness
 
 Figures that are hard to understand
 
-Note the spike is due to relative scale (See appendix tables)
+Note the spike is due to relative weighting (See appendix tables)
 
-* IMAGE OF SCALAR FIELD
 
 .. image:: ../images/count.png
    :scale: 75 %
@@ -77,7 +90,7 @@ Movies of a few examples
 Vector
 ------
 * Math - kernel I just made 
-* image of Kernel
+* Image of Kernel
 
 Vector Comparison
 -----------------
