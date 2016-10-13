@@ -12,17 +12,14 @@ A* GIF
 
 Image of heading into traffic jam
 
-LEVEL SETS & FFM
-----------------
-* Level Sets and FFM can be used for path finding
-* But they do not solve the computation time problem we need to address
-
-Some sweet level set figures
+PROBLEM
+-------
+* Standard heurisitc fails to leverage available local latent data to aid graph traversal
 
 SOLUTION
 --------
 * Can we embed computationally inexpensive & latent local data in our graph to communicate information.
-* This gives A* the potential to reduce cost by behaing intelligently without giving up the robustness that makes it viable
+* This gives A* the potential to reduce cost by behaing intelligently without giving up robustness or tunability
 
 SCALAR
 ------
@@ -34,7 +31,7 @@ SCALAR COMPARISON
 Slow Zone
     * Uniform field with embedded homogenous zone(1/10 velocity) and linear deceleration on boundary
 
-.. image:: ../images/obstacle.png
+.. image:: ../images/obstacle_graph.png
    :align: center
    :scale: 50 %
 
@@ -50,6 +47,7 @@ Method A*                                             A* with embedded scalar fi
 
 Harmonic Profile
     * Variable velocity field (min at 10 % Vmax) 
+    * This route leverages the advantages of the new heuristic less then many, but still provides substantial improvement
 
 .. image:: ../images/harmonic.png
    :align: center

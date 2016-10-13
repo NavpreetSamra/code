@@ -93,7 +93,7 @@
 <li class="toctree-l1"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">ROUTE VISION</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#motivation">MOTIVATION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#level-sets-ffm">LEVEL SETS &amp; FFM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#problem">PROBLEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solution">SOLUTION</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scalar">SCALAR</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scalar-comparison">SCALAR COMPARISON</a></li>
@@ -160,19 +160,17 @@
 <p>A* GIF</p>
 <p>Image of heading into traffic jam</p>
 </div>
-<div class="section" id="level-sets-ffm">
-<h2>LEVEL SETS &amp; FFM<a class="headerlink" href="#level-sets-ffm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="problem">
+<h2>PROBLEM<a class="headerlink" href="#problem" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Level Sets and FFM can be used for path finding</li>
-<li>But they do not solve the computation time problem we need to address</li>
+<li>Standard heurisitc fails to leverage available local latent data to aid graph traversal</li>
 </ul>
-<p>Some sweet level set figures</p>
 </div>
 <div class="section" id="solution">
 <h2>SOLUTION<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Can we embed computationally inexpensive &amp; latent local data in our graph to communicate information.</li>
-<li>This gives A* the potential to reduce cost by behaing intelligently without giving up the robustness that makes it viable</li>
+<li>This gives A* the potential to reduce cost by behaing intelligently without giving up robustness or tunability</li>
 </ul>
 </div>
 <div class="section" id="scalar">
@@ -190,7 +188,7 @@
 </ul>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/obstacle.png"><img alt="_images/obstacle.png" class="align-center" src="_images/obstacle.png" style="width: 400.0px; height: 300.0px;" /></a>
+<a class="reference internal image-reference" href="_images/obstacle_graph.png"><img alt="_images/obstacle_graph.png" class="align-center" src="_images/obstacle_graph.png" style="width: 400.0px; height: 300.0px;" /></a>
 <p>Finding best route with optimal heuristic weighting around obstacle requires double the explorations without embedded scalar field!</p>
 <img alt="_images/obstacle_comp.gif" class="align-center" src="_images/obstacle_comp.gif" />
 <table border="1" class="docutils">
@@ -214,6 +212,7 @@
 <dt>Harmonic Profile</dt>
 <dd><ul class="first last simple">
 <li>Variable velocity field (min at 10 % Vmax)</li>
+<li>This route leverages the advantages of the new heuristic less then many, but still provides substantial improvement</li>
 </ul>
 </dd>
 </dl>
