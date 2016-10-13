@@ -146,7 +146,7 @@
 
 <div class="viewcode-block" id="AStar"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar">[docs]</a><span class="k">class</span> <span class="nc">AStar</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    AStar class, designed to search paths from :py:class:`grid.Grid`</span>
+<span class="sd">    AStar class, designed to search paths from :py:class:Grid.grid</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meshSize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">plots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -156,7 +156,8 @@
                  <span class="n">heur</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;comp&#39;</span><span class="p">:</span> <span class="s1">&#39;vel&#39;</span><span class="p">,</span> <span class="s1">&#39;metric&#39;</span><span class="p">:</span> <span class="s1">&#39;octile&#39;</span><span class="p">,</span> <span class="s1">&#39;alpha&#39;</span><span class="p">:</span> <span class="mf">1.</span><span class="p">},</span>
                  <span class="n">heur_weight</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
                  <span class="n">embedPath</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">auto</span><span class="o">=</span><span class="kc">True</span>
+                 <span class="n">auto</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">links</span><span class="o">=</span><span class="mi">8</span>
                  <span class="p">):</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">AStar</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">meshSize</span><span class="o">=</span><span class="n">meshSize</span><span class="p">)</span>
@@ -167,16 +168,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">velocity_profile</span><span class="p">(</span><span class="n">velocity_type</span><span class="p">,</span> <span class="n">velocity_attrs</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">embedPath</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">velocity_update</span><span class="p">(</span><span class="n">embedPath</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">to_graph</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rt2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AStar.heuristic_component"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.heuristic_component">[docs]</a>    <span class="k">def</span> <span class="nf">heuristic_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+<div class="viewcode-block" id="AStar.heuristic_component"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.heuristic_component">[docs]</a>    <span class="k">def</span> <span class="nf">heuristic_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        E[t] for search</span>
 
-<span class="sd">        :param tuple.(int, int) a: node id in graph for target node</span>
-<span class="sd">        :param tuple.(int, int) b: node id in graph for current node</span>
-<span class="sd">        :param tuple.(int, int) n: node id in graph for source node</span>
+<span class="sd">        :param \(int, int\) a: node id in graph for target node</span>
+<span class="sd">        :param (int, int) b: node id in graph for current node</span>
+<span class="sd">        :param (int, int) n: node id in graph for source node</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1">###########</span>
         <span class="c1">## Build relative weighting based on distance completed</span>
@@ -185,17 +186,21 @@
         <span class="n">comp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heur</span><span class="p">[</span><span class="s1">&#39;comp&#39;</span><span class="p">]</span>
         <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">heur</span><span class="p">[</span><span class="s1">&#39;alpha&#39;</span><span class="p">]</span>
 
-        <span class="n">vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="n">n</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+        <span class="c1"># vel = self.velocity[n[0], n[1]]</span>
+        <span class="n">vel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="n">neighbor</span><span class="p">][</span><span class="s1">&#39;vel&#39;</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">metric</span> <span class="o">==</span> <span class="s1">&#39;octile&#39;</span><span class="p">:</span>
-            <span class="n">dist1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octil_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">dist1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octile_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">dist1</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">n</span><span class="p">],</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
+            <span class="n">dist1</span> <span class="o">=</span> <span class="n">pdist</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">],</span> <span class="n">metric</span><span class="o">=</span><span class="n">metric</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">comp</span> <span class="o">==</span> <span class="s1">&#39;vel&#39;</span><span class="p">:</span>
-            <span class="n">dist2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octil_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+            <span class="n">dist2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octile_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n1</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">dist1</span> <span class="o">+</span> <span class="n">dist1</span> <span class="o">/</span> <span class="p">((</span><span class="n">dist1</span> <span class="o">+</span> <span class="n">dist2</span><span class="p">)</span> <span class="o">*</span> <span class="n">vel</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">comp</span> <span class="o">==</span> <span class="s1">&#39;veld&#39;</span><span class="p">:</span>
+            <span class="n">dist2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">octile_dist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n1</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">dist1</span> <span class="o">+</span> <span class="p">(</span><span class="n">dist1</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="n">node</span><span class="p">][</span><span class="n">neighbor</span><span class="p">][</span><span class="s1">&#39;dist&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="p">((</span><span class="n">dist1</span> <span class="o">+</span> <span class="n">dist2</span><span class="p">)</span> <span class="o">*</span> <span class="n">vel</span><span class="p">)</span>
         <span class="k">elif</span> <span class="n">comp</span> <span class="o">==</span> <span class="s1">&#39;eig&#39;</span><span class="p">:</span>
-            <span class="n">value</span> <span class="o">=</span> <span class="n">dist1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">vel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_scores</span><span class="p">[</span><span class="n">n</span><span class="p">]])</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">dist1</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">vel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_scores</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]])</span>
         <span class="k">elif</span> <span class="n">comp</span> <span class="o">==</span> <span class="s1">&#39;stock&#39;</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">dist1</span>
         <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">alpha</span> <span class="o">*</span> <span class="p">(</span><span class="n">value</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span></div>
@@ -208,6 +213,17 @@
 <span class="sd">        :param tuple.(int, int) b: node id</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="s1">&#39;dist&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">[</span><span class="n">a</span><span class="p">][</span><span class="n">b</span><span class="p">][</span><span class="s1">&#39;vel&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="AStar.build_city"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.build_city">[docs]</a>    <span class="k">def</span> <span class="nf">build_city</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity_profile</span><span class="p">(</span><span class="s1">&#39;uniform&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">55</span><span class="p">,</span> <span class="mi">15</span><span class="p">:</span><span class="mi">25</span><span class="p">]</span> <span class="o">=</span> <span class="o">.</span><span class="mi">0001</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="p">:]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="mi">10</span><span class="p">:</span><span class="mi">20</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">velocity</span><span class="p">[</span><span class="mi">30</span><span class="p">:</span><span class="mi">40</span><span class="p">,</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AStar.search"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -243,7 +259,7 @@
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plots</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
                 <span class="k">break</span>
-            <span class="n">neighbors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+            <span class="n">neighbors</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">node</span><span class="p">)</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="nb">str</span><span class="p">)]</span>
             <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
                 <span class="n">neighborCost</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathCost</span><span class="p">[</span><span class="n">node</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">cost</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">neighbor</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathCost</span> <span class="ow">or</span>\
@@ -251,7 +267,7 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">callCount</span> <span class="o">+=</span> <span class="mi">1</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">pathCost</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">=</span> <span class="n">neighborCost</span>
                     <span class="n">value</span> <span class="o">=</span> <span class="n">neighborCost</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">heur_weight</span> <span class="o">*</span>\
-                            <span class="bp">self</span><span class="o">.</span><span class="n">heuristic_component</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n2</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">heuristic_component</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">)</span>
 
                     <span class="bp">self</span><span class="o">.</span><span class="n">pq</span><span class="o">.</span><span class="n">put</span><span class="p">((</span><span class="n">value</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">))</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">pathFrom</span><span class="p">[</span><span class="n">neighbor</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
@@ -273,7 +289,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plots</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iterCount</span><span class="p">)</span><span class="o">.</span><span class="n">zfill</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;.png&#39;</span><span class="p">)</span>
         <span class="n">grid</span><span class="o">.</span><span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fig</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="AStar.path_eval"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.path_eval">[docs]</a>    <span class="k">def</span> <span class="nf">path_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="AStar.path_eval"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.path_eval">[docs]</a>    <span class="k">def</span> <span class="nf">path_eval</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plots</span><span class="o">=</span><span class="s1">&#39;vel_path.png&#39;</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create list of nodes in path</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -281,11 +297,15 @@
         <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n2</span>
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathFrom</span><span class="p">[</span><span class="n">node</span><span class="p">]:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pathFrom</span><span class="p">[</span><span class="n">node</span><span class="p">]</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">path_found</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">path_found</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span>
+    
+        <span class="k">if</span> <span class="n">plots</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_graph</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot_path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path_found</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="AStar.octile_dist"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.octile_dist">[docs]</a>    <span class="k">def</span> <span class="nf">octile_dist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Compute octile distance</span>
+<span class="sd">        Compute octile (L_inf) norm distance</span>
 
 <span class="sd">        :param array-like a: point a</span>
 <span class="sd">        :param array-like b: point b</span>

@@ -175,21 +175,21 @@
 <span id="route-vision-astar-module"></span><h2>route_vision.astar module<a class="headerlink" href="#module-route_vision.astar" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="route_vision.astar.AStar">
-<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>auto=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>auto=True</em>, <em>links=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a></p>
-<p>AStar class, designed to search paths from <code class="xref py py-class docutils literal"><span class="pre">grid.Grid</span></code></p>
+<p>AStar class, designed to search paths from :py:class:Grid.grid</p>
 <dl class="method">
 <dt id="route_vision.astar.AStar.heuristic_component">
-<code class="descname">heuristic_component</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.heuristic_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.heuristic_component" title="Permalink to this definition">¶</a></dt>
+<code class="descname">heuristic_component</code><span class="sig-paren">(</span><em>node</em>, <em>neighbor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.heuristic_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.heuristic_component" title="Permalink to this definition">¶</a></dt>
 <dd><p>E[t] for search</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>int) a</strong> (<em>tuple.(int,</em>) &#8211; node id in graph for target node</li>
-<li><strong>int) b</strong> (<em>tuple.(int,</em>) &#8211; node id in graph for current node</li>
-<li><strong>int) n</strong> (<em>tuple.(int,</em>) &#8211; node id in graph for source node</li>
+<li><strong>int) a</strong> (<em>(int,</em>) &#8211; node id in graph for target node</li>
+<li><strong>int) b</strong> (<em>(int,</em>) &#8211; node id in graph for current node</li>
+<li><strong>int) n</strong> (<em>(int,</em>) &#8211; node id in graph for source node</li>
 </ul>
 </td>
 </tr>
@@ -216,6 +216,11 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="route_vision.astar.AStar.build_city">
+<code class="descname">build_city</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.build_city"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.build_city" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="route_vision.astar.AStar.search">
 <code class="descname">search</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search path from n[0] to n[1]</p>
@@ -237,14 +242,14 @@
 
 <dl class="method">
 <dt id="route_vision.astar.AStar.path_eval">
-<code class="descname">path_eval</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.path_eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.path_eval" title="Permalink to this definition">¶</a></dt>
+<code class="descname">path_eval</code><span class="sig-paren">(</span><em>plots='vel_path.png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.path_eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.path_eval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create list of nodes in path</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="route_vision.astar.AStar.octile_dist">
 <code class="descname">octile_dist</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.octile_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.octile_dist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute octile distance</p>
+<dd><p>Compute octile (L_inf) norm distance</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -309,7 +314,7 @@
 <dt id="route_vision.grid.Grid">
 <em class="property">class </em><code class="descclassname">route_vision.grid.</code><code class="descname">Grid</code><span class="sig-paren">(</span><em>data=None</em>, <em>meshSize=(3</em>, <em>3)</em>, <em>distMetric='euclidean'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class to setup and create graphs for <code class="xref py py-class docutils literal"><span class="pre">astar.AStar</span></code> analysis</p>
+<p>Class to setup and create graphs for :py:class:astar.AStar analysis</p>
 <dl class="method">
 <dt id="route_vision.grid.Grid.point_diff">
 <code class="descname">point_diff</code><span class="sig-paren">(</span><em>p1=[1, 3], p2=[2, 6]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.point_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.point_diff" title="Permalink to this definition">¶</a></dt>
@@ -328,7 +333,7 @@
 <dl class="method">
 <dt id="route_vision.grid.Grid.velocity_profile">
 <code class="descname">velocity_profile</code><span class="sig-paren">(</span><em>profile='uniform'</em>, <em>attrs={'scalar': 1.0}</em>, <em>norm=True</em>, <em>scale=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_profile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate either uniform or harmonic profile prescribeed by attrs</p>
+<dd><p>Generate either uniform or harmonic profile perscribed by attrs</p>
 <p>example- &#8216;harmonic&#8217;,{&#8216;scalar&#8217;:1., &#8216;xf&#8217;:2., &#8216;yf&#8217;:2., &#8216;xa&#8217;:1.,&#8217;ya&#8217;:1.}</p>
 </dd></dl>
 
@@ -340,7 +345,7 @@
 
 <dl class="method">
 <dt id="route_vision.grid.Grid.to_graph">
-<code class="descname">to_graph</code><span class="sig-paren">(</span><em>directions=[(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)], nodes=True, edges=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.to_graph" title="Permalink to this definition">¶</a></dt>
+<code class="descname">to_graph</code><span class="sig-paren">(</span><em>links=8</em>, <em>nodes=True</em>, <em>edges=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.to_graph" title="Permalink to this definition">¶</a></dt>
 <dd><p>create graph from grid</p>
 </dd></dl>
 

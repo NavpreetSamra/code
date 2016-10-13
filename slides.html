@@ -1,0 +1,660 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Route Vision &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filesync.sync.html">filesync.sync package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">helpers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>Route Vision</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/slides.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="route-vision">
+<h1>Route Vision<a class="headerlink" href="#route-vision" title="Permalink to this headline">¶</a></h1>
+<p><strong>Mark Weiss</strong></p>
+<div class="section" id="motivation">
+<h2>Motivation<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>A* costs grow geometrically</li>
+<li>Hierarchal methods cannot dynamically update edge weights</li>
+</ul>
+<p>A* GIF</p>
+<p>Image of heading into traffic jam</p>
+</div>
+<div class="section" id="level-sets-ffm">
+<h2>Level Sets &amp; FFM<a class="headerlink" href="#level-sets-ffm" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Level Sets and FFM can be used for path finding</li>
+<li>But they do not solve the computation time problem we need to address</li>
+</ul>
+<p>Some sweet level set figures</p>
+</div>
+<div class="section" id="solution">
+<h2>Solution<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Can we embed computationally inexpensive &amp; latent local data in our graph to communicate information.</li>
+<li>This gives A* the potential to reduce cost by behaing intelligently without giving up the robustness that makes it viable</li>
+</ul>
+</div>
+<div class="section" id="scalar">
+<h2>Scalar<a class="headerlink" href="#scalar" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Some Math</li>
+</ul>
+</div>
+<div class="section" id="scalar-comparison">
+<h2>Scalar Comparison<a class="headerlink" href="#scalar-comparison" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Slow Zone</dt>
+<dd><ul class="first last simple">
+<li>Uniform field with embedded homogenous zone(1/10 velocity) and linear deceleration on boundary</li>
+</ul>
+</dd>
+</dl>
+<a class="reference internal image-reference" href="_images/obstacle_graph.png"><img alt="_images/obstacle_graph.png" class="align-center" src="_images/obstacle_graph.png" style="width: 400.0px; height: 300.0px;" /></a>
+<p>Finding best route with optimal heuristic weighting around obstacle requires double the explorations without embedded scalar field!</p>
+<img alt="_images/obstacle_comp.gif" class="align-center" src="_images/obstacle_comp.gif" />
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="2%" />
+<col width="49%" />
+<col width="34%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Method</td>
+<td>A*</td>
+<td>&nbsp;</td>
+<td>A* with embedded scalar field</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li>Figure of convolution</li>
+</ul>
+</div>
+<div class="section" id="scalar-stability-robustness">
+<h2>Scalar stability &amp; Robustness<a class="headerlink" href="#scalar-stability-robustness" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Cost bounds</li>
+<li>Cycle behavior</li>
+</ul>
+<p>Figures that are hard to understand</p>
+<p>Note the spike is due to relative scale (See appendix tables)</p>
+<ul class="simple">
+<li>IMAGE OF SCALAR FIELD</li>
+</ul>
+<a class="reference internal image-reference" href="_images/count.png"><img alt="_images/count.png" class="align-center" src="_images/count.png" style="width: 600.0px; height: 450.0px;" /></a>
+<a class="reference internal image-reference" href="_images/cost.png"><img alt="_images/cost.png" class="align-center" src="_images/cost.png" style="width: 600.0px; height: 450.0px;" /></a>
+<p>Table that is easy to understand</p>
+<p>Movies of a few examples</p>
+</div>
+<div class="section" id="vector">
+<h2>Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Math - kernel I just made</li>
+<li>image of Kernel</li>
+</ul>
+</div>
+<div class="section" id="vector-comparison">
+<h2>Vector Comparison<a class="headerlink" href="#vector-comparison" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="future-work">
+<h2>Future Work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Apply with kernel smoothing instead of convolution</li>
+<li>Parameter grid search</li>
+</ul>
+</div>
+<div class="section" id="appendix">
+<h2>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h2>
+<p><strong>Count Delta</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="8%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Weight</th>
+<th class="head">0.0</th>
+<th class="head">0.5</th>
+<th class="head">1.0</th>
+<th class="head">1.5</th>
+<th class="head">2.0</th>
+<th class="head">2.5</th>
+<th class="head">3.0</th>
+<th class="head">3.5</th>
+<th class="head">4.0</th>
+<th class="head">4.5</th>
+<th class="head">5.0</th>
+<th class="head">5.5</th>
+<th class="head">6.0</th>
+<th class="head">6.5</th>
+<th class="head">7.0</th>
+<th class="head">7.5</th>
+<th class="head">8.0</th>
+<th class="head">8.5</th>
+<th class="head">9.0</th>
+<th class="head">9.5</th>
+<th class="head">10.0</th>
+<th class="head">10.5</th>
+<th class="head">11.0</th>
+<th class="head">11.5</th>
+<th class="head">12.0</th>
+<th class="head">12.5</th>
+<th class="head">13.0</th>
+<th class="head">13.5</th>
+<th class="head">14.0</th>
+<th class="head">14.5</th>
+<th class="head">15.0</th>
+<th class="head">15.5</th>
+<th class="head">16.0</th>
+<th class="head">16.5</th>
+<th class="head">17.0</th>
+<th class="head">17.5</th>
+<th class="head">18.0</th>
+<th class="head">18.5</th>
+<th class="head">19.0</th>
+<th class="head">19.5</th>
+<th class="head">20.0</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>((1, 48), (20, 28))</td>
+<td>0</td>
+<td>-35</td>
+<td>-43</td>
+<td>499</td>
+<td>-4561</td>
+<td>-1142</td>
+<td>-480</td>
+<td>-153</td>
+<td>-40</td>
+<td>-29</td>
+<td>-29</td>
+<td>-20</td>
+<td>-12</td>
+<td>-15</td>
+<td>-6</td>
+<td>-5</td>
+<td>-3</td>
+<td>0</td>
+<td>0</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>((48, 1), (20, 28))</td>
+<td>0</td>
+<td>-42</td>
+<td>-70</td>
+<td>1076</td>
+<td>-5430</td>
+<td>-868</td>
+<td>-569</td>
+<td>-185</td>
+<td>-46</td>
+<td>-31</td>
+<td>-22</td>
+<td>-13</td>
+<td>-5</td>
+<td>-11</td>
+<td>-8</td>
+<td>-6</td>
+<td>-4</td>
+<td>-2</td>
+<td>-1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Cost Delta</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="1%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Weight</th>
+<th class="head">0.0</th>
+<th class="head">0.5</th>
+<th class="head">1.0</th>
+<th class="head">1.5</th>
+<th class="head">2.0</th>
+<th class="head">2.5</th>
+<th class="head">3.0</th>
+<th class="head">3.5</th>
+<th class="head">4.0</th>
+<th class="head">4.5</th>
+<th class="head">5.0</th>
+<th class="head">5.5</th>
+<th class="head">6.0</th>
+<th class="head">6.5</th>
+<th class="head">7.0</th>
+<th class="head">7.5</th>
+<th class="head">8.0</th>
+<th class="head">8.5</th>
+<th class="head">9.0</th>
+<th class="head">9.5</th>
+<th class="head">10.0</th>
+<th class="head">10.5</th>
+<th class="head">11.0</th>
+<th class="head">11.5</th>
+<th class="head">12.0</th>
+<th class="head">12.5</th>
+<th class="head">13.0</th>
+<th class="head">13.5</th>
+<th class="head">14.0</th>
+<th class="head">14.5</th>
+<th class="head">15.0</th>
+<th class="head">15.5</th>
+<th class="head">16.0</th>
+<th class="head">16.5</th>
+<th class="head">17.0</th>
+<th class="head">17.5</th>
+<th class="head">18.0</th>
+<th class="head">18.5</th>
+<th class="head">19.0</th>
+<th class="head">19.5</th>
+<th class="head">20.0</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>((1, 48), (20, 28))</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>-2.43341</td>
+<td>-5.12179</td>
+<td>-16.358</td>
+<td>-16.9607</td>
+<td>-12.7225</td>
+<td>-25.9147</td>
+<td>-27.3847</td>
+<td>-27.3847</td>
+<td>-27.3847</td>
+<td>-27.3847</td>
+<td>-49.0232</td>
+<td>-49.0232</td>
+<td>-49.4729</td>
+<td>-49.4729</td>
+<td>-49.4729</td>
+<td>-49.4729</td>
+<td>-49.4729</td>
+<td>-49.4729</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+<td>-49.66</td>
+</tr>
+<tr class="row-odd"><td>((48, 1), (20, 28))</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>-1.46284</td>
+<td>-6.37197</td>
+<td>-8.67401</td>
+<td>-26.0156</td>
+<td>-26.1423</td>
+<td>-27.9206</td>
+<td>-49.066</td>
+<td>-41.8309</td>
+<td>-41.8309</td>
+<td>-41.8309</td>
+<td>-41.8309</td>
+<td>-66.4726</td>
+<td>-75.9175</td>
+<td>-76.3945</td>
+<td>-76.3945</td>
+<td>-76.3945</td>
+<td>-76.3945</td>
+<td>-76.3945</td>
+<td>-76.3945</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+<td>-76.4029</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
