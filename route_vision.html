@@ -120,6 +120,7 @@
 <li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="helpers.html">helpers package</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
 </ul>
 
             
@@ -175,7 +176,7 @@
 <span id="route-vision-astar-module"></span><h2>route_vision.astar module<a class="headerlink" href="#module-route_vision.astar" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="route_vision.astar.AStar">
-<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>auto=True</em>, <em>links=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>embedObstacle=None</em>, <em>auto=True</em>, <em>links=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a></p>
 <p>AStar class, designed to search paths from :py:class:Grid.grid</p>
 <dl class="method">
@@ -187,9 +188,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>int) a</strong> (<em>(int,</em>) &#8211; node id in graph for target node</li>
-<li><strong>int) b</strong> (<em>(int,</em>) &#8211; node id in graph for current node</li>
-<li><strong>int) n</strong> (<em>(int,</em>) &#8211; node id in graph for source node</li>
+<li><strong>a</strong> (<em>tuple.int</em>) &#8211; node id in graph for target node</li>
+<li><strong>b</strong> (<em>tuple.int</em>) &#8211; node id in graph for current node</li>
+<li><strong>n</strong> (<em>tuple.int</em>) &#8211; node id in graph for source node</li>
 </ul>
 </td>
 </tr>
@@ -206,8 +207,8 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>int) a</strong> (<em>tuple.(int,</em>) &#8211; node id</li>
-<li><strong>int) b</strong> (<em>tuple.(int,</em>) &#8211; node id</li>
+<li><strong>a</strong> (<em>tuple.int</em>) &#8211; node id</li>
+<li><strong>b</strong> (<em>tuple.int</em>) &#8211; node id</li>
 </ul>
 </td>
 </tr>
@@ -221,6 +222,11 @@
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="route_vision.astar.AStar.build_obstacle">
+<code class="descname">build_obstacle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.build_obstacle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.build_obstacle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="route_vision.astar.AStar.search">
 <code class="descname">search</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.search"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.search" title="Permalink to this definition">¶</a></dt>
 <dd><p>Search path from n[0] to n[1]</p>
@@ -228,7 +234,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>int) n</strong> (<em>tuple.tuple.(int,</em>) &#8211; pair of node ids in graph (source, target)</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>tuple.tuple.int</em>) &#8211; pair of node ids in graph (source, target)</td>
 </tr>
 </tbody>
 </table>
@@ -249,7 +255,7 @@
 <dl class="method">
 <dt id="route_vision.astar.AStar.octile_dist">
 <code class="descname">octile_dist</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.octile_dist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.octile_dist" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute octile (L_inf) norm distance</p>
+<dd><p>Compute octile distance</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -277,8 +283,18 @@
 <span id="route-vision-frame-module"></span><h2>route_vision.frame module<a class="headerlink" href="#module-route_vision.frame" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="route_vision.frame.Frame">
-<em class="property">class </em><code class="descclassname">route_vision.frame.</code><code class="descname">Frame</code><a class="reference internal" href="_modules/route_vision/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">route_vision.frame.</code><code class="descname">Frame</code><span class="sig-paren">(</span><em>auto=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="route_vision.frame.Frame.obstacle">
+<code class="descname">obstacle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/frame.html#Frame.obstacle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame.obstacle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="route_vision.frame.Frame.harmonic">
+<code class="descname">harmonic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/frame.html#Frame.harmonic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame.harmonic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 </div>
@@ -314,50 +330,104 @@
 <dt id="route_vision.grid.Grid">
 <em class="property">class </em><code class="descclassname">route_vision.grid.</code><code class="descname">Grid</code><span class="sig-paren">(</span><em>data=None</em>, <em>meshSize=(3</em>, <em>3)</em>, <em>distMetric='euclidean'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>Class to setup and create graphs for :py:class:astar.AStar analysis</p>
-<dl class="method">
-<dt id="route_vision.grid.Grid.point_diff">
-<code class="descname">point_diff</code><span class="sig-paren">(</span><em>p1=[1, 3], p2=[2, 6]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.point_diff"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.point_diff" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="route_vision.grid.Grid.dist_grids">
-<code class="descname">dist_grids</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.dist_grids"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.dist_grids" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="route_vision.grid.Grid.calc_pdist">
-<code class="descname">calc_pdist</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.calc_pdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.calc_pdist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<p>Class to setup and create graphs for <code class="xref py py-class docutils literal"><span class="pre">astar.AStar</span></code> analysis</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>data</strong> (<em>array-like</em>) &#8211; array of velocities to build grid from</li>
+<li><strong>meshSize</strong> (<em>tuple.int</em>) &#8211; if data not provided create template size for mesh</li>
+<li><strong>distMetric</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; distance metric for relative computations (will be deprecated)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="route_vision.grid.Grid.velocity_profile">
-<code class="descname">velocity_profile</code><span class="sig-paren">(</span><em>profile='uniform'</em>, <em>attrs={'scalar': 1.0}</em>, <em>norm=True</em>, <em>scale=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_profile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">velocity_profile</code><span class="sig-paren">(</span><em>profile='uniform'</em>, <em>attrs={'scalar': 1.0}</em>, <em>norm=True</em>, <em>scale=False</em>, <em>conv=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_profile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate either uniform or harmonic profile perscribed by attrs</p>
-<p>example- &#8216;harmonic&#8217;,{&#8216;scalar&#8217;:1., &#8216;xf&#8217;:2., &#8216;yf&#8217;:2., &#8216;xa&#8217;:1.,&#8217;ya&#8217;:1.}</p>
+<p>example- &#8216;harmonic&#8217;,{&#8216;scalar&#8217;:3., &#8216;xf&#8217;:2., &#8216;yf&#8217;:2., &#8216;xa&#8217;:1.,&#8217;ya&#8217;:1.}</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>profile</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; currently supports &#8216;uniform&#8217; and &#8216;harmonic&#8217;</li>
+<li><strong>attrs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; attributes of profile</li>
+<li><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; normalize velocity Vmax := 1</li>
+<li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; scale velocity by std</li>
+<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/2/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; INDEV: convolution kernel for vectorized velocity fields</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="route_vision.grid.Grid.velocity_update">
-<code class="descname">velocity_update</code><span class="sig-paren">(</span><em>update</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_update" title="Permalink to this definition">¶</a></dt>
-<dd><p>update velocity of prescribed cells to values</p>
+<code class="descname">velocity_update</code><span class="sig-paren">(</span><em>cells</em>, <em>values</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update velocity of prescribed cells to values (1:1)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cells</strong> (<em>array-like</em>) &#8211; array of cells to update with values</li>
+<li><strong>values</strong> (<em>array-like</em>) &#8211; array of values to set cells</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="route_vision.grid.Grid.to_graph">
 <code class="descname">to_graph</code><span class="sig-paren">(</span><em>links=8</em>, <em>nodes=True</em>, <em>edges=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.to_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.to_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>create graph from grid</p>
+<dd><p>Create graph from grid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of node links, 4 := NSEW, 8:= NNeESeSSwWNw</li>
+<li><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; set non string nodes in graph as class attribute</li>
+<li><strong>edges</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; set non string edges in graph as class attribute</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="route_vision.grid.Grid.plot_graph">
-<code class="descname">plot_graph</code><span class="sig-paren">(</span><em>fName='t.png'</em>, <em>edge_color='vel'</em>, <em>node_color=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_graph" title="Permalink to this definition">¶</a></dt>
-<dd><p>plott edge velocities in graph</p>
+<code class="descname">plot_graph</code><span class="sig-paren">(</span><em>fName='t.png'</em>, <em>edge_color='vel'</em>, <em>node_color=None</em>, <em>node_size=50</em>, <em>nodes=None</em>, <em>nodePath=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_graph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_graph" title="Permalink to this definition">¶</a></dt>
+<dd><p>Plot edge velocities in graph</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fName</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name to save file to</li>
+<li><strong>edge_color</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; attribute of graph to pull for edge colors</li>
+<li><strong>node_color</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; attribute of graph to pull for node colors</li>
+<li><strong>node_size</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; node size in plots</li>
+<li><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of nodes to star</li>
+<li><strong>nodePath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of nodes to highlight</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="route_vision.grid.Grid.plot_state">
-<code class="descname">plot_state</code><span class="sig-paren">(</span><em>openNodes</em>, <em>closedNodes</em>, <em>edges=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_state" title="Permalink to this definition">¶</a></dt>
+<code class="descname">plot_state</code><span class="sig-paren">(</span><em>openNodes</em>, <em>closedNodes</em>, <em>edges=False</em>, <em>source=None</em>, <em>target=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot state in a search</p>
 </dd></dl>
 
@@ -379,6 +449,18 @@
 <dd><p>Plot path of nodes</p>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="route_vision.grid.gaussian_kernel">
+<code class="descclassname">route_vision.grid.</code><code class="descname">gaussian_kernel</code><span class="sig-paren">(</span><em>size</em>, <em>ySize=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#gaussian_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.gaussian_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create normalized gausian kernel size x ySize</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="route_vision.grid.convolve_axis">
+<code class="descclassname">route_vision.grid.</code><code class="descname">convolve_axis</code><span class="sig-paren">(</span><em>filt</em>, <em>arr</em>, <em>axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#convolve_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.convolve_axis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolve filter along axis through array</p>
 </dd></dl>
 
 </div>
