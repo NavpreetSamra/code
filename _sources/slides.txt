@@ -34,7 +34,7 @@ SCALAR COMPARISON
 Slow Zone
     * Uniform field with embedded homogenous zone(1/10 velocity) and linear deceleration on boundary
 
-.. image:: ../images/obstacle_graph.png
+.. image:: ../images/obstacle.png
    :align: center
    :scale: 50 %
 
