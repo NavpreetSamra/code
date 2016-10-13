@@ -21,6 +21,7 @@ Contents:
    cvcparser.rst
    helpers.rst
    quadtree.rst
+   slides.rst
 
 
 Indices and tables
