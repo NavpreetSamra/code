@@ -40,6 +40,18 @@ Finding best route with optimal heuristic weighting around obstacle requires dou
 .. image:: ../images/obstacle_comp.gif
    :align: center
 
+Long approach
+
+.. image:: ../images/long.png
+   :align: center
+   :scale: 50 %
+
+Finding best route with optimal heuristic weighting around obstacle requires double the explorations without embedded scalar field!
+
+.. image:: ../images/comp_long.gif
+   :align: center
+
+
 ====== == ==========================================  ============================= ======
 Method A*                                             A* with embedded scalar field       
 ====== == ==========================================  ============================= ======
