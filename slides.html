@@ -96,12 +96,19 @@
 <li class="toctree-l2"><a class="reference internal" href="#problem">PROBLEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solution">SOLUTION</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scalar">SCALAR</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scalar-comparison">SCALAR COMPARISON</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scalar-stability-robustness">Scalar stability &amp; Robustness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#obstacle-navigation">Obstacle Navigation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#traversal">Traversal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#obstacle-approach">Obstacle Approach</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">Traversal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#variable-field">Variable Field</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">Traversal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vector">Vector</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#vector-comparison">Vector Comparison</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#future-work">Future Work</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#appendix">Appendix</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalar-stability-robustness">Scalar stability &amp; Robustness</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#count">Count</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cost">Cost</a></li>
 </ul>
 </li>
 </ul>
@@ -150,26 +157,30 @@
             
   <div class="section" id="route-vision">
 <h1>ROUTE VISION<a class="headerlink" href="#route-vision" title="Permalink to this headline">¶</a></h1>
-<p><strong>Mark Weiss</strong></p>
+<p>Mark Weiss</p>
 <div class="section" id="motivation">
 <h2>MOTIVATION<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
+<blockquote>
+<div><ul class="simple">
 <li>A* costs grow geometrically</li>
 <li>Hierarchal methods cannot dynamically update edge weights</li>
 </ul>
+</div></blockquote>
 <p>A* GIF</p>
 <p>Image of heading into traffic jam</p>
+<p>Maybe screen shot of Uber blog plost?</p>
 </div>
 <div class="section" id="problem">
 <h2>PROBLEM<a class="headerlink" href="#problem" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Standard heurisitc fails to leverage available local latent data to aid graph traversal</li>
+<li>Standard A* heurisitc fails to leverage available local latent data to aid graph traversal</li>
+<li>Heuristic can only utilize O(1) operations</li>
 </ul>
 </div>
 <div class="section" id="solution">
 <h2>SOLUTION<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Can we embed computationally inexpensive &amp; latent local data in our graph to communicate information.</li>
+<li>Can we embed computationally inexpensive &amp; latent local data from our graph in the heuristic to communicate information.</li>
 <li>This gives A* the potential to reduce cost by behaing intelligently without giving up robustness or tunability</li>
 </ul>
 </div>
@@ -179,79 +190,105 @@
 <li>Math</li>
 </ul>
 </div>
-<div class="section" id="scalar-comparison">
-<h2>SCALAR COMPARISON<a class="headerlink" href="#scalar-comparison" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="obstacle-navigation">
+<h2>Obstacle Navigation<a class="headerlink" href="#obstacle-navigation" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt>Slow Zone</dt>
+<dt><strong>Slow Zone</strong></dt>
 <dd><ul class="first last simple">
 <li>Uniform field with embedded homogenous zone(1/10 velocity) and linear deceleration on boundary</li>
 </ul>
 </dd>
 </dl>
-<a class="reference internal image-reference" href="_images/obstacle_graph.png"><img alt="_images/obstacle_graph.png" class="align-center" src="_images/obstacle_graph.png" style="width: 400.0px; height: 300.0px;" /></a>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/obstacle_graph.png"><img alt="_images/obstacle_graph.png" src="_images/obstacle_graph.png" style="width: 520.0px; height: 390.0px;" /></a>
+</div>
+</div>
+<div class="section" id="traversal">
+<h2>Traversal<a class="headerlink" href="#traversal" title="Permalink to this headline">¶</a></h2>
 <p>Finding best route with optimal heuristic weighting around obstacle requires double the explorations without embedded scalar field!</p>
-<img alt="_images/obstacle_comp.gif" class="align-center" src="_images/obstacle_comp.gif" />
-<p>Long approach</p>
-<a class="reference internal image-reference" href="_images/long.png"><img alt="_images/long.png" class="align-center" src="_images/long.png" style="width: 400.0px; height: 300.0px;" /></a>
-<p>Finding best route with optimal heuristic weighting around obstacle requires double the explorations without embedded scalar field!</p>
-<img alt="_images/comp_long.gif" class="align-center" src="_images/comp_long.gif" />
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/obstacle_comp.gif"><img alt="_images/obstacle_comp.gif" src="_images/obstacle_comp.gif" style="width: 1040.0px; height: 390.0px;" /></a>
+</div>
 <table border="1" class="docutils">
 <colgroup>
-<col width="7%" />
-<col width="2%" />
-<col width="49%" />
-<col width="34%" />
-<col width="7%" />
+<col width="8%" />
+<col width="12%" />
+<col width="41%" />
+<col width="39%" />
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td>Method</td>
 <td>A*</td>
 <td>&nbsp;</td>
 <td>A* with embedded scalar field</td>
-<td>&nbsp;</td>
-</tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>Harmonic Profile</dt>
-<dd><ul class="first last simple">
-<li>Variable velocity field (min at 10 % Vmax)</li>
-<li>This route leverages the advantages of the new heuristic less then many, but still provides substantial improvement</li>
-</ul>
-</dd>
-</dl>
-<a class="reference internal image-reference" href="_images/harmonic.png"><img alt="_images/harmonic.png" class="align-center" src="_images/harmonic.png" style="width: 400.0px; height: 300.0px;" /></a>
-<a class="reference internal image-reference" href="_images/comp_harm.gif"><img alt="_images/comp_harm.gif" class="align-center" src="_images/comp_harm.gif" style="width: 800.0px; height: 300.0px;" /></a>
-<table border="1" class="docutils">
-<colgroup>
-<col width="7%" />
-<col width="2%" />
-<col width="49%" />
-<col width="34%" />
-<col width="7%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td>Method</td>
-<td>A*</td>
-<td>&nbsp;</td>
-<td>A* with embedded scalar field</td>
-<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
 </div>
-<div class="section" id="scalar-stability-robustness">
-<h2>Scalar stability &amp; Robustness<a class="headerlink" href="#scalar-stability-robustness" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Cost bounds</li>
-<li>Cycle behavior</li>
+<div class="section" id="obstacle-approach">
+<h2>Obstacle Approach<a class="headerlink" href="#obstacle-approach" title="Permalink to this headline">¶</a></h2>
+<p>Long approach of <strong>Slow Zone</strong></p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/long.png"><img alt="_images/long.png" src="_images/long.png" style="width: 600.0px; height: 450.0px;" /></a>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Traversal<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/comp_long.gif"><img alt="_images/comp_long.gif" src="_images/comp_long.gif" style="width: 1040.0px; height: 390.0px;" /></a>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="3%" />
+<col width="37%" />
+<col width="49%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Method</td>
+<td>A*</td>
+<td>&nbsp;</td>
+<td>A* with embedded scalar field</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="variable-field">
+<h2>Variable Field<a class="headerlink" href="#variable-field" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>Harmonic Profile</dt>
+<dd><ul class="first last simple">
+<li>Variable velocity field (min at 5 % Vmax)</li>
+<li>This route leverages the advantages of the new heuristic less then many, but still provides substantial improvement</li>
 </ul>
-<p>Figures that are hard to understand</p>
-<p>Note the spike is due to relative weighting (See appendix tables)</p>
-<a class="reference internal image-reference" href="_images/count.png"><img alt="_images/count.png" class="align-center" src="_images/count.png" style="width: 600.0px; height: 450.0px;" /></a>
-<a class="reference internal image-reference" href="_images/cost.png"><img alt="_images/cost.png" class="align-center" src="_images/cost.png" style="width: 600.0px; height: 450.0px;" /></a>
-<p>Table that is easy to understand</p>
-<p>Movies of a few examples</p>
+</dd>
+</dl>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/harmonic.png"><img alt="_images/harmonic.png" src="_images/harmonic.png" style="width: 400.0px; height: 300.0px;" /></a>
+</div>
+</div>
+<div class="section" id="id2">
+<h2>Traversal<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/comp_harm.gif"><img alt="_images/comp_harm.gif" src="_images/comp_harm.gif" style="width: 800.0px; height: 300.0px;" /></a>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="2%" />
+<col width="49%" />
+<col width="34%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Method</td>
+<td>A*</td>
+<td>&nbsp;</td>
+<td>A* with embedded scalar field</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="section" id="vector">
 <h2>Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h2>
@@ -272,6 +309,25 @@
 </div>
 <div class="section" id="appendix">
 <h2>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="scalar-stability-robustness">
+<h2>Scalar stability &amp; Robustness<a class="headerlink" href="#scalar-stability-robustness" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>Cost bounds</li>
+<li>Cycle behavior</li>
+</ul>
+</div>
+<div class="section" id="count">
+<h2>Count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/count.png"><img alt="_images/count.png" src="_images/count.png" style="width: 600.0px; height: 450.0px;" /></a>
+</div>
+</div>
+<div class="section" id="cost">
+<h2>Cost<a class="headerlink" href="#cost" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/cost.png"><img alt="_images/cost.png" src="_images/cost.png" style="width: 600.0px; height: 450.0px;" /></a>
+</div>
 <p><strong>Count Delta</strong></p>
 <table border="1" class="docutils">
 <colgroup>
