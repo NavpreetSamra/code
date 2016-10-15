@@ -95,20 +95,24 @@
 <li class="toctree-l2"><a class="reference internal" href="#motivation">MOTIVATION</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#problem">PROBLEM</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#solution">SOLUTION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scalar">SCALAR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalar-field">SCALAR FIELD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#obstacle-navigation">Obstacle Navigation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#traversal">Traversal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#obstacle-approach">Obstacle Approach</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id1">Traversal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#variable-field">Variable Field</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Traversal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#vector">Vector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#vector-comparison">Vector Comparison</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#future-work">Future Work</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#appendix">Appendix</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#scalar-stability-robustness">Scalar stability &amp; Robustness</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#count">Count</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cost">Cost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analysis">ANALYSIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vector">VECTOR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vector-field">VECTOR FIELD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">Traversal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-work">FUTURE WORK</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#thank-you">THANK YOU</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#appendix">APPENDIX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#scalar-stability-robustness">SCALAR STABILITY &amp; ROBUSTNESS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#count">COUNT</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cost">COST</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tables">TABLES</a></li>
 </ul>
 </li>
 </ul>
@@ -158,17 +162,19 @@
   <div class="section" id="route-vision">
 <h1>ROUTE VISION<a class="headerlink" href="#route-vision" title="Permalink to this headline">¶</a></h1>
 <p>Mark Weiss</p>
+<p>GitHub: <a class="reference external" href="https://github.com/marksweissma">https://github.com/marksweissma</a></p>
+<p>Docs: <a class="reference external" href="https://marksweissma.github.io/code/index.html">https://marksweissma.github.io/code/index.html</a></p>
+<p>LinkedIn: <a class="reference external" href="http://www.linkedin.com/in/mark-weiss-97302115">http://www.linkedin.com/in/mark-weiss-97302115</a></p>
+<p><strong>REDUCING EXPLORATIONS OF POINT TO POINT PATHS IN VELOCITY GRAPHS</strong></p>
 <div class="section" id="motivation">
 <h2>MOTIVATION<a class="headerlink" href="#motivation" title="Permalink to this headline">¶</a></h2>
-<blockquote>
-<div><ul class="simple">
-<li>A* costs grow geometrically</li>
-<li>Hierarchal methods cannot dynamically update edge weights</li>
-</ul>
-</div></blockquote>
-<p>A* GIF</p>
-<p>Image of heading into traffic jam</p>
+<p>Map of nav to my house (it&#8217;s a bad route)</p>
 <p>Maybe screen shot of Uber blog plost?</p>
+<p>A* costs grow geometrically</p>
+<p>Hierarchal methods cannot dynamically update edge weights</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="https://en.wikipedia.org/wiki/A*_search_algorithm#/media/File:Astar_progress_animation.gif"><img alt="https://en.wikipedia.org/wiki/A*_search_algorithm#/media/File:Astar_progress_animation.gif" src="https://en.wikipedia.org/wiki/A*_search_algorithm#/media/File:Astar_progress_animation.gif" /></a>
+</div>
 </div>
 <div class="section" id="problem">
 <h2>PROBLEM<a class="headerlink" href="#problem" title="Permalink to this headline">¶</a></h2>
@@ -180,22 +186,35 @@
 <div class="section" id="solution">
 <h2>SOLUTION<a class="headerlink" href="#solution" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Can we embed computationally inexpensive &amp; latent local data from our graph in the heuristic to communicate information.</li>
-<li>This gives A* the potential to reduce cost by behaing intelligently without giving up robustness or tunability</li>
+<li>Can we embed computationally inexpensive &amp; local data from our graph in the heuristic to communicate information.</li>
+<li>This gives A* the potential to reduce cost without recomputing the entire graph</li>
 </ul>
 </div>
-<div class="section" id="scalar">
-<h2>SCALAR<a class="headerlink" href="#scalar" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="scalar-field">
+<h2>SCALAR FIELD<a class="headerlink" href="#scalar-field" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Math</li>
 </ul>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<dl class="docutils">
+<dt>Goal: Constrain search growth and improve prioritization</dt>
+<dd><ul class="first last simple">
+<li>Navigate around obstacles</li>
+<li>Improve approach to obstacles</li>
+<li>Reduce explorations in variable fields</li>
+</ul>
+</dd>
+</dl>
 </div>
 <div class="section" id="obstacle-navigation">
 <h2>Obstacle Navigation<a class="headerlink" href="#obstacle-navigation" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
 <dt><strong>Slow Zone</strong></dt>
 <dd><ul class="first last simple">
-<li>Uniform field with embedded homogenous zone(1/10 velocity) and linear deceleration on boundary</li>
+<li>Uniform field with embedded homogenous zone(10% field velocity) and linear deceleration on boundary</li>
 </ul>
 </dd>
 </dl>
@@ -259,7 +278,6 @@
 <dt>Harmonic Profile</dt>
 <dd><ul class="first last simple">
 <li>Variable velocity field (min at 5 % Vmax)</li>
-<li>This route leverages the advantages of the new heuristic less then many, but still provides substantial improvement</li>
 </ul>
 </dd>
 </dl>
@@ -290,44 +308,108 @@
 </tbody>
 </table>
 </div>
-<div class="section" id="vector">
-<h2>Vector<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="analysis">
+<h2>ANALYSIS<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
+<p>(Remake with field in slides)</p>
 <ul class="simple">
-<li>Math - kernel I just made</li>
-<li>Image of Kernel</li>
+<li>2 Nodes directly North of source are never explored!</li>
 </ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/harmonic_comb_end.png"><img alt="_images/harmonic_comb_end.png" src="_images/harmonic_comb_end.png" style="width: 1200.0px; height: 450.0px;" /></a>
 </div>
-<div class="section" id="vector-comparison">
-<h2>Vector Comparison<a class="headerlink" href="#vector-comparison" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="2%" />
+<col width="49%" />
+<col width="34%" />
+<col width="7%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>Method</td>
+<td>A*</td>
+<td>&nbsp;</td>
+<td>A* with embedded scalar field</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="vector">
+<h2>VECTOR<a class="headerlink" href="#vector" title="Permalink to this headline">¶</a></h2>
+<p>Scalar field only scratched the surface of the available information</p>
+<dl class="docutils">
+<dt>A field can be defined for each node based on direction of travel</dt>
+<dd><ul class="first last simple">
+<li>Memory expensive, but memory is cheap and does not violate our conditions</li>
+<li>Enables propogation of information via convolution and kernel smoothing</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="vector-field">
+<h2>VECTOR FIELD<a class="headerlink" href="#vector-field" title="Permalink to this headline">¶</a></h2>
+<p>Image</p>
+</div>
+<div class="section" id="id3">
+<h2>Traversal<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Need to make this</p>
 </div>
 <div class="section" id="future-work">
-<h2>Future Work<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>Apply with kernel smoothing instead of convolution</li>
-<li>Parameter grid search</li>
+<h2>FUTURE WORK<a class="headerlink" href="#future-work" title="Permalink to this headline">¶</a></h2>
+<dl class="docutils">
+<dt>This framework spawns two interesting machine learning problems</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>Prediction of state</dt>
+<dd><ul class="first last simple">
+<li>historical</li>
+<li>shock propogated</li>
 </ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Kernel update</dt>
+<dd><ul class="first last simple">
+<li>size</li>
+<li>shape</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</div>
+<div class="section" id="thank-you">
+<h2>THANK YOU<a class="headerlink" href="#thank-you" title="Permalink to this headline">¶</a></h2>
+<p>We appreciate your time coming to hear us!</p>
 </div>
 <div class="section" id="appendix">
-<h2>Appendix<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h2>
+<h2>APPENDIX<a class="headerlink" href="#appendix" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="scalar-stability-robustness">
-<h2>Scalar stability &amp; Robustness<a class="headerlink" href="#scalar-stability-robustness" title="Permalink to this headline">¶</a></h2>
+<h2>SCALAR STABILITY &amp; ROBUSTNESS<a class="headerlink" href="#scalar-stability-robustness" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li>Cost bounds</li>
 <li>Cycle behavior</li>
 </ul>
 </div>
 <div class="section" id="count">
-<h2>Count<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>
+<h2>COUNT<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/count.png"><img alt="_images/count.png" src="_images/count.png" style="width: 600.0px; height: 450.0px;" /></a>
 </div>
 </div>
 <div class="section" id="cost">
-<h2>Cost<a class="headerlink" href="#cost" title="Permalink to this headline">¶</a></h2>
+<h2>COST<a class="headerlink" href="#cost" title="Permalink to this headline">¶</a></h2>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/cost.png"><img alt="_images/cost.png" src="_images/cost.png" style="width: 600.0px; height: 450.0px;" /></a>
 </div>
+</div>
+<div class="section" id="tables">
+<h2>TABLES<a class="headerlink" href="#tables" title="Permalink to this headline">¶</a></h2>
 <p><strong>Count Delta</strong></p>
 <table border="1" class="docutils">
 <colgroup>

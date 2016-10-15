@@ -1,18 +1,32 @@
 ROUTE VISION
 ============
+
+
 Mark Weiss
+
+GitHub: https://github.com/marksweissma
+
+Docs: https://marksweissma.github.io/code/index.html
+
+LinkedIn: http://www.linkedin.com/in/mark-weiss-97302115
+
+**REDUCING EXPLORATIONS OF POINT TO POINT PATHS IN VELOCITY GRAPHS**
 
 MOTIVATION
 ----------
 
-    * A* costs grow geometrically
-    * Hierarchal methods cannot dynamically update edge weights
-
-A* GIF
-
-Image of heading into traffic jam
+Map of nav to my house (it's a bad route)
 
 Maybe screen shot of Uber blog plost?
+
+
+A* costs grow geometrically
+
+Hierarchal methods cannot dynamically update edge weights
+
+.. figure:: https://en.wikipedia.org/wiki/A*_search_algorithm#/media/File:Astar_progress_animation.gif
+   :align: center
+   :scale: 65 %
 
 PROBLEM
 -------
@@ -21,17 +35,25 @@ PROBLEM
 
 SOLUTION
 --------
-* Can we embed computationally inexpensive & latent local data from our graph in the heuristic to communicate information.
-* This gives A* the potential to reduce cost by behaing intelligently without giving up robustness or tunability
+* Can we embed computationally inexpensive & local data from our graph in the heuristic to communicate information.
+* This gives A* the potential to reduce cost without recomputing the entire graph
 
-SCALAR
-------
+SCALAR FIELD
+------------
 * Math
+
+|
+|
+
+Goal: Constrain search growth and improve prioritization
+    * Navigate around obstacles
+    * Improve approach to obstacles
+    * Reduce explorations in variable fields
 
 Obstacle Navigation
 -------------------
 **Slow Zone**
-    * Uniform field with embedded homogenous zone(1/10 velocity) and linear deceleration on boundary
+    * Uniform field with embedded homogenous zone(10% field velocity) and linear deceleration on boundary
 
 .. figure:: ../../docs/images/obstacle_graph.png
    :align: center
@@ -72,7 +94,6 @@ Variable Field
 --------------
 Harmonic Profile
     * Variable velocity field (min at 5 % Vmax) 
-    * This route leverages the advantages of the new heuristic less then many, but still provides substantial improvement
 
 .. figure:: ../../docs/images/harmonic.png
    :align: center
@@ -88,41 +109,77 @@ Traversal
 Method A*                                             A* with embedded scalar field       
 ====== == ==========================================  ============================= ======
 
-Vector
+ANALYSIS
+--------
+(Remake with field in slides)
+
+* 2 Nodes directly North of source are never explored!
+
+.. figure:: ../../docs/images/harmonic_comb_end.png
+   :align: center
+   :scale: 75 %
+
+====== == ==========================================  ============================= ======
+Method A*                                             A* with embedded scalar field       
+====== == ==========================================  ============================= ======
+
+VECTOR
 ------
-* Math - kernel I just made 
-* Image of Kernel
+Scalar field only scratched the surface of the available information
 
-Vector Comparison
------------------
+A field can be defined for each node based on direction of travel
+    * Memory expensive, but memory is cheap and does not violate our conditions
+    * Enables propogation of information via convolution and kernel smoothing
+    
 
-Future Work
+VECTOR FIELD
+------------
+
+Image
+
+Traversal
+---------
+
+Need to make this
+
+FUTURE WORK
 -----------
-* Apply with kernel smoothing instead of convolution
-* Parameter grid search
+This framework spawns two interesting machine learning problems
+    * Prediction of state
+        - historical
+        - shock propogated
+    * Kernel update
+        - size
+        - shape
 
+THANK YOU
+---------
 
-Appendix
+We appreciate your time coming to hear us!
+
+APPENDIX
 --------
 
-Scalar stability & Robustness
+SCALAR STABILITY & ROBUSTNESS
 -----------------------------
 * Cost bounds
 * Cycle behavior
 
 
-Count
+COUNT
 -----
 .. figure:: ../../docs/images/count.png
    :scale: 75 %
    :align: center
 
-Cost
+COST
 ----
 .. figure:: ../../docs/images/cost.png
    :scale: 75 %
    :align: center
 
+TABLES
+------
 
 **Count Delta**
 
