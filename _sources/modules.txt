@@ -4,8 +4,8 @@ code
 .. toctree::
    :maxdepth: 4
 
-   network_analysis
    route_vision
+   network_analysis
    wikitravel
    churn_study
    cvcparser

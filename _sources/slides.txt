@@ -52,7 +52,7 @@ OBSTACLE NAVIGATION
 
 .. figure:: ..//images/obstacle_graph.png
    :align: center
-   :scale: 70 %
+   :scale: 50 %
 
 TRAVERSAL
 ---------
@@ -72,16 +72,11 @@ Long approach of **Slow Zone**
 
 .. figure:: ..//images/long.png
    :align: center
-   :scale: 75 %
+   :scale: 50 %
 
 
 Traversal
 ---------
-.. figure:: ..//images/Stationary_velocity_field.png
-   :align: center
-   :scale: 80 %
-
-
 .. figure:: ..//images/comp_long.gif
    :align: center
    :scale: 65 %
@@ -99,7 +94,7 @@ Harmonic Profile
 
 .. figure:: ..//images/harmonic.png
    :align: center
-   :scale: 70 %
+   :scale: 50 %
 
 Traversal
 ---------
@@ -156,6 +151,11 @@ This framework spawns two interesting machine learning problems
     * Kernel update
         - size
         - shape
+
+.. figure:: ..//images/Stationary_velocity_field.png
+   :align: center
+   :scale: 80 %
+
 
 
 SCALAR STABILITY & ROBUSTNESS
