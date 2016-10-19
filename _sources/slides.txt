@@ -1,87 +1,88 @@
 ROUTE VISION
 ============
 
-
-Mark Weiss
-
-GitHub: https://github.com/marksweissma
-
-Docs: https://marksweissma.github.io/code/index.html
-
-LinkedIn: http://www.linkedin.com/in/mark-weiss-97302115
-
 **REDUCING EXPLORATIONS OF POINT TO POINT PATHS IN VELOCITY GRAPHS**
 
 MOTIVATION
 ----------
 
-Map of nav to my house (it's a bad route)
+* A* costs grow geometrically
+* Hierarchal methods cannot dynamically update edge weights
 
-Maybe screen shot of Uber blog plost?
-
-
-A* costs grow geometrically
-
-Hierarchal methods cannot dynamically update edge weights
-
-.. figure:: https://en.wikipedia.org/wiki/A*_search_algorithm#/media/File:Astar_progress_animation.gif
+.. figure:: ..//images/uber.png
    :align: center
-   :scale: 65 %
+   :scale: 40 %
 
-PROBLEM
--------
+FORMULATION & CONSTRAINTS
+-------------------------
+
 * Standard A* heurisitc fails to leverage available local latent data to aid graph traversal
 * Heuristic can only utilize O(1) operations 
 
-SOLUTION
---------
-* Can we embed computationally inexpensive & local data from our graph in the heuristic to communicate information.
-* This gives A* the potential to reduce cost without recomputing the entire graph
+**Goal**: Constrain search growth by improving prioritization
+
+* We embed computationally inexpensive & local data from our graph in the heuristic to **communicate** information.
+* This gives A* the potential to reduce explorations without recomputing the entire graph by giving it **vision**
+
+.. figure:: ..//images/Astar_progress_animation.gif
+   :align: center
+   :scale: 95 %
 
 SCALAR FIELD
 ------------
-* Math
 
-|
-|
+Heuristic
 
-Goal: Constrain search growth and improve prioritization
-    * Navigate around obstacles
-    * Improve approach to obstacles
-    * Reduce explorations in variable fields
+.. math::
+  :nowrap:
 
-Obstacle Navigation
+   \begin{eqnarray}
+      f(n) & = &  g(n) + {\epsilon}h(n) \\
+      g(n) & = & cost_{time}(n) \\
+      h_{A^*}(n_{i+1}) & = & min_{target}[cost_{time}(x_{ni+1})] \\
+      h_{Av^*}(n_{i+1}) & = &  min_{target}[cost_{time}(x_{ni+1},v_{ni+1})]
+   \end{eqnarray}
+
+
+OBSTACLE NAVIGATION
 -------------------
+
 **Slow Zone**
     * Uniform field with embedded homogenous zone(10% field velocity) and linear deceleration on boundary
 
-.. figure:: ../../docs/images/obstacle_graph.png
+.. figure:: ..//images/obstacle_graph.png
    :align: center
-   :scale: 65 %
+   :scale: 70 %
 
-Traversal
+TRAVERSAL
 ---------
 Finding best route with optimal heuristic weighting around obstacle requires double the explorations without embedded scalar field!
 
-.. figure:: ../../docs/images/obstacle_comp.gif
+.. figure:: ..//images/obstacle_comp.gif
    :align: center
-   :scale: 65 %
+   :scale: 60 %
 
-====== ========= ===============================  =============================
-Method    A*                                      A* with embedded scalar field
-====== ========= ===============================  =============================
+========== ============ =================== ==============================
+METHOD     A* 46 CYCLES                     A* WITH SCALAR FIELD 23 CYCLES
+========== ============ =================== ==============================
 
 Obstacle Approach
 -----------------
 Long approach of **Slow Zone**
 
-.. figure:: ../../docs/images/long.png
+.. figure:: ..//images/long.png
    :align: center
    :scale: 75 %
 
+
 Traversal
 ---------
-.. figure:: ../../docs/images/comp_long.gif
+.. figure:: ..//images/Stationary_velocity_field.png
+   :align: center
+   :scale: 80 %
+
+
+.. figure:: ..//images/comp_long.gif
    :align: center
    :scale: 65 %
 
@@ -89,61 +90,65 @@ Traversal
 Method A*                         A* with embedded scalar field
 ====== == ======================  =============================
 
-
-Variable Field
+VARIABLE FIELD
 --------------
-Harmonic Profile
-    * Variable velocity field (min at 5 % Vmax) 
 
-.. figure:: ../../docs/images/harmonic.png
+Harmonic Profile
+
+* Variable velocity field (min at 5% Vmax) 
+
+.. figure:: ..//images/harmonic.png
    :align: center
-   :scale: 50 %
+   :scale: 70 %
 
 Traversal
 ---------
-.. figure:: ../../docs/images/comp_harm.gif
+
+.. figure:: ..//images/comp_harm.gif
    :align: center
    :scale: 50 %
 
-====== == ==========================================  ============================= ======
-Method A*                                             A* with embedded scalar field       
-====== == ==========================================  ============================= ======
+====== == ==========================================  =============================
+METHOD A*                                             A* WITH EMBEDDED SCALAR FIELD
+====== == ==========================================  =============================
 
 ANALYSIS
 --------
-(Remake with field in slides)
 
 * 2 Nodes directly North of source are never explored!
 
-.. figure:: ../../docs/images/harmonic_comb_end.png
+.. figure:: ..//images/harmonic_comb_end.png
    :align: center
    :scale: 75 %
 
-====== == ==========================================  ============================= ======
-Method A*                                             A* with embedded scalar field       
-====== == ==========================================  ============================= ======
-
-VECTOR
-------
-Scalar field only scratched the surface of the available information
-
-A field can be defined for each node based on direction of travel
-    * Memory expensive, but memory is cheap and does not violate our conditions
-    * Enables propogation of information via convolution and kernel smoothing
+====== ================== ====== ===============================
+METHOD A* 247 CYCLES             A* WITH SCALAR FIELD 103 CYCLES
+====== ================== ====== ===============================
     
 
-VECTOR FIELD
-------------
+FUTURE WORK \: VECTOR FIELD 
+---------------------------
 
-Image
+.. math::
+  :nowrap:
 
-Traversal
----------
+   \begin{eqnarray}
+      k & = & kernel \\
+      \vec{v_{ni+1}} & = & w(v_{ni+1}, \vec{x_{ni}}, \vec{x_{ni+1}}, k_{r}) \\
+      h_{Av^*}(n_{i+1}) & = &  min_{target}[cost_{time}(x_{ni+1},\vec{v_{ni+1}})]
+   \end{eqnarray}
 
-Need to make this
 
-FUTURE WORK
------------
+A field can be defined for a set of directions
+    * Memory expensive, but memory is cheap and does not violate our conditions
+    * Enables propogation of information via convolution and kernel smoothing
+
+.. figure:: ..//images/fluid_field.png
+   :align: center
+   :scale: 60 %
+
+COMPLEXITY
+----------
 This framework spawns two interesting machine learning problems
     * Prediction of state
         - historical
@@ -152,13 +157,6 @@ This framework spawns two interesting machine learning problems
         - size
         - shape
 
-THANK YOU
----------
-
-We appreciate your time coming to hear us!
-
-APPENDIX
---------
 
 SCALAR STABILITY & ROBUSTNESS
 -----------------------------
@@ -168,34 +166,17 @@ SCALAR STABILITY & ROBUSTNESS
 
 COUNT
 -----
-.. figure:: ../../docs/images/count.png
+.. figure:: ..//images/count.png
    :scale: 75 %
    :align: center
 
 COST
 ----
-.. figure:: ../../docs/images/cost.png
+.. figure:: ..//images/cost.png
    :scale: 75 %
    :align: center
 
 TABLES
 ------
 
-**Count Delta**
-
-===================  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======
-Weight                0.0    0.5    1.0    1.5    2.0    2.5    3.0    3.5    4.0    4.5    5.0    5.5    6.0    6.5    7.0    7.5    8.0    8.5    9.0    9.5    10.0    10.5    11.0    11.5    12.0    12.5    13.0    13.5    14.0    14.5    15.0    15.5    16.0    16.5    17.0    17.5    18.0    18.5    19.0    19.5    20.0
-===================  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======
-((1, 48), (20, 28))      0    -35    -43    499  -4561  -1142   -480   -153    -40    -29    -29    -20    -12    -15     -6     -5     -3      0      0      2       2       2       2       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3
-((48, 1), (20, 28))      0    -42    -70   1076  -5430   -868   -569   -185    -46    -31    -22    -13     -5    -11     -8     -6     -4     -2     -1      2       2       2       2       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3       3
-===================  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  =====  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======  ======
-
-
-**Cost Delta**
-
-===================  =====  =====  =====  =====  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========
-Weight                0.0    0.5    1.0    1.5       2.0       2.5       3.0       3.5       4.0       4.5       5.0       5.5       6.0       6.5       7.0       7.5       8.0       8.5       9.0       9.5      10.0      10.5      11.0      11.5      12.0      12.5      13.0      13.5      14.0      14.5      15.0      15.5      16.0      16.5      17.0      17.5      18.0      18.5      19.0      19.5      20.0
-===================  =====  =====  =====  =====  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========
-((1, 48), (20, 28))      0      0      0      0   0        -2.43341  -5.12179  -16.358   -16.9607  -12.7225  -25.9147  -27.3847  -27.3847  -27.3847  -27.3847  -49.0232  -49.0232  -49.4729  -49.4729  -49.4729  -49.4729  -49.4729  -49.4729  -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66    -49.66
-((48, 1), (20, 28))      0      0      0      0  -1.46284  -6.37197  -8.67401  -26.0156  -26.1423  -27.9206  -49.066   -41.8309  -41.8309  -41.8309  -41.8309  -66.4726  -75.9175  -76.3945  -76.3945  -76.3945  -76.3945  -76.3945  -76.3945  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029  -76.4029
-===================  =====  =====  =====  =====  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========
+REMAKE THESE
