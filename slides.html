@@ -102,8 +102,9 @@
 <li class="toctree-l2"><a class="reference internal" href="#variable-field">VARIABLE FIELD</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#id2">Traversal</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#analysis">ANALYSIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">ANALYSIS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#future-work-vector-field">FUTURE WORK : VECTOR FIELD</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#complexity">COMPLEXITY</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#future-work-complexity">FUTURE WORK : COMPLEXITY</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#scalar-stability-robustness">SCALAR STABILITY &amp; ROBUSTNESS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#count">COUNT</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cost">COST</a></li>
@@ -192,7 +193,20 @@
     h_{A^*}(n_{i+1}) &amp; = &amp; min_{target}[cost_{time}(x_{ni+1})] \\
     h_{Av^*}(n_{i+1}) &amp; = &amp;  min_{target}[cost_{time}(x_{ni+1},v_{ni+1})]
  \end{eqnarray}"/></p>
-</div></div>
+</div><dl class="docutils">
+<dt>Scenarios</dt>
+<dd><ul class="first last simple">
+<li>Obstacle Navigation</li>
+<li>Variable Field</li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line"><br /></div>
+</div>
+<a class="reference internal image-reference" href="_images/map_traffic.png"><img alt="_images/map_traffic.png" class="align-left" src="_images/map_traffic.png" style="width: 892.8px; height: 160.8px;" /></a>
+</div>
 <div class="section" id="obstacle-navigation">
 <h2>OBSTACLE NAVIGATION<a class="headerlink" href="#obstacle-navigation" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
@@ -311,6 +325,30 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="id3">
+<h2>ANALYSIS<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li>2 Nodes directly North of source are never explored!</li>
+</ul>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/two_nodes.png"><img alt="_images/two_nodes.png" src="_images/two_nodes.png" style="width: 1255.5px; height: 246.0px;" /></a>
+</div>
+<table border="1" class="docutils">
+<colgroup>
+<col width="9%" />
+<col width="27%" />
+<col width="18%" />
+<col width="46%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>METHOD</td>
+<td>A* 247 CYCLES</td>
+<td>&nbsp;</td>
+<td>A* WITH SCALAR FIELD 103 CYCLES</td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="section" id="future-work-vector-field">
 <h2>FUTURE WORK : VECTOR FIELD<a class="headerlink" href="#future-work-vector-field" title="Permalink to this headline">¶</a></h2>
 <div class="math">
@@ -320,27 +358,27 @@
     h_{Av^*}(n_{i+1}) &amp; = &amp;  min_{target}[cost_{time}(x_{ni+1},\vec{v_{ni+1}})]
  \end{eqnarray}"/></p>
 </div><dl class="docutils">
-<dt>A field can be defined for a set of directions</dt>
+<dt>A field can be defined where each dimension corresponds to a direction</dt>
 <dd><ul class="first last simple">
-<li>Memory expensive, but memory is cheap and does not violate our conditions</li>
-<li>Enables propogation of information via convolution and kernel smoothing</li>
+<li>Method is memory intensive, but memory is cheap and does not violate our constraints</li>
+<li>Enables propogation of information via a kernel</li>
 </ul>
 </dd>
 </dl>
 <div class="figure align-center">
-<a class="reference internal image-reference" href="_images/fluid_field.png"><img alt="_images/fluid_field.png" src="_images/fluid_field.png" style="width: 375.0px; height: 375.6px;" /></a>
+<a class="reference internal image-reference" href="_images/layers.png"><img alt="_images/layers.png" src="_images/layers.png" style="width: 768.0px; height: 432.0px;" /></a>
 </div>
 </div>
-<div class="section" id="complexity">
-<h2>COMPLEXITY<a class="headerlink" href="#complexity" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="future-work-complexity">
+<h2>FUTURE WORK : COMPLEXITY<a class="headerlink" href="#future-work-complexity" title="Permalink to this headline">¶</a></h2>
 <dl class="docutils">
-<dt>This framework spawns two interesting machine learning problems</dt>
+<dt>This framework spawns two machine learning problems</dt>
 <dd><ul class="first last">
 <li><dl class="first docutils">
 <dt>Prediction of state</dt>
 <dd><ul class="first last simple">
-<li>historical</li>
-<li>shock propogated</li>
+<li>Weight of an edge when we expect to traverse</li>
+<li>historical &amp; shock propogated</li>
 </ul>
 </dd>
 </dl>
@@ -348,8 +386,7 @@
 <li><dl class="first docutils">
 <dt>Kernel update</dt>
 <dd><ul class="first last simple">
-<li>size</li>
-<li>shape</li>
+<li>size &amp; shape</li>
 </ul>
 </dd>
 </dl>

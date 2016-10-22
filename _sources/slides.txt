@@ -44,6 +44,17 @@ Heuristic
    \end{eqnarray}
 
 
+Scenarios
+    * Obstacle Navigation
+    * Variable Field
+
+|
+|
+
+.. image:: ../images/map_traffic.png
+   :align: left
+   :scale: 40 %
+
 OBSTACLE NAVIGATION
 -------------------
 
@@ -120,6 +131,18 @@ ANALYSIS
 METHOD A* 247 CYCLES             A* WITH SCALAR FIELD 103 CYCLES
 ====== ================== ====== ===============================
     
+ANALYSIS
+--------
+
+* 2 Nodes directly North of source are never explored!
+
+.. figure:: ..//images/two_nodes.png
+   :align: center
+   :scale: 75 %
+
+====== ================== ============ ===============================
+METHOD A* 247 CYCLES                   A* WITH SCALAR FIELD 103 CYCLES
+====== ================== ============ ===============================
 
 FUTURE WORK \: VECTOR FIELD 
 ---------------------------
@@ -133,30 +156,28 @@ FUTURE WORK \: VECTOR FIELD
       h_{Av^*}(n_{i+1}) & = &  min_{target}[cost_{time}(x_{ni+1},\vec{v_{ni+1}})]
    \end{eqnarray}
 
+A field can be defined where each dimension corresponds to a direction
+    * Method is memory intensive, but memory is cheap and does not violate our constraints
+    * Enables propogation of information via a kernel
 
-A field can be defined for a set of directions
-    * Memory expensive, but memory is cheap and does not violate our conditions
-    * Enables propogation of information via convolution and kernel smoothing
 
-.. figure:: ..//images/fluid_field.png
+.. figure:: ../images/layers.png
    :align: center
    :scale: 60 %
 
-COMPLEXITY
-----------
-This framework spawns two interesting machine learning problems
-    * Prediction of state
-        - historical
-        - shock propogated
-    * Kernel update
-        - size
-        - shape
 
-.. figure:: ..//images/Stationary_velocity_field.png
+FUTURE WORK \: COMPLEXITY
+-------------------------
+This framework spawns two machine learning problems
+    * Prediction of state
+        - Weight of an edge when we expect to traverse
+        - historical & shock propogated
+    * Kernel update
+        - size & shape
+
+.. figure:: ../images/Stationary_velocity_field.png
    :align: center
    :scale: 80 %
-
-
 
 SCALAR STABILITY & ROBUSTNESS
 -----------------------------
