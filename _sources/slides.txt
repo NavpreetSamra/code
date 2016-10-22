@@ -13,6 +13,8 @@ MOTIVATION
    :align: center
    :scale: 40 %
 
+`Uber blog link <https://eng.uber.com/engineering-an-efficient-route/>`_
+
 FORMULATION & CONSTRAINTS
 -------------------------
 
@@ -93,7 +95,7 @@ Traversal
    :scale: 65 %
 
 ====== == ======================  =============================
-Method A*                         A* with embedded scalar field
+METHOD A*                         A* WITH EMBEDDED SCALAR FIELD
 ====== == ======================  =============================
 
 VARIABLE FIELD
@@ -114,9 +116,9 @@ Traversal
    :align: center
    :scale: 50 %
 
-====== == ==========================================  =============================
-METHOD A*                                             A* WITH EMBEDDED SCALAR FIELD
-====== == ==========================================  =============================
+====== ================== ====== ===============================
+METHOD A* 247 CYCLES             A* WITH SCALAR FIELD 103 CYCLES
+====== ================== ====== ===============================
 
 ANALYSIS
 --------
