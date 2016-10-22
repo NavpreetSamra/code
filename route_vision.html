@@ -32,8 +32,8 @@
   
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
         <link rel="up" title="code" href="modules.html"/>
-        <link rel="next" title="wikitravel package" href="wikitravel.html"/>
-        <link rel="prev" title="network_analysis package" href="network_analysis.html"/> 
+        <link rel="next" title="network_analysis package" href="network_analysis.html"/>
+        <link rel="prev" title="code" href="modules.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -84,7 +84,6 @@
             
                 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">route_vision package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-route_vision.astar">route_vision.astar module</a></li>
@@ -94,6 +93,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-route_vision">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -178,7 +178,26 @@
 <dt id="route_vision.astar.AStar">
 <em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>embedObstacle=None</em>, <em>auto=True</em>, <em>links=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a></p>
-<p>AStar class, designed to search paths from :py:class:Grid.grid</p>
+<p>AStar class, designed to search paths from :py:class:grid.Grid</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>meshSize</strong> (<em>tuple.int</em>) &#8211; x,y size of graph</li>
+<li><strong>velocity_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; type of profile, scalar or harmonic</li>
+<li><strong>velocity attrs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; define velocity profile</li>
+<li><strong>heur</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; define heuristic type</li>
+<li><strong>heur_weight</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; define relative weight of prioritization            (cost + heur*estimate)</li>
+<li><strong>embedPath</strong> (<em>tuple.float</em>) &#8211; specify value of location to set velocity</li>
+<li><strong>embedObstacle</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; embed an obstacle</li>
+<li><strong>auto</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; auto generate profile and build attrs</li>
+<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; if auto generating graphs, specify if graph is            manhattan or octile</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
 <dt id="route_vision.astar.AStar.heuristic_component">
 <code class="descname">heuristic_component</code><span class="sig-paren">(</span><em>node</em>, <em>neighbor</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.heuristic_component"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.heuristic_component" title="Permalink to this definition">¶</a></dt>
@@ -187,11 +206,16 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>a</strong> (<em>tuple.int</em>) &#8211; node id in graph for target node</li>
-<li><strong>b</strong> (<em>tuple.int</em>) &#8211; node id in graph for current node</li>
-<li><strong>n</strong> (<em>tuple.int</em>) &#8211; node id in graph for source node</li>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<em>tuple.int</em>) &#8211; node id in graph currently being explored</li>
+<li><strong>neighbor</strong> (<em>tuple.int</em>) &#8211; node id in graph being opened</li>
 </ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cost estimate</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></p>
 </td>
 </tr>
 </tbody>
@@ -201,7 +225,7 @@
 <dl class="method">
 <dt id="route_vision.astar.AStar.cost">
 <code class="descname">cost</code><span class="sig-paren">(</span><em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.cost"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.cost" title="Permalink to this definition">¶</a></dt>
-<dd><p>Cost of edge in time:=distance/velocity</p>
+<dd><p>Cost of edge in time := distance/velocity</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -217,14 +241,10 @@
 </dd></dl>
 
 <dl class="method">
-<dt id="route_vision.astar.AStar.build_city">
-<code class="descname">build_city</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.build_city"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.build_city" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="route_vision.astar.AStar.build_obstacle">
 <code class="descname">build_obstacle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.build_obstacle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.build_obstacle" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Build nodes (10:20, 10:15) to velocity = .1</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="route_vision.astar.AStar.search">
@@ -250,6 +270,14 @@
 <dt id="route_vision.astar.AStar.path_eval">
 <code class="descname">path_eval</code><span class="sig-paren">(</span><em>plots='vel_path.png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar.path_eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar.path_eval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create list of nodes in path</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plots</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; option to plot path and save to file</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -348,7 +376,7 @@
 <dt id="route_vision.grid.Grid.velocity_profile">
 <code class="descname">velocity_profile</code><span class="sig-paren">(</span><em>profile='uniform'</em>, <em>attrs={'scalar': 1.0}</em>, <em>norm=True</em>, <em>scale=False</em>, <em>conv=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.velocity_profile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.velocity_profile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generate either uniform or harmonic profile perscribed by attrs</p>
-<p>example- &#8216;harmonic&#8217;,{&#8216;scalar&#8217;:3., &#8216;xf&#8217;:2., &#8216;yf&#8217;:2., &#8216;xa&#8217;:1.,&#8217;ya&#8217;:1.}</p>
+<p>example- &#8216;harmonic&#8217;, {&#8216;scalar&#8217;:3., &#8216;xf&#8217;:2., &#8216;yf&#8217;:2., &#8216;xa&#8217;:1.,&#8217;ya&#8217;:1.}</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -358,7 +386,7 @@
 <li><strong>attrs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; attributes of profile</li>
 <li><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; normalize velocity Vmax := 1</li>
 <li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; scale velocity by std</li>
-<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/2/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; INDEV: convolution kernel for vectorized velocity fields</li>
+<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/2/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; INDEV: convolution kernel for vectorized                velocity fields</li>
 </ul>
 </td>
 </tr>
@@ -429,18 +457,27 @@
 <dt id="route_vision.grid.Grid.plot_state">
 <code class="descname">plot_state</code><span class="sig-paren">(</span><em>openNodes</em>, <em>closedNodes</em>, <em>edges=False</em>, <em>source=None</em>, <em>target=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_state" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot state in a search</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>openNodes</strong> (<em>array-like</em>) &#8211; open nodes in search</li>
+<li><strong>closedNodes</strong> (<em>array-like</em>) &#8211; closed nodes in search</li>
+<li><strong>edges</strong> (<em>array-lik</em>) &#8211; plot edges</li>
+<li><strong>source</strong> (<em>array-lik</em>) &#8211; plot source</li>
+<li><strong>target</strong> (<em>array-lik</em>) &#8211; plot target</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="route_vision.grid.Grid.template_fig">
 <code class="descname">template_fig</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.template_fig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.template_fig" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create template for figures</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="route_vision.grid.Grid.plot_obstacle">
-<code class="descname">plot_obstacle</code><span class="sig-paren">(</span><em>nodes</em>, <em>color='r'</em>, <em>size='75'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid.plot_obstacle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid.plot_obstacle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Plot obstacle or feature nodes</p>
 </dd></dl>
 
 <dl class="method">
@@ -454,13 +491,28 @@
 <dl class="function">
 <dt id="route_vision.grid.gaussian_kernel">
 <code class="descclassname">route_vision.grid.</code><code class="descname">gaussian_kernel</code><span class="sig-paren">(</span><em>size</em>, <em>ySize=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#gaussian_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.gaussian_kernel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create normalized gausian kernel size x ySize</p>
+<dd><p>Create normalized gausian kernel size x ySize
+:param int size: x dimension of kernel
+:param int ySize: y dimension of kernel default to square</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="route_vision.grid.convolve_axis">
 <code class="descclassname">route_vision.grid.</code><code class="descname">convolve_axis</code><span class="sig-paren">(</span><em>filt</em>, <em>arr</em>, <em>axis=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#convolve_axis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.convolve_axis" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convolve filter along axis through array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filt</strong> (<em>array-like</em>) &#8211; filter to convolve</li>
+<li><strong>arr</strong> (<em>array-like</em>) &#8211; array to be convolved</li>
+<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; axis to convolve along</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -476,10 +528,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="wikitravel.html" class="btn btn-neutral float-right" title="wikitravel package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="network_analysis.html" class="btn btn-neutral float-right" title="network_analysis package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="network_analysis.html" class="btn btn-neutral" title="network_analysis package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral" title="code" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
