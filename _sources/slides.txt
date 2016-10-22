@@ -144,8 +144,8 @@ ANALYSIS
 METHOD A* 247 CYCLES                   A* WITH SCALAR FIELD 103 CYCLES
 ====== ================== ============ ===============================
 
-FUTURE WORK \: VECTOR FIELD 
----------------------------
+CURRENT WORK \: VECTOR FIELD 
+----------------------------
 
 .. math::
   :nowrap:
