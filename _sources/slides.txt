@@ -29,11 +29,13 @@ FORMULATION & CONSTRAINTS
 .. figure:: ..//images/Astar_progress_animation.gif
    :align: center
    :scale: 95 %
+   
+   Geometric growth of A*
 
 SCALAR FIELD
 ------------
 
-Heuristic
+Scalar representation of the local velocity field as a perturbation in heuristic
 
 .. math::
   :nowrap:
@@ -46,11 +48,6 @@ Heuristic
    \end{eqnarray}
 
 
-Scenarios
-    * Obstacle Navigation
-    * Variable Field
-
-|
 |
 
 .. image:: ../images/map_traffic.png
@@ -90,6 +87,9 @@ Long approach of **Slow Zone**
 
 Traversal
 ---------
+
+Note the corner
+
 .. figure:: ..//images/comp_long.gif
    :align: center
    :scale: 65 %
@@ -123,7 +123,7 @@ METHOD A* 247 CYCLES             A* WITH SCALAR FIELD 103 CYCLES
 ANALYSIS
 --------
 
-* 2 Nodes directly North of source are never explored!
+Tighter profile and demonstated phobia of slower velocity zones
 
 .. figure:: ..//images/harmonic_comb_end.png
    :align: center
@@ -183,8 +183,23 @@ This framework spawns two machine learning problems
 
 SCALAR STABILITY & ROBUSTNESS
 -----------------------------
+
 * Cost bounds
 * Cycle behavior
+
+Testing framework utlizes harmonic profile with 4 points near mean field velocity
+on boundary and 4 internal points distributed across two minimums and 2
+maximums. The resulting 56 permutations yield a substantial phase space for
+analysis and insight into what issues need to be addressed.
+
+For example, ending in a local min led to an increase in the number of cycles
+required, especially if the path followed close to the gradient of the 
+velocity surface (as detailed in the next figure).
+
+In response a smoothing of the perturbation was implemented, a linear smoothing
+was originally implemented which improved the response, a smoothing in the form
+of a parabolic pde solution is currently being implemented which has the potential
+to remove any negative impact in these circumstances.
 
 
 COUNT
@@ -193,11 +208,15 @@ COUNT
    :scale: 75 %
    :align: center
 
+   Difference in number of cycles required to find path (NB. weight > 1 not admissable)
+
 COST
 ----
 .. figure:: ..//images/cost.png
    :scale: 75 %
    :align: center
+
+   Difference in cost in time of final path (NB. weight > 1 not admissable)
 
 TABLES
 ------

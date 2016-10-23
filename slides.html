@@ -180,13 +180,14 @@
 <li>We embed computationally inexpensive &amp; local data from our graph in the heuristic to <strong>communicate</strong> information.</li>
 <li>This gives A* the potential to reduce explorations without recomputing the entire graph by giving it <strong>vision</strong></li>
 </ul>
-<div class="figure align-center">
+<div class="figure align-center" id="id4">
 <a class="reference internal image-reference" href="_images/Astar_progress_animation.gif"><img alt="_images/Astar_progress_animation.gif" src="_images/Astar_progress_animation.gif" style="width: 199.5px; height: 199.5px;" /></a>
+<p class="caption"><span class="caption-text">Geometric growth of A*</span></p>
 </div>
 </div>
 <div class="section" id="scalar-field">
 <h2>SCALAR FIELD<a class="headerlink" href="#scalar-field" title="Permalink to this headline">¶</a></h2>
-<p>Heuristic</p>
+<p>Scalar representation of the local velocity field as a perturbation in heuristic</p>
 <div class="math">
 <p><img src="_images/math/ead9366a9d1ad03fb6588e8b628efbbf9306e9b9.png" alt="\begin{eqnarray}
     f(n) &amp; = &amp;  g(n) + {\epsilon}h(n) \\
@@ -194,16 +195,7 @@
     h_{A^*}(n_{i+1}) &amp; = &amp; min_{target}[cost_{time}(x_{ni+1})] \\
     h_{Av^*}(n_{i+1}) &amp; = &amp;  min_{target}[cost_{time}(x_{ni+1},v_{ni+1})]
  \end{eqnarray}"/></p>
-</div><dl class="docutils">
-<dt>Scenarios</dt>
-<dd><ul class="first last simple">
-<li>Obstacle Navigation</li>
-<li>Variable Field</li>
-</ul>
-</dd>
-</dl>
-<div class="line-block">
-<div class="line"><br /></div>
+</div><div class="line-block">
 <div class="line"><br /></div>
 </div>
 <a class="reference internal image-reference" href="_images/map_traffic.png"><img alt="_images/map_traffic.png" class="align-left" src="_images/map_traffic.png" style="width: 892.8px; height: 160.8px;" /></a>
@@ -252,6 +244,7 @@
 </div>
 <div class="section" id="id1">
 <h2>Traversal<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Note the corner</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/comp_long.gif"><img alt="_images/comp_long.gif" src="_images/comp_long.gif" style="width: 1040.0px; height: 390.0px;" /></a>
 </div>
@@ -304,9 +297,7 @@
 </div>
 <div class="section" id="analysis">
 <h2>ANALYSIS<a class="headerlink" href="#analysis" title="Permalink to this headline">¶</a></h2>
-<ul class="simple">
-<li>2 Nodes directly North of source are never explored!</li>
-</ul>
+<p>Tighter profile and demonstated phobia of slower velocity zones</p>
 <div class="figure align-center">
 <a class="reference internal image-reference" href="_images/harmonic_comb_end.png"><img alt="_images/harmonic_comb_end.png" src="_images/harmonic_comb_end.png" style="width: 1200.0px; height: 450.0px;" /></a>
 </div>
@@ -405,17 +396,30 @@
 <li>Cost bounds</li>
 <li>Cycle behavior</li>
 </ul>
+<p>Testing framework utlizes harmonic profile with 4 points near mean field velocity
+on boundary and 4 internal points distributed across two minimums and 2
+maximums. The resulting 56 permutations yield a substantial phase space for
+analysis and insight into what issues need to be addressed.</p>
+<p>For example, ending in a local min led to an increase in the number of cycles
+required, especially if the path followed close to the gradient of the
+velocity surface (as detailed in the next figure).</p>
+<p>In response a smoothing of the perturbation was implemented, a linear smoothing
+was originally implemented which improved the response, a smoothing in the form
+of a parabolic pde solution is currently being implemented which has the potential
+to remove any negative impact in these circumstances.</p>
 </div>
 <div class="section" id="count">
 <h2>COUNT<a class="headerlink" href="#count" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-center">
+<div class="figure align-center" id="id5">
 <a class="reference internal image-reference" href="_images/count.png"><img alt="_images/count.png" src="_images/count.png" style="width: 600.0px; height: 450.0px;" /></a>
+<p class="caption"><span class="caption-text">Difference in number of cycles required to find path (NB. weight &gt; 1 not admissable)</span></p>
 </div>
 </div>
 <div class="section" id="cost">
 <h2>COST<a class="headerlink" href="#cost" title="Permalink to this headline">¶</a></h2>
-<div class="figure align-center">
+<div class="figure align-center" id="id6">
 <a class="reference internal image-reference" href="_images/cost.png"><img alt="_images/cost.png" src="_images/cost.png" style="width: 600.0px; height: 450.0px;" /></a>
+<p class="caption"><span class="caption-text">Difference in cost in time of final path (NB. weight &gt; 1 not admissable)</span></p>
 </div>
 </div>
 <div class="section" id="tables">
