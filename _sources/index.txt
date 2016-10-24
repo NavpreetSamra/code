@@ -22,6 +22,7 @@ Contents:
    helpers.rst
    quadtree.rst
    slides.rst
+   UserAdoption.rst
 
 
 Indices and tables

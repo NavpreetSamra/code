@@ -1,0 +1,669 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>USER ADOPTION &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="prev" title="ROUTE VISION" href="slides.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="churn_study.html">churn_study package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirdisease.sir_disease.html">sirdisease.sir_disease package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="filesync.sync.html">filesync.sync package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="helpers.html">helpers package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">USER ADOPTION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cleaning">CLEANING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#initial-analysis">INITIAL ANALYSIS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modeling">MODELING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">CONCLUSION</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>USER ADOPTION</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/UserAdoption.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="user-adoption">
+<h1>USER ADOPTION<a class="headerlink" href="#user-adoption" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>INTRODUCTION<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>The purpose of this analysis is to understand what features of a user
+contribute to user adoption.
+Before proceeding, two critical points to remember throughout
+this process are:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>This data is artificial</li>
+<li>We do not have infinite time</li>
+</ol>
+</div></blockquote>
+<p>As a result of point 2, we prioritize
+guiding our work toward interpretable results that can manifest
+into productive business driven insights. The following details
+an inspection and exploration process of the provided data in an
+effort to determine what factors have the greatest impact on
+predicting user adoption. From there we will begin to embed the
+<strong>maven</strong> user as
+a feature with the goal of improving prediction
+as well as better understanding drivers of user adoption. The <a class="reference external" href="https://en.wikipedia.org/wiki/Maven">Maven</a> as described by Malcom
+Gladwell in
+<a class="reference external" href="https://en.wikipedia.org/wiki/The_Tipping_Point">The Tipping Point</a></p>
+<p>Data inspection reveals attributes belonging to
+2 broad categorizations:</p>
+<blockquote>
+<div><ol class="arabic">
+<li><dl class="first docutils">
+<dt>User</dt>
+<dd><ul class="first last simple">
+<li>name</li>
+<li>object_id</li>
+<li>email</li>
+<li>org_id</li>
+<li>last_session_create_time</li>
+<li>opted_in_to_mailing_list</li>
+<li>enabled_for_marketing_drip</li>
+<li>login history (timestamp)</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Path to Company</dt>
+<dd><ul class="first last simple">
+<li>creation_source (5 categories)</li>
+<li>creation_time</li>
+<li>invited_by_user_id</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</div></blockquote>
+<p>With the exception of <em>login history</em>, this data is organized in a single
+table. We proceed by calculating whether or not a user has adopted
+given the criteria (3 logins in a 7 day window) and joining that
+data to our <em>users table</em>. To do so, we group the login data
+by <em>user_id</em>, sort by timestamp represented as <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.19.0)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DatetimeIndex</span></code></a> and
+pass a window over the array to check for length of time between
+a login and the login after the following login, (i, i+2). If that
+delta in time is less then or equal to 7 days we break out of our iteration
+and record the user as <em>adopted</em>. An important note
+throughout this analysis: we have utilized login time
+and frequency to create the target for our prediction and consequently
+we must be very careful when including number of logins
+in any prediction of user adoption, otherwise we
+will suffer from leakage. We also note that at casual inspection
+there are no drastic outliers in the <em>users table</em>, however there is
+potentially an issue with the <em>engagement table</em> data that we will address
+in the next section. Further analysis of <em>users table</em>
+with studentized-t residuals can be used to investigate outliers, however
+beacuse our analysis will mainly pertain to
+categorical data, outlier analysis will likely not play a
+signifigant role.</p>
+</div></blockquote>
+</div>
+<div class="section" id="cleaning">
+<h2>CLEANING<a class="headerlink" href="#cleaning" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>We remove <em>name</em> and <em>email</em> from our table. While it&#8217;s possible
+certain types of email addresses can be indicative of
+browser types and trends do exist within names
+(see Freakanomics) that analysis is deprioritized here
+and those fields are removed from our feature space.</p>
+<p>Since <em>creation_source</em> is nominal with 5 unique values we dummify
+the column and store it. It is important to note that the
+stored data has not dropped a column, so a category
+should be dropped before modeling to combat collinearity.</p>
+<p>One path we can follow here is to investigate adoption rate within
+organizations. This is logical, however given this approach, we
+would look to perform this after embedding the <strong>maven</strong>
+(assuming we can find them). To produce the most useful
+information from the analysis, we need more information about
+the organizations themselves (size, industry, growth, etc).
+This would be one of the next few steps
+to follow our approach begun in the <cite>MODELING</cite> section
+below. Going back to point 2 in <cite>INTRODUCTION</cite>, in
+the interest of prioritizing our time we have not yet
+performed that analysis.</p>
+<p>We choose to remove time from our predictions for two reasons,</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Time (ours, not the datas). Because we use time
+in our calculation of adoption rate, we must be
+extremely careful with building features that
+incorporate the same data. Also, given the
+suggested time to spend on this analysis we
+choose to allocate our time on what we hope
+will be more accesible and lower hanging but
+also interesting fruit.</li>
+<li>To properly understand the impact of time
+on our system we need more information
+about the product, feature releases, market
+ecosystem, company history, and outreach.</li>
+</ol>
+</div></blockquote>
+<p>That all being said, we can still look at time and gain useful
+information. Plotting logins by day we see an
+increasing rate of logins per day (a good sign
+for product health!) until 2014-05-21.</p>
+<p>The data after that point demonstrates a system level impact that
+indicates a catastrophic failure. A likley scenerio here
+is that the logging of logins began to fail, whether
+because of a snapshot push or other issues, it begins to spread
+and then the bottom drops out on 2014-06-05. While world,
+or product/company catastrophy is possible, given our
+general knowledge they are likley not the cause.</p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/LoginsPerDay.png"><img alt="_images/LoginsPerDay.png" class="align-center" src="_images/LoginsPerDay.png" style="width: 600.0px; height: 450.0px;" /></a>
+<a class="reference internal image-reference" href="_images/users_data.png"><img alt="_images/users_data.png" class="align-center" src="_images/users_data.png" style="width: 600.0px; height: 450.0px;" /></a>
+<p>The number of accounts created by day likely confirms
+this theory, and
+suggests that the increase in rate of account
+creation at the end of this timeframe exceeded the load the system
+was designed to handle leading to the failure in capturing logins,
+without ruling out some of the possibilities enumerated above.</p>
+</div>
+<div class="section" id="initial-analysis">
+<h2>INITIAL ANALYSIS<a class="headerlink" href="#initial-analysis" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>With a clean and numeric representation of the data we are now able
+to investigate the impact of features on adoption.
+To do so we will look at extracting feature importance
+from three modeling techniques: Logistic Regression,
+Decision Trees, and Random Forests. The magnitude of coefficients
+of (scaled) features in Logistic Regression represent that
+feature&#8217;s relative contribution to final classification, by
+it&#8217;s contribution to the slope defining the hyperplane
+associated with that feature&#8217;s component
+(with the caveat of holding all other features constant).
+Logistic Regression&#8217;s direct readability of the impact variations
+in a feature make it a useful tool for it&#8217;s interpretability
+as well as it&#8217;s tolerance to overfitting when the number of features
+fed into it are large compared to the volume of data (because it
+is searching for a single hyperplane to partition the data)
+Decision Trees, while highly prone to overfitting for
+predicative modeling are useful for their interpretability
+of feature importance by calculating the gain of information
+of a split on a feature at a node. Random Forests can improve on
+Decision Trees predicative abilities, by reducing overfitting,
+as well as contribute to ranking feature importance albeit
+with a different approach to determination.
+For those not familiar,
+Random Forests are aggregate of multiple decision trees each of
+which is operating on a random subset of the data.</p>
+<p>With this analysis we find feature coefficients for Logistic Regression
+and normalized gini impurity for tree/ensemble methods. The results in the
+following tables represent values from averaging 10 fold cross
+validation where standard deviations of all values are 1-2 orders
+of magniutde less then the values presented (excluding 0s). The following models
+were run with default parameters from
+<a class="reference external" href="https://http://scikit-learn.org/stable/documentation.html">sklearn</a>
+as this is an initial investigation.
+Because the number of users to number of features ratio is large
+and with no clear outlier data yet
+we do not expect to need regularization for our Logistic
+Regression. We also take the opportunity here to address
+why we decided not to dummify <em>org_id</em>. As discussed (and
+will continue to be discussed) a lack of information about
+the orgs is a contributing factor, but also would render
+a Decision Tree intractable as well as a sizeable increase in
+computation time for a Random Forest (we recognize that
+RFs are parallizable but given the context of this analysis).</p>
+</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="10%" />
+<col width="17%" />
+<col width="20%" />
+<col width="17%" />
+<col width="15%" />
+<col width="12%" />
+<col width="10%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Model</th>
+<th class="head">mailing_list</th>
+<th class="head">marketing_drip</th>
+<th class="head">GUEST_INVITE</th>
+<th class="head">ORG_INVITE</th>
+<th class="head">PERSONAL</th>
+<th class="head">SIGNUP</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Tree</td>
+<td>0.023</td>
+<td>0.038</td>
+<td>0.025</td>
+<td>0.144</td>
+<td>0.69</td>
+<td>0.08</td>
+</tr>
+<tr class="row-odd"><td>Forest</td>
+<td>0.068</td>
+<td>0.074</td>
+<td>0.132</td>
+<td>0.1</td>
+<td>0.562</td>
+<td>0.065</td>
+</tr>
+<tr class="row-even"><td>Logistic</td>
+<td>0.047</td>
+<td>0.021</td>
+<td>-0.015</td>
+<td>-0.291</td>
+<td>-0.85</td>
+<td>-0.21</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div>The take away from this analysis is that the methods of invitation
+are more important then being on the mailing list or a marketing drip.
+Also please note, that values of our tree based methods represent
+magnitude and not direction (another perk of Logistic Regression).
+Since all our features are categorical, coefficients of the Logistic
+Regression are easy to compare.</div></blockquote>
+</div>
+<div class="section" id="modeling">
+<h2>MODELING<a class="headerlink" href="#modeling" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>An initial exploration into feature importance gives insight into
+what is available at the surface of our data. However, to
+better understand Company users and what drives adoption
+we look to understand the impact and types of users and
+organizations. While there is a wide breadth of directions
+we can proceed from here, we will focus on one organizational
+attribute -size- to help inform  one aspect of users
+- sign up connectivity- which is a first step in
+identifying <strong>mavens</strong>.</p>
+<p>Calculating organization size, in the context of this analysis is
+the number of Company users in the organzation,
+is straighforward. We group users by
+<em>org_id</em> and count them. From there we begin to build a framework
+to analyze <strong>mavens</strong>.
+With the available data we are only able to investigate users
+who have or exist in the <em>invited_by_user_id</em> field</p>
+<p>We hypothesize that inertia of tool usage exists within organizations
+and look to understand that spread through usage and knowledge levels</p>
+<ul>
+<li><dl class="first docutils">
+<dt>0th level</dt>
+<dd><p class="first last">When a user is succesful with a tool, the tool is more
+likely to spread because the user will recommend it to other
+members of the organization.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>1st level</dt>
+<dd><p class="first last">A team wide decision to use a common
+tool for a specific function</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>2nd level</dt>
+<dd><p class="first last">The next extension is <strong>mavens</strong>.
+<strong>Mavens</strong> are users
+who work to become power users and then act as advocates/
+evangelists for the software which is likely to increase
+the signup rate and adoption rate of those users.
+The <strong>maven</strong> will share the power of the tool, yielding a
+shallower learning curve for new users and an increase
+in adoption due to learning curve + <strong>maven</strong> usage. Combining with
+tool/software standardization across teams and throughout
+verticals, <strong>mavens</strong> provide us a target profile to
+model with a goal of understanding tool flow throughout
+organizations.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>We will begin building the framework to model <strong>mavens</strong> by
+investigating connectivity.
+In order to integrate connectivity as a feature for modeling
+we build an undirected graph of each organization. Because
+a node can only have 1 parent, and we have that recorded
+in our features we can use an undirected graph to make the
+computation of calculating connected subcomponents faster.
+We also threshold a connected component having a local rank
+greater then 3 for emphasis. This can be further investigated
+in future work.
+We maintain the ability to easily switch to a directed graph
+moving forward if that structure suits our needs better.
+Now we are able to add the local connected component rank of
+a user as well as how many children
+that user has to our design matrix.</p>
+<p>With these new features we look at the impact on feature importance
+and predictive ability in our three models (Note org_size is
+number of Company accounts belonging to that user&#8217;s <em>org_id</em>
+and continuous variables have been normalized to have a
+standard deviation of 1 in the design matrix
+which implies dx for a continuous variable is interpreted
+differently from a categorical variable in Logistic Regression
+coefficients:</p>
+</div></blockquote>
+<table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="13%" />
+<col width="15%" />
+<col width="9%" />
+<col width="11%" />
+<col width="9%" />
+<col width="10%" />
+<col width="8%" />
+<col width="9%" />
+<col width="7%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Model</th>
+<th class="head">mailing_list</th>
+<th class="head">marketing_drip</th>
+<th class="head">org_size</th>
+<th class="head">local_rank</th>
+<th class="head">children</th>
+<th class="head">GUEST_INV</th>
+<th class="head">ORG_INV</th>
+<th class="head">PERSONAL</th>
+<th class="head">SIGNUP</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>Tree</td>
+<td>0.084</td>
+<td>0.054</td>
+<td>0.4</td>
+<td>0.234</td>
+<td>0.133</td>
+<td>0.03</td>
+<td>0.024</td>
+<td>0.013</td>
+<td>0.027</td>
+</tr>
+<tr class="row-odd"><td>Forest</td>
+<td>0.036</td>
+<td>0.029</td>
+<td>0.55</td>
+<td>0.23</td>
+<td>0.104</td>
+<td>0.012</td>
+<td>0.013</td>
+<td>0.013</td>
+<td>0.013</td>
+</tr>
+<tr class="row-even"><td>Logistic</td>
+<td>0.041</td>
+<td>0.01</td>
+<td>-0.339</td>
+<td>0.0</td>
+<td>0.111</td>
+<td>-0.035</td>
+<td>-0.302</td>
+<td>-0.867</td>
+<td>-0.229</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<div><p>While the tree based methods find our engineered features
+rich in information. The Logistic Regression throws away <em>local_rank</em>.
+Given how we&#8217;ve constructed these features in our design matrix
+there is some redundancy
+of information. Creating different models based on grouping sign up
+methods could be a good direction to take our work and garner more
+insight into features contributing to adoption. We note that our
+pipeline includes a check of <strong>Variance Inflation Factor</strong> in
+constructing our design matrix, and will raise an exception
+if the magnitude of any feature exceeds a VIF of 3.</p>
+<p>Closer inspection reveals an overall downard trend of <em>org_size</em>
+as we would expect from our Logit coefficient. One interesting
+phenomenon that we did not expect and likely hinders the success
+of <em>children</em> and <em>local_rank</em> features is the 0. adoption rate
+among users with 11 or more children. This is contrary to our
+<strong>maven</strong> hypothesis. One potential explanation for these users
+is they send the reference link and are part of onboarding process but choose
+another tool within their own team. As we have adressed multiple
+times we do not have time within this analysis to include login
+frequency in a constructive manner, however this attribute would likely
+help us partition <strong>mavens</strong> from <strong>connectors</strong> and improve our model.</p>
+</div></blockquote>
+<a class="reference internal image-reference" href="_images/size_adopted.png"><img alt="_images/size_adopted.png" src="_images/size_adopted.png" style="width: 520.0px; height: 390.0px;" /></a>
+<a class="reference internal image-reference" href="_images/children_adoption.png"><img alt="_images/children_adoption.png" src="_images/children_adoption.png" style="width: 520.0px; height: 390.0px;" /></a>
+<a class="reference internal image-reference" href="_images/rank_adoption.png"><img alt="_images/rank_adoption.png" src="_images/rank_adoption.png" style="width: 520.0px; height: 390.0px;" /></a>
+<p>We continue to find <em>mailing_list</em> and <em>marketing_drip</em> to not
+effectively contribute. At this point if we were to continue
+to build our model we would try dropping these features and
+measure the impact on accuracy as well as recall and precision.</p>
+<p>We will take this opportunity to discuss class imbalance in our
+system. With only a 13.8% adoption rate, when moving forward
+with modeling efforts we will need to account for this. In a
+parallel thread we also bring up that accuracy is likely not the best
+scoring metric, but to give a more useful scoring metric
+and direction to take the model we need to better understand
+what the results are going to drive.</p>
+<p>These factors all combine to yield no signifigant change in the
+accuracy of our model calculated during cross validation.</p>
+<p>Again, this is just the initial framework. From here
+we could incorporate usage frequency at time of recommendation,
+success rate of invited members, and the velocity of the rank
+of the graph as potentially interesting and meaningful features
+in our model.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>CONCLUSION<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Ultimately succesfully modeling users
+and organizations requires more information and time then
+we currently have.
+With more information about organizations and specific users, user
+and organizational profiles can help drive product development
+and pricing (pricing, because we then have a way to evaluate
+traction within organizations). Moving forward we can look to
+incorporate more detailed information about types of organizations
+as well as user application and use history/profiles.</p>
+<p>While these next steps all appear to contain great power,
+they are meaningless if the computation to perform the analysis is
+intractable. The pulling of data can be moved to a database style
+context which is optimized for grouping and reorganizing data
+around an index. The structure of the code below lends itself
+well to partitioning for parallel processing with (key, value) pairs.
+An advantage of user and organizationl profiling is the creation of
+intuitive ways to partition the data. Once profiles are complete
+we can track the change in profiles by comparing subsets windowed
+by time  which again provides
+natural partitions to our processing. If our data become so verbose
+that Spark and AWS computation become intractable, we can sample
+from our data for modeling.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="slides.html" class="btn btn-neutral" title="ROUTE VISION" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

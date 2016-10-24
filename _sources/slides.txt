@@ -187,13 +187,13 @@ SCALAR STABILITY & ROBUSTNESS
 * Cost bounds
 * Cycle behavior
 
-Testing framework utlizes harmonic profile with 4 points near mean field velocity
+Testing framework utilizes harmonic profile with 4 points near mean field velocity
 on boundary and 4 internal points distributed across two minimums and 2
 maximums. The resulting 56 permutations yield a substantial phase space for
 analysis and insight into what issues need to be addressed.
 
-For example, ending in a local min led to an increase in the number of cycles
-required, especially if the path followed close to the gradient of the 
+For example, ending in a local minimum led to an increase in the number of cycles
+required under certain conditions, especially if the path followed close to the gradient of the 
 velocity surface (as detailed in the next figure).
 
 In response a smoothing of the perturbation was implemented, a linear smoothing
