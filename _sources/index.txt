@@ -11,18 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 4
 
-   modules.rst
-   route_vision.rst
-   network_analysis.rst
-   wikitravel.rst
-   churn_study.rst
-   sirdisease.sir_disease.rst
-   filesync.sync.rst
-   cvcparser.rst
-   helpers.rst
-   quadtree.rst
    slides.rst
    UserAdoption.rst
+   modules.rst
 
 
 Indices and tables
