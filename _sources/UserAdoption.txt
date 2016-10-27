@@ -42,6 +42,12 @@ INTRODUCTION
 
             2) Path to Company
                 * creation_source (5 categories)
+                    1.  GUEST_INVITE  
+                    2.  ORG_INVITE
+                    3.  PERSONAL_PROJECT  
+                    4.  SIGNUP 
+                    5.  SIGNUP_GOOGLE_AUTH
+
                 * creation_time
                 * invited_by_user_id
 
