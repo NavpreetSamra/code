@@ -12,9 +12,7 @@ INTRODUCTION
         1. This data is artificial
         2. We do not have infinite time
 
-    As a result of point 2, we prioritize
-    guiding our work toward interpretable results that can manifest
-    into productive business driven insights. The following details
+    The following details
     an inspection and exploration process of the provided data in an
     effort to determine what factors have the greatest impact on
     predicting user adoption. From there we will begin to embed the
@@ -78,20 +76,17 @@ CLEANING
     Since *creation_source* is nominal with 5 unique values we dummify
     the column and store it. It is important to note that the
     stored data has not dropped a column, so a category
-    should be dropped before modeling to combat collinearity.
+    can be dropped before modeling to combat collinearity.
 
     One path we can follow here is to investigate adoption rate within
     organizations. This is logical, however given this approach, we
-    would look to perform this after embedding the **maven**
+    would look to perform this after embedding the **maven** or other profiles of users
     (assuming we can find them). To produce the most useful
     information from the analysis, we need more information about
     the organizations themselves (size, industry, growth, etc).
     This would be one of the next few steps
     to follow our approach begun in the `MODELING` section
-    below. Going back to point 2 in `INTRODUCTION`, in
-    the interest of prioritizing our time we have not yet
-    performed that analysis.
-
+    below. 
 
     We choose to remove time from our predictions for two reasons,
 
@@ -145,36 +140,41 @@ INITIAL ANALYSIS
     to investigate the impact of features on adoption.
     To do so we will look at extracting feature importance
     from three modeling techniques: Logistic Regression, 
-    Decision Trees, and Random Forests. The magnitude of coefficients
-    of (scaled) features in Logistic Regression represent that
-    feature's relative contribution to final classification, by
+    Decision Trees, and Random Forests. The magnitude of a (scaled) features coefficient
+    in Logistic Regression represents the impact an increment change of that feature on final classification, by
     it's contribution to the slope defining the hyperplane
     associated with that feature's component
     (with the caveat of holding all other features constant).
     Logistic Regression's direct readability of the impact variations
-    in a feature make it a useful tool for it's interpretability
-    as well as it's tolerance to overfitting when the number of features
-    fed into it are large compared to the volume of data (because it
-    is searching for a single hyperplane to partition the data)
+    in a feature make it a useful tool for it's interpretability.
     Decision Trees, while highly prone to overfitting for
     predicative modeling are useful for their interpretability
     of feature importance by calculating the gain of information
-    of a split on a feature at a node. Random Forests can improve on
-    Decision Trees predicative abilities, by reducing overfitting,
-    as well as contribute to ranking feature importance albeit
-    with a different approach to determination.
-    For those not familiar,
-    Random Forests are aggregate of multiple decision trees each of
-    which is operating on a random subset of the data.
+    of a split on a feature at a node. Random Forest is an ensemble
+    method utlizing a collection of decision trees but uses bootstrapped data
+    and random subselection of features to split on within each tree 
+    decorrelating the trees, which reduces the variance and propensity
+    to overfit typical of Decision Trees.
 
-    With this analysis we find feature coefficients for Logistic Regression
-    and normalized gini impurity for tree/ensemble methods. The results in the
+    With this analysis we use coefficients for Logistic Regression
+    normalized gini impurity for Decision Trees and relative feature importance for Random Forest
+    to evaluate out the impact a feature has on predicting user adoption. The results in the
     following tables represent values from averaging 10 fold cross
     validation where standard deviations of all values are 1-2 orders
     of magniutde less then the values presented (excluding 0s). The following models
     were run with default parameters from
     `sklearn <https://http://scikit-learn.org/stable/documentation.html>`_
-    as this is an initial investigation.
+    as this is an initial investigation. Since our data is long relative to its width
+    we refrain from utilizing regularization in Logistic Regression. Since our current goal
+    is to understand *User Adoption* we refrain from tree pruning to better use our time on analysis.
+    For our analysis we used a Random Forest with 10 trees and did not find signifigant differences
+    in feature importance when increasing the the number of trees in our model, noting
+    that holding all else constant increasing the number of trees in a Random Forest will not lead to overfitting. 
+    For prediction in the future
+    we can look at modifying the number of the splits and/or depth allowed in our forest. For prediction we would
+    also drop Decision Trees and focus on using Logistic Regression and Random Forests, with the potential for 
+    introducing a Support Vector Machine Classifier and introduce Boosting.
+
     Because the number of users to number of features ratio is large
     and with no clear outlier data yet
     we do not expect to need regularization for our Logistic
@@ -182,7 +182,7 @@ INITIAL ANALYSIS
     why we decided not to dummify *org_id*. As discussed (and
     will continue to be discussed) a lack of information about
     the orgs is a contributing factor, but also would render
-    a Decision Tree intractable as well as a sizeable increase in
+    a Decision Tree substantially less useful as well as a sizeable increase in
     computation time for a Random Forest (we recognize that
     RFs are parallizable but given the context of this analysis).
 
@@ -197,10 +197,10 @@ INITIAL ANALYSIS
 |Logistic| 0.047        |    0.021       |    -0.015    |   -0.291   |    -0.85 | -0.21  |
 +--------+--------------+----------------+--------------+------------+----------+--------+
 
-    The take away from this analysis is that the methods of invitation
+    The take away from the available data is that the methods of invitation
     are more important then being on the mailing list or a marketing drip.
     Also please note, that values of our tree based methods represent
-    magnitude and not direction (another perk of Logistic Regression).
+    relative magnitude and cannot imply direction (another perk of Logistic Regression).
     Since all our features are categorical, coefficients of the Logistic
     Regression are easy to compare.
 
@@ -237,18 +237,19 @@ MODELING
         A team wide decision to use a common
         tool for a specific function
     * 2nd level
-        The next extension is **mavens**.
         **Mavens** are users
         who work to become power users and then act as advocates/
         evangelists for the software which is likely to increase
         the signup rate and adoption rate of those users.
         The **maven** will share the power of the tool, yielding a
         shallower learning curve for new users and an increase
-        in adoption due to learning curve + **maven** usage. Combining with
-        tool/software standardization across teams and throughout
-        verticals, **mavens** provide us a target profile to
-        model with a goal of understanding tool flow throughout
-        organizations.
+        in adoption due to learning curve + **maven** usage. 
+        
+    Combining with
+    tool/software standardization across teams and throughout
+    verticals, **mavens** provide us a target profile to
+    model with a goal of understanding tool flow throughout
+    organizations.
 
     We will begin building the framework to model **mavens** by
     investigating connectivity.
@@ -300,14 +301,24 @@ MODELING
     Closer inspection reveals an overall downard trend of *org_size*
     as we would expect from our Logit coefficient. One interesting
     phenomenon that we did not expect and likely hinders the success
-    of *children* and *local_rank* features is the 0. adoption rate
+    of *children* and *local_rank* features is the 0 adoption rate
     among users with 11 or more children. This is contrary to our
     **maven** hypothesis. One potential explanation for these users
     is they send the reference link and are part of onboarding process but choose
-    another tool within their own team. As we have adressed multiple
-    times we do not have time within this analysis to include login
+    another tool within their own team. 
+    We do not currently have time within this analysis to include login
     frequency in a constructive manner, however this attribute would likely
     help us partition **mavens** from **connectors** and improve our model.
+    The next immediate step we can take is to add a feature of whether a user
+    was referred by an existing adopted user. Even though this does not cause
+    leakage we have two paths we can follow. 
+
+        1. whether the parent was adopted 
+        at time of recommendation is likley the best implementation
+        but not a feature we can directly drop into our design matrix
+        without more computation
+        2. Whether the parent ever adopted. However this is not 
+           as useful because it create bias in our training data.
 
 .. image:: ../images/size_adopted.png
    :scale: 65 %
@@ -324,7 +335,10 @@ measure the impact on accuracy as well as recall and precision.
 
 We will take this opportunity to discuss class imbalance in our
 system. With only a 13.8% adoption rate, when moving forward
-with modeling efforts we will need to account for this. In a
+with modeling efforts we will need to account for this. A variety
+of techniques can be used, depending on resources and application,
+but given available information SMOAT is likely a good first step to 
+improving the accuracy when we look to predict. In a
 parallel thread we also bring up that accuracy is likely not the best
 scoring metric, but to give a more useful scoring metric
 and direction to take the model we need to better understand
@@ -333,7 +347,7 @@ what the results are going to drive.
 These factors all combine to yield no signifigant change in the
 accuracy of our model calculated during cross validation.
 
-Again, this is just the initial framework. From here
+This is just the initial framework. From here
 we could incorporate usage frequency at time of recommendation,
 success rate of invited members, and the velocity of the rank
 of the graph as potentially interesting and meaningful features
@@ -342,9 +356,6 @@ in our model.
 CONCLUSION
 ----------
 
-Ultimately succesfully modeling users
-and organizations requires more information and time then
-we currently have.
 With more information about organizations and specific users, user
 and organizational profiles can help drive product development
 and pricing (pricing, because we then have a way to evaluate
@@ -356,7 +367,7 @@ While these next steps all appear to contain great power,
 they are meaningless if the computation to perform the analysis is
 intractable. The pulling of data can be moved to a database style
 context which is optimized for grouping and reorganizing data
-around an index. The structure of the code below lends itself
+around an index. The structure of the code utilized lends itself
 well to partitioning for parallel processing with (key, value) pairs.
 An advantage of user and organizationl profiling is the creation of
 intuitive ways to partition the data. Once profiles are complete
@@ -364,4 +375,4 @@ we can track the change in profiles by comparing subsets windowed
 by time  which again provides
 natural partitions to our processing. If our data become so verbose
 that Spark and AWS computation become intractable, we can sample
-from our data for modeling.
+from our data for modeling and evaluation.

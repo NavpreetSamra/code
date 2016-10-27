@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>asana package &mdash; Mark Weiss 0.0.1 documentation</title>
+  <title>user_adoption package &mdash; Mark Weiss 0.0.1 documentation</title>
   
 
   
@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/> 
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="code" href="modules.html"/>
+        <link rel="next" title="network_analysis package" href="network_analysis.html"/>
+        <link rel="prev" title="route_vision package" href="route_vision.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,10 +82,26 @@
           
             
             
-                <ul>
+                <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
 <li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">user_adoption package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-user_adoption.analysis">asana.analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-user_adoption">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">helpers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
+</ul>
+</li>
 </ul>
 
             
@@ -113,11 +132,13 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>asana package</li>
+          <li><a href="modules.html">code</a> &raquo;</li>
+      
+    <li>user_adoption package</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/asana.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/user_adoption.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -127,16 +148,16 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="asana-package">
-<h1>asana package<a class="headerlink" href="#asana-package" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="user-adoption-package">
+<h1>user_adoption package<a class="headerlink" href="#user-adoption-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-asana.analysis">
-<span id="asana-analysis-module"></span><h2>asana.analysis module<a class="headerlink" href="#module-asana.analysis" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-user_adoption.analysis">
+<span id="asana-analysis-module"></span><h2>asana.analysis module<a class="headerlink" href="#module-user_adoption.analysis" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="asana.analysis.UserAdoption">
-<em class="property">class </em><code class="descclassname">asana.analysis.</code><code class="descname">UserAdoption</code><span class="sig-paren">(</span><em>fUsers</em>, <em>fEngage</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#UserAdoption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.UserAdoption" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.UserAdoption">
+<em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">UserAdoption</code><span class="sig-paren">(</span><em>fUsers</em>, <em>fEngage</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#UserAdoption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.UserAdoption" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <blockquote>
 <div><dl class="docutils">
@@ -358,8 +379,8 @@ Before proceeding, two critical points to remember throughout                thi
 </dd></dl>
 
 <dl class="class">
-<dt id="asana.analysis.Cleaned">
-<em class="property">class </em><code class="descclassname">asana.analysis.</code><code class="descname">Cleaned</code><span class="sig-paren">(</span><em>fUsers, fEngage, adoption=(3, 7), drops=['name', 'email']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#Cleaned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.Cleaned" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.Cleaned">
+<em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">Cleaned</code><span class="sig-paren">(</span><em>fUsers, fEngage, adoption=(3, 7), drops=['name', 'email']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#Cleaned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.Cleaned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for pulling, cleaning, and aggregating data</p>
 <p>For details inspect embedded source of encapsulated methods</p>
@@ -381,20 +402,20 @@ Before proceeding, two critical points to remember throughout                thi
 </dd></dl>
 
 <dl class="class">
-<dt id="asana.analysis.FeatureAnalysis">
-<em class="property">class </em><code class="descclassname">asana.analysis.</code><code class="descname">FeatureAnalysis</code><span class="sig-paren">(</span><em>fUsers, fEngage, adoption=(3, 7), drops=['name', 'email']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#FeatureAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.FeatureAnalysis" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#asana.analysis.Cleaned" title="asana.analysis.Cleaned"><code class="xref py py-class docutils literal"><span class="pre">asana.analysis.Cleaned</span></code></a></p>
+<dt id="user_adoption.analysis.FeatureAnalysis">
+<em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">FeatureAnalysis</code><span class="sig-paren">(</span><em>fUsers, fEngage, adoption=(3, 7), drops=['name', 'email']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#FeatureAnalysis"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.FeatureAnalysis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#user_adoption.analysis.Cleaned" title="user_adoption.analysis.Cleaned"><code class="xref py py-class docutils literal"><span class="pre">user_adoption.analysis.Cleaned</span></code></a></p>
 <p>Calculate organization sizes, networks, and graph attributes</p>
 <dl class="method">
-<dt id="asana.analysis.FeatureAnalysis.org_size">
-<code class="descname">org_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#FeatureAnalysis.org_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.FeatureAnalysis.org_size" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.FeatureAnalysis.org_size">
+<code class="descname">org_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#FeatureAnalysis.org_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.FeatureAnalysis.org_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate org_size and degree where applicable</p>
 <p>Note org_size is number of Users with that a common org_id, not actual size</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="asana.analysis.FeatureAnalysis.build_org_networks">
-<code class="descname">build_org_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#FeatureAnalysis.build_org_networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.FeatureAnalysis.build_org_networks" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.FeatureAnalysis.build_org_networks">
+<code class="descname">build_org_networks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#FeatureAnalysis.build_org_networks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.FeatureAnalysis.build_org_networks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build graphs for connected users where applicable</p>
 <p>Note degree and children will have high correlation</p>
 </dd></dl>
@@ -402,8 +423,8 @@ Before proceeding, two critical points to remember throughout                thi
 </dd></dl>
 
 <dl class="class">
-<dt id="asana.analysis.AdoptionModel">
-<em class="property">class </em><code class="descclassname">asana.analysis.</code><code class="descname">AdoptionModel</code><span class="sig-paren">(</span><em>cleaned, model, isLogistic=False, isTree=False, isForest=False, folds=10, vifMagnitude=3.0, autoRun={'var_scale': ['org_size', 'children'], 'dfs': [('users', ['opted_in_to_mailing_list', 'enabled_for_marketing_drip', 'org_size', 'local_rank', 'children']), ('sources', ['GUEST_INVITE', 'ORG_INVITE', 'PERSONAL_PROJECTS', 'SIGNUP'])]}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#AdoptionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.AdoptionModel" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.AdoptionModel">
+<em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">AdoptionModel</code><span class="sig-paren">(</span><em>cleaned, model, isLogistic=False, isTree=False, isForest=False, folds=10, vifMagnitude=3.0, autoRun={'var_scale': ['org_size', 'children'], 'dfs': [('users', ['opted_in_to_mailing_list', 'enabled_for_marketing_drip', 'org_size', 'local_rank', 'children']), ('sources', ['GUEST_INVITE', 'ORG_INVITE', 'PERSONAL_PROJECTS', 'SIGNUP'])]}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for evaluating models on :class:FeatureAnalysis objects</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -411,7 +432,7 @@ Before proceeding, two critical points to remember throughout                thi
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cleaned</strong> (<a class="reference internal" href="#asana.analysis.FeatureAnalysis" title="asana.analysis.FeatureAnalysis"><em>FeatureAnalysis</em></a>) &#8211; Cleaned data with engineered features</li>
+<li><strong>cleaned</strong> (<a class="reference internal" href="#user_adoption.analysis.FeatureAnalysis" title="user_adoption.analysis.FeatureAnalysis"><em>FeatureAnalysis</em></a>) &#8211; Cleaned data with engineered features</li>
 <li><strong>model</strong> (<em>sklearn</em>) &#8211; scikit learn model, currently works with Logistic Regression, DecistionTree            Classifier and RandomForest Classifier</li>
 <li><strong>isLogistic</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; boolean for model type. note this notation due to different access points            for coefficients and feature importances in fit models</li>
 <li><strong>isTree</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; boolean for model type.</li>
@@ -425,8 +446,8 @@ Before proceeding, two critical points to remember throughout                thi
 </tbody>
 </table>
 <dl class="method">
-<dt id="asana.analysis.AdoptionModel.model_prep">
-<code class="descname">model_prep</code><span class="sig-paren">(</span><em>cdf</em>, <em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#AdoptionModel.model_prep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.AdoptionModel.model_prep" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.AdoptionModel.model_prep">
+<code class="descname">model_prep</code><span class="sig-paren">(</span><em>cdf</em>, <em>columns</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel.model_prep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel.model_prep" title="Permalink to this definition">¶</a></dt>
 <dd><p>Merge DataFrames into df attribute to create design matrix</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -443,8 +464,8 @@ Before proceeding, two critical points to remember throughout                thi
 </dd></dl>
 
 <dl class="method">
-<dt id="asana.analysis.AdoptionModel.scale">
-<code class="descname">scale</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#AdoptionModel.scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.AdoptionModel.scale" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.AdoptionModel.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel.scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel.scale" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scale column of df by standard deviation</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -457,8 +478,8 @@ Before proceeding, two critical points to remember throughout                thi
 </dd></dl>
 
 <dl class="method">
-<dt id="asana.analysis.AdoptionModel.design">
-<code class="descname">design</code><span class="sig-paren">(</span><em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#AdoptionModel.design"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.AdoptionModel.design" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.AdoptionModel.design">
+<code class="descname">design</code><span class="sig-paren">(</span><em>y=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel.design"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel.design" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split target from features. Store in attributes X, y</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -471,14 +492,14 @@ Before proceeding, two critical points to remember throughout                thi
 </dd></dl>
 
 <dl class="method">
-<dt id="asana.analysis.AdoptionModel.feature_importance">
-<code class="descname">feature_importance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#AdoptionModel.feature_importance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.AdoptionModel.feature_importance" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.AdoptionModel.feature_importance">
+<code class="descname">feature_importance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel.feature_importance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel.feature_importance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run analysis with KFolds. (With room to add other aspects)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="asana.analysis.AdoptionModel.kfold_features">
-<code class="descname">kfold_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#AdoptionModel.kfold_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.AdoptionModel.kfold_features" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.AdoptionModel.kfold_features">
+<code class="descname">kfold_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel.kfold_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel.kfold_features" title="Permalink to this definition">¶</a></dt>
 <dd><p>KFold model prediction with feature importance and model
 scores stored per fold.</p>
 </dd></dl>
@@ -486,8 +507,8 @@ scores stored per fold.</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="asana.analysis.evaluate_logins">
-<code class="descclassname">asana.analysis.</code><code class="descname">evaluate_logins</code><span class="sig-paren">(</span><em>logins</em>, <em>adoption</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/asana/analysis.html#evaluate_logins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#asana.analysis.evaluate_logins" title="Permalink to this definition">¶</a></dt>
+<dt id="user_adoption.analysis.evaluate_logins">
+<code class="descclassname">user_adoption.analysis.</code><code class="descname">evaluate_logins</code><span class="sig-paren">(</span><em>logins</em>, <em>adoption</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#evaluate_logins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.evaluate_logins" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evalue login  Dates to meet adoption criteria</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -510,8 +531,8 @@ scores stored per fold.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-asana">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-asana" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-user_adoption">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-user_adoption" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -519,6 +540,15 @@ scores stored per fold.</p>
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="network_analysis.html" class="btn btn-neutral float-right" title="network_analysis package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="route_vision.html" class="btn btn-neutral" title="route_vision package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

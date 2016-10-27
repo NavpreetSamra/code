@@ -5,9 +5,9 @@ code
    :maxdepth: 4
 
    route_vision
+   user_adoption
    network_analysis
    wikitravel
-   churn_study
    cvcparser
    filesync
    helpers
