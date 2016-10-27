@@ -151,7 +151,10 @@ this process are:</p>
 <li>We do not have infinite time</li>
 </ol>
 </div></blockquote>
-<p>The following details
+<p>We have an <em>engagement table</em> containing <em>login history</em>: <em>userid</em> and <em>timestamp</em>
+for each user&#8217;s login and a <em>users table</em> containing various attributes
+of users.
+The following details
 an inspection and exploration process of the provided data in an
 effort to determine what factors have the greatest impact on
 predicting user adoption. From there we will begin to embed the
@@ -280,8 +283,8 @@ without ruling out some of the possibilities enumerated above.</p>
 to investigate the impact of features on adoption.
 To do so we will look at extracting feature importance
 from three modeling techniques: Logistic Regression,
-Decision Trees, and Random Forests. The magnitude of a (scaled) features coefficient
-in Logistic Regression represents the impact an increment change of that feature on final classification, by
+Decision Trees, and Random Forests. The magnitude of a (scaled) feature&#8217;s coefficient
+in Logistic Regression represents the impact an increment change of that feature has on final classification, by
 it&#8217;s contribution to the slope defining the hyperplane
 associated with that feature&#8217;s component
 (with the caveat of holding all other features constant).
@@ -291,13 +294,13 @@ Decision Trees, while highly prone to overfitting for
 predicative modeling are useful for their interpretability
 of feature importance by calculating the gain of information
 of a split on a feature at a node. Random Forest is an ensemble
-method utlizing a collection of decision trees but uses bootstrapped data
-and random subselection of features to split on within each tree
-decorrelating the trees, which reduces the variance and propensity
-to overfit typical of Decision Trees.</p>
+method utilizing a collection of Decision Trees but uses bootstrapped data
+and random subselection of features to split on within each tree to
+decorrelate the trees, which reduces the variance and propensity
+to overfit of Decision Trees.</p>
 <p>With this analysis we use coefficients for Logistic Regression
 normalized gini impurity for Decision Trees and relative feature importance for Random Forest
-to evaluate out the impact a feature has on predicting user adoption. The results in the
+to evaluate the impact a feature has on predicting <em>user adoption</em>. The results in the
 following tables represent values from averaging 10 fold cross
 validation where standard deviations of all values are 1-2 orders
 of magniutde less then the values presented (excluding 0s). The following models
@@ -306,23 +309,20 @@ were run with default parameters from
 as this is an initial investigation. Since our data is long relative to its width
 we refrain from utilizing regularization in Logistic Regression. Since our current goal
 is to understand <em>User Adoption</em> we refrain from tree pruning to better use our time on analysis.
-For our analysis we used a Random Forest with 10 trees and did not find signifigant differences
+For our Random Forest we use 10 trees and did not find signifigant differences
 in feature importance when increasing the the number of trees in our model, noting
 that holding all else constant increasing the number of trees in a Random Forest will not lead to overfitting.
-For prediction in the future
+For prediction moving forward
 we can look at modifying the number of the splits and/or depth allowed in our forest. For prediction we would
 also drop Decision Trees and focus on using Logistic Regression and Random Forests, with the potential for
-introducing a Support Vector Machine Classifier and introduce Boosting.</p>
-<p>Because the number of users to number of features ratio is large
-and with no clear outlier data yet
-we do not expect to need regularization for our Logistic
-Regression. We also take the opportunity here to address
+a Support Vector Machine Classifier and introducing Boosting to modeling tool suite.</p>
+<p>We also take the opportunity here to address
 why we decided not to dummify <em>org_id</em>. As discussed (and
 will continue to be discussed) a lack of information about
 the orgs is a contributing factor, but also would render
-a Decision Tree substantially less useful as well as a sizeable increase in
+a Decision Tree substantially less useful and woud increase the
 computation time for a Random Forest (we recognize that
-RFs are parallizable but given the context of this analysis).</p>
+RFs are parallelizable).</p>
 </div></blockquote>
 <table border="1" class="docutils">
 <colgroup>
@@ -372,7 +372,7 @@ RFs are parallizable but given the context of this analysis).</p>
 </tbody>
 </table>
 <blockquote>
-<div>The take away from the available data is that the methods of invitation
+<div>The take away from the above table is that the methods of invitation
 are more important then being on the mailing list or a marketing drip.
 Also please note, that values of our tree based methods represent
 relative magnitude and cannot imply direction (another perk of Logistic Regression).
@@ -392,8 +392,7 @@ attribute -size- to help inform  one aspect of users
 - sign up connectivity- which is a first step in
 identifying <strong>mavens</strong>.</p>
 <p>Calculating organization size, in the context of this analysis is
-the number of Company users in the organzation,
-is straighforward. We group users by
+the number of Company users, which belong to that organzation. We group users by
 <em>org_id</em> and count them. From there we begin to build a framework
 to analyze <strong>mavens</strong>.
 With the available data we are only able to investigate users
@@ -546,13 +545,14 @@ The next immediate step we can take is to add a feature of whether a user
 was referred by an existing adopted user. Even though this does not cause
 leakage we have two paths we can follow.</p>
 <blockquote>
-<div><p>1. whether the parent was adopted
+<div><ol class="arabic simple">
+<li>Whether the parent was adopted
 at time of recommendation is likley the best implementation
 but not a feature we can directly drop into our design matrix
-without more computation
-2. Whether the parent ever adopted. However this is not</p>
-<blockquote>
-<div>as useful because it create bias in our training data.</div></blockquote>
+without more computation</li>
+<li>Whether the parent ever adopted. However this is not
+as useful because it create bias in our training data.</li>
+</ol>
 </div></blockquote>
 </div></blockquote>
 <a class="reference internal image-reference" href="_images/size_adopted.png"><img alt="_images/size_adopted.png" src="_images/size_adopted.png" style="width: 520.0px; height: 390.0px;" /></a>
