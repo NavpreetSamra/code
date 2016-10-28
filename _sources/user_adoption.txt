@@ -4,8 +4,8 @@ user_adoption package
 Submodules
 ----------
 
-asana.analysis module
----------------------
+user_adoption.analysis module
+-----------------------------
 
 .. automodule:: user_adoption.analysis
     :members:
