@@ -10,7 +10,7 @@ code
    wikitravel
    cvcparser
    filesync
-   classics
+   classic
    helpers
    quadtree
    sirdisease
