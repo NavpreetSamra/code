@@ -3,7 +3,19 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
 import itertools
+import copy
+from scipy.signal import butter, lfilter, freqz
 
+def butter_lowpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+def butter_lowpass_filter(data, cutoff, fs, order=5):
+    b, a = butter_lowpass(cutoff, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
 
 def basismap_3d(a, b, centroids=None):
     """
@@ -90,35 +102,30 @@ def enforce_2d(data):
         return(data_nd)
 
 
-class TreeGraph(nx.Graph):
+def spiral(a, cond=(lambda b: len(b) > 0), cpy=False):
     """
-    Subclass of networkx Graph for path search applications
+    Spiral unpack a list of lists via counterclock rotation \
+            until a condition is met
+
+    NB: Function utilizes pop, use cpy to preserve original if you are \
+            unsure of impact in the applied namespace
+
+    :param array-like a: if a is not list, it will be converted by list(a)
+    :param func cond: conditional expression to stop at while spiraling a.
+    :param bool cpy: deepycopy input
     """
 
-    def tree_diameter(self):
-        """
-        Find diameter node pairs and path in graph
-        """
+    output = []
 
-        self.diameter = None
+    if not isinstance(a, list):
+        a = list(a)
+    if cpy:
+        a = copy.deepcopy(a)
 
-        nodes = self.nodes()
-        node_min = np.min(nodes)
-        node_max = np.max(nodes)
+    while cond(a):
+        output.extend(a.pop(0))
+        # Pivot matrix counter clockwise
+        a = [list(x) for x in zip(*a)][::-1]
+    return output
 
-        edges = []
-        [edges.extend(list(i)) for i in self.edges()]
-        edge_array = np.asarray(edges).flatten()
-        self.counts, self.bins = np.histogram(edge_array,
-                                              bins=np.arange(node_min, node_max)
-                                              )
-        logical = self.counts == 1
-        leaves = [int(i) for i in self.bins[logical]]
-        iter_paths = itertools.combinations(leaves, 2)
-
-        for tree_path in iter_paths:
-            cost = nx.shortest_path_length(self, tree_path[0], tree_path[1])
-            if cost > self.diameter:
-                self.diameter = cost
-                self.diameter_path = nx.shortest_path(self, tree_path[0], tree_path[1])
 
