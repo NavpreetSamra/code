@@ -162,13 +162,17 @@
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="classic.sorters.Sorters.merge_sort">
-<code class="descname">merge_sort</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/sorters.html#Sorters.merge_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.sorters.Sorters.merge_sort" title="Permalink to this definition">¶</a></dt>
+<code class="descname">merge_sort</code><span class="sig-paren">(</span><em>lst</em>, <em>reducer='reduce_list_rec'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/sorters.html#Sorters.merge_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.sorters.Sorters.merge_sort" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sort lst with merge sort</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; lst of numbers to sort</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; lst of numbers to sort</li>
+<li><strong>reducer</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; reducer method to user               (&#8216;reduce_list_rec&#8217;, &#8216;reduce_list_rec_out&#8217;, &#8216;reduce_list_iter&#8217;)</li>
+</ul>
+</td>
 </tr>
 </tbody>
 </table>
@@ -203,6 +207,25 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>a</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; first component</li>
 <li><strong>b</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; second component</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.sorters.Sorters.reduce_list_rec_out">
+<code class="descname">reduce_list_rec_out</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>out=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/sorters.html#Sorters.reduce_list_rec_out"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.sorters.Sorters.reduce_list_rec_out" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively reduce merge sort components passing ouptut throughout</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>a</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; first component</li>
+<li><strong>b</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; second component</li>
+<li><strong>out</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; accumulated output</li>
 </ul>
 </td>
 </tr>
@@ -248,6 +271,11 @@
 <dl class="method">
 <dt id="classic.sorters.TestSort.test_sorters">
 <code class="descname">test_sorters</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/sorters.html#TestSort.test_sorters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.sorters.TestSort.test_sorters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.sorters.TestSort.test_merge_reducers">
+<code class="descname">test_merge_reducers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/sorters.html#TestSort.test_merge_reducers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.sorters.TestSort.test_merge_reducers" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
