@@ -54,7 +54,7 @@ class Sorters(object):
 
         return out
 
-    def reduce_list_rec_out(self, a, b, out=[]):
+    def _reduce_list_rec_out(self, a, b, out=[]):
         """
         Recursively reduce merge sort components passing ouptut throughout
 
