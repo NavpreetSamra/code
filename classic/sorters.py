@@ -2,11 +2,13 @@ import unittest
 
 
 class Sorters(object):
-    def merge_sort(self, lst):
+    def merge_sort(self, lst, reducer='reduce_list_rec'):
         """
         Sort lst with merge sort
 
         :param list lst: lst of numbers to sort
+        :param str reducer: reducer method to user\
+               ('reduce_list_rec', 'reduce_list_rec_out', 'reduce_list_iter')
         """
         n = len(lst)
         if n < 2:
@@ -15,7 +17,7 @@ class Sorters(object):
         b = lst[n / 2:]
         a = self.merge_sort(a)
         b = self.merge_sort(b)
-        return self.reduce_list_rec(a, b)
+        return self.__getattribute__(reducer)(a, b)
 
     def reduce_list_rec(self, a, b):
         """
@@ -54,18 +56,21 @@ class Sorters(object):
 
         return out
 
-    def _reduce_list_rec_out(self, a, b, out=[]):
+    def reduce_list_rec_out(self, a, b, out=None):
         """
         Recursively reduce merge sort components passing ouptut throughout
 
         :param list a: first component
         :param list b: second component
+        :param list out: accumulated output
         """
+        if not out:
+            out = []
         if not a:
             out.extend(b)
             return out
         if not b:
-            out.extend(b)
+            out.extend(a)
             return out
 
         if a[0] > b[0]:
@@ -121,13 +126,28 @@ class TestSort(unittest.TestCase):
         s = Sorters()
         sorts = [s.merge_sort, s.bubble_sort, s.quick_sort]
         for f in sorts:
-            print f
             self.assertEqual(f([]), [])
             self.assertEqual(f([1]), [1])
             self.assertEqual(f([1, 2]), [1, 2])
             self.assertEqual(f([2, 1]), [1, 2])
             self.assertEqual(f([1, 2, 3]), [1, 2, 3])
             self.assertEqual(f([3, 1, 2]), [1, 2, 3])
+            self.assertEqual(f([3, 1, 5, 4]), [1, 3, 4, 5])
+            self.assertEqual(f([3, 1, 2, 5, 4]), [1, 2, 3, 4, 5])
+
+    def test_merge_reducers(self):
+        f = Sorters().merge_sort
+        reducers = ('reduce_list_rec', 'reduce_list_rec_out',
+                    'reduce_list_iter')
+        for reducer in reducers:
+            self.assertEqual(f([]), [], reducer)
+            self.assertEqual(f([1]), [1]), reducer
+            self.assertEqual(f([1, 2]), [1, 2], reducer)
+            self.assertEqual(f([2, 1]), [1, 2], reducer)
+            self.assertEqual(f([1, 2, 3]), [1, 2, 3], reducer)
+            self.assertEqual(f([3, 1, 2]), [1, 2, 3], reducer)
+            self.assertEqual(f([3, 1, 5, 4]), [1, 3, 4, 5], reducer)
+            self.assertEqual(f([3, 1, 2, 5, 4]), [1, 2, 3, 4, 5], reducer)
 
 if __name__ == "__main__":
     unittest.main()
