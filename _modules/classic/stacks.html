@@ -133,6 +133,13 @@
 
 
 <div class="viewcode-block" id="brackets"><a class="viewcode-back" href="../../classic.html#classic.stacks.brackets">[docs]</a><span class="k">def</span> <span class="nf">brackets</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="s1">&#39;()</span><span class="si">{}</span><span class="s1">[]&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check for valid braces with :py:class:`Stack`</span>
+
+<span class="sd">    :param str b: braces pattern</span>
+<span class="sd">    :return: if valid braces</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stack</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
     <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;(&#39;</span><span class="p">:</span> <span class="s1">&#39;)&#39;</span><span class="p">,</span> <span class="s1">&#39;{&#39;</span><span class="p">:</span> <span class="s1">&#39;}&#39;</span><span class="p">,</span> <span class="s1">&#39;[&#39;</span><span class="p">:</span> <span class="s1">&#39;]&#39;</span><span class="p">}</span>
     <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">b</span><span class="p">:</span>
@@ -145,6 +152,7 @@
                 <span class="k">return</span> <span class="kc">False</span>
 
     <span class="k">return</span> <span class="n">stack</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span></div>
+
 
 <div class="viewcode-block" id="Stack"><a class="viewcode-back" href="../../classic.html#classic.stacks.Stack">[docs]</a><span class="k">class</span> <span class="nc">Stack</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -232,12 +240,28 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return first element of queue</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span>
-        <span class="k">return</span> <span class="n">output</span></div></div>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">requeue</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueueStacks.peek"><a class="viewcode-back" href="../../classic.html#classic.stacks.QueueStacks.peek">[docs]</a>    <span class="k">def</span> <span class="nf">peek</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return first element of queue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">peek</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">requeue</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">peek</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="QueueStacks.requeue"><a class="viewcode-back" href="../../classic.html#classic.stacks.QueueStacks.requeue">[docs]</a>    <span class="k">def</span> <span class="nf">requeue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pop :py:class:`stack` 1 into :py:class:`stack` 2 when empty</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span></div></div>
 
 
 <div class="viewcode-block" id="TestBrackets"><a class="viewcode-back" href="../../classic.html#classic.stacks.TestBrackets">[docs]</a><span class="k">class</span> <span class="nc">TestBrackets</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
