@@ -104,7 +104,18 @@ class QueueStacks():
         while self.stack1:
             self.stack2.push(self.stack1.pop())
         output = self.stack2.pop()
+        while self.stack2:
+            self.stack1.push(self.stack2.pop())
+        return output
+
+    def peek(self):
+        """
+        Return first element of queue
+        """
         while self.stack1:
+            self.stack2.push(self.stack1.pop())
+        output = self.stack2.peek()
+        while self.stack2:
             self.stack1.push(self.stack2.pop())
         return output
 
