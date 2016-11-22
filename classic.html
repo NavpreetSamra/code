@@ -97,6 +97,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.arrays">classic.arrays module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.graphs">classic.graphs module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.sorters">classic.sorters module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-classic.stacks">classic.stacks module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic">Module contents</a></li>
 </ul>
 </li>
@@ -329,6 +330,168 @@
 <dl class="method">
 <dt id="classic.sorters.TestSort.test_merge_reducers">
 <code class="descname">test_merge_reducers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/sorters.html#TestSort.test_merge_reducers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.sorters.TestSort.test_merge_reducers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-classic.stacks">
+<span id="classic-stacks-module"></span><h2>classic.stacks module<a class="headerlink" href="#module-classic.stacks" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="classic.stacks.brackets">
+<code class="descclassname">classic.stacks.</code><code class="descname">brackets</code><span class="sig-paren">(</span><em>b='(){}[]'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#brackets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.brackets" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="classic.stacks.Stack">
+<em class="property">class </em><code class="descclassname">classic.stacks.</code><code class="descname">Stack</code><span class="sig-paren">(</span><em>lst=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generic Stack</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; option to begin with values in stack</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="classic.stacks.Stack.push">
+<code class="descname">push</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack.push"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack.push" title="Permalink to this definition">¶</a></dt>
+<dd><p>Push itme onto top of stack</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; item to push</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.Stack.pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack.pop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pop and return item from top of stack</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">top element of stack</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)">object</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.Stack.peek">
+<code class="descname">peek</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack.peek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack.peek" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inspect and return top element of stack</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">top element of stack</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)">object</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.Stack.peek_n">
+<code class="descname">peek_n</code><span class="sig-paren">(</span><em>n=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack.peek_n"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack.peek_n" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inspect and return top n elements of stack</p>
+<p>NB: if n &gt; len(stack) entire stack will be returned</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<em>int(&gt;0)</em>) &#8211; number of elements to peek</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">top n elements of stack</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.Stack.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">is empty</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="classic.stacks.QueueStacks">
+<em class="property">class </em><code class="descclassname">classic.stacks.</code><code class="descname">QueueStacks</code><span class="sig-paren">(</span><em>lst=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#QueueStacks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.QueueStacks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queue from two stacks</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>queue</strong> (<em>lst</em>) &#8211; option to begin with values in queue</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="classic.stacks.QueueStacks.enqueue">
+<code class="descname">enqueue</code><span class="sig-paren">(</span><em>item</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#QueueStacks.enqueue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.QueueStacks.enqueue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put item in queue</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>item</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; item to add</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.QueueStacks.dequeue">
+<code class="descname">dequeue</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#QueueStacks.dequeue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.QueueStacks.dequeue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return first element of queue</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="classic.stacks.TestBrackets">
+<em class="property">class </em><code class="descclassname">classic.stacks.</code><code class="descname">TestBrackets</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#TestBrackets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.TestBrackets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="classic.stacks.TestBrackets.test_asym">
+<code class="descname">test_asym</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#TestBrackets.test_asym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.TestBrackets.test_asym" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.TestBrackets.test_sym">
+<code class="descname">test_sym</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#TestBrackets.test_sym"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.TestBrackets.test_sym" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.TestBrackets.test_nested">
+<code class="descname">test_nested</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#TestBrackets.test_nested"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.TestBrackets.test_nested" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.stacks.TestBrackets.test_broken">
+<code class="descname">test_broken</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#TestBrackets.test_broken"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.TestBrackets.test_broken" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

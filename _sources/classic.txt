@@ -28,6 +28,14 @@ classic.sorters module
     :undoc-members:
     :show-inheritance:
 
+classic.stacks module
+---------------------
+
+.. automodule:: classic.stacks
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 
 Module contents
 ---------------
