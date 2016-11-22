@@ -101,25 +101,25 @@ class QueueStacks():
         """
         Return first element of queue
         """
-        while self.stack1:
-            self.stack2.push(self.stack1.pop())
-        output = self.stack2.pop()
-        while self.stack2:
-            self.stack1.push(self.stack2.pop())
-        return output
+        if not self.stack2.is_empty():
+            return self.stack2.pop()
+
+        self.requeue()
+        return self.stack2.pop()
 
     def peek(self):
         """
         Return first element of queue
         """
-        while self.stack1:
+        if not self.stack2.is_empty():
+            return self.stack2.peek()
+
+        self.requeue()
+        return self.stack2.peek()
+
+    def requeue(self):
+        while not self.stack1.is_empty():
             self.stack2.push(self.stack1.pop())
-        output = self.stack2.peek()
-        while self.stack2:
-            self.stack1.push(self.stack2.pop())
-        return output
-
-
 class TestBrackets(unittest.TestCase):
 
     def test_asym(self):
