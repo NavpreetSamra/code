@@ -134,7 +134,7 @@
 
 <div class="viewcode-block" id="brackets"><a class="viewcode-back" href="../../classic.html#classic.stacks.brackets">[docs]</a><span class="k">def</span> <span class="nf">brackets</span><span class="p">(</span><span class="n">b</span><span class="o">=</span><span class="s1">&#39;()</span><span class="si">{}</span><span class="s1">[]&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Check for valid braces with :py:class:`Stack`</span>
+<span class="sd">    Check for valid braces with :class:`Stack`</span>
 
 <span class="sd">    :param str b: braces pattern</span>
 <span class="sd">    :return: if valid braces</span>
@@ -258,7 +258,7 @@
 
 <div class="viewcode-block" id="QueueStacks.requeue"><a class="viewcode-back" href="../../classic.html#classic.stacks.QueueStacks.requeue">[docs]</a>    <span class="k">def</span> <span class="nf">requeue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Pop :py:class:`stack` 1 into :py:class:`stack` 2 when empty</span>
+<span class="sd">        Pop :class:`stack` 1 into :class:`stack` 2 when empty</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span></div></div>
