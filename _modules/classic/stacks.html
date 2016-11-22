@@ -158,7 +158,7 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Generic Stack</span>
 
-<span class="sd">    :param list lst: option to begin with values in stack</span>
+<span class="sd">    :param list lst: option to begin with values in :class:`Stack`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lst</span><span class="o">=</span><span class="p">[]):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">lst</span> <span class="o">=</span> <span class="n">lst</span>
@@ -222,11 +222,13 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Queue from two stacks</span>
 
+<span class="sd">    N.B. optional values placed in :class:`Stack` 2 which is our Queue</span>
+
 <span class="sd">    :param lst queue: option to begin with values in queue</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lst</span><span class="o">=</span><span class="p">[]):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span> <span class="o">=</span> <span class="n">Stack</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
 
 <div class="viewcode-block" id="QueueStacks.enqueue"><a class="viewcode-back" href="../../classic.html#classic.stacks.QueueStacks.enqueue">[docs]</a>    <span class="k">def</span> <span class="nf">enqueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -258,7 +260,7 @@
 
 <div class="viewcode-block" id="QueueStacks.requeue"><a class="viewcode-back" href="../../classic.html#classic.stacks.QueueStacks.requeue">[docs]</a>    <span class="k">def</span> <span class="nf">requeue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Pop :class:`stack` 1 into :class:`stack` 2 when empty</span>
+<span class="sd">        Pop :class:`Stack` 1 into :class:`Stack` 2 when empty</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">stack2</span><span class="o">.</span><span class="n">push</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack1</span><span class="o">.</span><span class="n">pop</span><span class="p">())</span></div></div>

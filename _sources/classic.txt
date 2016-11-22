@@ -4,6 +4,22 @@ classic package
 Submodules
 ----------
 
+classic.sorters module
+----------------------
+
+.. automodule:: classic.sorters
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+classic.stacks module
+---------------------
+
+.. automodule:: classic.stacks
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 classic.arrays module
 ---------------------
 
@@ -20,21 +36,6 @@ classic.graphs module
     :undoc-members:
     :show-inheritance:
 
-classic.sorters module
-----------------------
-
-.. automodule:: classic.sorters
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-classic.stacks module
----------------------
-
-.. automodule:: classic.stacks
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 
 Module contents
