@@ -2,6 +2,13 @@ import unittest
 
 
 def brackets(b='(){}[]'):
+    """
+    Check for valid braces with :class:`Stack`
+
+    :param str b: braces pattern
+    :return: if valid braces
+    :rtype: bool
+    """
     stack = Stack()
     d = {'(': ')', '{': '}', '[': ']'}
     for c in b:
@@ -15,11 +22,12 @@ def brackets(b='(){}[]'):
 
     return stack.is_empty()
 
+
 class Stack():
     """
     Generic Stack
 
-    :param list lst: option to begin with values in stack
+    :param list lst: option to begin with values in :class:`Stack`
     """
     def __init__(self, lst=[]):
         self.lst = lst
@@ -83,11 +91,13 @@ class QueueStacks():
     """
     Queue from two stacks
 
+    N.B. optional values placed in :class:`Stack` 2 which is our Queue
+
     :param lst queue: option to begin with values in queue
     """
     def __init__(self, lst=[]):
-        self.stack1 = Stack(lst)
-        self.stack2 = Stack()
+        self.stack1 = Stack()
+        self.stack2 = Stack(lst)
 
     def enqueue(self, item):
         """
@@ -118,8 +128,13 @@ class QueueStacks():
         return self.stack2.peek()
 
     def requeue(self):
+        """
+        Pop :class:`Stack` 1 into :class:`Stack` 2 when empty
+        """
         while not self.stack1.is_empty():
             self.stack2.push(self.stack1.pop())
+
+
 class TestBrackets(unittest.TestCase):
 
     def test_asym(self):

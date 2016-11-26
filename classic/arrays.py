@@ -73,33 +73,33 @@ def zero_matrix(m=[[0, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 0]]):
     return o
 
 
-class _Heap():
-    def __init__(self, lst, direction='max'):
-        self.n = len(lst) - 1
-        self.arr = lst
+class Heap():
+    def __init__(self, lst):
+        self.n = len(lst)
+        self.arr = [0] + lst
 
-        self.direction = direction
-        if direction == 'max':
-            self.max_heapify(self.n)
-        if direction == 'min':
-            self.min_heapify()
+        self.heapify()
 
-    def max_heapify(self, k):
-        for i in range(k/2, -1, -1):
+    def heapify(self):
+        for i in range(self.n/2, 0, -1):
             if not self.is_heap(i):
                 self.sift_down(i)
 
     def is_heap(self, i):
-        return self.arr[i] > max(self.arr[2*i], self.arr[2*i+1])
+        if 2*i+1 < self.n:
+            v = self.arr[2*i + 1]
+        else:
+            v = None
+        return self.arr[i] < min(self.arr[2*i], v)
 
     def sift_down(self, i):
-        if self.arr[2*i] >= self.arr[2*i+1]:
+        if self.arr[2*i] <= self.arr[2*i+1]:
             self.arr[2*i], self.arr[i] = self.arr[i], self.arr[2*i]
             if 2*i <= self.n/2:
                 if not self.is_heap(2*i):
-                    self.max_heapify(2*i)
+                    self.sift_down(2*i)
         else:
             self.arr[2*i+1], self.arr[i] = self.arr[i], self.arr[2*i+1]
             if 2*i+1 <= self.n/2:
                 if not self.is_heap(2*i+1):
-                    self.max_heapify(2*i+1)
+                    self.sift_down(2*i+1)

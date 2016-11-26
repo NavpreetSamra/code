@@ -49,7 +49,7 @@ class Gen(pm.Transport):
         List files with metadata in remote directory by time \
             default oldest to youngest by modified time
 
-        :parm bool ascending: default to oldest-> youngest.\
+        :param bool ascending: default to oldest-> youngest.\
             Set to True for reverse
         :param bool verbose: True for terminal  output on file information
         """
