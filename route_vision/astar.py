@@ -8,11 +8,19 @@ from scipy.spatial.distance import pdist
 
 class AStar(grid.Grid):
     """
-    AStar class, designed to search paths from :py:class:`route_vision.grid.Grid`
+    AStar class, for path search
+
+    Subclassed from :py:class:`route_vision.grid.Grid` for ease of use\
+            and to enable faster iteration.
+            AStar will function without loss supplying withou any kwargs for Grid
+            if a :py:func:`networkx.Graph` with node ids defined as position,
+            edge weight velocity, and a local velocity field for each node is supplied
 
     For more information please see `docs
     <https://marksweissma.github.io/code/slides.html>`_.
 
+    :param networkx.Graph  graph: option to supply graph. If graph not supplied\
+            graph will be built from Grid attributes
     :param tuple.int meshSize: x,y size of graph
     :param str velocity_type: type of profile, scalar or harmonic
     :param dict velocity attrs: define velocity profile
@@ -25,7 +33,7 @@ class AStar(grid.Grid):
     :param int links: if auto generating graphs, specify if graph is\
             manhattan or octile
     """
-    def __init__(self, meshSize=(3, 3), plots=None,
+    def __init__(self, graph=None, meshSize=(3, 3), plots=None,
                  velocity_type='harmonic',
                  velocity_attrs={'scalar': 10, 'xf': 2., 'yf': 2.,
                                  'xa': 3., 'ya': 3.},
@@ -41,14 +49,17 @@ class AStar(grid.Grid):
         self.heur = heur
         self.plots = plots
         self.heur_weight = heur_weight
-        if auto:
-            self.velocity_profile(velocity_type, velocity_attrs)
-            if embedPath:
-                self.velocity_update(embedPath)
-            if embedObstacle:
-                self.build_obstacle()
-            self.to_graph(links)
         self.rt2 = np.sqrt(2)
+        if not graph:
+            if auto:
+                self.velocity_profile(velocity_type, velocity_attrs)
+                if embedPath:
+                    self.velocity_update(embedPath)
+                if embedObstacle:
+                    self.build_obstacle()
+                self.to_graph(links)
+        else:
+            self.graph = graph
 
     def heuristic_component(self, node, neighbor):
         """
