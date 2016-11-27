@@ -100,6 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="helpers.html">helpers package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
@@ -160,15 +161,22 @@
 <span id="route-vision-astar-module"></span><h2>route_vision.astar module<a class="headerlink" href="#module-route_vision.astar" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="route_vision.astar.AStar">
-<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>embedObstacle=None</em>, <em>auto=True</em>, <em>links=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">route_vision.astar.</code><code class="descname">AStar</code><span class="sig-paren">(</span><em>graph=None</em>, <em>meshSize=(3</em>, <em>3)</em>, <em>plots=None</em>, <em>velocity_type='harmonic'</em>, <em>velocity_attrs={'ya': 3.0</em>, <em>'scalar': 10</em>, <em>'xa': 3.0</em>, <em>'xf': 2.0</em>, <em>'yf': 2.0}</em>, <em>heur={'comp': 'vel'</em>, <em>'metric': 'octile'</em>, <em>'alpha': 1.0}</em>, <em>heur_weight=5</em>, <em>embedPath=None</em>, <em>embedObstacle=None</em>, <em>auto=True</em>, <em>links=8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/astar.html#AStar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.astar.AStar" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a></p>
-<p>AStar class, designed to search paths from <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a></p>
+<p>AStar class, for path search</p>
+<dl class="docutils">
+<dt>Subclassed from <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a> for ease of use            and to enable faster iteration.</dt>
+<dd>AStar will function without loss supplying withou any kwargs for Grid
+if a <a class="reference external" href="http://networkx.readthedocs.io/en/networkx-1.10/reference/classes.graph.html#networkx.Graph" title="(in NetworkX v1.10)"><code class="xref py py-func docutils literal"><span class="pre">networkx.Graph()</span></code></a> with node ids defined as position,
+edge weight velocity, and a local velocity field for each node is supplied</dd>
+</dl>
 <p>For more information please see <a class="reference external" href="https://marksweissma.github.io/code/slides.html">docs</a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>graph</strong> (<a class="reference external" href="http://networkx.readthedocs.io/en/networkx-1.10/reference/classes.graph.html#networkx.Graph" title="(in NetworkX v1.10)"><em>networkx.Graph</em></a>) &#8211; option to supply graph. If graph not supplied            graph will be built from Grid attributes</li>
 <li><strong>meshSize</strong> (<em>tuple.int</em>) &#8211; x,y size of graph</li>
 <li><strong>velocity_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; type of profile, scalar or harmonic</li>
 <li><strong>velocity attrs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; define velocity profile</li>

@@ -139,11 +139,19 @@
 
 <div class="viewcode-block" id="AStar"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar">[docs]</a><span class="k">class</span> <span class="nc">AStar</span><span class="p">(</span><span class="n">grid</span><span class="o">.</span><span class="n">Grid</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    AStar class, designed to search paths from :py:class:`route_vision.grid.Grid`</span>
+<span class="sd">    AStar class, for path search</span>
+
+<span class="sd">    Subclassed from :py:class:`route_vision.grid.Grid` for ease of use\</span>
+<span class="sd">            and to enable faster iteration.</span>
+<span class="sd">            AStar will function without loss supplying withou any kwargs for Grid</span>
+<span class="sd">            if a :py:func:`networkx.Graph` with node ids defined as position,</span>
+<span class="sd">            edge weight velocity, and a local velocity field for each node is supplied</span>
 
 <span class="sd">    For more information please see `docs</span>
 <span class="sd">    &lt;https://marksweissma.github.io/code/slides.html&gt;`_.</span>
 
+<span class="sd">    :param networkx.Graph  graph: option to supply graph. If graph not supplied\</span>
+<span class="sd">            graph will be built from Grid attributes</span>
 <span class="sd">    :param tuple.int meshSize: x,y size of graph</span>
 <span class="sd">    :param str velocity_type: type of profile, scalar or harmonic</span>
 <span class="sd">    :param dict velocity attrs: define velocity profile</span>
@@ -156,7 +164,7 @@
 <span class="sd">    :param int links: if auto generating graphs, specify if graph is\</span>
 <span class="sd">            manhattan or octile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meshSize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">plots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">meshSize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">plots</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">velocity_type</span><span class="o">=</span><span class="s1">&#39;harmonic&#39;</span><span class="p">,</span>
                  <span class="n">velocity_attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;scalar&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s1">&#39;xf&#39;</span><span class="p">:</span> <span class="mf">2.</span><span class="p">,</span> <span class="s1">&#39;yf&#39;</span><span class="p">:</span> <span class="mf">2.</span><span class="p">,</span>
                                  <span class="s1">&#39;xa&#39;</span><span class="p">:</span> <span class="mf">3.</span><span class="p">,</span> <span class="s1">&#39;ya&#39;</span><span class="p">:</span> <span class="mf">3.</span><span class="p">},</span>
@@ -172,14 +180,17 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">heur</span> <span class="o">=</span> <span class="n">heur</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plots</span> <span class="o">=</span> <span class="n">plots</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">heur_weight</span> <span class="o">=</span> <span class="n">heur_weight</span>
-        <span class="k">if</span> <span class="n">auto</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">velocity_profile</span><span class="p">(</span><span class="n">velocity_type</span><span class="p">,</span> <span class="n">velocity_attrs</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">embedPath</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">velocity_update</span><span class="p">(</span><span class="n">embedPath</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">embedObstacle</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">build_obstacle</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">rt2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">graph</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">auto</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">velocity_profile</span><span class="p">(</span><span class="n">velocity_type</span><span class="p">,</span> <span class="n">velocity_attrs</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">embedPath</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">velocity_update</span><span class="p">(</span><span class="n">embedPath</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">embedObstacle</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">build_obstacle</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">to_graph</span><span class="p">(</span><span class="n">links</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span>
 
 <div class="viewcode-block" id="AStar.heuristic_component"><a class="viewcode-back" href="../../route_vision.html#route_vision.astar.AStar.heuristic_component">[docs]</a>    <span class="k">def</span> <span class="nf">heuristic_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
