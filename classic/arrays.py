@@ -71,35 +71,3 @@ def zero_matrix(m=[[0, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 0]]):
                 hold.append(0)
         o.append(hold)
     return o
-
-
-class Heap():
-    def __init__(self, lst):
-        self.n = len(lst)
-        self.arr = [0] + lst
-
-        self.heapify()
-
-    def heapify(self):
-        for i in range(self.n/2, 0, -1):
-            if not self.is_heap(i):
-                self.sift_down(i)
-
-    def is_heap(self, i):
-        if 2*i+1 < self.n:
-            v = self.arr[2*i + 1]
-        else:
-            v = None
-        return self.arr[i] < min(self.arr[2*i], v)
-
-    def sift_down(self, i):
-        if self.arr[2*i] <= self.arr[2*i+1]:
-            self.arr[2*i], self.arr[i] = self.arr[i], self.arr[2*i]
-            if 2*i <= self.n/2:
-                if not self.is_heap(2*i):
-                    self.sift_down(2*i)
-        else:
-            self.arr[2*i+1], self.arr[i] = self.arr[i], self.arr[2*i+1]
-            if 2*i+1 <= self.n/2:
-                if not self.is_heap(2*i+1):
-                    self.sift_down(2*i+1)
