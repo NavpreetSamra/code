@@ -95,13 +95,20 @@ def _minarg(lst):
 
 class TestBrackets(unittest.TestCase):
     def test_sort(self):
-        heap = Heap(range(9))
+        heap = Heap(range(1, 9))
         slist = [heap.pop() for _ in range(heap.n)]
-        self.assertEqual(slist, range(9))
+        self.assertEqual(slist, range(1, 9))
 
     def test_empty(self):
         heap = Heap([])
         self.assertTrue(heap.is_empty())
+
+    def test_build(self):
+        heap = Heap([])
+        [heap.insert(i) for i in range(1, 9)[::-1]]
+        slist = [heap.pop() for _ in range(heap.n)]
+        self.assertEqual(slist, range(1, 9))
+
 
 if __name__ == "__main__":
     unittest.main()
