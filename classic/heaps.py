@@ -73,6 +73,16 @@ class Heap():
         """
         self.arr[i], self.arr[j] = self.arr[j], self.arr[i]
 
+    def insert(self, val):
+        """
+        Insert val into heap
+
+        :param obj val: val to insert in heap
+        """
+        self.n += 1
+        self.arr += [val]
+        self.heapify()
+
 
 def _minarg(lst):
     """
@@ -82,11 +92,15 @@ def _minarg(lst):
     """
     return [i[0] for i in sorted(enumerate(lst), key=lambda x:x[1]) if i[1]][0]
 
+
 class TestBrackets(unittest.TestCase):
     def test_sort(self):
         heap = Heap(range(9))
-        slist = [heap.pop() for _ in range(9)]
+        slist = [heap.pop() for _ in range(heap.n)]
         self.assertEqual(slist, range(9))
+
+    def test_empty(self):
+        heap = Heap([])
         self.assertTrue(heap.is_empty())
 
 if __name__ == "__main__":
