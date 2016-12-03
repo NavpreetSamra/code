@@ -83,17 +83,6 @@ class Stack():
         """
         return not self.lst
 
-    def _sort(self, temp=None):
-        """
-        Sort using only :class:`Stack`
-        """
-        if not temp:
-            temp = Stack()
-            temp.push(self.pop())
-
-        while self.lst:
-            if self.peek() > temp.peek():
-
     def __len__(self):
         return len(self.lst)
 
