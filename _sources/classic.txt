@@ -20,6 +20,14 @@ classic.stacks module
     :undoc-members:
     :show-inheritance:
 
+classic.heapsmodule
+-------------------
+
+.. automodule:: classic.heaps
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 classic.arrays module
 ---------------------
 

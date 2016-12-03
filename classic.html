@@ -96,6 +96,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.sorters">classic.sorters module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.stacks">classic.stacks module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-classic.heaps">classic.heapsmodule</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.arrays">classic.arrays module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic.graphs">classic.graphs module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-classic">Module contents</a></li>
@@ -306,7 +307,7 @@
 
 <dl class="class">
 <dt id="classic.stacks.Stack">
-<em class="property">class </em><code class="descclassname">classic.stacks.</code><code class="descname">Stack</code><span class="sig-paren">(</span><em>lst=[]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">classic.stacks.</code><code class="descname">Stack</code><span class="sig-paren">(</span><em>lst=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/stacks.html#Stack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.stacks.Stack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generic Stack</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -472,6 +473,155 @@
 </dd></dl>
 
 </div>
+<div class="section" id="module-classic.heaps">
+<span id="classic-heapsmodule"></span><h2>classic.heapsmodule<a class="headerlink" href="#module-classic.heaps" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="classic.heaps.Heap">
+<em class="property">class </em><code class="descclassname">classic.heaps.</code><code class="descname">Heap</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Min heap (native python 2.7)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; array of to heap</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="classic.heaps.Heap.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">if heap is empty</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.peek">
+<code class="descname">peek</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.peek"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.peek" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">min value of heap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">lst.i</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.pop">
+<code class="descname">pop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.pop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.pop" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">min value of heap and remove from heap</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">lst.i</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.heapify">
+<code class="descname">heapify</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.heapify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.heapify" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.is_heap">
+<code class="descname">is_heap</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.is_heap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.is_heap" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">if node + children is empty</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.sift_down">
+<code class="descname">sift_down</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.sift_down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.sift_down" title="Permalink to this definition">¶</a></dt>
+<dd><p>bubble down heap from node i</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; index of lst to bubble</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.swap">
+<code class="descname">swap</code><span class="sig-paren">(</span><em>i</em>, <em>j</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.swap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.swap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Swap i &lt;-&gt; j elements of self.arr</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>i</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; index of ith element</li>
+<li><strong>j</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; index of jth element</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.Heap.insert">
+<code class="descname">insert</code><span class="sig-paren">(</span><em>val</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#Heap.insert"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.Heap.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert val into heap</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>val</strong> (<em>obj</em>) &#8211; val to insert in heap</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="classic.heaps.TestBrackets">
+<em class="property">class </em><code class="descclassname">classic.heaps.</code><code class="descname">TestBrackets</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#TestBrackets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.TestBrackets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">unittest.case.TestCase</span></code></p>
+<dl class="method">
+<dt id="classic.heaps.TestBrackets.test_sort">
+<code class="descname">test_sort</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#TestBrackets.test_sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.TestBrackets.test_sort" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.TestBrackets.test_empty">
+<code class="descname">test_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#TestBrackets.test_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.TestBrackets.test_empty" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="classic.heaps.TestBrackets.test_build">
+<code class="descname">test_build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/heaps.html#TestBrackets.test_build"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.heaps.TestBrackets.test_build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-classic.arrays">
 <span id="classic-arrays-module"></span><h2>classic.arrays module<a class="headerlink" href="#module-classic.arrays" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
@@ -498,26 +648,6 @@
 <dt id="classic.arrays.zero_matrix">
 <code class="descclassname">classic.arrays.</code><code class="descname">zero_matrix</code><span class="sig-paren">(</span><em>m=[[0, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 0]]</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/arrays.html#zero_matrix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.arrays.zero_matrix" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="class">
-<dt id="classic.arrays.Heap">
-<em class="property">class </em><code class="descclassname">classic.arrays.</code><code class="descname">Heap</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/arrays.html#Heap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.arrays.Heap" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="classic.arrays.Heap.heapify">
-<code class="descname">heapify</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/arrays.html#Heap.heapify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.arrays.Heap.heapify" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="classic.arrays.Heap.is_heap">
-<code class="descname">is_heap</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/arrays.html#Heap.is_heap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.arrays.Heap.is_heap" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="classic.arrays.Heap.sift_down">
-<code class="descname">sift_down</code><span class="sig-paren">(</span><em>i</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/classic/arrays.html#Heap.sift_down"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#classic.arrays.Heap.sift_down" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
 
 </div>
 <div class="section" id="module-classic.graphs">
