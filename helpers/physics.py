@@ -2,11 +2,16 @@ import unittest
 import os
 import numpy as np
 import pandas as pd
+import math_h as mh
+from matplotlib import pyplot as plt
 
 
 class Sensors(object):
-    def __init__(self, fPath, kwargs):
+    def __init__(self, fPath, kwargs, auto=True):
         self.df = pd.read_csv(fPath, **kwargs['df'])
+
+        if not auto:
+            return
 
         fuse = kwargs['sensors']['fuse']
         if fuse:
@@ -19,8 +24,9 @@ class Sensors(object):
         integrates = kwargs['sensors']['integrate']
         if integrates:
             self.__getattribute__(kwargs['integrate'])
-        self.integrate_accel(['xf', 'yf', 'zf'])
-        self.integrate_vel(['xfvel', 'yfvel', 'zfvel'])
+        velocities = self.integrate_accel(['xf', 'yf', 'zf'])
+        positions = self.integrate_vel(velocities)
+        self.im = Position(positions)
 
     def filt_lowpass(self, alpha=None, n=None):
         """
@@ -56,8 +62,9 @@ class Sensors(object):
         velocity = np.array(velocity)
         for ind, col in enumerate(cols):
             self.df[col+'vel'] = velocity[:, ind]
+        return velocity
 
-    def integrate_vel(self, cols=None, timeCol=None, x0=None):
+    def integrate_vel(self, velocities, timeCol=None, x0=None):
         """
         """
         if not x0:
@@ -72,27 +79,44 @@ class Sensors(object):
                 dts = self.df[timeCol][1:] - self.df[timeCol][:-1]
                 self.df['dt'][:-1] = dts
 
-        for ind, i in self.df.ix[1:].iterrows():
+        vel_dt = np.c_[velocities, self.df['dt'].values]
+        for ind, i in enumerate(vel_dt[1:, :]):
             if ind-1 < self.df.shape[0] - 1:
-                position.append(position[ind-1] + i['dt'] * i[cols].values)
+                position.append(position[ind-1] + i[:3] * i[3])
 
-        position = np.array(position)
-        for ind, col in enumerate(cols):
-            self.df[col+'pos'] = position[:, ind]
+        return np.array(position)
 
-class Position():
-    pass
+class Position(object):
+    def __init__(self, xyz, n2=np.array([0, 0, 1]), fit=True):
+        centroid, n1 = mh.fit_plane(xyz)
+        n2 = mh.enforce_2d(n2)
+        xyz_n1 = mh.enforce_2d(xyz.dot(n1)).T
+        xyzPlane = xyz - xyz_n1 * n2 - centroid
+        if fit:
+            self.fit(n1, n2, xyzPlane)
+
+    def fit(self, n1, n2, xyz, fname=""):
+        xy = mh.rotate_v1_v2(n1, n2, xyz)[:, :2]
+        fig = plt.figure(frameon=False)
+        ax = fig.add_subplot(111)
+        ax.plot(xy[:, 0], xy[:, 1], c='k', lw=5)
+        plt.axis('off')
+        plt.savefig('temp'+fname, bbox_inches='tight')
+        plt.close()
 
 
-class PhoneDraw():
+
+class PhoneDraw(object):
     def __init__(self, files, clf, labels=None,
-                 keywords={'df': {}, 
-                     'sensors': {'fuse': None, 'filt': None}, 'ml': {}}):
+                 keywords={'df': {},
+                           'sensors': {'fuse': None, 'filt': None},
+                           'ml': {}}):
         """
         Front end for classifying numbers from IMU data.
 
         :param array-like files: list of files to classify
-        :param classifier clf: classifier with predict method for mxn raveled data
+        :param classifier clf: classifier with predict method\
+                for mxn raveled data
         :param Position sensors: Class to parse IMU data
         """
         if not labels:
@@ -102,10 +126,10 @@ class PhoneDraw():
         self.files = pd.DataFrame(index=index, columns=columns)
         for f, l in zip(files, labels):
             data = Sensors(f, keywords)
-            im = Position(data.df.values[-3:,:])
+            self.data = data
+            im = Position(data.df.values[-3:, :])
             if clf:
                 self.files[f]['classification'] = clf.predict(im.arr)
-
 
 
 class TestPhoneDraw(unittest.TestCase):
