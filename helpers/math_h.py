@@ -2,20 +2,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import networkx as nx
-import itertools
+import itertools as it
 import copy
 from scipy.signal import butter, lfilter, freqz
+from scipy import linalg
 
-def butter_lowpass(cutoff, fs, order=5):
-    nyq = 0.5 * fs
-    normal_cutoff = cutoff / nyq
-    b, a = butter(order, normal_cutoff, btype='low', analog=False)
-    return b, a
 
-def butter_lowpass_filter(data, cutoff, fs, order=5):
-    b, a = butter_lowpass(cutoff, fs, order=order)
-    y = lfilter(b, a, data)
-    return y
+def rotate_v1_v2(v1, v2, xyz):
+    v1 = enforce_2d(v1)
+    v2 = enforce_2d(v2)
+    n1 = np.asarray(v1) / np.linalg.norm(v1)
+    n2 = np.asarray(v2) / np.linalg.norm(v2)
+
+    axis = np.cross(n1, n2)
+    theta = n1.dot(n2.T)
+
+    rot = rot_from_axis_angle(axis, theta)
+    return rot.dot(xyz.T).T
+
+def rot_from_axis_angle(axis, theta):
+    axis = axis / np.linalg.norm(axis)
+    return linalg.expm3(np.cross(np.eye(3), axis * theta))
 
 def basismap_3d(a, b, centroids=None):
     """
@@ -98,7 +105,7 @@ def enforce_2d(data):
     if len(data.shape) > 1:
         return data
     else:
-        data_nd = data.reshape(1, data.shape)
+        data_nd = data.reshape(1, data.shape[0])
         return(data_nd)
 
 
@@ -129,3 +136,40 @@ def spiral(a, cond=(lambda b: len(b) > 0), cpy=False):
     return output
 
 
+def fit_plane(points):
+    """
+    """
+    points = np.array(points).T
+    points = points.reshape((points.shape[0], -1))
+    centroid = points.mean(axis=1)
+    x = points - centroid[:, np.newaxis]
+    M = np.cov(x)
+    normal = np.linalg.svd(M)[0][:, -1]
+    return centroid, normal
+
+
+
+def butter_bandpass(lowcut, highcut, fs, order=5):
+    nyq = 0.5 * fs
+    low = lowcut / nyq
+    high = highcut / nyq
+    b, a = butter(order, [low, high], btype='band')
+    return b, a
+
+
+def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
+    b, a = butter_bandpass(lowcut, highcut, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
+
+def butter_lowpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False)
+    return b, a
+
+
+def butter_lowpass_filter(data, cutoff, fs, order=5):
+    b, a = butter_lowpass(cutoff, fs, order=order)
+    y = lfilter(b, a, data)
+    return y
