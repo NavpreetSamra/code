@@ -4,6 +4,7 @@ code
 .. toctree::
    :maxdepth: 4
 
+   functioncomposition.src
    route_vision
    user_adoption
    network_analysis

@@ -1,0 +1,307 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>FUNCTION COMPOSITION &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="ROUTE VISION" href="slides.html"/>
+        <link rel="prev" title="Welcome to Mark Weiss’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">FUNCTION COMPOSITION</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#design">DESIGN</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">USAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test">TEST</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>FUNCTION COMPOSITION</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/FunctionComposition.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="function-composition">
+<h1>FUNCTION COMPOSITION<a class="headerlink" href="#function-composition" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>INTRODUCTION<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Package for evaluating function compostions with string representations
+linked to functions via a FunctionRegistry map. Two types of evaluations
+are possible:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><strong>serial</strong> where every function is applied on its arguments
+every time</li>
+<li><strong>batch</strong> where the input computations are parsed and then instead
+of being evaluated a tree is built, which is pruned between function calls
+with the goal of <em>minimizing</em> the number of batch function calls during
+computation.</li>
+</ol>
+</div></blockquote>
+<p>This package is currently maintained in three containers:</p>
+<blockquote>
+<div><blockquote>
+<div><ol class="arabic simple">
+<li><strong>src</strong> folder containing the source code utilized for computation</li>
+<li><strong>docs</strong> folder containing source and build data for documentation</li>
+<li><strong>tests</strong> folder containing current tests.</li>
+</ol>
+</div></blockquote>
+<p>N.B. The <strong>Makefile</strong> in the root directory is for running the current test suite</p>
+</div></blockquote>
+</div>
+<div class="section" id="design">
+<h2>DESIGN<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
+<p><strong>serial</strong> evaluation is designed to be simple and lightweight. <strong>serial</strong> evaluation
+recurses through the computation until the local function can operate on the arguments.
+Upon each exit in the stack the level above is now able to evaluate through computation.</p>
+<p><strong>batch</strong> evaluation is designed to minimize the number of function calls during computation.
+<strong>batch</strong> parses the list of computations into a collection of trees, collects the leaves
+(leaf := node -function argument pairs- which can be explicity evaluated but have not been) from all trees and decides which function
+to apply. This algorithim is greedy and not optimal, because it only considers the set of leaves
+rather than evaluating the optimal course for reducing all of the trees before beginning. To reduce
+the number of function calls a dictionary for memoizing the known results is used to prune
+the tree in a post-order traversal. As a result the computation &#8216;f(f(...f(0)...))&#8217; where f(0) = 0 will only call &#8216;f&#8217;
+once and the traversal + memoization will evaluate the rest of the tree.
+If f is multiplication and f(0) is already known, consider the segment &#8216;f(f(...f(0, g(1))...))&#8217;
+when g(1) is evaluated the pruning process will push the value to the top and the tree&#8217;s value will be known and it will no longer be evaluated</p>
+</div>
+<div class="section" id="usage">
+<h2>USAGE<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>The module  function_conjunction.py contains the <a class="reference internal" href="functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute" title="functioncomposition.src.function_conjunction.Compute"><code class="xref py py-class docutils literal"><span class="pre">function_conjunction.Compute</span></code></a> class which has
+the <a class="reference internal" href="functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute.compute" title="functioncomposition.src.function_conjunction.Compute.compute"><code class="xref py py-meth docutils literal"><span class="pre">function_conjunction.Compute.compute()</span></code></a> &#64;classmethod for evaluating computations  given a function registry
+map. By default compute operates in serial but as the option to operate in batch
+via the evalType keyword.</p>
+<p>For more information please see <a class="reference internal" href="functioncomposition.src.html#module-functioncomposition.src.function_conjunction" title="functioncomposition.src.function_conjunction"><code class="xref py py-mod docutils literal"><span class="pre">function_conjunction</span></code></a> documentation</p>
+<div class="literal-block-wrapper container" id="serial-example">
+<div class="code-block-caption"><span class="caption-text">serial_example</span><a class="headerlink" href="#serial-example" title="Permalink to this code">¶</a></div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.function_conjunction</span> <span class="kn">import</span> <span class="n">Compute</span>
+
+<span class="n">computations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;f(g(h(2,3),5),g(g(3),h(4)),10)&#39;</span><span class="p">]</span>
+<span class="n">functionRegistrySerial</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">}</span>
+<span class="n">evalType</span> <span class="o">=</span> <span class="s1">&#39;serial&#39;</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">Compute</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">computations</span><span class="p">,</span> <span class="n">functionRegistrySerial</span><span class="p">,</span> <span class="n">evalType</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">output</span>
+</pre></div>
+</div>
+</div>
+<div class="literal-block-wrapper container" id="batch-example">
+<div class="code-block-caption"><span class="caption-text">batch_example</span><a class="headerlink" href="#batch-example" title="Permalink to this code">¶</a></div>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.function_conjunction</span> <span class="kn">import</span> <span class="n">Compute</span>
+<span class="kn">from</span> <span class="nn">src.helpers</span> <span class="kn">import</span> <span class="n">batch_sum</span><span class="p">,</span> <span class="n">batch_max</span>
+
+<span class="n">computations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;f(f(f(f(0))))&#39;</span><span class="p">,</span> <span class="s1">&#39;f(f(0))&#39;</span><span class="p">]</span>
+<span class="n">functionRegistryBatch</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">batch_sum</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="n">batch_sum</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="n">batch_max</span><span class="p">}</span>
+<span class="n">evalType</span> <span class="o">=</span> <span class="s1">&#39;batch&#39;</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">Compute</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">computations</span><span class="p">,</span> <span class="n">functionRegistryBatch</span><span class="p">,</span> <span class="n">evalType</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">output</span>
+<span class="k">print</span> <span class="n">Compute</span><span class="o">.</span><span class="n">batchCalls</span>
+
+
+<span class="n">computations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;f(g(h(2,3),5),g(g(3),h(4)),10)&#39;</span><span class="p">]</span>
+<span class="n">functionRegistryBatch</span><span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">batch_sum</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="n">batch_sum</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="n">batch_max</span><span class="p">}</span>
+<span class="n">evalType</span> <span class="o">=</span> <span class="s1">&#39;batch&#39;</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="n">Compute</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">computations</span><span class="p">,</span> <span class="n">functionRegistryBatch</span><span class="p">,</span> <span class="n">evalType</span><span class="p">)</span>
+
+<span class="k">print</span> <span class="n">output</span>
+<span class="k">print</span> <span class="n">Compute</span><span class="o">.</span><span class="n">batchCalls</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="test">
+<h2>TEST<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
+<p>Testing is built on python unittest framework. The Makefile in the packages root
+can be used to run the test suite from the root project directory  with <code class="docutils literal"><span class="pre">make</span> <span class="pre">test</span></code>.  pep-8 style
+checkers for both function_conjunction.py and helpers.py are built in.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="slides.html" class="btn btn-neutral float-right" title="ROUTE VISION" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Mark Weiss’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

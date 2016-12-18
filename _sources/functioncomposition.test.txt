@@ -1,0 +1,22 @@
+functioncomposition.test package
+================================
+
+Submodules
+----------
+
+functioncomposition.test.unittests module
+-----------------------------------------
+
+.. automodule:: functioncomposition.test.unittests
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: functioncomposition.test
+    :members:
+    :undoc-members:
+    :show-inheritance:

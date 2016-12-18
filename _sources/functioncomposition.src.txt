@@ -1,0 +1,30 @@
+functioncomposition.src package
+===============================
+
+Submodules
+----------
+
+functioncomposition.src.function_conjunction module
+---------------------------------------------------
+
+.. automodule:: functioncomposition.src.function_conjunction
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+functioncomposition.src.helpers module
+--------------------------------------
+
+.. automodule:: functioncomposition.src.helpers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: functioncomposition.src
+    :members:
+    :undoc-members:
+    :show-inheritance:

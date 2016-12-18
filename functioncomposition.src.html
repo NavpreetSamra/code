@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>functioncomposition.src package &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">README</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>functioncomposition.src package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/functioncomposition.src.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="functioncomposition-src-package">
+<h1>functioncomposition.src package<a class="headerlink" href="#functioncomposition-src-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-functioncomposition.src.function_conjunction">
+<span id="functioncomposition-src-function-conjunction-module"></span><h2>functioncomposition.src.function_conjunction module<a class="headerlink" href="#module-functioncomposition.src.function_conjunction" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="functioncomposition.src.function_conjunction.Compute">
+<em class="property">class </em><code class="descclassname">functioncomposition.src.function_conjunction.</code><code class="descname">Compute</code><a class="reference internal" href="_modules/functioncomposition/src/function_conjunction.html#Compute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.function_conjunction.Compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for computing composed functions</p>
+<dl class="staticmethod">
+<dt id="functioncomposition.src.function_conjunction.Compute.select_func">
+<em class="property">static </em><code class="descname">select_func</code><span class="sig-paren">(</span><em>leaves</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/function_conjunction.html#Compute.select_func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.function_conjunction.Compute.select_func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select function to evaluate and collect arguments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>leaves</strong> (<em>set.tuple.str,list.int</em>) &#8211; function argument pairs</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">FunctionRegistry key</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">arguments for function to operate on</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list.list.int</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="functioncomposition.src.function_conjunction.Compute.serial">
+<em class="property">classmethod </em><code class="descname">serial</code><span class="sig-paren">(</span><em>computations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/function_conjunction.html#Compute.serial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.function_conjunction.Compute.serial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluation of each computation in serial</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>computations</strong> (<em>list.str</em>) &#8211; list of string computations to execute</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">computation results</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="functioncomposition.src.function_conjunction.Compute.batch">
+<em class="property">classmethod </em><code class="descname">batch</code><span class="sig-paren">(</span><em>computations</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/function_conjunction.html#Compute.batch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.function_conjunction.Compute.batch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluation of each computation in batch</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>computations</strong> (<em>list.str</em>) &#8211; list of string computations to execute</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">computation results</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="functioncomposition.src.function_conjunction.Compute.compute">
+<em class="property">classmethod </em><code class="descname">compute</code><span class="sig-paren">(</span><em>computations=['f(g(h(2,3),5),g(g(3),h(4)),10)'], functionRegistry={'h': &lt;built-in function max&gt;, 'g': &lt;built-in function sum&gt;, 'f': &lt;built-in function sum&gt;}, evalType='serial', verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/function_conjunction.html#Compute.compute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.function_conjunction.Compute.compute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate computations using functions supplied in functionRegistry                with either serial or batch methods</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>computations</strong> (<em>list.str</em>) &#8211; computations to evaluate</li>
+<li><strong>functionRegistry</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map strings in computations to functions</li>
+<li><strong>evalType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; method for evaluation. serial requires functions                in registry to accept a list.int, batch requires functions                in registry to accept list.list.int</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; output additional information during run                currently only prints number of batch calls if batch evalType</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">evaluated computations</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-functioncomposition.src.helpers">
+<span id="functioncomposition-src-helpers-module"></span><h2>functioncomposition.src.helpers module<a class="headerlink" href="#module-functioncomposition.src.helpers" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="functioncomposition.src.helpers.Tree">
+<em class="property">class </em><code class="descclassname">functioncomposition.src.helpers.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>parsed_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Tree for evaluating nested function calls and arguments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>parsed_args</strong> (<em>pyparsing.ParseResults</em>) &#8211; parsed computation</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="functioncomposition.src.helpers.Tree.collect_leaves">
+<code class="descname">collect_leaves</code><span class="sig-paren">(</span><em>node=None</em>, <em>leaves=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#Tree.collect_leaves"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.Tree.collect_leaves" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collect leaves of tree</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>node</strong> (<a class="reference internal" href="#functioncomposition.src.helpers.Node" title="functioncomposition.src.helpers.Node"><em>Node</em></a>) &#8211; node in tree</li>
+<li><strong>leaves</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#set" title="(in Python v2.7)"><em>set</em></a>) &#8211; collected leaves</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">collected leaves</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#set" title="(in Python v2.7)">set</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="functioncomposition.src.helpers.Tree.prune">
+<code class="descname">prune</code><span class="sig-paren">(</span><em>known</em>, <em>node=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#Tree.prune"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.Tree.prune" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prune tree with evaluating Nodes by information in known                expanded nodes have Node.val attribute assigned</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>known</strong> (<em>defaultdict.str.tuple</em>) &#8211; map for returns of functions</li>
+<li><strong>node</strong> (<a class="reference internal" href="#functioncomposition.src.helpers.Node" title="functioncomposition.src.helpers.Node"><em>Node</em></a>) &#8211; current location</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="functioncomposition.src.helpers.Node">
+<em class="property">class </em><code class="descclassname">functioncomposition.src.helpers.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>parsed_args</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Node for storing a parsed computation function and argument</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>parsed_args</strong> (<em>pyparsing.ParseResults</em>) &#8211; parsed computation</li>
+<li><strong>parent</strong> (<a class="reference internal" href="#functioncomposition.src.helpers.Node" title="functioncomposition.src.helpers.Node"><em>Node</em></a>) &#8211; reference to parent node</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="functioncomposition.src.helpers.Node.is_leaf">
+<code class="descname">is_leaf</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#Node.is_leaf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.Node.is_leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if node is a leaf in tree, none of it&#8217;s children are type(Node)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">if  node is leaf</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="functioncomposition.src.helpers.ldiv">
+<code class="descclassname">functioncomposition.src.helpers.</code><code class="descname">ldiv</code><span class="sig-paren">(</span><em>lst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#ldiv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.ldiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>len(lst) == 2 division lst[0]/lst[1]</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; length 2 list of divisbles</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">quotient</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">argmax(lst).dtype</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="functioncomposition.src.helpers.batch_sum">
+<code class="descclassname">functioncomposition.src.helpers.</code><code class="descname">batch_sum</code><span class="sig-paren">(</span><em>lstlst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#batch_sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.batch_sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>batch sum function, sum each sublists</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="functioncomposition.src.helpers.batch_max">
+<code class="descclassname">functioncomposition.src.helpers.</code><code class="descname">batch_max</code><span class="sig-paren">(</span><em>lstlst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#batch_max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.batch_max" title="Permalink to this definition">¶</a></dt>
+<dd><p>batch max function, max each sublists</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="functioncomposition.src.helpers.batch_ldiv">
+<code class="descclassname">functioncomposition.src.helpers.</code><code class="descname">batch_ldiv</code><span class="sig-paren">(</span><em>lstlst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/functioncomposition/src/helpers.html#batch_ldiv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#functioncomposition.src.helpers.batch_ldiv" title="Permalink to this definition">¶</a></dt>
+<dd><p>batch ldiv function, ldiv each sublists</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-functioncomposition.src">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-functioncomposition.src" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
