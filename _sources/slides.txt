@@ -77,7 +77,7 @@ Finding best route with optimal heuristic weighting around obstacle requires dou
 METHOD     A* 46 CYCLES                     A* WITH SCALAR FIELD 23 CYCLES
 ========== ============ =================== ==============================
 
-Obstacle Approach
+OBSTACLE APPROACH
 -----------------
 Long approach of **Slow Zone**
 
