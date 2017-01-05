@@ -86,7 +86,7 @@ Long approach of **Slow Zone**
    :scale: 50 %
 
 
-Traversal
+TRAVERSAL
 ---------
 
 Note the corner
@@ -110,7 +110,7 @@ Harmonic Profile
    :align: center
    :scale: 50 %
 
-Traversal
+TRAVERSAL
 ---------
 
 .. figure:: ..//images/comp_harm.gif
