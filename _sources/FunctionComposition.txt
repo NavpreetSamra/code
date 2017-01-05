@@ -4,9 +4,20 @@ FUNCTION COMPOSITION
 INTRODUCTION
 ------------
 
-Package for evaluating function compostions with string representations
-linked to functions via a FunctionRegistry map. Two types of evaluations
-are possible:
+High latency functions are increasingly incorporated into workflows. Whether
+the latency stems servers deployed on the other side of the world, or 
+IO, reducing the cost of running these functions via batch becomes neccesary.
+This package is designed to reduce run times by enablign information sharing
+between different routines that utilizes the same functions and in conjunction
+reducing the number of calls to any one functions throughout the series of processes.
+This package is for handling batch functions and evaluating function compostions with string representations
+linked to functions via a FunctionRegistry map. 
+
+README
+------
+
+While designed for batch applications, a serial option is available for functions
+that cannot utilize a batch apply:
 
     1. **serial** where every function is applied on its arguments
        every time 
@@ -39,8 +50,7 @@ rather than evaluating the optimal course for reducing all of the trees before b
 the number of function calls a dictionary for memoizing the known results is used to prune
 the tree in a post-order traversal. As a result the computation 'f(f(...f(0)...))' where f(0) = 0 will only call 'f'
 once and the traversal + memoization will evaluate the rest of the tree.
-If f is multiplication and f(0) is already known, consider the segment 'f(f(...f(0, g(1))...))'
-when g(1) is evaluated the pruning process will push the value to the top and the tree's value will be known and it will no longer be evaluated
+
 
 USAGE
 -----
