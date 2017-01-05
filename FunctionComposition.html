@@ -142,16 +142,16 @@
 <div class="section" id="introduction">
 <h2>INTRODUCTION<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>High latency functions are increasingly incorporated into workflows. Whether
-the latency stems servers deployed on the other side of the world, or
+the latency stems from servers on the other side of the world, or
 IO, reducing the cost of running these functions via batch becomes neccesary.
-This package is designed to reduce run times by enablign information sharing
-between different routines that utilizes the same functions and in conjunction
-reducing the number of calls to any one functions throughout the series of processes.
-This package is for handling batch functions and evaluating function compostions with string representations
-linked to functions via a FunctionRegistry map.</p>
+This package is designed to reduce run times by enabling information sharing
+between different routines that utilize the same functions and in conjunction
+reducing the number of calls to any one function throughout the all of the processes.</p>
 </div>
 <div class="section" id="readme">
 <h2>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h2>
+<p>This package is for handling batch functions and evaluating function compostions with
+string representations linked to functions via a FunctionRegistry map.</p>
 <p>While designed for batch applications, a serial option is available for functions
 that cannot utilize a batch apply:</p>
 <blockquote>
@@ -179,7 +179,7 @@ computation.</li>
 <div class="section" id="design">
 <h2>DESIGN<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h2>
 <p><strong>serial</strong> evaluation is designed to be simple and lightweight. <strong>serial</strong> evaluation
-recurses through the computation until the local function can operate on the arguments.
+recurses through each computation until the local function can operate on the arguments.
 Upon each exit in the stack the level above is now able to evaluate through computation.</p>
 <p><strong>batch</strong> evaluation is designed to minimize the number of function calls during computation.
 <strong>batch</strong> parses the list of computations into a collection of trees, collects the leaves

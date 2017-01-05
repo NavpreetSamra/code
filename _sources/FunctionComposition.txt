@@ -5,16 +5,17 @@ INTRODUCTION
 ------------
 
 High latency functions are increasingly incorporated into workflows. Whether
-the latency stems servers deployed on the other side of the world, or 
+the latency stems from servers on the other side of the world, or 
 IO, reducing the cost of running these functions via batch becomes neccesary.
-This package is designed to reduce run times by enablign information sharing
-between different routines that utilizes the same functions and in conjunction
-reducing the number of calls to any one functions throughout the series of processes.
-This package is for handling batch functions and evaluating function compostions with string representations
-linked to functions via a FunctionRegistry map. 
+This package is designed to reduce run times by enabling information sharing
+between different routines that utilize the same functions and in conjunction
+reducing the number of calls to any one function throughout the all of the processes.
 
 README
 ------
+
+This package is for handling batch functions and evaluating function compostions with 
+string representations linked to functions via a FunctionRegistry map. 
 
 While designed for batch applications, a serial option is available for functions
 that cannot utilize a batch apply:
@@ -39,7 +40,7 @@ DESIGN
 ------
 
 **serial** evaluation is designed to be simple and lightweight. **serial** evaluation
-recurses through the computation until the local function can operate on the arguments.
+recurses through each computation until the local function can operate on the arguments.
 Upon each exit in the stack the level above is now able to evaluate through computation.
 
 **batch** evaluation is designed to minimize the number of function calls during computation.
