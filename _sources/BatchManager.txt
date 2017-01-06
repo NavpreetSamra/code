@@ -16,7 +16,8 @@ README
 ------
 
 This package is for handling batch functions and evaluating function compostions with 
-string representations linked to functions via a FunctionRegistry map. 
+string representations linked to functions via a FunctionRegistry map- i.e. ['f(g(h(1,2),1),4)', f(4,h(g(1,2)))']
+
 
 While designed for batch applications, a serial option is available for functions
 that cannot utilize a batch apply:
