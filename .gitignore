@@ -2,6 +2,7 @@
 docs
 *pycache*
 
+*.cache
 .DS_Store
 test.py
 *.png
