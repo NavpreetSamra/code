@@ -1,0 +1,22 @@
+batch_manager.test package
+==========================
+
+Submodules
+----------
+
+batch_manager.test.unittests module
+-----------------------------------
+
+.. automodule:: batch_manager.test.unittests
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: batch_manager.test
+    :members:
+    :undoc-members:
+    :show-inheritance:

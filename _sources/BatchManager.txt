@@ -1,5 +1,5 @@
-FUNCTION COMPOSITION
-====================
+BATCH MANAGER
+=============
 
 INTRODUCTION
 ------------

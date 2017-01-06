@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>FUNCTION COMPOSITION &mdash; Mark Weiss 0.0.1 documentation</title>
+  <title>BATCH MANAGER &mdash; Mark Weiss 0.0.1 documentation</title>
   
 
   
@@ -82,7 +82,7 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">FUNCTION COMPOSITION</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BATCH MANAGER</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#readme">README</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#design">DESIGN</a></li>
@@ -123,11 +123,11 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>FUNCTION COMPOSITION</li>
+    <li>BATCH MANAGER</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/FunctionComposition.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/BatchManager.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -137,8 +137,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="function-composition">
-<h1>FUNCTION COMPOSITION<a class="headerlink" href="#function-composition" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="batch-manager">
+<h1>BATCH MANAGER<a class="headerlink" href="#batch-manager" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="introduction">
 <h2>INTRODUCTION<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p>High latency functions are increasingly incorporated into workflows. Whether
@@ -192,11 +192,11 @@ once and the traversal + memoization will evaluate the rest of the tree.</p>
 </div>
 <div class="section" id="usage">
 <h2>USAGE<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
-<p>The module  function_conjunction.py contains the <code class="xref py py-class docutils literal"><span class="pre">function_conjunction.Compute</span></code> class which has
-the <code class="xref py py-meth docutils literal"><span class="pre">function_conjunction.Compute.compute()</span></code> &#64;classmethod for evaluating computations  given a function registry
+<p>The module  function_conjunction.py contains the <a class="reference internal" href="batch_manager.src.html#batch_manager.src.function_conjunction.Compute" title="batch_manager.src.function_conjunction.Compute"><code class="xref py py-class docutils literal"><span class="pre">function_conjunction.Compute</span></code></a> class which has
+the <a class="reference internal" href="batch_manager.src.html#batch_manager.src.function_conjunction.Compute.compute" title="batch_manager.src.function_conjunction.Compute.compute"><code class="xref py py-meth docutils literal"><span class="pre">function_conjunction.Compute.compute()</span></code></a> &#64;classmethod for evaluating computations  given a function registry
 map. By default compute operates in serial but as the option to operate in batch
 via the evalType keyword.</p>
-<p>For more information please see <code class="xref py py-mod docutils literal"><span class="pre">function_conjunction</span></code> documentation</p>
+<p>For more information please see <a class="reference internal" href="batch_manager.src.html#module-batch_manager.src.function_conjunction" title="batch_manager.src.function_conjunction"><code class="xref py py-mod docutils literal"><span class="pre">function_conjunction</span></code></a> documentation</p>
 <div class="literal-block-wrapper container" id="serial-example">
 <div class="code-block-caption"><span class="caption-text">serial_example</span><a class="headerlink" href="#serial-example" title="Permalink to this code">¶</a></div>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.function_conjunction</span> <span class="kn">import</span> <span class="n">Compute</span>
