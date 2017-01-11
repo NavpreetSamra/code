@@ -8,22 +8,6 @@ from scipy.signal import butter, lfilter, freqz
 from scipy import linalg
 
 
-def rotate_v1_v2(v1, v2, xyz):
-    v1 = enforce_2d(v1)
-    v2 = enforce_2d(v2)
-    n1 = np.asarray(v1) / np.linalg.norm(v1)
-    n2 = np.asarray(v2) / np.linalg.norm(v2)
-
-    axis = np.cross(n1, n2)
-    theta = n1.dot(n2.T)
-
-    rot = rot_from_axis_angle(axis, theta)
-    return rot.dot(xyz.T).T
-
-def rot_from_axis_angle(axis, theta):
-    axis = axis / np.linalg.norm(axis)
-    return linalg.expm3(np.cross(np.eye(3), axis * theta))
-
 def basismap_3d(a, b, centroids=None):
     """
     Find rigid body rotation and centroid translation between two states
@@ -67,7 +51,7 @@ def basismap_3d(a, b, centroids=None):
     return r, t
 
 
-def scatter_quick(data, save=None, proj=111):
+def scatter_quick(data, save=None, proj=111, t=False):
     """
     Quick scatter plots 2d and 3d
     Note: nx3 plots will be colored to 3rd dim
@@ -84,12 +68,16 @@ def scatter_quick(data, save=None, proj=111):
     else:
         fig = plt.figure()
         ax = fig.add_subplot(proj, projection='3d')
-        ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, -1])
+        if t:
+            ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=range(data.shape[0]))
+        else:
+            ax.scatter(data[:, 0], data[:, 1], data[:, 2], c=data[:, -1])
 
     if save:
         plt.savefig(save)
     else:
         plt.show()
+
 
 def enforce_2d(data):
     """
@@ -136,19 +124,6 @@ def spiral(a, cond=(lambda b: len(b) > 0), cpy=False):
     return output
 
 
-def fit_plane(points):
-    """
-    """
-    points = np.array(points).T
-    points = points.reshape((points.shape[0], -1))
-    centroid = points.mean(axis=1)
-    x = points - centroid[:, np.newaxis]
-    M = np.cov(x)
-    normal = np.linalg.svd(M)[0][:, -1]
-    return centroid, normal
-
-
-
 def butter_bandpass(lowcut, highcut, fs, order=5):
     nyq = 0.5 * fs
     low = lowcut / nyq
@@ -162,6 +137,7 @@ def butter_bandpass_filter(data, lowcut, highcut, fs, order=5):
     y = lfilter(b, a, data)
     return y
 
+
 def butter_lowpass(cutoff, fs, order=5):
     nyq = 0.5 * fs
     normal_cutoff = cutoff / nyq
@@ -173,3 +149,59 @@ def butter_lowpass_filter(data, cutoff, fs, order=5):
     b, a = butter_lowpass(cutoff, fs, order=order)
     y = lfilter(b, a, data)
     return y
+
+
+def project(xyz, v2=np.array([0., 0., 1.])):
+    """
+    """
+    n2 = v2/np.linalg.norm(v2)
+    n2 = enforce_2d(n2)
+    centroid, n1 = fit_plane(xyz)
+    xyz = xyz - centroid
+    xyz_n1 = enforce_2d(xyz.dot(n1)).T
+    xyzPlane = xyz - xyz_n1 * n2
+    return xyzPlane
+
+
+def fit_plane(points):
+    """
+    """
+    points = np.array(points).T
+    points = points.reshape((points.shape[0], -1))
+    centroid = points.mean(axis=1)
+    x = points - centroid[:, np.newaxis]
+    M = np.cov(x)
+    normal = np.linalg.svd(M)[0][:, -1]
+    return centroid, normal
+
+
+def center_rotate(xyz, v2=np.array([0., 0., 1.])):
+    v1 = xyz.mean(axis=0)
+    xyz = xyz - v1
+    return rotate_v1_v2(v1, v2, xyz)
+
+
+def rotate_v1_v2(v1, v2, xyz):
+    v1 = enforce_2d(v1)
+    v2 = enforce_2d(v2)
+    n1 = np.asarray(v1) / np.linalg.norm(v1)
+    n2 = np.asarray(v2) / np.linalg.norm(v2)
+
+    axis = np.cross(n1, n2)
+    theta = n1.dot(n2.T)
+
+    rot = rot_from_axis_angle(axis, theta)
+    return rot.dot(xyz.T).T
+
+
+def rot_from_axis_angle(axis, theta):
+    axis = axis / np.linalg.norm(axis)
+    return linalg.expm3(np.cross(np.eye(3), axis * theta))
+
+
+def matrix_from_v1_v2(v1, v2):
+    n1 = np.asarray(v1) / np.linalg.norm(v1)
+    n2 = np.asarray(v2) / np.linalg.norm(v2)
+    theta = n1.dot(n2.T)
+    axis = np.cross(v1, v2)
+    return rot_from_axis_angle(axis, theta)
