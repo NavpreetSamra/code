@@ -78,7 +78,8 @@ class Compute(object):
                 parsed.append(cls._serial_eval(i))
             else:
                 try:
-                    parsed.append(int(i))
+                    if i != ',':
+                        parsed.append(i)
                 except ValueError:
                     pass
         return cls.funcs[f](parsed)
@@ -134,14 +135,14 @@ class Compute(object):
         :param list.list args: batch args
         """
         cls.batchCalls += 1
-        args = [[int(j) for j in i] for i in args]
+        args = [[j for j in i] for i in args]
         batched = cls.funcs[func](args)
         for key, value in zip(args, batched):
             cls.memo[func][tuple(key)] = value
 
     @classmethod
-    def compute(cls, computations=['f(g(h(2,3),5),g(g(3),h(4)),10)'],
-                functionRegistry={'f': sum, 'g': sum, 'h': max},
+    def compute(cls, computations,
+                functionRegistry,
                 evalType='serial', verbose=False):
         """
         Evaluate computations using functions supplied in functionRegistry\

@@ -1,11 +1,11 @@
 import unittest
 from src import function_conjunction as fc
-from src.helpers import ldiv, batch_sum, batch_max, batch_ldiv
+from src.helpers import ldiv, batch_sum, batch_max, batch_ldiv, s_sum, s_max
 
 
 class TestSerialFuncConj(unittest.TestCase):
 
-    functionRegistry = {'f': sum, 'g': sum, 'h': max}
+    functionRegistry = {'f': s_sum, 'g': s_sum, 'h': s_max}
     evalType = 'serial'
 
     def test_kwarg(self):

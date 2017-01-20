@@ -96,6 +96,28 @@ class Node(object):
         return not any([isinstance(child, Node) for child in self.children])
 
 
+def s_sum(lst):
+    """
+    Sum list of string integers
+
+    :param list lst: list of integers as type strings
+    :return: sum
+    :rtype: int
+    """
+    return sum([int(i) for i in lst])
+
+
+def s_max(lst):
+    """
+    Sum list of string integers
+
+    :param list lst: list of integers as type strings
+    :return: max
+    :rtype: int
+    """
+    return max([int(i) for i in lst])
+
+
 def ldiv(lst):
     """
     len(lst) == 2 division lst[0]/lst[1]
@@ -104,7 +126,7 @@ def ldiv(lst):
     :return: quotient
     :rtype: argmax(lst).dtype
     """
-
+    lst = [int(i) for i in lst]
     return lst[0] / lst[1]
 
 
@@ -112,14 +134,14 @@ def batch_sum(lstlst):
     """
     batch sum function, sum each sublists
     """
-    return [sum(i) for i in lstlst]
+    return [s_sum(i) for i in lstlst]
 
 
 def batch_max(lstlst):
     """
     batch max function, max each sublists
     """
-    return [max(i) for i in lstlst]
+    return [s_max(i) for i in lstlst]
 
 
 def batch_ldiv(lstlst):
