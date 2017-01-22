@@ -70,9 +70,10 @@ For more information please see :mod:`.function_conjunction` documentation
    :caption: serial_example
 
    from src.function_conjunction import Compute
+   from src.helpers import s_sum, s_max
 
    computations = ['f(g(h(2,3),5),g(g(3),h(4)),10)']
-   functionRegistrySerial = {'f': sum, 'g': sum, 'h': max}
+   functionRegistrySerial = {'f': s_sum, 'g': s_sum, 'h': s_max}
    evalType = 'serial'
 
    output = Compute.compute(computations, functionRegistrySerial, evalType)

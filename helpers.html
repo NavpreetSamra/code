@@ -83,11 +83,11 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">FUNCTION COMPOSITION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
 <li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="functioncomposition.src.html">functioncomposition.src package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
@@ -159,36 +159,6 @@
 </div>
 <div class="section" id="module-helpers.math_h">
 <span id="helpers-math-h-module"></span><h2>helpers.math_h module<a class="headerlink" href="#module-helpers.math_h" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="helpers.math_h.project">
-<code class="descclassname">helpers.math_h.</code><code class="descname">project</code><span class="sig-paren">(</span><em>xyz</em>, <em>v2=array([ 0.</em>, <em>0.</em>, <em>1.])</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.project" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.fit_plane">
-<code class="descclassname">helpers.math_h.</code><code class="descname">fit_plane</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#fit_plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.fit_plane" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.center_rotate">
-<code class="descclassname">helpers.math_h.</code><code class="descname">center_rotate</code><span class="sig-paren">(</span><em>xyz</em>, <em>v2=array([ 0.</em>, <em>0.</em>, <em>1.])</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#center_rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.center_rotate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.rotate_v1_v2">
-<code class="descclassname">helpers.math_h.</code><code class="descname">rotate_v1_v2</code><span class="sig-paren">(</span><em>v1</em>, <em>v2</em>, <em>xyz</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#rotate_v1_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.rotate_v1_v2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.rot_from_axis_angle">
-<code class="descclassname">helpers.math_h.</code><code class="descname">rot_from_axis_angle</code><span class="sig-paren">(</span><em>axis</em>, <em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#rot_from_axis_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.rot_from_axis_angle" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="helpers.math_h.matrix_from_v1_v2">
-<code class="descclassname">helpers.math_h.</code><code class="descname">matrix_from_v1_v2</code><span class="sig-paren">(</span><em>v1</em>, <em>v2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#matrix_from_v1_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.matrix_from_v1_v2" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 <dl class="function">
 <dt id="helpers.math_h.basismap_3d">
 <code class="descclassname">helpers.math_h.</code><code class="descname">basismap_3d</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>centroids=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#basismap_3d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.basismap_3d" title="Permalink to this definition">¶</a></dt>
@@ -292,6 +262,36 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <dl class="function">
 <dt id="helpers.math_h.butter_lowpass_filter">
 <code class="descclassname">helpers.math_h.</code><code class="descname">butter_lowpass_filter</code><span class="sig-paren">(</span><em>data</em>, <em>cutoff</em>, <em>fs</em>, <em>order=5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#butter_lowpass_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.butter_lowpass_filter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.project">
+<code class="descclassname">helpers.math_h.</code><code class="descname">project</code><span class="sig-paren">(</span><em>xyz</em>, <em>v2=array([ 0.</em>, <em>0.</em>, <em>1.])</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#project"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.project" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.fit_plane">
+<code class="descclassname">helpers.math_h.</code><code class="descname">fit_plane</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#fit_plane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.fit_plane" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.center_rotate">
+<code class="descclassname">helpers.math_h.</code><code class="descname">center_rotate</code><span class="sig-paren">(</span><em>xyz</em>, <em>v2=array([ 0.</em>, <em>0.</em>, <em>1.])</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#center_rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.center_rotate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.rotate_v1_v2">
+<code class="descclassname">helpers.math_h.</code><code class="descname">rotate_v1_v2</code><span class="sig-paren">(</span><em>v1</em>, <em>v2</em>, <em>xyz</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#rotate_v1_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.rotate_v1_v2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.rot_from_axis_angle">
+<code class="descclassname">helpers.math_h.</code><code class="descname">rot_from_axis_angle</code><span class="sig-paren">(</span><em>axis</em>, <em>theta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#rot_from_axis_angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.rot_from_axis_angle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="helpers.math_h.matrix_from_v1_v2">
+<code class="descclassname">helpers.math_h.</code><code class="descname">matrix_from_v1_v2</code><span class="sig-paren">(</span><em>v1</em>, <em>v2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#matrix_from_v1_v2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.matrix_from_v1_v2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

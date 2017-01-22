@@ -200,9 +200,10 @@ via the evalType keyword.</p>
 <div class="literal-block-wrapper container" id="serial-example">
 <div class="code-block-caption"><span class="caption-text">serial_example</span><a class="headerlink" href="#serial-example" title="Permalink to this code">¶</a></div>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">src.function_conjunction</span> <span class="kn">import</span> <span class="n">Compute</span>
+<span class="kn">from</span> <span class="nn">src.helpers</span> <span class="kn">import</span> <span class="n">s_sum</span><span class="p">,</span> <span class="n">s_max</span>
 
 <span class="n">computations</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;f(g(h(2,3),5),g(g(3),h(4)),10)&#39;</span><span class="p">]</span>
-<span class="n">functionRegistrySerial</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">}</span>
+<span class="n">functionRegistrySerial</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="n">s_sum</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="n">s_sum</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="n">s_max</span><span class="p">}</span>
 <span class="n">evalType</span> <span class="o">=</span> <span class="s1">&#39;serial&#39;</span>
 
 <span class="n">output</span> <span class="o">=</span> <span class="n">Compute</span><span class="o">.</span><span class="n">compute</span><span class="p">(</span><span class="n">computations</span><span class="p">,</span> <span class="n">functionRegistrySerial</span><span class="p">,</span> <span class="n">evalType</span><span class="p">)</span>

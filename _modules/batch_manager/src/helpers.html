@@ -228,6 +228,28 @@
         <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">Node</span><span class="p">)</span> <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">children</span><span class="p">])</span></div></div>
 
 
+<div class="viewcode-block" id="s_sum"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.helpers.s_sum">[docs]</a><span class="k">def</span> <span class="nf">s_sum</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum list of string integers</span>
+
+<span class="sd">    :param list lst: list of integers as type strings</span>
+<span class="sd">    :return: sum</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="s_max"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.helpers.s_max">[docs]</a><span class="k">def</span> <span class="nf">s_max</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum list of string integers</span>
+
+<span class="sd">    :param list lst: list of integers as type strings</span>
+<span class="sd">    :return: max</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">max</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">])</span></div>
+
+
 <div class="viewcode-block" id="ldiv"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.helpers.ldiv">[docs]</a><span class="k">def</span> <span class="nf">ldiv</span><span class="p">(</span><span class="n">lst</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    len(lst) == 2 division lst[0]/lst[1]</span>
@@ -236,7 +258,7 @@
 <span class="sd">    :return: quotient</span>
 <span class="sd">    :rtype: argmax(lst).dtype</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lst</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">lst</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="n">lst</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span></div>
 
 
@@ -244,14 +266,14 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    batch sum function, sum each sublists</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lstlst</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">s_sum</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lstlst</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="batch_max"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.helpers.batch_max">[docs]</a><span class="k">def</span> <span class="nf">batch_max</span><span class="p">(</span><span class="n">lstlst</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    batch max function, max each sublists</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lstlst</span><span class="p">]</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">s_max</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">lstlst</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="batch_ldiv"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.helpers.batch_ldiv">[docs]</a><span class="k">def</span> <span class="nf">batch_ldiv</span><span class="p">(</span><span class="n">lstlst</span><span class="p">):</span>
