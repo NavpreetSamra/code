@@ -88,7 +88,7 @@ class QuadTree(object):
                 else:
                     self.tree[se_tree] = data[se, :]
             else:
-                self.parse(data[se, :], np.array(se))
+                self.parse(data[se, :], np.array(se_tree))
 
             if sum(ne) <= self.max_cell:
                 if self.buff:
