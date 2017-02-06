@@ -138,6 +138,7 @@
 <span class="kn">import</span> <span class="nn">copy</span>
 <span class="kn">from</span> <span class="nn">scipy.signal</span> <span class="k">import</span> <span class="n">butter</span><span class="p">,</span> <span class="n">lfilter</span><span class="p">,</span> <span class="n">freqz</span>
 <span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">linalg</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
 
 
 <div class="viewcode-block" id="basismap_3d"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.basismap_3d">[docs]</a><span class="k">def</span> <span class="nf">basismap_3d</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">centroids</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -227,6 +228,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">data_nd</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">return</span><span class="p">(</span><span class="n">data_nd</span><span class="p">)</span></div>
+
 
 
 <div class="viewcode-block" id="spiral"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.spiral">[docs]</a><span class="k">def</span> <span class="nf">spiral</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">cond</span><span class="o">=</span><span class="p">(</span><span class="k">lambda</span> <span class="n">b</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">),</span> <span class="n">cpy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -337,6 +339,20 @@
     <span class="n">theta</span> <span class="o">=</span> <span class="n">n1</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">n2</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
     <span class="n">axis</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">rot_from_axis_angle</span><span class="p">(</span><span class="n">axis</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Line"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.Line">[docs]</a><span class="k">class</span> <span class="nc">Line</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="n">sel</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">.</span> <span class="n">y</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span>
+
+<div class="viewcode-block" id="Line.angle"><a class="viewcode-back" href="../../helpers.html#helpers.math_h.Line.angle">[docs]</a>    <span class="k">def</span> <span class="nf">angle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l2</span><span class="p">):</span>
+        <span class="k">pass</span></div></div>
+
 </pre></div>
 
            </div>
