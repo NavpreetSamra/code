@@ -39,7 +39,7 @@ class Compute(object):
         :return: FunctionRegistry key
         :rtype: str
         :return: arguments for function to operate on
-        :rtype: list.list.int
+        :rtype: list.list.str
         """
         count = Counter([i[0] for i in leaves])
         func = count.most_common(1)[0][0]

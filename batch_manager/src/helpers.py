@@ -55,9 +55,9 @@ class Tree(object):
                 node.parent.children[:] = [i.val if isinstance(i, Node) and
                                            i.val is not None else i
                                            for i in node.parent.children]
-        elif node.is_leaf() and tuple(int(i) for i in node.children)\
+        elif node.is_leaf() and tuple(i for i in node.children)\
                 in known[node.f]:
-            node.val = known[node.f][tuple(int(i) for i in node.children)]
+            node.val = known[node.f][tuple(i for i in node.children)]
             if node.parent:
                 node.parent.children[:] = [i.val if isinstance(i, Node) and
                                            i.val is not None else i for
