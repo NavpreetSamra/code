@@ -3,7 +3,8 @@ code
 
 .. toctree::
    :maxdepth: 4
-
+  
+   instacart
    batch_manager
    route_vision
    user_adoption

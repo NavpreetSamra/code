@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>instacart.src.modelowner &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../instacartSummary.html">PREDICTING SHOPPER TIME</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../BatchManager.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>instacart.src.modelowner</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for instacart.src.modelowner</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span> <span class="k">as</span> <span class="n">RFR</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span> <span class="k">as</span> <span class="n">tts</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="Features"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features">[docs]</a><span class="k">class</span> <span class="nc">Features</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for cleaning and transforming order and trip data for modeling. Generates design and test :py:class:`pandas.DataFrame` attributes for modeling</span>
+<span class="sd">    </span>
+<span class="sd">    :param str orderPath: path to orders csv</span>
+<span class="sd">    :param str tripsPath: path to trips csv</span>
+<span class="sd">    :param tuple dumCols: columns to dummify</span>
+<span class="sd">    :param bool trainSet: switch for operating on training data (with target)</span>
+<span class="sd">    :param pandas.DataFrame templateDf: template from data frame from training to prescribe format of test data</span>
+<span class="sd">    :param float percent: percent threshold for margnial distribution (department_name) transformation </span>
+<span class="sd">    :param dict tt_split: keyword arguments for train test split</span>
+<span class="sd">    :param bool split: switch for train test split</span>
+<span class="sd">    :param bool test: switch for test data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderPath</span><span class="p">,</span> <span class="n">tripsPath</span><span class="p">,</span> <span class="n">columns</span><span class="p">,</span> <span class="n">dumCols</span><span class="o">=</span><span class="p">(),</span> <span class="n">trainSet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">templateDf</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">percent</span><span class="o">=.</span><span class="mi">1</span><span class="p">,</span> <span class="n">tt_split</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">test</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orderDf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">orderPath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">tripsPath</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="s1">&#39;trip_id&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">orderDf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orderDf</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">in1d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orderDf</span><span class="o">.</span><span class="n">trip_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">convert_time</span><span class="p">(</span><span class="n">trainSet</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_trips</span><span class="p">(</span><span class="n">columns</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">build_dummies</span><span class="p">(</span><span class="n">dumCols</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">split</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">tt_split</span><span class="p">:</span>
+                <span class="n">tt_split</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">train_test_split</span><span class="p">(</span><span class="n">tt_split</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">templateDf</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">testDf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">index</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">templateDf</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">testDf</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">testDf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Features.train_test_split"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.train_test_split">[docs]</a>    <span class="k">def</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        train test split on data from sklearn</span>
+
+<span class="sd">        :param dict kwargs: keyword arguments for train test split</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">designTest</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetTest</span> <span class="o">=</span> <span class="n">tts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Features.build_dummies"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.build_dummies">[docs]</a>    <span class="k">def</span> <span class="nf">build_dummies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dummify prescribed columns</span>
+
+<span class="sd">        :param tuple cols: columns to dummify</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">prefix_sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">design</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="n">dummies</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Features.convert_time"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.convert_time">[docs]</a>    <span class="k">def</span> <span class="nf">convert_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainSet</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert start (end if applicable) timestamps to seconds. Builds day of week, hour of day features\</span>
+<span class="sd">                and target (dt in seconds)</span>
+
+<span class="sd">        :param bool trainSet: switch for train set to build target</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="o">.</span><span class="n">shopping_started_at</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="o">.</span><span class="n">shopping_started_at</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="p">[</span><span class="s1">&#39;dow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">dayofweek</span> <span class="o">&lt;</span> <span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="p">[</span><span class="s1">&#39;hod&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">hour</span>
+        <span class="k">if</span> <span class="n">trainSet</span><span class="p">:</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="o">.</span><span class="n">shopping_ended_at</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="o">.</span><span class="n">shopping_ended_at</span> <span class="o">=</span> <span class="n">end</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">seconds</span></div>
+
+
+<div class="viewcode-block" id="Features.create_trips"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.create_trips">[docs]</a>    <span class="k">def</span> <span class="nf">create_trips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Filter trips table columns for design matrix</span>
+<span class="sd">        Aggregate orders table data (sum(quantity) and len(unique(department names) for trip)\</span>
+<span class="sd">                and join to design matrix (keyed off trip id)</span>
+
+<span class="sd">        :param list columns: columns to include from trips data in design</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">design</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">columns</span> <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="p">]]</span>
+        <span class="n">grouped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orderDf</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;trip_id&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">[</span><span class="s1">&#39;total&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">sum</span><span class="p">()[</span><span class="s1">&#39;quantity&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">[</span><span class="s1">&#39;counts&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">grouped</span><span class="o">.</span><span class="n">size</span><span class="p">()</span></div>
+	
+    <span class="k">def</span> <span class="nf">_marginal_clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">percent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+	<span class="k">if</span> <span class="n">percent</span><span class="p">:</span>
+	    <span class="n">depts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orderDf</span><span class="o">.</span><span class="n">department_name</span>
+	    <span class="n">marginalDist</span> <span class="o">=</span> <span class="n">depts</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+	    <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">depts</span><span class="o">.</span><span class="n">notnull</span><span class="p">())</span>
+	    <span class="n">mask</span><span class="o">=</span> <span class="p">[(</span><span class="nb">float</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">/</span><span class="n">total</span> <span class="o">&lt;</span> <span class="n">percent</span><span class="o">/</span><span class="mf">100.</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">marginalDist</span><span class="p">]</span>
+	    <span class="n">inclusions</span> <span class="o">=</span> <span class="n">marginalDist</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span>
+	    <span class="n">depts</span><span class="p">[</span><span class="n">depts</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">inclusions</span><span class="p">)]</span> <span class="o">=</span> <span class="s1">&#39;marginal_dist&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="grid_search"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.grid_search">[docs]</a><span class="k">def</span> <span class="nf">grid_search</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+                <span class="n">estimator</span><span class="o">=</span><span class="n">RFR</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">40</span><span class="p">),</span>
+                <span class="n">param_grid</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="s2">&quot;min_samples_split&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="s1">&#39;log2&#39;</span><span class="p">]},</span>
+                <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build a model of type estimator with paramters prescribed by cross validated grid search. After cross validation, best estimator is built</span>
+<span class="sd">    on parameter combination and trained on entire training set. Returns both production ready model and grid search object</span>
+
+<span class="sd">    :param Features data: data object, requires design, target, and designTest targetTest attributes :py:class:`pandas.DataFrame`</span>
+<span class="sd">    :param classifier/estimator estimator: base estimator to grid search :py:class:`sklearn.GridSearchCV`</span>
+<span class="sd">    :param dict param_grid: paramter grid to search in grid search</span>
+<span class="sd">    :param int cv: number of folds for cross validation</span>
+
+<span class="sd">    :return: model grid data</span>
+<span class="sd">    :rtype: tuple.(estimator, GridSearchCV, Features)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">estimator</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">param_grid</span><span class="p">,</span> <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">)</span>
+    <span class="n">grid</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">grid</span><span class="o">.</span><span class="n">best_estimator_</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">designTest</span><span class="p">]),</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">targetTest</span><span class="p">]))</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Main function for training model to create predictions</span>
+
+<span class="sd">    :param classifier/estimator model: base estimator to grid search :py:class:`sklearn.GridSearchCV`</span>
+<span class="sd">    :param sklearn.GridSearchCV grid: grid searched object</span>
+<span class="sd">    :param dict grid_kwargs: keyword arguments for :py:class:`sklearn.GridSearchCV`</span>
+<span class="sd">    :param Features data: data object, requires design, target, and designTest targetTest attributes :py:class:`pandas.DataFrame`</span>
+<span class="sd">    :param Features template: train object template to create test design</span>
+
+<span class="sd">    :return: model grid </span>
+<span class="sd">    :rtype: tuple.(estimator, GridSearchCV)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">model</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">grid_kwargs</span><span class="p">:</span>
+            <span class="n">grid_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">model</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span> <span class="n">grid_search</span><span class="p">(</span><span class="o">**</span><span class="n">grid_kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">Features</span><span class="p">(</span><span class="s1">&#39;../data/order_items.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;../data/test_trips.csv&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;shopper_id&#39;</span><span class="p">],</span> <span class="n">trainSet</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">templateDf</span><span class="o">=</span><span class="n">template</span><span class="o">.</span><span class="n">design</span><span class="p">)</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">testDf</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">testDf</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">])</span>
+    <span class="n">predictions</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;predictions.csv&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">grid</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;main&quot;</span><span class="p">:</span>
+    <span class="k">pass</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

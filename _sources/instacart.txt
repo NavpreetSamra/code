@@ -1,0 +1,17 @@
+instacart package
+=================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    instacart.src
+
+Module contents
+---------------
+
+.. automodule:: instacart
+    :members:
+    :undoc-members:
+    :show-inheritance:

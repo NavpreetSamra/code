@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>sirdisease.sir_disease.subject &mdash; Mark Weiss 0.0.1 documentation</title>
+  <title>instacart.src.helper &mdash; Mark Weiss 0.0.1 documentation</title>
   
 
   
@@ -118,7 +118,7 @@
       
           <li><a href="../../index.html">Module code</a> &raquo;</li>
       
-    <li>sirdisease.sir_disease.subject</li>
+    <li>instacart.src.helper</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -130,27 +130,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for sirdisease.sir_disease.subject</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="Subject"><a class="viewcode-back" href="../../../sirdisease.sir_disease.html#sirdisease.sir_disease.subject.Subject">[docs]</a><span></span><span class="k">class</span> <span class="nc">Subject</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    &#39;&#39;&#39;</span>
+  <h1>Source code for instacart.src.helper</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tabulate</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="o">=</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">0.</span><span class="p">),</span> <span class="n">susceptible</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">infectious</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        &#39;&#39;&#39;</span>
+<div class="viewcode-block" id="df_table"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.helper.df_table">[docs]</a><span class="k">def</span> <span class="nf">df_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to create rst tables from :py:class:`pandas.DataFrame`</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">location</span> <span class="o">=</span> <span class="n">location</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">susceptible</span> <span class="o">=</span> <span class="n">susceptible</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">infectious</span> <span class="o">=</span> <span class="n">infectious</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">infected_time</span> <span class="o">=</span> <span class="mf">0.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span>
-
-<div class="viewcode-block" id="Subject.infect"><a class="viewcode-back" href="../../../sirdisease.sir_disease.html#sirdisease.sir_disease.subject.Subject.infect">[docs]</a>    <span class="k">def</span> <span class="nf">infect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">infectious</span> <span class="o">=</span> <span class="kc">True</span></div>
-
-<div class="viewcode-block" id="Subject.innoculate"><a class="viewcode-back" href="../../../sirdisease.sir_disease.html#sirdisease.sir_disease.subject.Subject.innoculate">[docs]</a>    <span class="k">def</span> <span class="nf">innoculate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">infectious</span> <span class="o">=</span> <span class="kc">False</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">suscetible</span> <span class="o">=</span> <span class="kc">False</span></div></div>
+<span class="sd">    :param `pandas.DataFrame` df: data frame</span>
+<span class="sd">    :param str fname: string file name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tabulate</span><span class="o">.</span><span class="n">tabulate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">,</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;rst&#39;</span><span class="p">))</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

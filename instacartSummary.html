@@ -1,0 +1,780 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PREDICTING SHOPPER TIME &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="next" title="BATCH MANAGER" href="BatchManager.html"/>
+        <link rel="prev" title="Welcome to Mark Weiss’s documentation!" href="index.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PREDICTING SHOPPER TIME</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cleaning">CLEANING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modeling">MODELING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#discussion">DISCUSSION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#conclusion">CONCLUSION</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+    <li>PREDICTING SHOPPER TIME</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/instacartSummary.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="predicting-shopper-time">
+<h1>PREDICTING SHOPPER TIME<a class="headerlink" href="#predicting-shopper-time" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>INTRODUCTION<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this analysis is to better understand the expected time a shopper will take inside a grocery store as a function of trip and order attributes. These two types of attributes are each organized in their own table, the first containing information about the trip including the shopper id, store id, fulfillment model, and start and end shopping times spanning a 10 week window. The second contains information about each order linked back to the trip id via a foreign key including the item id, the quantity associated with that order, and the department name of that item at that store.  To achieve our goal we hope to integrate two expected phenomena to create our model. The first is based on the size of the order, where we expect larger orders, orders with a larger number of different products, and/or with more difficult to find or complex items will require more time in the grocery store. The second is based on attributes of the trip including time of day, day of the week, location, and shopper. We hope these features combine to describe the different axis on which trip time varies.</p>
+<p>Trip Table</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="12%" />
+<col width="13%" />
+<col width="21%" />
+<col width="11%" />
+<col width="23%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">trip_id</th>
+<th class="head">shopper_id</th>
+<th class="head">fulfillment_model</th>
+<th class="head">store_id</th>
+<th class="head">shopping_started_at</th>
+<th class="head">shopping_ended_at</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>3.11952e+06</td>
+<td>48539</td>
+<td>model_1</td>
+<td>6</td>
+<td>2015-09-01 07:03:56</td>
+<td>2015-09-01 07:30:56</td>
+</tr>
+<tr class="row-odd"><td>3.11951e+06</td>
+<td>3775</td>
+<td>model_1</td>
+<td>1</td>
+<td>2015-09-01 07:04:33</td>
+<td>2015-09-01 07:40:33</td>
+</tr>
+<tr class="row-even"><td>3.11952e+06</td>
+<td>4362</td>
+<td>model_1</td>
+<td>1</td>
+<td>2015-09-01 07:23:21</td>
+<td>2015-09-01 07:41:21</td>
+</tr>
+<tr class="row-odd"><td>3.11979e+06</td>
+<td>47659</td>
+<td>model_1</td>
+<td>1</td>
+<td>2015-09-01 07:29:52</td>
+<td>2015-09-01 08:55:52</td>
+</tr>
+<tr class="row-even"><td>3.11992e+06</td>
+<td>11475</td>
+<td>model_1</td>
+<td>1</td>
+<td>2015-09-01 07:32:21</td>
+<td>2015-09-01 09:01:21</td>
+</tr>
+</tbody>
+</table>
+<p>Orders Table</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="19%" />
+<col width="36%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">trip_id</th>
+<th class="head">item_id</th>
+<th class="head">department_name</th>
+<th class="head">quantity</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>3.11951e+06</td>
+<td>368671</td>
+<td>Produce</td>
+<td>10</td>
+</tr>
+<tr class="row-odd"><td>3.12046e+06</td>
+<td>368671</td>
+<td>Produce</td>
+<td>10</td>
+</tr>
+<tr class="row-even"><td>3.12047e+06</td>
+<td>368671</td>
+<td>Produce</td>
+<td>10</td>
+</tr>
+<tr class="row-odd"><td>3.12191e+06</td>
+<td>368671</td>
+<td>Produce</td>
+<td>6</td>
+</tr>
+<tr class="row-even"><td>3.12233e+06</td>
+<td>368671</td>
+<td>Produce</td>
+<td>10</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="cleaning">
+<h2>CLEANING<a class="headerlink" href="#cleaning" title="Permalink to this headline">¶</a></h2>
+<p>The first step in our data cleaning is to create a target. We convert the start and end timestamps into a difference of seconds. Moving forward, we need to be very careful if/when using time data in the design matrix to combat target leakage. In addition to processing the categorical and string variables from our trip table we need to transform our order table because our target is keyed off trip id.</p>
+<p>From the trip table there are 4 pieces of information we garner. The shopper, store, day of week, and time of day. By dummying the store id and hour of day and creating an on/off switch for weekend vs weekday we look to understand what stores and times are busier and therefore likely to slow down our shoppers. From the orders table we aggregate the number of items (<em>total*</em>) and number of types of names by department name (<strong>counts</strong>) by trip id to join with our trip data. In the future we can look to analyze stores and department codes to both better understand which items in general and store specific cause more time to collect. We also note that the distribution of orders per department type has a long tail, which is likely due to varying point of sales systems across stores. Mapping stores internal POS system names to standardized forms could help our model and is an interesting area to explore in the future.</p>
+<div class="figure align-center">
+<img alt="_images/value_counts.png" src="_images/value_counts.png" />
+</div>
+<p><cite>Number of instances of each department name in orders table</cite></p>
+<p>The initial design matrix includes information about the shopper, fulfillment model, time of day, day of week, order size and distribution</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="3%" />
+<col width="2%" />
+<col width="2%" />
+<col width="7%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="4%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"></th>
+<th class="head">shopper_id</th>
+<th class="head">total</th>
+<th class="head">counts</th>
+<th class="head">fulfillment_model_model_2</th>
+<th class="head">store_id_3</th>
+<th class="head">store_id_5</th>
+<th class="head">store_id_6</th>
+<th class="head">store_id_29</th>
+<th class="head">store_id_31</th>
+<th class="head">store_id_54</th>
+<th class="head">store_id_78</th>
+<th class="head">store_id_90</th>
+<th class="head">store_id_105</th>
+<th class="head">store_id_115</th>
+<th class="head">store_id_123</th>
+<th class="head">store_id_126</th>
+<th class="head">store_id_148</th>
+<th class="head">dow_1</th>
+<th class="head">hod_8</th>
+<th class="head">hod_9</th>
+<th class="head">hod_10</th>
+<th class="head">hod_11</th>
+<th class="head">hod_12</th>
+<th class="head">hod_13</th>
+<th class="head">hod_14</th>
+<th class="head">hod_15</th>
+<th class="head">hod_16</th>
+<th class="head">hod_17</th>
+<th class="head">hod_18</th>
+<th class="head">hod_19</th>
+<th class="head">hod_20</th>
+<th class="head">hod_21</th>
+<th class="head">hod_22</th>
+<th class="head">hod_23</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>3.19403e+06</td>
+<td>10214</td>
+<td>69</td>
+<td>58</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>4.2264e+06</td>
+<td>52156</td>
+<td>7</td>
+<td>7</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>4.05705e+06</td>
+<td>61890</td>
+<td>15</td>
+<td>9</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>3.60157e+06</td>
+<td>46414</td>
+<td>3</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>3.15143e+06</td>
+<td>17972</td>
+<td>49.75</td>
+<td>36</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-center">
+<img alt="_images/heatmap.png" src="_images/heatmap.png" />
+</div>
+<p><cite>Correlation Heatmp, features share header with previous table. Target is appended as last field in heatmap</cite></p>
+<p>Here we note that there is a strong relationship between <strong>counts</strong> and <strong>total</strong> which is not suprising and exhibited by a Variance Inflation factor over 6.</p>
+</div>
+<div class="section" id="modeling">
+<h2>MODELING<a class="headerlink" href="#modeling" title="Permalink to this headline">¶</a></h2>
+<p>In our model evaluation process we begin by splitting off a validation set so that we can look to quantify the expected performance. The estimator we utilized scikit-learn’s Random Forest Regressor with mean square error cost. With more time we could explore other regressors, but with a grid search and minimal time to engineer features we expect the random forest to outperform a Linear Regression (feature engineering restricted by time) or a SVM (limited due to run time). This model uses 5 fold cross validated grid search varying <em>max_depth</em> <em>min_samples_split</em> and <em>max_features</em> from coarse to fine. n_estimators of 40 was selected as a coarse initial analysis began to show diminishing returns with more trees (likely close to the “elbow”, this is another area that can be investigated more moving forward)</p>
+<p>Feature Importances</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="2%" />
+<col width="2%" />
+<col width="2%" />
+<col width="3%" />
+<col width="3%" />
+<col width="4%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+<col width="3%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">feature</th>
+<th class="head">counts</th>
+<th class="head">shopper_id</th>
+<th class="head">total</th>
+<th class="head">store_id_3</th>
+<th class="head">fulfillment_model_model_2</th>
+<th class="head">store_id_29</th>
+<th class="head">store_id_5</th>
+<th class="head">hod_18</th>
+<th class="head">hod_11</th>
+<th class="head">hod_17</th>
+<th class="head">hod_10</th>
+<th class="head">hod_12</th>
+<th class="head">hod_16</th>
+<th class="head">hod_15</th>
+<th class="head">hod_14</th>
+<th class="head">hod_9</th>
+<th class="head">hod_13</th>
+<th class="head">dow_1</th>
+<th class="head">hod_8</th>
+<th class="head">dow</th>
+<th class="head">hod_19</th>
+<th class="head">store_id_31</th>
+<th class="head">store_id_105</th>
+<th class="head">hod_20</th>
+<th class="head">store_id_90</th>
+<th class="head">store_id_54</th>
+<th class="head">store_id_6</th>
+<th class="head">store_id_126</th>
+<th class="head">store_id_115</th>
+<th class="head">store_id_123</th>
+<th class="head">hod_21</th>
+<th class="head">hod_22</th>
+<th class="head">store_id_78</th>
+<th class="head">store_id_148</th>
+<th class="head">hod_23</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>importance</td>
+<td>0.583085973354</td>
+<td>0.168116970532</td>
+<td>0.0871047770267</td>
+<td>0.0231925758538</td>
+<td>0.016009218889</td>
+<td>0.0103891225025</td>
+<td>0.00918909750058</td>
+<td>0.00643181576237</td>
+<td>0.0064068927097</td>
+<td>0.00637174237289</td>
+<td>0.00618338305612</td>
+<td>0.00603053471784</td>
+<td>0.00600951461267</td>
+<td>0.00582783405928</td>
+<td>0.00573174335489</td>
+<td>0.00524512930841</td>
+<td>0.00523016631657</td>
+<td>0.00497156611087</td>
+<td>0.00479333186756</td>
+<td>0.00429676440816</td>
+<td>0.00420139433796</td>
+<td>0.00397937369493</td>
+<td>0.00389730224653</td>
+<td>0.00295957800954</td>
+<td>0.00280070930962</td>
+<td>0.00240492820493</td>
+<td>0.00217471206897</td>
+<td>0.00204697658013</td>
+<td>0.00182832893063</td>
+<td>0.00155537625524</td>
+<td>0.000911880839141</td>
+<td>0.000252784072627</td>
+<td>0.000232256268709</td>
+<td>0.000134717018234</td>
+<td>1.52784674318e-06</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="discussion">
+<h2>DISCUSSION<a class="headerlink" href="#discussion" title="Permalink to this headline">¶</a></h2>
+<p>Design Data Frame</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="32%" />
+<col width="18%" />
+<col width="21%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">trip_id</th>
+<th class="head">shopper_id</th>
+<th class="head">total</th>
+<th class="head">counts</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>4.22546e+06</td>
+<td>62434</td>
+<td>67.5</td>
+<td>50</td>
+</tr>
+<tr class="row-odd"><td>3.90618e+06</td>
+<td>59715</td>
+<td>21</td>
+<td>19</td>
+</tr>
+<tr class="row-even"><td>3.77706e+06</td>
+<td>3746</td>
+<td>6</td>
+<td>6</td>
+</tr>
+<tr class="row-odd"><td>3.80646e+06</td>
+<td>44234</td>
+<td>49</td>
+<td>39</td>
+</tr>
+<tr class="row-even"><td>4.24162e+06</td>
+<td>50326</td>
+<td>8</td>
+<td>6</td>
+</tr>
+</tbody>
+</table>
+<p><cite>Final Design</cite></p>
+<p>Analyzing the feature importances across our models shows consistently an order of magnitude more information gain associated with the shopper, the total count of items in the cart features, and the number of unique departments in the cart compared to the rest of the features. As a result  day of week, time of day, and store locations are excluded. The number and types of items impact on shopper time is as expected. The shopper id impact is more interesting, one potential explanation here is that if shopper ids are assigned monotonically increasing in time resulting in more experienced shoppers who know the stores better or have had success and continue shopping contribute to a being more efficient and therefore faster, especially compared to the scenario of a first time shopper in a new store. A feature to investigate here (noting that the 10 week window may limit the information in this data set) is the number of trips a shopper makes and how that evolution through time looks. It&#8217;s worth noting here that the variation in shopping hours over the course of the day is normal over the course of the day. While it’s possible that time of day and location do not influence the shop time, this is an area which could be explored more moving forward and likely to the benefit of the model.</p>
+<div class="figure align-center">
+<img alt="_images/hours.png" src="_images/hours.png" />
+</div>
+<p><cite>Histogram of trips made per hour of day</cite></p>
+</div>
+<div class="section" id="conclusion">
+<h2>CONCLUSION<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>Our parameters from grid search yield using 40 estimators in the Random Forest Regressor</p>
+<dl class="docutils">
+<dt>Parameter Grid:</dt>
+<dd><ul class="first last simple">
+<li>&#8216;max_depth&#8217;: 50,  (Note in multiple training sesssions the best estimator holding other estimators optimal xceeded a depth of 50)</li>
+<li>&#8216;max_features&#8217;: &#8216;auto&#8217;,</li>
+<li>&#8216;min_samples_split&#8217;: 50</li>
+</ul>
+</dd>
+</dl>
+<p>Yielding an <strong>R**2</strong> score of <strong>.36</strong>  when applied on the validation set and an <strong>Out of Bag Error</strong> from the fully fit model of <strong>.37</strong> or ~19 minutes mean error per trip where an average trip in the training data is ~41 minutes. The model is rebuilt with the validation set and fit to generate the test datat predictions.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="BatchManager.html" class="btn btn-neutral float-right" title="BATCH MANAGER" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="Welcome to Mark Weiss’s documentation!" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>
