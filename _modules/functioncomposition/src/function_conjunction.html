@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>batch_manager.src.function_conjunction &mdash; Mark Weiss 0.0.1 documentation</title>
+  <title>functioncomposition.src.function_conjunction &mdash; Mark Weiss 0.0.1 documentation</title>
   
 
   
@@ -117,7 +117,7 @@
       
           <li><a href="../../index.html">Module code</a> &raquo;</li>
       
-    <li>batch_manager.src.function_conjunction</li>
+    <li>functioncomposition.src.function_conjunction</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -129,7 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for batch_manager.src.function_conjunction</h1><div class="highlight"><pre>
+  <h1>Source code for functioncomposition.src.function_conjunction</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span><span class="p">,</span> <span class="n">Counter</span>
 <span class="kn">from</span> <span class="nn">pyparsing</span> <span class="k">import</span> <span class="p">(</span><span class="n">Forward</span><span class="p">,</span> <span class="n">Word</span><span class="p">,</span> <span class="n">alphas</span><span class="p">,</span> <span class="n">alphanums</span><span class="p">,</span>
                        <span class="n">nums</span><span class="p">,</span> <span class="n">ZeroOrMore</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Group</span><span class="p">,</span>
@@ -137,7 +137,7 @@
 <span class="kn">from</span> <span class="nn">helpers</span> <span class="k">import</span> <span class="n">Tree</span>
 
 
-<div class="viewcode-block" id="Compute"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.function_conjunction.Compute">[docs]</a><span class="k">class</span> <span class="nc">Compute</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Compute"><a class="viewcode-back" href="../../../functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute">[docs]</a><span class="k">class</span> <span class="nc">Compute</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for computing composed functions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -163,7 +163,7 @@
         <span class="k">return</span> <span class="n">expression</span><span class="o">.</span><span class="n">parseString</span><span class="p">(</span><span class="n">aStr</span><span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="Compute.select_func"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.function_conjunction.Compute.select_func">[docs]</a>    <span class="k">def</span> <span class="nf">select_func</span><span class="p">(</span><span class="n">leaves</span><span class="p">):</span>
+<div class="viewcode-block" id="Compute.select_func"><a class="viewcode-back" href="../../../functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute.select_func">[docs]</a>    <span class="k">def</span> <span class="nf">select_func</span><span class="p">(</span><span class="n">leaves</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Select function to evaluate and collect arguments</span>
 
@@ -171,7 +171,7 @@
 <span class="sd">        :return: FunctionRegistry key</span>
 <span class="sd">        :rtype: str</span>
 <span class="sd">        :return: arguments for function to operate on</span>
-<span class="sd">        :rtype: list.list.str</span>
+<span class="sd">        :rtype: list.list.int</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">count</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">([</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">leaves</span><span class="p">])</span>
         <span class="n">func</span> <span class="o">=</span> <span class="n">count</span><span class="o">.</span><span class="n">most_common</span><span class="p">(</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
@@ -180,7 +180,7 @@
         <span class="k">return</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span></div>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Compute.serial"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.function_conjunction.Compute.serial">[docs]</a>    <span class="k">def</span> <span class="nf">serial</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">computations</span><span class="p">):</span>
+<div class="viewcode-block" id="Compute.serial"><a class="viewcode-back" href="../../../functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute.serial">[docs]</a>    <span class="k">def</span> <span class="nf">serial</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">computations</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluation of each computation in serial</span>
 
@@ -210,14 +210,13 @@
                 <span class="n">parsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">_serial_eval</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="s1">&#39;,&#39;</span><span class="p">:</span>
-                        <span class="n">parsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                    <span class="n">parsed</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
                 <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="k">pass</span>
         <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">funcs</span><span class="p">[</span><span class="n">f</span><span class="p">](</span><span class="n">parsed</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Compute.batch"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.function_conjunction.Compute.batch">[docs]</a>    <span class="k">def</span> <span class="nf">batch</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">computations</span><span class="p">):</span>
+<div class="viewcode-block" id="Compute.batch"><a class="viewcode-back" href="../../../functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute.batch">[docs]</a>    <span class="k">def</span> <span class="nf">batch</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">computations</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluation of each computation in batch</span>
 
@@ -267,14 +266,14 @@
 <span class="sd">        :param list.list args: batch args</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">cls</span><span class="o">.</span><span class="n">batchCalls</span> <span class="o">+=</span> <span class="mi">1</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="p">[[</span><span class="n">j</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[[</span><span class="nb">int</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">args</span><span class="p">]</span>
         <span class="n">batched</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">funcs</span><span class="p">[</span><span class="n">func</span><span class="p">](</span><span class="n">args</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">batched</span><span class="p">):</span>
             <span class="n">cls</span><span class="o">.</span><span class="n">memo</span><span class="p">[</span><span class="n">func</span><span class="p">][</span><span class="nb">tuple</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Compute.compute"><a class="viewcode-back" href="../../../batch_manager.src.html#batch_manager.src.function_conjunction.Compute.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">computations</span><span class="p">,</span>
-                <span class="n">functionRegistry</span><span class="p">,</span>
+<div class="viewcode-block" id="Compute.compute"><a class="viewcode-back" href="../../../functioncomposition.src.html#functioncomposition.src.function_conjunction.Compute.compute">[docs]</a>    <span class="k">def</span> <span class="nf">compute</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">computations</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;f(g(h(2,3),5),g(g(3),h(4)),10)&#39;</span><span class="p">],</span>
+                <span class="n">functionRegistry</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;f&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span> <span class="s1">&#39;g&#39;</span><span class="p">:</span> <span class="nb">sum</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="p">},</span>
                 <span class="n">evalType</span><span class="o">=</span><span class="s1">&#39;serial&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Evaluate computations using functions supplied in functionRegistry\</span>
