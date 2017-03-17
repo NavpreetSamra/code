@@ -7,3 +7,5 @@ docs
 test.py
 *.png
 analysis.json
+
+data/
