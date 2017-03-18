@@ -38,7 +38,7 @@ The first step in our data cleaning is to create a target. We convert the start 
 
 From the trip table there are 4 pieces of information we garner. The shopper, store, day of week, and time of day. By dummying the store id and hour of day and creating an on/off switch for weekend vs weekday we look to understand what stores and times are busier and therefore likely to slow down our shoppers. From the orders table we aggregate the number of items (*total**) and number of types of names by department name (**counts**) by trip id to join with our trip data. In the future we can look to analyze stores and department codes to both better understand which items in general and store specific cause more time to collect. We also note that the distribution of orders per department type has a long tail, which is likely due to varying point of sales systems across stores. Mapping stores internal POS system names to standardized forms could help our model and is an interesting area to explore in the future. 
 
-.. figure:: ../images/value_counts.png
+.. figure:: ./images/shoppers/value_counts.png
    :align: center
 
 `Number of instances of each department name in orders table`
@@ -57,7 +57,7 @@ The initial design matrix includes information about the shopper, fulfillment mo
 ===========  ============  =======  ========  ===========================  ============  ============  ============  =============  =============  =============  =============  =============  ==============  ==============  ==============  ==============  ==============  =======  =======  =======  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========  ========
 
 
-.. figure:: ../images/heatmap.png
+.. figure:: ./images/shoppers/heatmap.png
    :align: center
 
 `Correlation Heatmp, features share header with previous table. Target is appended as last field in heatmap`
@@ -96,7 +96,7 @@ Design Data Frame
 
 Analyzing the feature importances across our models shows consistently an order of magnitude more information gain associated with the shopper, the total count of items in the cart features, and the number of unique departments in the cart compared to the rest of the features. As a result  day of week, time of day, and store locations are excluded. The number and types of items impact on shopper time is as expected. The shopper id impact is more interesting, one potential explanation here is that if shopper ids are assigned monotonically increasing in time resulting in more experienced shoppers who know the stores better or have had success and continue shopping contribute to a being more efficient and therefore faster, especially compared to the scenario of a first time shopper in a new store. A feature to investigate here (noting that the 10 week window may limit the information in this data set) is the number of trips a shopper makes and how that evolution through time looks. It's worth noting here that the variation in shopping hours over the course of the day is normal over the course of the day. While it’s possible that time of day and location do not influence the shop time, this is an area which could be explored more moving forward and likely to the benefit of the model. 
 
-.. figure:: ../images/hours.png
+.. figure:: ./images/shoppers/hours.png
    :align: center
 
 `Histogram of trips made per hour of day`

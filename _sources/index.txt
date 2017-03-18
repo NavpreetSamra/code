@@ -13,7 +13,7 @@ Contents:
 
    FunctionComposition.rst
    slides.rst
-   UserAdoption.rst
+   cases.rst
    modules.rst
 
 

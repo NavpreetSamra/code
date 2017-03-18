@@ -31,8 +31,9 @@
 
   
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
-        <link rel="next" title="code" href="modules.html"/>
-        <link rel="prev" title="ROUTE VISION" href="slides.html"/> 
+        <link rel="up" title="CASE STUDIES" href="cases.html"/>
+        <link rel="next" title="PREDICTING SHOPPER TIME" href="shoppingtimeov.html"/>
+        <link rel="prev" title="CASE STUDIES" href="cases.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -82,14 +83,19 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">USER ADOPTION</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#cleaning">CLEANING</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#initial-analysis">INITIAL ANALYSIS</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#modeling">MODELING</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#conclusion">CONCLUSION</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="cases.html">CASE STUDIES</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">USER ADOPTION</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cleaning">CLEANING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#initial-analysis">INITIAL ANALYSIS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling">MODELING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conclusion">CONCLUSION</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtimeov.html">PREDICTING SHOPPER TIME</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carresov.html">TURO</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
@@ -122,6 +128,8 @@
 <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cases.html">CASE STUDIES</a> &raquo;</li>
       
     <li>USER ADOPTION</li>
       <li class="wy-breadcrumbs-aside">
@@ -212,7 +220,7 @@ Gladwell in
 table. We proceed by calculating whether or not a user has adopted
 given the criteria (3 logins in a 7 day window) and joining that
 data to our <em>users table</em>. To do so, we group the login data
-by <em>user_id</em>, sort by timestamp represented as <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DatetimeIndex</span></code></a> and
+by <em>user_id</em>, sort by timestamp represented as <code class="xref py py-class docutils literal"><span class="pre">pandas.DatetimeIndex</span></code> and
 pass a window over the array to check for length of time between
 a login and the login after the following login, (i, i+2). If that
 delta in time is less then or equal to 7 days we break out of our iteration
@@ -625,10 +633,10 @@ from our data for modeling and evaluation.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="modules.html" class="btn btn-neutral float-right" title="code" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="shoppingtimeov.html" class="btn btn-neutral float-right" title="PREDICTING SHOPPER TIME" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="slides.html" class="btn btn-neutral" title="ROUTE VISION" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cases.html" class="btn btn-neutral" title="CASE STUDIES" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

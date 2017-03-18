@@ -1,0 +1,843 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>CAR RESERVATIONS &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="CASE STUDIES" href="cases.html"/>
+        <link rel="next" title="code" href="modules.html"/>
+        <link rel="prev" title="PREDICTING SHOPPER TIME" href="shoppingtimeov.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="cases.html">CASE STUDIES</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtimeov.html">PREDICTING SHOPPER TIME</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">CAR RESERVATIONS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#data-exploration">DATA EXPLORATION</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#analysis-modeling">ANALYSIS &amp; MODELING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conclusion">CONCLUSION</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cases.html">CASE STUDIES</a> &raquo;</li>
+      
+    <li>CAR RESERVATIONS</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/carresov.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="car-reservations">
+<h1>CAR RESERVATIONS<a class="headerlink" href="#car-reservations" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>INTRODUCTION<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The goal of this analysis to understand what factors drive the total number of reservations made for a vehicle and specifically the impact of keyless smart phone access enabled <em>technology</em>.
+There are two components to this process</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Exploration &amp; Engineering</li>
+<li>Analysis &amp; Modeling</li>
+</ol>
+</div></blockquote>
+<p>To complete these tasks we use <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> for cleaning and aggregation to build a design matrix in addition to cursory high level analysis.
+To further understand the impact features have on reservations we use <a class="reference external" href="http://statsmodels.sourceforge.net/stable/">statsmodels</a>  to perform multiple regression and use elements of models such as relative slopes of hyperplanes and T-tests  to assess the effects on reservations and a final model built with <a class="reference external" href="http://scikit-learn.org/stable/documentation.html">sklearn</a>.
+We conclude with a discussion of what our model could use to improve moving forward. Throughout this discussion we look to better understand how accessibility both with respect to the vehicles themseleves and the postings/quality of the advertisement impact a succesful vehicle.</p>
+<dl class="docutils">
+<dt>A quick note on total reservations:</dt>
+<dd>This analysis focuses on what drives the total number of reservations.
+However, this statistic can be misleading and lead to some confounding factors in the analysis because there is not any time based data.
+As a result, for example, a vehicle that has been available for reservation for 20 weeks and has 10 days of reservation will <em>appear</em> stronger than a vehicle that has been available for two weeks and has 5 days of reservations.
+Rate of reservation and %time reserved out of time available will likely be better metrics moving forward for maximizing the number of reservations.
+Since we do not have this information we exclude it from the rest of this analysis and assume all vehicles are available for the endpoints in time (it&#8217;s also worth noting that this is baked into the different reservation types as a car can have multiple hourly reservations over the course of a single day)</dd>
+</dl>
+</div>
+<div class="section" id="data-exploration">
+<h2>DATA EXPLORATION<a class="headerlink" href="#data-exploration" title="Permalink to this headline">¶</a></h2>
+<p>Data is stored in two tables: the first table contains a record of the attributes of each vehicle keyed off of <strong>vehicle_id</strong> and the second table contains a record of each reservation type (hourly / daily/ weekly) for each <strong>vehicle_id</strong>.
+To create a target and assemble a single array of data we create aggregate statistics from the vehicles table and merge it onto the reservations table.
+To paint a more comprehensive picture aggregates based on reservation type as well as a boolean field for whether or not a vehicle has been reserved are also created.
+While there is logic to leaving reservation type as a continous variable, since there are three distinct classes which monotonically increase in time value, until we find a consistent and monotonic correlation  between reservation type and number of reservations, we convert it to a categorical variable via dummification.
+We will not treat this as a multivariate analysis but instead look independently at these targets to better understand the data.</p>
+<p>The first place we look to leverage our existing data is to create the total and percent difference in suggested vs actual price.
+There are two interwoven thought processes to explore here.
+Typically, consumers want the best deal possible, as a result if we treat the recommended price as an expected value of the rental then the larger the percentage delta( note this is monotonic, a large in magnitude negative number is <em>small</em>) the less likely a car will be selected amongst its <em>peers</em> (cars with similar attributes).
+This is not the only factor in consumer selection, in many cases consumers want the cheapest possible vehicle that meets her/his needs, which while similar to minimizing <em>percentage delta</em> is likely to emphasize less expensive vehicles.</p>
+<p>Yielding a dataset in the form:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="6%" />
+<col width="7%" />
+<col width="10%" />
+<col width="6%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">technology</th>
+<th class="head">actual_price</th>
+<th class="head">recommended_price</th>
+<th class="head">num_images</th>
+<th class="head">street_parked</th>
+<th class="head">description</th>
+<th class="head">totalReservations</th>
+<th class="head">hasReservations</th>
+<th class="head">reservation_type_1</th>
+<th class="head">reservation_type_2</th>
+<th class="head">reservation_type_3</th>
+<th class="head">deltaPercent</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>67.85</td>
+<td>59</td>
+<td>5</td>
+<td>0</td>
+<td>7</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0.130435</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>100.7</td>
+<td>53</td>
+<td>5</td>
+<td>0</td>
+<td>224</td>
+<td>7</td>
+<td>1</td>
+<td>4</td>
+<td>3</td>
+<td>0</td>
+<td>0.473684</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>74</td>
+<td>74</td>
+<td>4</td>
+<td>1</td>
+<td>21</td>
+<td>17</td>
+<td>1</td>
+<td>1</td>
+<td>9</td>
+<td>7</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>135</td>
+<td>75</td>
+<td>1</td>
+<td>0</td>
+<td>184</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0.444444</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>59.36</td>
+<td>53</td>
+<td>2</td>
+<td>1</td>
+<td>31</td>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+<td>0.107143</td>
+</tr>
+</tbody>
+</table>
+<p>With a description of:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="3%" />
+<col width="6%" />
+<col width="7%" />
+<col width="10%" />
+<col width="6%" />
+<col width="8%" />
+<col width="7%" />
+<col width="10%" />
+<col width="9%" />
+<col width="10%" />
+<col width="10%" />
+<col width="10%" />
+<col width="7%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">aggr</th>
+<th class="head">technology</th>
+<th class="head">actual_price</th>
+<th class="head">recommended_price</th>
+<th class="head">num_images</th>
+<th class="head">street_parked</th>
+<th class="head">description</th>
+<th class="head">totalReservations</th>
+<th class="head">hasReservations</th>
+<th class="head">reservation_type_1</th>
+<th class="head">reservation_type_2</th>
+<th class="head">reservation_type_3</th>
+<th class="head">deltaPercent</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>count</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+<td>1000</td>
+</tr>
+<tr class="row-odd"><td>mean</td>
+<td>0.17</td>
+<td>87.9407</td>
+<td>62.206</td>
+<td>3.008</td>
+<td>0.511</td>
+<td>90.792</td>
+<td>6.376</td>
+<td>0.911</td>
+<td>2.339</td>
+<td>2.057</td>
+<td>1.98</td>
+<td>0.259162</td>
+</tr>
+<tr class="row-even"><td>std</td>
+<td>0.375821</td>
+<td>29.7246</td>
+<td>16.0825</td>
+<td>1.34898</td>
+<td>0.500129</td>
+<td>76.9486</td>
+<td>4.8613</td>
+<td>0.284886</td>
+<td>2.26345</td>
+<td>1.93585</td>
+<td>1.85392</td>
+<td>0.164317</td>
+</tr>
+<tr class="row-odd"><td>min</td>
+<td>0</td>
+<td>32.76</td>
+<td>35</td>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>-0.25</td>
+</tr>
+<tr class="row-even"><td>25%</td>
+<td>0</td>
+<td>64.9425</td>
+<td>49</td>
+<td>2</td>
+<td>0</td>
+<td>25</td>
+<td>3</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>0.145299</td>
+</tr>
+<tr class="row-odd"><td>50%</td>
+<td>0</td>
+<td>83.93</td>
+<td>62</td>
+<td>3</td>
+<td>1</td>
+<td>57.5</td>
+<td>5</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>0.280576</td>
+</tr>
+<tr class="row-even"><td>75%</td>
+<td>0</td>
+<td>107.01</td>
+<td>76</td>
+<td>4</td>
+<td>1</td>
+<td>158</td>
+<td>9</td>
+<td>1</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>0.394852</td>
+</tr>
+<tr class="row-odd"><td>max</td>
+<td>1</td>
+<td>174.44</td>
+<td>90</td>
+<td>5</td>
+<td>1</td>
+<td>250</td>
+<td>25</td>
+<td>1</td>
+<td>14</td>
+<td>12</td>
+<td>12</td>
+<td>0.5</td>
+</tr>
+</tbody>
+</table>
+<p>Before applying any statistical or modeling techiques, we split off a third of our data for validation and continue to operate on a subset of the total data. We note that for true predictive modeling we apply the split before inspecting any of the data as any type of scaling or centering (which we have not done) that includes data from the validation set would leak into our training set if it is an aggregate of the superset.
+Here we also look correlations scatter plots between features. The versions of those plots with only the selected features are presented in the next sections, the subselection is for legibility purposes.</p>
+</div>
+<div class="section" id="analysis-modeling">
+<h2>ANALYSIS &amp; MODELING<a class="headerlink" href="#analysis-modeling" title="Permalink to this headline">¶</a></h2>
+<p>We begin by inspecting the correlation between design features and the target.
+To combat multicolinearity we drop the actual price of the vehicle as that information is embedded in the <em>deltaPercentage</em> field. First we perform an ordinary least squares fit of our predictors on <strong>totalReservations</strong>.</p>
+<p>Statsmodels OLS summary</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">coef</th>
+<th class="head">std err</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[95.0% Conf. Int.]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>technology</td>
+<td>2.1788</td>
+<td>0.433</td>
+<td>5.035</td>
+<td>0.000</td>
+<td>1.329     3.028</td>
+</tr>
+<tr class="row-odd"><td>recommended_price</td>
+<td>0.0683</td>
+<td>0.007</td>
+<td>9.841</td>
+<td>0.000</td>
+<td>0.055     0.082</td>
+</tr>
+<tr class="row-even"><td>num_images</td>
+<td>1.0955</td>
+<td>0.113</td>
+<td>9.727</td>
+<td>0.000</td>
+<td>0.874     1.317</td>
+</tr>
+<tr class="row-odd"><td>street_parked</td>
+<td>0.0604</td>
+<td>0.328</td>
+<td>0.184</td>
+<td>0.854</td>
+<td>-0.584     0.705</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td>0.0026</td>
+<td>0.002</td>
+<td>1.211</td>
+<td>0.226</td>
+<td>-0.002     0.007</td>
+</tr>
+<tr class="row-odd"><td>deltaPercent</td>
+<td>-7.9813</td>
+<td>0.951</td>
+<td>-8.391</td>
+<td>0.000</td>
+<td>-9.849    -6.114</td>
+</tr>
+</tbody>
+</table>
+<p>The results of the multiple regression demonstrate that street parking and description length are not strong predictors of number of reservations so are dropped moving forward.
+This yields a final design based on the total cost(<strong>deltaPercent</strong> &amp; <strong>recommended_price</strong>), perceived value(<strong>deltaPercent</strong>), accessibility of the advertisement (<strong>num_images</strong>, which also stresses that customer care more about pictures then words), and accessibility of the car (<strong>technology</strong>) which all help to understand what a succesful car and advertisement on the platform can be modeled after.
+To get a feel for the data we can look at representations</p>
+<blockquote>
+<div><ul class="simple">
+<li>The first few lines of that array</li>
+<li>A heatmap of the correlation between features in the array (including the target)</li>
+<li>A scatter matrix for each combination (of choose 2) features</li>
+</ul>
+</div></blockquote>
+<p>Design <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> head</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="33%" />
+<col width="21%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">technology</th>
+<th class="head">recommended_price</th>
+<th class="head">num_images</th>
+<th class="head">deltaPercent</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0</td>
+<td>59</td>
+<td>3</td>
+<td>0.375</td>
+</tr>
+<tr class="row-odd"><td>1</td>
+<td>40</td>
+<td>1</td>
+<td>0.342105</td>
+</tr>
+<tr class="row-even"><td>0</td>
+<td>75</td>
+<td>5</td>
+<td>0.462366</td>
+</tr>
+<tr class="row-odd"><td>0</td>
+<td>37</td>
+<td>1</td>
+<td>0.375</td>
+</tr>
+<tr class="row-even"><td>1</td>
+<td>60</td>
+<td>3</td>
+<td>-0.149425</td>
+</tr>
+</tbody>
+</table>
+<div class="figure align-center">
+<img alt="_images/heatmap.png" src="_images/heatmap.png" />
+</div>
+<p><cite>Correlation Heat Map</cite></p>
+<div class="figure align-center">
+<img alt="_images/scatter_matrix.png" src="_images/scatter_matrix.png" />
+</div>
+<p><cite>Scatter Matrix</cite></p>
+<p>While technology has an impact on on the total number of reservations which are roughly evenly distributed amongst the three types of reservations, splitting the reservations by type it is clear that technology has a much more pronounced impact on hourly reservations then daily or weekly. It follows logically that both for the car owner and the renter lowering the activation energy required to rent the car and streamlining the process has a pronounced effect when time spent accessing and returning the vehicle compared to total time with the vehicle is a signifigant span of the trip.
+We can see this effect statistically through the correlation of technology with reservation types, ~.3 for hourly reservations and near 0 for daily and weekly reservation types. This is also evident in creating an OLS fit for each of the reservation types, where we can see an inverse relationship between the impact of technology and the length of the reservation.</p>
+<p>Hourly Reservation Fit</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">coef</th>
+<th class="head">std err</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[95.0% Conf. Int.]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>technology</td>
+<td>2.1532</td>
+<td>0.202</td>
+<td>10.642</td>
+<td>0.000</td>
+<td>1.756     2.550</td>
+</tr>
+<tr class="row-odd"><td>recommended_price</td>
+<td>0.0248</td>
+<td>0.003</td>
+<td>9.027</td>
+<td>0.000</td>
+<td>0.019     0.030</td>
+</tr>
+<tr class="row-even"><td>num_images</td>
+<td>0.4148</td>
+<td>0.049</td>
+<td>8.476</td>
+<td>0.000</td>
+<td>0.319     0.511</td>
+</tr>
+<tr class="row-odd"><td>deltaPercent</td>
+<td>-3.3617</td>
+<td>0.426</td>
+<td>-7.896</td>
+<td>0.000</td>
+<td>-4.197    -2.526</td>
+</tr>
+</tbody>
+</table>
+<p>Daily Reservation Fit</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">coef</th>
+<th class="head">std err</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[95.0% Conf. Int.]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>technology</td>
+<td>0.4902</td>
+<td>0.184</td>
+<td>2.658</td>
+<td>0.008</td>
+<td>0.128     0.852</td>
+</tr>
+<tr class="row-odd"><td>recommended_price</td>
+<td>0.0255</td>
+<td>0.003</td>
+<td>10.201</td>
+<td>0.000</td>
+<td>0.021     0.030</td>
+</tr>
+<tr class="row-even"><td>num_images</td>
+<td>0.3266</td>
+<td>0.045</td>
+<td>7.320</td>
+<td>0.000</td>
+<td>0.239     0.414</td>
+</tr>
+<tr class="row-odd"><td>deltaPercent</td>
+<td>-2.5996</td>
+<td>0.388</td>
+<td>-6.698</td>
+<td>0.000</td>
+<td>-3.362    -1.838</td>
+</tr>
+</tbody>
+</table>
+<p>Weekly Reservation Fit</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="11%" />
+<col width="13%" />
+<col width="13%" />
+<col width="13%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Feature</th>
+<th class="head">coef</th>
+<th class="head">std err</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[95.0% Conf. Int.]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>technology</td>
+<td>0.2880</td>
+<td>0.175</td>
+<td>1.649</td>
+<td>0.100</td>
+<td>-0.055     0.631</td>
+</tr>
+<tr class="row-odd"><td>recommended_price</td>
+<td>0.0224</td>
+<td>0.002</td>
+<td>9.456</td>
+<td>0.000</td>
+<td>0.018     0.027</td>
+</tr>
+<tr class="row-even"><td>num_images</td>
+<td>0.3614</td>
+<td>0.042</td>
+<td>8.551</td>
+<td>0.000</td>
+<td>0.278     0.444</td>
+</tr>
+<tr class="row-odd"><td>deltaPercent</td>
+<td>-2.4453</td>
+<td>0.368</td>
+<td>-6.651</td>
+<td>0.000</td>
+<td>-3.167    -1.724</td>
+</tr>
+</tbody>
+</table>
+<p>To assess the strength of this analysis we look to predict the number of reservations for the vehicle ids in our validation set split off at the beginning of our analysis.
+To this end we use sklearn&#8217;s Random Forest Regressor which, using 40 estimators, we grid serach the minimum number of samples per leaf max splits and number of features to consider.
+We train two models one for total number of reservations and one specifically for hourly rentals.
+To evaluate feature impacts the RFR uses an ensemble of the <em>information gain</em> associated with that feature over all the trees in the model.</p>
+<p>Hourly Reservations Feature Importances</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="33%" />
+<col width="21%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">technology</th>
+<th class="head">recommended_price</th>
+<th class="head">num_images</th>
+<th class="head">deltaPercent</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0.205169</td>
+<td>0.141421</td>
+<td>0.112395</td>
+<td>0.541015</td>
+</tr>
+</tbody>
+</table>
+<p>Total Reservations Feature Importances</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="33%" />
+<col width="21%" />
+<col width="25%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">technology</th>
+<th class="head">recommended_price</th>
+<th class="head">num_images</th>
+<th class="head">deltaPercent</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>0.0336299</td>
+<td>0.122832</td>
+<td>0.16406</td>
+<td>0.679479</td>
+</tr>
+</tbody>
+</table>
+<p>Similar to the OLS fit the RFR finds the <strong>technology</strong> switch valuable when predicting hourly rentals however it does not find the field useful for total number of reservations like the OLS did.
+There are a varietry of reasons this could be due ranging from leverage to the constraints of a hyperplane</p>
+<p>The Random Forest model with best parameters yields an R**2 score of .22, which correpsond to an RMSE~3.6 reservations per vehicle where a vehicle on average has ~6.4 reservations booked.</p>
+</div>
+<div class="section" id="conclusion">
+<h2>CONCLUSION<a class="headerlink" href="#conclusion" title="Permalink to this headline">¶</a></h2>
+<p>As expected more descriptive ads (assuming a picture is worth ~1000 words) and better perceived value drive decision making across the board.
+Vehicle accesibility impact correlates with the percent amount of time that could add to a trip making it more valuable for shorter trips and this manifests directly in the effects <strong>technology</strong> has on driving reservations.
+Moving forward the most important piece of data to add is time, as it will provide a critical dimension to the existing data as well as help design key metrics moving forward.</p>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="modules.html" class="btn btn-neutral float-right" title="code" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="shoppingtimeov.html" class="btn btn-neutral" title="PREDICTING SHOPPER TIME" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

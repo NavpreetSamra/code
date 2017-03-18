@@ -83,9 +83,9 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
-<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases.html">CASE STUDIES</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="batch_manager.html">batch_manager package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="batch_manager.html#subpackages">Subpackages</a><ul class="current">
@@ -98,6 +98,8 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -166,7 +168,7 @@
 <dl class="class">
 <dt id="batch_manager.src.function_conjunction.Compute">
 <em class="property">class </em><code class="descclassname">batch_manager.src.function_conjunction.</code><code class="descname">Compute</code><a class="reference internal" href="_modules/batch_manager/src/function_conjunction.html#Compute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#batch_manager.src.function_conjunction.Compute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class for computing composed functions</p>
 <dl class="staticmethod">
 <dt id="batch_manager.src.function_conjunction.Compute.select_func">
@@ -180,7 +182,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">FunctionRegistry key</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">arguments for function to operate on</td>
 </tr>
@@ -202,7 +204,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">computation results</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
 </tr>
 </tbody>
 </table>
@@ -220,7 +222,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">computation results</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
 </tr>
 </tbody>
 </table>
@@ -236,16 +238,16 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>computations</strong> (<em>list.str</em>) &#8211; computations to evaluate</li>
-<li><strong>functionRegistry</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map strings in computations to functions</li>
-<li><strong>evalType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; method for evaluation. serial requires functions                in registry to accept a list.int, batch requires functions                in registry to accept list.list.int</li>
-<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; output additional information during run                currently only prints number of batch calls if batch evalType</li>
+<li><strong>functionRegistry</strong> (<em>dict</em>) &#8211; map strings in computations to functions</li>
+<li><strong>evalType</strong> (<em>str</em>) &#8211; method for evaluation. serial requires functions                in registry to accept a list.int, batch requires functions                in registry to accept list.list.int</li>
+<li><strong>verbose</strong> (<em>bool</em>) &#8211; output additional information during run                currently only prints number of batch calls if batch evalType</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">evaluated computations</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
 </td>
 </tr>
 </tbody>
@@ -260,7 +262,7 @@
 <dl class="class">
 <dt id="batch_manager.src.helpers.Tree">
 <em class="property">class </em><code class="descclassname">batch_manager.src.helpers.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>parsed_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batch_manager/src/helpers.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#batch_manager.src.helpers.Tree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Tree for evaluating nested function calls and arguments</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -280,14 +282,14 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>node</strong> (<a class="reference internal" href="#batch_manager.src.helpers.Node" title="batch_manager.src.helpers.Node"><em>Node</em></a>) &#8211; node in tree</li>
-<li><strong>leaves</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#set" title="(in Python v2.7)"><em>set</em></a>) &#8211; collected leaves</li>
+<li><strong>leaves</strong> (<em>set</em>) &#8211; collected leaves</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">collected leaves</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#set" title="(in Python v2.7)">set</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">set</p>
 </td>
 </tr>
 </tbody>
@@ -317,7 +319,7 @@
 <dl class="class">
 <dt id="batch_manager.src.helpers.Node">
 <em class="property">class </em><code class="descclassname">batch_manager.src.helpers.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>parsed_args</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batch_manager/src/helpers.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#batch_manager.src.helpers.Node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Node for storing a parsed computation function and argument</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -341,7 +343,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">if  node is leaf</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
 </tr>
 </tbody>
 </table>
@@ -357,11 +359,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of integers as type strings</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<em>list</em>) &#8211; list of integers as type strings</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">sum</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -375,11 +377,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of integers as type strings</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<em>list</em>) &#8211; list of integers as type strings</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">max</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
 </tr>
 </tbody>
 </table>
@@ -393,7 +395,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; length 2 list of divisbles</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<em>list</em>) &#8211; length 2 list of divisbles</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">quotient</td>
 </tr>

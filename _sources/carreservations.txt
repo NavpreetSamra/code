@@ -1,17 +1,17 @@
-instacart package
-=================
+carreservations package
+=======================
 
 Subpackages
 -----------
 
 .. toctree::
 
-    instacart.src
+    carreservations.src
 
 Module contents
 ---------------
 
-.. automodule:: instacart
+.. automodule:: carreservations
     :members:
     :undoc-members:
     :show-inheritance:

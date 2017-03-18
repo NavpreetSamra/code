@@ -7,8 +7,11 @@ code
    batch_manager
    route_vision
    user_adoption
+   carreservations
+   shoppingtime
    network_analysis
    wikitravel
+   minesweeper
    cvcparser
    filesync
    classic

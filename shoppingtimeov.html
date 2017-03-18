@@ -30,7 +30,10 @@
   
 
   
-    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/> 
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="CASE STUDIES" href="cases.html"/>
+        <link rel="next" title="TURO" href="carresov.html"/>
+        <link rel="prev" title="USER ADOPTION" href="UserAdoption.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -79,10 +82,22 @@
           
             
             
-                <ul>
-<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
-<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="cases.html">CASE STUDIES</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">PREDICTING SHOPPER TIME</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">INTRODUCTION</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cleaning">CLEANING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling">MODELING</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#discussion">DISCUSSION</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conclusion">CONCLUSION</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="carresov.html">TURO</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
 </ul>
 
@@ -114,11 +129,13 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
+          <li><a href="cases.html">CASE STUDIES</a> &raquo;</li>
+      
     <li>PREDICTING SHOPPER TIME</li>
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="_sources/instacartSummary.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/shoppingtimeov.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -503,7 +520,7 @@
 </tbody>
 </table>
 <div class="figure align-center">
-<img alt="_images/heatmap.png" src="_images/heatmap.png" />
+<img alt="_images/heatmap1.png" src="_images/heatmap1.png" />
 </div>
 <p><cite>Correlation Heatmp, features share header with previous table. Target is appended as last field in heatmap</cite></p>
 <p>Here we note that there is a strong relationship between <strong>counts</strong> and <strong>total</strong> which is not suprising and exhibited by a Variance Inflation factor over 6.</p>
@@ -703,6 +720,15 @@
            </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="carresov.html" class="btn btn-neutral float-right" title="TURO" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="UserAdoption.html" class="btn btn-neutral" title="USER ADOPTION" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>

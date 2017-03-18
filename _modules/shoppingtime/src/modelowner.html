@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>instacart.src.modelowner &mdash; Mark Weiss 0.0.1 documentation</title>
+  <title>shoppingtime.src.modelowner &mdash; Mark Weiss 0.0.1 documentation</title>
   
 
   
@@ -83,7 +83,7 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../FunctionComposition.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../slides.html">ROUTE VISION</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cases.html">CASE STUDIES</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../modules.html">code</a></li>
 </ul>
 
@@ -117,7 +117,7 @@
       
           <li><a href="../../index.html">Module code</a> &raquo;</li>
       
-    <li>instacart.src.modelowner</li>
+    <li>shoppingtime.src.modelowner</li>
       <li class="wy-breadcrumbs-aside">
         
           
@@ -129,7 +129,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for instacart.src.modelowner</h1><div class="highlight"><pre>
+  <h1>Source code for shoppingtime.src.modelowner</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span> <span class="k">as</span> <span class="n">RFR</span>
 <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
@@ -137,7 +137,7 @@
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 
-<div class="viewcode-block" id="Features"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features">[docs]</a><span class="k">class</span> <span class="nc">Features</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Features"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.Features">[docs]</a><span class="k">class</span> <span class="nc">Features</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Class for cleaning and transforming order and trip data for modeling. Generates design and test :py:class:`pandas.DataFrame` attributes for modeling</span>
 <span class="sd">    </span>
@@ -168,7 +168,7 @@
                 <span class="k">if</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">testDf</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
-<div class="viewcode-block" id="Features.train_test_split"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.train_test_split">[docs]</a>    <span class="k">def</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<div class="viewcode-block" id="Features.train_test_split"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.Features.train_test_split">[docs]</a>    <span class="k">def</span> <span class="nf">train_test_split</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        train test split on data from sklearn</span>
 
@@ -176,7 +176,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">designTest</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetTest</span> <span class="o">=</span> <span class="n">tts</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Features.build_dummies"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.build_dummies">[docs]</a>    <span class="k">def</span> <span class="nf">build_dummies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+<div class="viewcode-block" id="Features.build_dummies"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.Features.build_dummies">[docs]</a>    <span class="k">def</span> <span class="nf">build_dummies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dummify prescribed columns</span>
 
@@ -186,7 +186,7 @@
             <span class="n">dummies</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tripsDf</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">prefix</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">prefix_sep</span><span class="o">=</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">design</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">design</span><span class="p">,</span> <span class="n">dummies</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Features.convert_time"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.convert_time">[docs]</a>    <span class="k">def</span> <span class="nf">convert_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainSet</span><span class="p">):</span>
+<div class="viewcode-block" id="Features.convert_time"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.Features.convert_time">[docs]</a>    <span class="k">def</span> <span class="nf">convert_time</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainSet</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert start (end if applicable) timestamps to seconds. Builds day of week, hour of day features\</span>
 <span class="sd">                and target (dt in seconds)</span>
@@ -205,7 +205,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">target</span> <span class="o">=</span> <span class="p">(</span><span class="n">end</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">seconds</span></div>
 
 
-<div class="viewcode-block" id="Features.create_trips"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.Features.create_trips">[docs]</a>    <span class="k">def</span> <span class="nf">create_trips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
+<div class="viewcode-block" id="Features.create_trips"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.Features.create_trips">[docs]</a>    <span class="k">def</span> <span class="nf">create_trips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">columns</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Filter trips table columns for design matrix</span>
 <span class="sd">        Aggregate orders table data (sum(quantity) and len(unique(department names) for trip)\</span>
@@ -231,7 +231,7 @@
             <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="grid_search"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.grid_search">[docs]</a><span class="k">def</span> <span class="nf">grid_search</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
+<div class="viewcode-block" id="grid_search"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.grid_search">[docs]</a><span class="k">def</span> <span class="nf">grid_search</span><span class="p">(</span><span class="n">data</span><span class="p">,</span>
                 <span class="n">estimator</span><span class="o">=</span><span class="n">RFR</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">40</span><span class="p">),</span>
                 <span class="n">param_grid</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;max_depth&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="s2">&quot;min_samples_split&quot;</span> <span class="p">:</span> <span class="p">[</span><span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">60</span><span class="p">],</span> <span class="s2">&quot;max_features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span> <span class="s1">&#39;sqrt&#39;</span><span class="p">,</span> <span class="s1">&#39;log2&#39;</span><span class="p">]},</span>
                 <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
@@ -253,7 +253,7 @@
     <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../instacart.src.html#instacart.src.modelowner.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../../shoppingtime.src.html#shoppingtime.src.modelowner.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid_kwargs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Main function for training model to create predictions</span>
 

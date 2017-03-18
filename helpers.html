@@ -83,13 +83,15 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
-<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases.html">CASE STUDIES</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -179,7 +181,7 @@ defaults to [centroid(a), centroid(b)]</li>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(r, t) rotation matrix, translation array</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>
@@ -197,8 +199,8 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>data</strong> (<em>array-like</em>) &#8211; n x [2, 3, 4] array to scatter plot</li>
-<li><strong>save</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; default behaviour display plot else save to string name</li>
-<li><strong>proj</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; projected view for 3d plots</li>
+<li><strong>save</strong> (<em>str</em>) &#8211; default behaviour display plot else save to string name</li>
+<li><strong>proj</strong> (<em>int</em>) &#8211; projected view for 3d plots</li>
 </ul>
 </td>
 </tr>
@@ -236,7 +238,7 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>a</strong> (<em>array-like</em>) &#8211; if a is not list, it will be converted by list(a)</li>
 <li><strong>cond</strong> (<em>func</em>) &#8211; conditional expression to stop at while spiraling a.</li>
-<li><strong>cpy</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; deepycopy input</li>
+<li><strong>cpy</strong> (<em>bool</em>) &#8211; deepycopy input</li>
 </ul>
 </td>
 </tr>
@@ -297,7 +299,7 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <dl class="class">
 <dt id="helpers.math_h.Line">
 <em class="property">class </em><code class="descclassname">helpers.math_h.</code><code class="descname">Line</code><span class="sig-paren">(</span><em>p1</em>, <em>p2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#Line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.Line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="helpers.math_h.Line.angle">
 <code class="descname">angle</code><span class="sig-paren">(</span><em>l2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/helpers/math_h.html#Line.angle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#helpers.math_h.Line.angle" title="Permalink to this definition">¶</a></dt>
@@ -317,9 +319,9 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>txt</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line to parse</li>
+<li><strong>txt</strong> (<em>str</em>) &#8211; line to parse</li>
 <li><strong>seps</strong> (<em>array-like</em>) &#8211; list of capturing group</li>
-<li><strong>all_groups</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; return top level group(False). all groups (True)</li>
+<li><strong>all_groups</strong> (<em>bool</em>) &#8211; return top level group(False). all groups (True)</li>
 </ul>
 </td>
 </tr>
@@ -342,11 +344,11 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line of log</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>l</strong> (<em>str</em>) &#8211; line of log</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Return key:</th><td class="field-body">seperator type</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
 </tr>
 </tbody>
 </table>
@@ -361,15 +363,15 @@ Note: nx3 plots will be colored to 3rd dim</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>l</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; line to parse</li>
-<li><strong>sep_dict</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictionary of bounding pair for recursive search</li>
+<li><strong>l</strong> (<em>str</em>) &#8211; line to parse</li>
+<li><strong>sep_dict</strong> (<em>dict</em>) &#8211; dictionary of bounding pair for recursive search</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(l1, l2)</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)">tuple</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">tuple</p>
 </td>
 </tr>
 </tbody>

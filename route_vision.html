@@ -83,9 +83,9 @@
             
             
                 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="BatchManager.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
 <li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
-<li class="toctree-l1"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases.html">CASE STUDIES</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">route_vision package</a><ul>
@@ -98,6 +98,8 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
@@ -169,7 +171,7 @@
 <dl class="docutils">
 <dt>Subclassed from <a class="reference internal" href="#route_vision.grid.Grid" title="route_vision.grid.Grid"><code class="xref py py-class docutils literal"><span class="pre">route_vision.grid.Grid</span></code></a> for ease of use            and to enable faster iteration.</dt>
 <dd>AStar will function without loss supplying withou any kwargs for Grid
-if a <a class="reference external" href="http://networkx.readthedocs.io/en/networkx-1.10/reference/classes.graph.html#networkx.Graph" title="(in NetworkX v1.10)"><code class="xref py py-func docutils literal"><span class="pre">networkx.Graph()</span></code></a> with node ids defined as position,
+if a <code class="xref py py-func docutils literal"><span class="pre">networkx.Graph()</span></code> with node ids defined as position,
 edge weight velocity, and a local velocity field for each node is supplied</dd>
 </dl>
 <p>For more information please see <a class="reference external" href="https://marksweissma.github.io/code/slides.html">docs</a>.</p>
@@ -178,16 +180,16 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>graph</strong> (<a class="reference external" href="http://networkx.readthedocs.io/en/networkx-1.10/reference/classes.graph.html#networkx.Graph" title="(in NetworkX v1.10)"><em>networkx.Graph</em></a>) &#8211; option to supply graph. If graph not supplied            graph will be built from Grid attributes</li>
+<li><strong>graph</strong> (<em>networkx.Graph</em>) &#8211; option to supply graph. If graph not supplied            graph will be built from Grid attributes</li>
 <li><strong>meshSize</strong> (<em>tuple.int</em>) &#8211; x,y size of graph</li>
-<li><strong>velocity_type</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; type of profile, scalar or harmonic</li>
-<li><strong>velocity attrs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; define velocity profile</li>
-<li><strong>heur</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; define heuristic type</li>
-<li><strong>heur_weight</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; define relative weight of prioritization            (cost + heur*estimate)</li>
+<li><strong>velocity_type</strong> (<em>str</em>) &#8211; type of profile, scalar or harmonic</li>
+<li><strong>velocity attrs</strong> (<em>dict</em>) &#8211; define velocity profile</li>
+<li><strong>heur</strong> (<em>dict</em>) &#8211; define heuristic type</li>
+<li><strong>heur_weight</strong> (<em>float</em>) &#8211; define relative weight of prioritization            (cost + heur*estimate)</li>
 <li><strong>embedPath</strong> (<em>tuple.float</em>) &#8211; specify value of location to set velocity</li>
-<li><strong>embedObstacle</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; embed an obstacle</li>
-<li><strong>auto</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; auto generate profile and build attrs</li>
-<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; if auto generating graphs, specify if graph is            manhattan or octile</li>
+<li><strong>embedObstacle</strong> (<em>bool</em>) &#8211; embed an obstacle</li>
+<li><strong>auto</strong> (<em>bool</em>) &#8211; auto generate profile and build attrs</li>
+<li><strong>links</strong> (<em>int</em>) &#8211; if auto generating graphs, specify if graph is            manhattan or octile</li>
 </ul>
 </td>
 </tr>
@@ -210,7 +212,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">cost estimate</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
 </td>
 </tr>
 </tbody>
@@ -269,7 +271,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plots</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; option to plot path and save to file</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>plots</strong> (<em>str</em>) &#8211; option to plot path and save to file</td>
 </tr>
 </tbody>
 </table>
@@ -292,7 +294,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">dist</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">float</p>
 </td>
 </tr>
 </tbody>
@@ -307,7 +309,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <dl class="class">
 <dt id="route_vision.frame.Frame">
 <em class="property">class </em><code class="descclassname">route_vision.frame.</code><code class="descname">Frame</code><span class="sig-paren">(</span><em>auto=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/frame.html#Frame"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <dl class="method">
 <dt id="route_vision.frame.Frame.obstacle">
 <code class="descname">obstacle</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/frame.html#Frame.obstacle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.frame.Frame.obstacle" title="Permalink to this definition">¶</a></dt>
@@ -326,7 +328,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <dl class="class">
 <dt id="route_vision.gif.GIF">
 <em class="property">class </em><code class="descclassname">route_vision.gif.</code><code class="descname">GIF</code><span class="sig-paren">(</span><em>ima</em>, <em>imb</em>, <em>static=None</em>, <em>processed='images/comp'</em>, <em>repeat_end=20</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/gif.html#GIF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.gif.GIF" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class for concatenating images to make GIFs with</p>
 <dl class="method">
 <dt id="route_vision.gif.GIF.cat">
@@ -352,7 +354,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <dl class="class">
 <dt id="route_vision.grid.Grid">
 <em class="property">class </em><code class="descclassname">route_vision.grid.</code><code class="descname">Grid</code><span class="sig-paren">(</span><em>data=None</em>, <em>meshSize=(3</em>, <em>3)</em>, <em>distMetric='euclidean'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/route_vision/grid.html#Grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#route_vision.grid.Grid" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class to setup and create graphs for <code class="xref py py-class docutils literal"><span class="pre">astar.AStar</span></code> analysis</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -361,7 +363,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>data</strong> (<em>array-like</em>) &#8211; array of velocities to build grid from</li>
 <li><strong>meshSize</strong> (<em>tuple.int</em>) &#8211; if data not provided create template size for mesh</li>
-<li><strong>distMetric</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; distance metric for relative computations (will be deprecated)</li>
+<li><strong>distMetric</strong> (<em>str</em>) &#8211; distance metric for relative computations (will be deprecated)</li>
 </ul>
 </td>
 </tr>
@@ -377,11 +379,11 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>profile</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; currently supports &#8216;uniform&#8217; and &#8216;harmonic&#8217;</li>
-<li><strong>attrs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; attributes of profile</li>
-<li><strong>norm</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; normalize velocity Vmax := 1</li>
-<li><strong>scale</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; scale velocity by std</li>
-<li><strong>conv</strong> (<a class="reference external" href="https://docs.python.org/2/library/array.html#module-array" title="(in Python v2.7)"><em>array</em></a>) &#8211; INDEV: convolution kernel for vectorized                velocity fields</li>
+<li><strong>profile</strong> (<em>str</em>) &#8211; currently supports &#8216;uniform&#8217; and &#8216;harmonic&#8217;</li>
+<li><strong>attrs</strong> (<em>dict</em>) &#8211; attributes of profile</li>
+<li><strong>norm</strong> (<em>bool</em>) &#8211; normalize velocity Vmax := 1</li>
+<li><strong>scale</strong> (<em>bool</em>) &#8211; scale velocity by std</li>
+<li><strong>conv</strong> (<em>array</em>) &#8211; INDEV: convolution kernel for vectorized                velocity fields</li>
 </ul>
 </td>
 </tr>
@@ -416,9 +418,9 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>links</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of node links, 4 := NSEW, 8:= NNeESeSSwWNw</li>
-<li><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; set non string nodes in graph as class attribute</li>
-<li><strong>edges</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; set non string edges in graph as class attribute</li>
+<li><strong>links</strong> (<em>int</em>) &#8211; number of node links, 4 := NSEW, 8:= NNeESeSSwWNw</li>
+<li><strong>nodes</strong> (<em>bool</em>) &#8211; set non string nodes in graph as class attribute</li>
+<li><strong>edges</strong> (<em>bool</em>) &#8211; set non string edges in graph as class attribute</li>
 </ul>
 </td>
 </tr>
@@ -435,12 +437,12 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>fName</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; name to save file to</li>
-<li><strong>edge_color</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; attribute of graph to pull for edge colors</li>
-<li><strong>node_color</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; attribute of graph to pull for node colors</li>
-<li><strong>node_size</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; node size in plots</li>
-<li><strong>nodes</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of nodes to star</li>
-<li><strong>nodePath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of nodes to highlight</li>
+<li><strong>fName</strong> (<em>str</em>) &#8211; name to save file to</li>
+<li><strong>edge_color</strong> (<em>str</em>) &#8211; attribute of graph to pull for edge colors</li>
+<li><strong>node_color</strong> (<em>str</em>) &#8211; attribute of graph to pull for node colors</li>
+<li><strong>node_size</strong> (<em>int</em>) &#8211; node size in plots</li>
+<li><strong>nodes</strong> (<em>list</em>) &#8211; list of nodes to star</li>
+<li><strong>nodePath</strong> (<em>list</em>) &#8211; list of nodes to highlight</li>
 </ul>
 </td>
 </tr>
@@ -502,7 +504,7 @@ edge weight velocity, and a local velocity field for each node is supplied</dd>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>filt</strong> (<em>array-like</em>) &#8211; filter to convolve</li>
 <li><strong>arr</strong> (<em>array-like</em>) &#8211; array to be convolved</li>
-<li><strong>axis</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; axis to convolve along</li>
+<li><strong>axis</strong> (<em>int</em>) &#8211; axis to convolve along</li>
 </ul>
 </td>
 </tr>
