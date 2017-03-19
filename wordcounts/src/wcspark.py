@@ -7,9 +7,11 @@ class WordCountsSpark(WordCounts):
     """
     Sorted word frequency with :py:class:`pyspark.SparkContext`
 
+    :param pysark.SparkContext: spark context that was been passed access\
+            :py:class:`wordcounts.WordCounts`
     :param str fPath: path to file
-    :param list wordList: option to specify words to count without parsing
-                          from file
+    :param str tokenizerType: (contraction | word)  from\
+            :py:class:`wordcounts.WordCounts`
     :param bool auto: auto run
     """
     def __init__(self, sc, fPath=None, tokenizerType='contraction',
@@ -24,25 +26,38 @@ class WordCountsSpark(WordCounts):
     @staticmethod
     def parser(sc, fPath, tokenizerType):
         """
-        Abstraction for parsing implementations
+        Parse text of fPath via spark context and selected tokenizer
+
+        :param pysark.SparkContext: spark context that was been passed access\
+                :py:class:`wordcounts.WordCounts`
+        :param str fPath: path to file
+        :param str tokenizerType: (contraction | word)  from\
+                :py:class:`wordcounts.WordCounts`
+
+        :return: text
+        :rtype: :py:class:`pyspark.RDD`
         """
         text = sc.textFile(fPath).flatMap(lambda line:
                                           WordCounts.__dict__
                                           [tokenizerType +
                                            '_tokenizer'].__func__
                                           (line))
-
         return text
 
     @staticmethod
     def counter(text):
         """
-        Abstraction to count word fequencies store
-        in :py:attr:`WordCounts.wordCounts`
+        Count instances of words in text.
+
+        :param pyspark.RDD text: text
+
+        :return: tuple(word, count)
+        :rtype: list
         """
         wordCounts = text.map(lambda word: (word, 1))\
                          .reduceByKey(lambda a, b: a + b)\
                          .sortBy(lambda kv: -kv[1]).collect()
+
         return wordCounts
 
     def most_common(self, n=None):
@@ -64,6 +79,12 @@ class WordCountsSpark(WordCounts):
 
 
 def spark_setup(fPath='./wcspark.py'):
+    """"
+    Generate spark context with pyFile for counting words
+
+    :param str fPath: path to spark word county py file
+    :return: spark context with access to fPath
+    :rtype: pyspark.SparkContext
+    """
     sc = pyspark.SparkContext('local[4]', pyFiles=[os.path.abspath(fPath)])
     return sc
-

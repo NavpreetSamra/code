@@ -4,6 +4,9 @@ import nltk
 
 
 class WordCounts(object):
+    """
+    Abstract Meta Class with shared helper implementations and properties
+    """
     __meta__ = ABCMeta
 
     @property
@@ -81,5 +84,5 @@ class WordCounts(object):
         :return: tokens
         :rtype: list
         """
-        txt.replace("'", "")
+        txt = txt.replace("'", "")
         return WordCounts.words_tokenizer(txt)

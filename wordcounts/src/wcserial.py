@@ -10,6 +10,8 @@ class WordCountsSerial(WordCounts):
 
     :param str fPath: path to file
     :param str parserType: type of file (html | file)
+    :param str tokenizerType: (contraction | word)  from\
+            :py:class:`wordcounts.WordCounts`
     :param list wordList: option to specify words to count without parsing
                           from file
     :param bool auto: auto run
@@ -48,9 +50,19 @@ class WordCountsSerial(WordCounts):
                                                        '_tokenizer')(line))
 
     def counter(self):
+        """
+        Count instances of words in :py:attr:`WordCounts.text`
+        """
         self.wordCounts = Counter(self.text)
 
     def most_common(self, n=None):
+        """
+        Return (all | the n most) frequent words and associated values
+
+        :param int n: number to return, default None returns all
+        :return most_common: key value pairs in sorted order
+        :rtype: list.tuple.(str, int)
+        """
         return self.wordCounts.most_common(n)
 
     def _auto(self):
