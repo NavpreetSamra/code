@@ -34,6 +34,8 @@ class WordCountsSerial(WordCounts):
         Front end for parsing
 
         :param str fPath: path to file
+        :param str tokenizerType: (contraction | word)  from\
+                :py:class:`wordcounts.WordCounts`
         :param str parserType: type of file (html | file)
         """
         self.__getattribute__('_' + parserType + '_parser')(fPath,
@@ -52,6 +54,8 @@ class WordCountsSerial(WordCounts):
     def counter(self):
         """
         Count instances of words in :py:attr:`WordCounts.text`
+
+        Store in :py:attr:`wordcounts.src.wordcounts.WordCounts.wordCounts`
         """
         self.wordCounts = Counter(self.text)
 

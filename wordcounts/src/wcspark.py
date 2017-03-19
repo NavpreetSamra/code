@@ -8,10 +8,10 @@ class WordCountsSpark(WordCounts):
     Sorted word frequency with :py:class:`pyspark.SparkContext`
 
     :param pysark.SparkContext: spark context that was been passed access\
-            :py:class:`wordcounts.WordCounts`
+            :py:class:`wordcounts.src.wordcounts.WordCounts`
     :param str fPath: path to file
     :param str tokenizerType: (contraction | word)  from\
-            :py:class:`wordcounts.WordCounts`
+            :py:class:`wordcounts.src.wordcounts.WordCounts`
     :param bool auto: auto run
     """
     def __init__(self, sc, fPath=None, tokenizerType='contraction',
@@ -29,10 +29,10 @@ class WordCountsSpark(WordCounts):
         Parse text of fPath via spark context and selected tokenizer
 
         :param pysark.SparkContext: spark context that was been passed access\
-                :py:class:`wordcounts.WordCounts`
+                :py:class:`wordcounts.src.wordcounts.WordCounts`
         :param str fPath: path to file
         :param str tokenizerType: (contraction | word)  from\
-                :py:class:`wordcounts.WordCounts`
+                :py:class:`wordcounts.src.wordcounts.WordCounts`
 
         :return: text
         :rtype: :py:class:`pyspark.RDD`
@@ -79,7 +79,7 @@ class WordCountsSpark(WordCounts):
 
 
 def spark_setup(fPath='./wcspark.py'):
-    """"
+    """
     Generate spark context with pyFile for counting words
 
     :param str fPath: path to spark word county py file
