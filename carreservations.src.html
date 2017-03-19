@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordcounts.html">wordcounts package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="carreservations.html">carreservations package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="carreservations.html#subpackages">Subpackages</a><ul class="current">
@@ -101,6 +102,7 @@
 <li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minesweeper.html">minesweeper package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
@@ -167,14 +169,14 @@
 <dl class="function">
 <dt id="carreservations.src.helper.df_table">
 <code class="descclassname">carreservations.src.helper.</code><code class="descname">df_table</code><span class="sig-paren">(</span><em>df</em>, <em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/carreservations/src/helper.html#df_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#carreservations.src.helper.df_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to create rst tables from <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></p>
+<dd><p>Helper function to create rst tables from <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>df</strong> (<em>pandas.DataFrame</em>) &#8211; data frame</li>
-<li><strong>fname</strong> (<em>str</em>) &#8211; string file name</li>
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><em>pandas.DataFrame</em></a>) &#8211; data frame</li>
+<li><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string file name</li>
 </ul>
 </td>
 </tr>
@@ -185,14 +187,14 @@
 <dl class="function">
 <dt id="carreservations.src.helper.corr_heatmap">
 <code class="descclassname">carreservations.src.helper.</code><code class="descname">corr_heatmap</code><span class="sig-paren">(</span><em>df</em>, <em>fname</em>, <em>vmax=0.8</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/carreservations/src/helper.html#corr_heatmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#carreservations.src.helper.corr_heatmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to create correlation heatmap imagesfrom <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></p>
+<dd><p>Helper function to create correlation heatmap imagesfrom <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>df</strong> (<em>pandas.DataFrame</em>) &#8211; data frame</li>
-<li><strong>fname</strong> (<em>str</em>) &#8211; string file name</li>
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><em>pandas.DataFrame</em></a>) &#8211; data frame</li>
+<li><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string file name</li>
 <li><strong>float</strong> (<em>vmax</em>) &#8211; absolute value bound for colorbar</li>
 </ul>
 </td>
@@ -207,7 +209,7 @@
 <dl class="class">
 <dt id="carreservations.src.modelowner.ModelOwner">
 <em class="property">class </em><code class="descclassname">carreservations.src.modelowner.</code><code class="descname">ModelOwner</code><span class="sig-paren">(</span><em>resPath='data/reservations.csv'</em>, <em>vehPath='data/vehicles.csv'</em>, <em>drops=('actual_price'</em>, <em>'street_parked'</em>, <em>'description')</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/carreservations/src/modelowner.html#ModelOwner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#carreservations.src.modelowner.ModelOwner" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Constructor for model owner</p>
 <p>Reads csvs</p>
 <p>Interfaces with <a class="reference internal" href="#carreservations.src.modelowner.Data" title="carreservations.src.modelowner.Data"><code class="xref py py-class docutils literal"><span class="pre">Data</span></code></a> and <a class="reference internal" href="#carreservations.src.modelowner.grid_search" title="carreservations.src.modelowner.grid_search"><code class="xref py py-func docutils literal"><span class="pre">grid_search()</span></code></a></p>
@@ -216,9 +218,9 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>resPath</strong> (<em>str</em>) &#8211; path to reservations csv</li>
-<li><strong>vehicles</strong> (<em>str</em>) &#8211; path to reservations csv</li>
-<li><strong>drops</strong> (<em>tuple</em>) &#8211; columns to drop</li>
+<li><strong>resPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to reservations csv</li>
+<li><strong>vehicles</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to reservations csv</li>
+<li><strong>drops</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; columns to drop</li>
 </ul>
 </td>
 </tr>
@@ -229,7 +231,7 @@
 <dl class="class">
 <dt id="carreservations.src.modelowner.Data">
 <em class="property">class </em><code class="descclassname">carreservations.src.modelowner.</code><code class="descname">Data</code><span class="sig-paren">(</span><em>reservations, vehicles, drops, dummies=['reservation_type'], targets=('totalReservations', 'hasReservations', 'reservation_type_1', 'reservation_type_2', 'reservation_type_3'), modelTarget='totalReservations', auto=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/carreservations/src/modelowner.html#Data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#carreservations.src.modelowner.Data" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Constructor for Data operations</p>
 <p>Aggregates and joins data</p>
 <p>Splits data into design/target/train/test quadrants as attributes</p>
@@ -238,13 +240,13 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>reservations</strong> (<em>str</em>) &#8211; path to reservations csv</li>
-<li><strong>vehicles</strong> (<em>str</em>) &#8211; path to reservations csv</li>
-<li><strong>drops</strong> (<em>tuple</em>) &#8211; columns to drop</li>
-<li><strong>dummies</strong> (<em>tuple</em>) &#8211; columns to dummify</li>
-<li><strong>targets</strong> (<em>tuple</em>) &#8211; columns to exclude from design</li>
-<li><strong>modelTarget</strong> (<em>str</em>) &#8211; field to include in target attribute</li>
-<li><strong>auto</strong> (<em>bool</em>) &#8211; build features and split design and target on instantiation</li>
+<li><strong>reservations</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to reservations csv</li>
+<li><strong>vehicles</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to reservations csv</li>
+<li><strong>drops</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; columns to drop</li>
+<li><strong>dummies</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; columns to dummify</li>
+<li><strong>targets</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; columns to exclude from design</li>
+<li><strong>modelTarget</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; field to include in target attribute</li>
+<li><strong>auto</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; build features and split design and target on instantiation</li>
 </ul>
 </td>
 </tr>
@@ -262,10 +264,10 @@ on parameter combination and trained on entire training set. Returns both produc
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<a class="reference internal" href="#carreservations.src.modelowner.Data" title="carreservations.src.modelowner.Data"><em>Data</em></a>) &#8211; data object, requires (train/test)(Design/Target) attributes <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></li>
+<li><strong>data</strong> (<a class="reference internal" href="#carreservations.src.modelowner.Data" title="carreservations.src.modelowner.Data"><em>Data</em></a>) &#8211; data object, requires (train/test)(Design/Target) attributes <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a></li>
 <li><strong>estimator</strong> (<em>classifier/estimator</em>) &#8211; base estimator to grid search <code class="xref py py-class docutils literal"><span class="pre">sklearn.GridSearchCV</span></code></li>
-<li><strong>param_grid</strong> (<em>dict</em>) &#8211; paramter grid to search in grid search</li>
-<li><strong>cv</strong> (<em>int</em>) &#8211; number of folds for cross validation</li>
+<li><strong>param_grid</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; paramter grid to search in grid search</li>
+<li><strong>cv</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of folds for cross validation</li>
 </ul>
 </td>
 </tr>

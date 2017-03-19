@@ -1,17 +1,17 @@
-batch_manager package
-=====================
+wordcounts package
+==================
 
 Subpackages
 -----------
 
 .. toctree::
 
-    batch_manager.src
+    wordcounts.src
 
 Module contents
 ---------------
 
-.. automodule:: batch_manager
+.. automodule:: wordcounts
     :members:
     :undoc-members:
     :show-inheritance:

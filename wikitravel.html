@@ -32,7 +32,7 @@
   
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
         <link rel="up" title="code" href="modules.html"/>
-        <link rel="next" title="cvcparser package" href="cvcparser.html"/>
+        <link rel="next" title="minesweeper package" href="minesweeper.html"/>
         <link rel="prev" title="network_analysis package" href="network_analysis.html"/> 
 
   
@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordcounts.html">wordcounts package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
@@ -99,6 +100,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#module-wikitravel">Module contents</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="minesweeper.html">minesweeper package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
@@ -163,7 +165,7 @@
 <dl class="class">
 <dt id="wikitravel.travel.Travel">
 <em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Travel</code><span class="sig-paren">(</span><em>location</em>, <em>gkey</em>, <em>numResults=15</em>, <em>radius=1000</em>, <em>popDate='201506'</em>, <em>factors=None</em>, <em>weights=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for finding nearby sites of interest via google maps and wikipedia
 Site popularity evaluated by page views in the past (or specified month)</p>
 <p>Create Travel object based on location, factors + weights (indev)</p>
@@ -172,13 +174,13 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>location</strong> (<em>str</em>) &#8211; string specifying location, default is geocode</li>
-<li><strong>gkey</strong> (<em>str</em>) &#8211; Google Maps api key</li>
-<li><strong>results</strong> (<em>int</em>) &#8211; max number of wiki results to query for site</li>
-<li><strong>radius</strong> (<em>int</em>) &#8211; search radius (meters)</li>
-<li><strong>popDate</strong> (<em>str</em>) &#8211; month to grab wiki page views from (YYYYMM)             note month pages must exist at <a class="reference external" href="http://stats.grok.se/">http://stats.grok.se/</a></li>
-<li><strong>factors</strong> (<em>dict</em>) &#8211; additional criteria INDEV</li>
-<li><strong>weights</strong> (<em>dict</em>) &#8211; additional criteria INDEV</li>
+<li><strong>location</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string specifying location, default is geocode</li>
+<li><strong>gkey</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Google Maps api key</li>
+<li><strong>results</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; max number of wiki results to query for site</li>
+<li><strong>radius</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; search radius (meters)</li>
+<li><strong>popDate</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; month to grab wiki page views from (YYYYMM)             note month pages must exist at <a class="reference external" href="http://stats.grok.se/">http://stats.grok.se/</a></li>
+<li><strong>factors</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
+<li><strong>weights</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; additional criteria INDEV</li>
 </ul>
 </td>
 </tr>
@@ -235,7 +237,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <dl class="method">
 <dt id="wikitravel.travel.Travel.build_df">
 <code class="descname">build_df</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Travel.build_df"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Travel.build_df" title="Permalink to this definition">¶</a></dt>
-<dd><p>Build <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code> sorted by popularity containing</p>
+<dd><p>Build <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> sorted by popularity containing</p>
 <ul class="simple">
 <li>name</li>
 <li>page views</li>
@@ -255,7 +257,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <dl class="class">
 <dt id="wikitravel.travel.Trip">
 <em class="property">class </em><code class="descclassname">wikitravel.travel.</code><code class="descname">Trip</code><span class="sig-paren">(</span><em>travel</em>, <em>start</em>, <em>end=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wikitravel/travel.html#Trip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wikitravel.travel.Trip" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for optimizing paths from Travel</p>
 <p>Constructor for Trip class, requries Travel &amp; Google Maps api key</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -264,8 +266,8 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>travel</strong> (<a class="reference internal" href="#wikitravel.travel.Travel" title="wikitravel.travel.Travel"><em>Travel</em></a>) &#8211; Travel object (with df attribute)</li>
-<li><strong>start</strong> (<em>str</em>) &#8211; Starting point of trip</li>
-<li><strong>end</strong> (<em>str</em>) &#8211; Ending point of trip. Defaults to start</li>
+<li><strong>start</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Starting point of trip</li>
+<li><strong>end</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Ending point of trip. Defaults to start</li>
 </ul>
 </td>
 </tr>
@@ -301,7 +303,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
 </tr>
 <tr class="field-even field"><th class="field-name">Return cost:</th><td class="field-body">cost of route based on weights in graph</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)">float</a></td>
 </tr>
 </tbody>
 </table>
@@ -340,7 +342,7 @@ Site popularity evaluated by page views in the past (or specified month)</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="cvcparser.html" class="btn btn-neutral float-right" title="cvcparser package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="minesweeper.html" class="btn btn-neutral float-right" title="minesweeper package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="network_analysis.html" class="btn btn-neutral" title="network_analysis package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

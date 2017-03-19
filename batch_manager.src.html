@@ -32,7 +32,7 @@
   
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
         <link rel="up" title="batch_manager package" href="batch_manager.html"/>
-        <link rel="next" title="batch_manager.test package" href="batch_manager.test.html"/>
+        <link rel="next" title="route_vision package" href="route_vision.html"/>
         <link rel="prev" title="batch_manager package" href="batch_manager.html"/> 
 
   
@@ -90,18 +90,19 @@
 <li class="toctree-l2 current"><a class="reference internal" href="batch_manager.html">batch_manager package</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="batch_manager.html#subpackages">Subpackages</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">batch_manager.src package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="batch_manager.test.html">batch_manager.test package</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="batch_manager.html#module-batch_manager">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordcounts.html">wordcounts package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minesweeper.html">minesweeper package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
@@ -168,7 +169,7 @@
 <dl class="class">
 <dt id="batch_manager.src.function_conjunction.Compute">
 <em class="property">class </em><code class="descclassname">batch_manager.src.function_conjunction.</code><code class="descname">Compute</code><a class="reference internal" href="_modules/batch_manager/src/function_conjunction.html#Compute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#batch_manager.src.function_conjunction.Compute" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for computing composed functions</p>
 <dl class="staticmethod">
 <dt id="batch_manager.src.function_conjunction.Compute.select_func">
@@ -182,7 +183,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">FunctionRegistry key</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)">str</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">arguments for function to operate on</td>
 </tr>
@@ -204,7 +205,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">computation results</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 </tbody>
 </table>
@@ -222,7 +223,7 @@
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">computation results</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
 </tr>
 </tbody>
 </table>
@@ -238,16 +239,16 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>computations</strong> (<em>list.str</em>) &#8211; computations to evaluate</li>
-<li><strong>functionRegistry</strong> (<em>dict</em>) &#8211; map strings in computations to functions</li>
-<li><strong>evalType</strong> (<em>str</em>) &#8211; method for evaluation. serial requires functions                in registry to accept a list.int, batch requires functions                in registry to accept list.list.int</li>
-<li><strong>verbose</strong> (<em>bool</em>) &#8211; output additional information during run                currently only prints number of batch calls if batch evalType</li>
+<li><strong>functionRegistry</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; map strings in computations to functions</li>
+<li><strong>evalType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; method for evaluation. serial requires functions                in registry to accept a list.int, batch requires functions                in registry to accept list.list.int</li>
+<li><strong>verbose</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; output additional information during run                currently only prints number of batch calls if batch evalType</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">evaluated computations</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></p>
 </td>
 </tr>
 </tbody>
@@ -262,7 +263,7 @@
 <dl class="class">
 <dt id="batch_manager.src.helpers.Tree">
 <em class="property">class </em><code class="descclassname">batch_manager.src.helpers.</code><code class="descname">Tree</code><span class="sig-paren">(</span><em>parsed_args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batch_manager/src/helpers.html#Tree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#batch_manager.src.helpers.Tree" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Tree for evaluating nested function calls and arguments</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -282,14 +283,14 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>node</strong> (<a class="reference internal" href="#batch_manager.src.helpers.Node" title="batch_manager.src.helpers.Node"><em>Node</em></a>) &#8211; node in tree</li>
-<li><strong>leaves</strong> (<em>set</em>) &#8211; collected leaves</li>
+<li><strong>leaves</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#set" title="(in Python v2.7)"><em>set</em></a>) &#8211; collected leaves</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">collected leaves</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">set</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#set" title="(in Python v2.7)">set</a></p>
 </td>
 </tr>
 </tbody>
@@ -319,7 +320,7 @@
 <dl class="class">
 <dt id="batch_manager.src.helpers.Node">
 <em class="property">class </em><code class="descclassname">batch_manager.src.helpers.</code><code class="descname">Node</code><span class="sig-paren">(</span><em>parsed_args</em>, <em>parent=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/batch_manager/src/helpers.html#Node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#batch_manager.src.helpers.Node" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Node for storing a parsed computation function and argument</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -343,7 +344,7 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">if  node is leaf</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">bool</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></td>
 </tr>
 </tbody>
 </table>
@@ -359,11 +360,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<em>list</em>) &#8211; list of integers as type strings</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of integers as type strings</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">sum</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></td>
 </tr>
 </tbody>
 </table>
@@ -377,11 +378,11 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<em>list</em>) &#8211; list of integers as type strings</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; list of integers as type strings</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">max</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">int</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)">int</a></td>
 </tr>
 </tbody>
 </table>
@@ -395,7 +396,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<em>list</em>) &#8211; length 2 list of divisbles</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>lst</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; length 2 list of divisbles</td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">quotient</td>
 </tr>
@@ -436,7 +437,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="batch_manager.test.html" class="btn btn-neutral float-right" title="batch_manager.test package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="route_vision.html" class="btn btn-neutral float-right" title="route_vision package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="batch_manager.html" class="btn btn-neutral" title="batch_manager package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>

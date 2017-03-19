@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordcounts.html">wordcounts package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
 <li class="toctree-l2 current"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a><ul class="current">
@@ -101,6 +102,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minesweeper.html">minesweeper package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
@@ -167,14 +169,14 @@
 <dl class="function">
 <dt id="shoppingtime.src.helper.df_table">
 <code class="descclassname">shoppingtime.src.helper.</code><code class="descname">df_table</code><span class="sig-paren">(</span><em>df</em>, <em>fname</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shoppingtime/src/helper.html#df_table"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#shoppingtime.src.helper.df_table" title="Permalink to this definition">¶</a></dt>
-<dd><p>Helper function to create rst tables from <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></p>
+<dd><p>Helper function to create rst tables from <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a></p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>df</strong> (<em>pandas.DataFrame</em>) &#8211; data frame</li>
-<li><strong>fname</strong> (<em>str</em>) &#8211; string file name</li>
+<li><strong>df</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><em>pandas.DataFrame</em></a>) &#8211; data frame</li>
+<li><strong>fname</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; string file name</li>
 </ul>
 </td>
 </tr>
@@ -188,22 +190,22 @@
 <dl class="class">
 <dt id="shoppingtime.src.modelowner.Features">
 <em class="property">class </em><code class="descclassname">shoppingtime.src.modelowner.</code><code class="descname">Features</code><span class="sig-paren">(</span><em>orderPath</em>, <em>tripsPath</em>, <em>columns</em>, <em>dumCols=()</em>, <em>trainSet=True</em>, <em>templateDf=None</em>, <em>percent=0.1</em>, <em>tt_split=None</em>, <em>split=False</em>, <em>test=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/shoppingtime/src/modelowner.html#Features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#shoppingtime.src.modelowner.Features" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Class for cleaning and transforming order and trip data for modeling. Generates design and test <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code> attributes for modeling</p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for cleaning and transforming order and trip data for modeling. Generates design and test <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> attributes for modeling</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>orderPath</strong> (<em>str</em>) &#8211; path to orders csv</li>
-<li><strong>tripsPath</strong> (<em>str</em>) &#8211; path to trips csv</li>
-<li><strong>dumCols</strong> (<em>tuple</em>) &#8211; columns to dummify</li>
-<li><strong>trainSet</strong> (<em>bool</em>) &#8211; switch for operating on training data (with target)</li>
-<li><strong>templateDf</strong> (<em>pandas.DataFrame</em>) &#8211; template from data frame from training to prescribe format of test data</li>
-<li><strong>percent</strong> (<em>float</em>) &#8211; percent threshold for margnial distribution (department_name) transformation</li>
-<li><strong>tt_split</strong> (<em>dict</em>) &#8211; keyword arguments for train test split</li>
-<li><strong>split</strong> (<em>bool</em>) &#8211; switch for train test split</li>
-<li><strong>test</strong> (<em>bool</em>) &#8211; switch for test data</li>
+<li><strong>orderPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to orders csv</li>
+<li><strong>tripsPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to trips csv</li>
+<li><strong>dumCols</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; columns to dummify</li>
+<li><strong>trainSet</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; switch for operating on training data (with target)</li>
+<li><strong>templateDf</strong> (<a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><em>pandas.DataFrame</em></a>) &#8211; template from data frame from training to prescribe format of test data</li>
+<li><strong>percent</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; percent threshold for margnial distribution (department_name) transformation</li>
+<li><strong>tt_split</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; keyword arguments for train test split</li>
+<li><strong>split</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; switch for train test split</li>
+<li><strong>test</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; switch for test data</li>
 </ul>
 </td>
 </tr>
@@ -217,7 +219,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> (<em>dict</em>) &#8211; keyword arguments for train test split</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>kwargs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; keyword arguments for train test split</td>
 </tr>
 </tbody>
 </table>
@@ -231,7 +233,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cols</strong> (<em>tuple</em>) &#8211; columns to dummify</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; columns to dummify</td>
 </tr>
 </tbody>
 </table>
@@ -245,7 +247,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>trainSet</strong> (<em>bool</em>) &#8211; switch for train set to build target</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>trainSet</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; switch for train set to build target</td>
 </tr>
 </tbody>
 </table>
@@ -260,7 +262,7 @@ Aggregate orders table data (sum(quantity) and len(unique(department names) for 
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>columns</strong> (<em>list</em>) &#8211; columns to include from trips data in design</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>columns</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; columns to include from trips data in design</td>
 </tr>
 </tbody>
 </table>
@@ -278,10 +280,10 @@ on parameter combination and trained on entire training set. Returns both produc
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>data</strong> (<a class="reference internal" href="#shoppingtime.src.modelowner.Features" title="shoppingtime.src.modelowner.Features"><em>Features</em></a>) &#8211; data object, requires design, target, and designTest targetTest attributes <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></li>
+<li><strong>data</strong> (<a class="reference internal" href="#shoppingtime.src.modelowner.Features" title="shoppingtime.src.modelowner.Features"><em>Features</em></a>) &#8211; data object, requires design, target, and designTest targetTest attributes <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a></li>
 <li><strong>estimator</strong> (<em>classifier/estimator</em>) &#8211; base estimator to grid search <code class="xref py py-class docutils literal"><span class="pre">sklearn.GridSearchCV</span></code></li>
-<li><strong>param_grid</strong> (<em>dict</em>) &#8211; paramter grid to search in grid search</li>
-<li><strong>cv</strong> (<em>int</em>) &#8211; number of folds for cross validation</li>
+<li><strong>param_grid</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; paramter grid to search in grid search</li>
+<li><strong>cv</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of folds for cross validation</li>
 </ul>
 </td>
 </tr>
@@ -306,8 +308,8 @@ on parameter combination and trained on entire training set. Returns both produc
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>model</strong> (<em>classifier/estimator</em>) &#8211; base estimator to grid search <code class="xref py py-class docutils literal"><span class="pre">sklearn.GridSearchCV</span></code></li>
 <li><strong>grid</strong> (<em>sklearn.GridSearchCV</em>) &#8211; grid searched object</li>
-<li><strong>grid_kwargs</strong> (<em>dict</em>) &#8211; keyword arguments for <code class="xref py py-class docutils literal"><span class="pre">sklearn.GridSearchCV</span></code></li>
-<li><strong>data</strong> (<a class="reference internal" href="#shoppingtime.src.modelowner.Features" title="shoppingtime.src.modelowner.Features"><em>Features</em></a>) &#8211; data object, requires design, target, and designTest targetTest attributes <code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></li>
+<li><strong>grid_kwargs</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; keyword arguments for <code class="xref py py-class docutils literal"><span class="pre">sklearn.GridSearchCV</span></code></li>
+<li><strong>data</strong> (<a class="reference internal" href="#shoppingtime.src.modelowner.Features" title="shoppingtime.src.modelowner.Features"><em>Features</em></a>) &#8211; data object, requires design, target, and designTest targetTest attributes <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a></li>
 <li><strong>template</strong> (<a class="reference internal" href="#shoppingtime.src.modelowner.Features" title="shoppingtime.src.modelowner.Features"><em>Features</em></a>) &#8211; train object template to create test design</li>
 </ul>
 </td>

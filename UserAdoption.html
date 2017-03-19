@@ -95,7 +95,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="shoppingtimeov.html">PREDICTING SHOPPER TIME</a></li>
-<li class="toctree-l2"><a class="reference internal" href="carresov.html">TURO</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carresov.html">CAR RESERVATIONS</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
@@ -220,7 +220,7 @@ Gladwell in
 table. We proceed by calculating whether or not a user has adopted
 given the criteria (3 logins in a 7 day window) and joining that
 data to our <em>users table</em>. To do so, we group the login data
-by <em>user_id</em>, sort by timestamp represented as <code class="xref py py-class docutils literal"><span class="pre">pandas.DatetimeIndex</span></code> and
+by <em>user_id</em>, sort by timestamp represented as <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DatetimeIndex.html#pandas.DatetimeIndex" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DatetimeIndex</span></code></a> and
 pass a window over the array to check for length of time between
 a login and the login after the following login, (i, i+2). If that
 delta in time is less then or equal to 7 days we break out of our iteration

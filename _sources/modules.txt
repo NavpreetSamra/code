@@ -6,6 +6,7 @@ code
   
    batch_manager
    route_vision
+   wordcounts
    user_adoption
    carreservations
    shoppingtime

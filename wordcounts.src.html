@@ -1,0 +1,509 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>wordcounts.src package &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="wordcounts package" href="wordcounts.html"/>
+        <link rel="next" title="user_adoption package" href="user_adoption.html"/>
+        <link rel="prev" title="wordcounts package" href="wordcounts.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cases.html">CASE STUDIES</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="wordcounts.html">wordcounts package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="wordcounts.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">wordcounts.src package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="wordcounts.html#module-wordcounts">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="user_adoption.html">user_adoption package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carreservations.html">carreservations package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minesweeper.html">minesweeper package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="helpers.html">helpers package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quadtree.html">quadtree package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sirdisease.html">sirdisease package</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="modules.html">code</a> &raquo;</li>
+      
+          <li><a href="wordcounts.html">wordcounts package</a> &raquo;</li>
+      
+    <li>wordcounts.src package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/wordcounts.src.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="wordcounts-src-package">
+<h1>wordcounts.src package<a class="headerlink" href="#wordcounts-src-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-wordcounts.src.wordcounts">
+<span id="wordcounts-src-wordcounts-module"></span><h2>wordcounts.src.wordcounts module<a class="headerlink" href="#module-wordcounts.src.wordcounts" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="wordcounts.src.wordcounts.WordCounts">
+<em class="property">class </em><code class="descclassname">wordcounts.src.wordcounts.</code><code class="descname">WordCounts</code><a class="reference internal" href="_modules/wordcounts/src/wordcounts.html#WordCounts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Abstract Meta Class with shared helper implementations and properties</p>
+<dl class="attribute">
+<dt id="wordcounts.src.wordcounts.WordCounts.text">
+<code class="descname">text</code><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tokenized list of words</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="wordcounts.src.wordcounts.WordCounts.wordCounts">
+<code class="descname">wordCounts</code><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.wordCounts" title="Permalink to this definition">¶</a></dt>
+<dd><p><a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Counter" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">collections.Counter</span></code></a> of words</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wordcounts.src.wordcounts.WordCounts.parser">
+<code class="descname">parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wordcounts.html#WordCounts.parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction for parsing implementations</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wordcounts.src.wordcounts.WordCounts.counter">
+<code class="descname">counter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wordcounts.html#WordCounts.counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction to count word fequencies store
+in <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts.wordCounts" title="wordcounts.src.wordcounts.WordCounts.wordCounts"><code class="xref py py-attr docutils literal"><span class="pre">WordCounts.wordCounts</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wordcounts.src.wordcounts.WordCounts.most_common">
+<code class="descname">most_common</code><span class="sig-paren">(</span><em>n=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wordcounts.html#WordCounts.most_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.most_common" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction  for returning the n most frequent
+words and associated values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number to return, default None returns all</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return most_common:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">key value pairs in sorted order</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list.tuple.(str, int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="wordcounts.src.wordcounts.WordCounts.words_tokenizer">
+<em class="property">static </em><code class="descname">words_tokenizer</code><span class="sig-paren">(</span><em>txt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wordcounts.html#WordCounts.words_tokenizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.words_tokenizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tokenize with nltk removing punctuations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>txt</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; text to toknize</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tokens</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="wordcounts.src.wordcounts.WordCounts.contraction_tokenizer">
+<em class="property">static </em><code class="descname">contraction_tokenizer</code><span class="sig-paren">(</span><em>txt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wordcounts.html#WordCounts.contraction_tokenizer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wordcounts.WordCounts.contraction_tokenizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove apostraphes (it&#8217;s -&gt; its) and tokenize with nltk
+removing punctuations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>txt</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; text to toknize</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tokens</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-wordcounts.src.wcserial">
+<span id="wordcounts-src-wcserial-module"></span><h2>wordcounts.src.wcserial module<a class="headerlink" href="#module-wordcounts.src.wcserial" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="wordcounts.src.wcserial.WordCountsSerial">
+<em class="property">class </em><code class="descclassname">wordcounts.src.wcserial.</code><code class="descname">WordCountsSerial</code><span class="sig-paren">(</span><em>fPath=None</em>, <em>parserType='html'</em>, <em>tokenizerType='contraction'</em>, <em>wordList=None</em>, <em>auto=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcserial.html#WordCountsSerial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcserial.WordCountsSerial" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts" title="wordcounts.src.wordcounts.WordCounts"><code class="xref py py-class docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts</span></code></a></p>
+<p>Word frequency with <a class="reference external" href="https://docs.python.org/2/library/collections.html#collections.Counter" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">collections.Counter</span></code></a> with file (text)
+and html reading interfaces</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file</li>
+<li><strong>parserType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; type of file (html | file)</li>
+<li><strong>tokenizerType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; (contraction | word)  from            <code class="xref py py-class docutils literal"><span class="pre">wordcounts.WordCounts</span></code></li>
+<li><strong>wordList</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; option to specify words to count without parsing
+from file</li>
+<li><strong>auto</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; auto run</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="wordcounts.src.wcserial.WordCountsSerial.parser">
+<code class="descname">parser</code><span class="sig-paren">(</span><em>fPath</em>, <em>tokenizerType</em>, <em>parserType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcserial.html#WordCountsSerial.parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcserial.WordCountsSerial.parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Front end for parsing</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>fPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file</li>
+<li><strong>tokenizerType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; (contraction | word)  from                <code class="xref py py-class docutils literal"><span class="pre">wordcounts.WordCounts</span></code></li>
+<li><strong>parserType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; type of file (html | file)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wordcounts.src.wcserial.WordCountsSerial.counter">
+<code class="descname">counter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcserial.html#WordCountsSerial.counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcserial.WordCountsSerial.counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count instances of words in <code class="xref py py-attr docutils literal"><span class="pre">WordCounts.text</span></code></p>
+<p>Store in <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts.wordCounts" title="wordcounts.src.wordcounts.WordCounts.wordCounts"><code class="xref py py-attr docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts.wordCounts</span></code></a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="wordcounts.src.wcserial.WordCountsSerial.most_common">
+<code class="descname">most_common</code><span class="sig-paren">(</span><em>n=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcserial.html#WordCountsSerial.most_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcserial.WordCountsSerial.most_common" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return (all | the n most) frequent words and associated values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number to return, default None returns all</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return most_common:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">key value pairs in sorted order</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list.tuple.(str, int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-wordcounts.src.wcspark">
+<span id="wordcounts-src-wcspark-module"></span><h2>wordcounts.src.wcspark module<a class="headerlink" href="#module-wordcounts.src.wcspark" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="wordcounts.src.wcspark.WordCountsSpark">
+<em class="property">class </em><code class="descclassname">wordcounts.src.wcspark.</code><code class="descname">WordCountsSpark</code><span class="sig-paren">(</span><em>sc</em>, <em>fPath=None</em>, <em>tokenizerType='contraction'</em>, <em>auto=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcspark.html#WordCountsSpark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcspark.WordCountsSpark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts" title="wordcounts.src.wordcounts.WordCounts"><code class="xref py py-class docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts</span></code></a></p>
+<p>Sorted word frequency with <a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal"><span class="pre">pyspark.SparkContext</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>pysark.SparkContext</strong> &#8211; spark context that was been passed access            <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts" title="wordcounts.src.wordcounts.WordCounts"><code class="xref py py-class docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts</span></code></a></li>
+<li><strong>fPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file</li>
+<li><strong>tokenizerType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; (contraction | word)  from            <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts" title="wordcounts.src.wordcounts.WordCounts"><code class="xref py py-class docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts</span></code></a></li>
+<li><strong>auto</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; auto run</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="wordcounts.src.wcspark.WordCountsSpark.parser">
+<em class="property">static </em><code class="descname">parser</code><span class="sig-paren">(</span><em>sc</em>, <em>fPath</em>, <em>tokenizerType</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcspark.html#WordCountsSpark.parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcspark.WordCountsSpark.parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse text of fPath via spark context and selected tokenizer</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>pysark.SparkContext</strong> &#8211; spark context that was been passed access                <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts" title="wordcounts.src.wordcounts.WordCounts"><code class="xref py py-class docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts</span></code></a></li>
+<li><strong>fPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to file</li>
+<li><strong>tokenizerType</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; (contraction | word)  from                <a class="reference internal" href="#wordcounts.src.wordcounts.WordCounts" title="wordcounts.src.wordcounts.WordCounts"><code class="xref py py-class docutils literal"><span class="pre">wordcounts.src.wordcounts.WordCounts</span></code></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">text</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.RDD" title="(in PySpark vmaster)"><code class="xref py py-class docutils literal"><span class="pre">pyspark.RDD</span></code></a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="wordcounts.src.wcspark.WordCountsSpark.counter">
+<em class="property">static </em><code class="descname">counter</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcspark.html#WordCountsSpark.counter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcspark.WordCountsSpark.counter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count instances of words in text.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> (<a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.RDD" title="(in PySpark vmaster)"><em>pyspark.RDD</em></a>) &#8211; text</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">tuple(word, count)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/2/library/functions.html#list" title="(in Python v2.7)">list</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="wordcounts.src.wcspark.WordCountsSpark.most_common">
+<code class="descname">most_common</code><span class="sig-paren">(</span><em>n=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcspark.html#WordCountsSpark.most_common"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcspark.WordCountsSpark.most_common" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction  for returning the n most frequent
+words and associated values</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number to return, default None returns all</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Return most_common:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">key value pairs in sorted order</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list.tuple.(str, int)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="wordcounts.src.wcspark.spark_setup">
+<code class="descclassname">wordcounts.src.wcspark.</code><code class="descname">spark_setup</code><span class="sig-paren">(</span><em>fPath='./wcspark.py'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/wordcounts/src/wcspark.html#spark_setup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#wordcounts.src.wcspark.spark_setup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate spark context with pyFile for counting words</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fPath</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; path to spark word county py file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">spark context with access to fPath</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="http://spark.apache.org/docs/latest/api/python/pyspark.html#pyspark.SparkContext" title="(in PySpark vmaster)">pyspark.SparkContext</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-wordcounts.src">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-wordcounts.src" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="user_adoption.html" class="btn btn-neutral float-right" title="user_adoption package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="wordcounts.html" class="btn btn-neutral" title="wordcounts package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

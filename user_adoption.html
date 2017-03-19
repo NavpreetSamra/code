@@ -33,7 +33,7 @@
     <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
         <link rel="up" title="code" href="modules.html"/>
         <link rel="next" title="carreservations package" href="carreservations.html"/>
-        <link rel="prev" title="route_vision package" href="route_vision.html"/> 
+        <link rel="prev" title="wordcounts.src package" href="wordcounts.src.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -89,6 +89,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">code</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="batch_manager.html">batch_manager package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="route_vision.html">route_vision package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wordcounts.html">wordcounts package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">user_adoption package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#module-user_adoption.analysis">user_adoption.analysis module</a></li>
@@ -99,6 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="shoppingtime.html">shoppingtime package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="network_analysis.html">network_analysis package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="wikitravel.html">wikitravel package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="minesweeper.html">minesweeper package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="cvcparser.html">cvcparser package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="filesync.html">filesync package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="classic.html">classic package</a></li>
@@ -163,7 +165,7 @@
 <dl class="class">
 <dt id="user_adoption.analysis.Cleaned">
 <em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">Cleaned</code><span class="sig-paren">(</span><em>fUsers, fEngage, adoption=(3, 7), drops=['name', 'email']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#Cleaned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.Cleaned" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for pulling, cleaning, and aggregating data</p>
 <p>For details inspect embedded source of encapsulated methods</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -186,7 +188,7 @@
 <dl class="class">
 <dt id="user_adoption.analysis.AdoptionModel">
 <em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">AdoptionModel</code><span class="sig-paren">(</span><em>cleaned, model, isLogistic=False, isTree=False, isForest=False, folds=10, vifMagnitude=3.0, autoRun={'var_scale': ['org_size', 'children'], 'dfs': [('users', ['opted_in_to_mailing_list', 'enabled_for_marketing_drip', 'org_size', 'local_rank', 'children']), ('sources', ['GUEST_INVITE', 'ORG_INVITE', 'PERSONAL_PROJECTS', 'SIGNUP'])]}</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#AdoptionModel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.AdoptionModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Class for evaluating models on :class:FeatureAnalysis objects</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -195,12 +197,12 @@
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>cleaned</strong> (<a class="reference internal" href="#user_adoption.analysis.FeatureAnalysis" title="user_adoption.analysis.FeatureAnalysis"><em>FeatureAnalysis</em></a>) &#8211; Cleaned data with engineered features</li>
 <li><strong>model</strong> (<em>sklearn</em>) &#8211; scikit learn model, currently works with Logistic Regression, DecistionTree            Classifier and RandomForest Classifier</li>
-<li><strong>isLogistic</strong> (<em>bool</em>) &#8211; boolean for model type. note this notation due to different access points            for coefficients and feature importances in fit models</li>
-<li><strong>isTree</strong> (<em>bool</em>) &#8211; boolean for model type.</li>
-<li><strong>isForest</strong> (<em>bool</em>) &#8211; boolean for model type.</li>
-<li><strong>folds</strong> (<em>int</em>) &#8211; Number of folds to run in cross validation</li>
-<li><strong>vifMagnitude</strong> (<em>float</em>) &#8211; threshold for variance inflation factor</li>
-<li><strong>autoRun</strong> (<em>dict</em>) &#8211; dictionary for automating runs, examples and front end INDEV</li>
+<li><strong>isLogistic</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; boolean for model type. note this notation due to different access points            for coefficients and feature importances in fit models</li>
+<li><strong>isTree</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; boolean for model type.</li>
+<li><strong>isForest</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)"><em>bool</em></a>) &#8211; boolean for model type.</li>
+<li><strong>folds</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Number of folds to run in cross validation</li>
+<li><strong>vifMagnitude</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#float" title="(in Python v2.7)"><em>float</em></a>) &#8211; threshold for variance inflation factor</li>
+<li><strong>autoRun</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; dictionary for automating runs, examples and front end INDEV</li>
 </ul>
 </td>
 </tr>
@@ -215,7 +217,7 @@
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cdf</strong> (<em>str</em>) &#8211; key of cleaned.dfs to access DataFrame</li>
+<li><strong>cdf</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; key of cleaned.dfs to access DataFrame</li>
 <li><strong>columns</strong> (<em>int/str</em>) &#8211; index/column name of DataFrame to grab</li>
 </ul>
 </td>
@@ -232,7 +234,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<em>str</em>) &#8211; column header</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>i</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; column header</td>
 </tr>
 </tbody>
 </table>
@@ -246,7 +248,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>y</strong> (<em>str</em>) &#8211; column name of the y feature to split                default is the last column</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>y</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; column name of the y feature to split                default is the last column</td>
 </tr>
 </tbody>
 </table>
@@ -291,7 +293,7 @@ scores stored per fold.</p>
 <dl class="class">
 <dt id="user_adoption.analysis.UserAdoption">
 <em class="property">class </em><code class="descclassname">user_adoption.analysis.</code><code class="descname">UserAdoption</code><span class="sig-paren">(</span><em>fUsers</em>, <em>fEngage</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/user_adoption/analysis.html#UserAdoption"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#user_adoption.analysis.UserAdoption" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
 <p>Front end for studing User Adoption data</p>
 </dd></dl>
 
@@ -305,14 +307,14 @@ scores stored per fold.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>logins</strong> (<em>array-like</em>) &#8211; array of DateTime objects</li>
-<li><strong>adoption</strong> (<em>dict</em>) &#8211; adoption criteria {&#8216;hits&#8217;: int             &#8216;window&#8217;: int} specifying the number of logins            or &#8216;hits&#8217; required in a given &#8216;window&#8217; to            constitute an adopted user</li>
+<li><strong>adoption</strong> (<a class="reference external" href="https://docs.python.org/2/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; adoption criteria {&#8216;hits&#8217;: int             &#8216;window&#8217;: int} specifying the number of logins            or &#8216;hits&#8217; required in a given &#8216;window&#8217; to            constitute an adopted user</li>
 </ul>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">boolean</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">bool</p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/2/library/functions.html#bool" title="(in Python v2.7)">bool</a></p>
 </td>
 </tr>
 </tbody>
@@ -335,7 +337,7 @@ scores stored per fold.</p>
         <a href="carreservations.html" class="btn btn-neutral float-right" title="carreservations package" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="route_vision.html" class="btn btn-neutral" title="route_vision package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="wordcounts.src.html" class="btn btn-neutral" title="wordcounts.src package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
