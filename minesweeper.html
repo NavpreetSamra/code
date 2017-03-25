@@ -166,15 +166,33 @@
 <dt id="minesweeper.minesweeper.MineSweeper">
 <em class="property">class </em><code class="descclassname">minesweeper.minesweeper.</code><code class="descname">MineSweeper</code><span class="sig-paren">(</span><em>size=(10</em>, <em>10)</em>, <em>numBombs=10</em>, <em>directions='octile'</em>, <em>bombs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/minesweeper/minesweeper.html#MineSweeper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#minesweeper.minesweeper.MineSweeper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/2/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Class for owning minesweeper game. Provides interaction wtih <a class="reference internal" href="#minesweeper.minesweeper.Board" title="minesweeper.minesweeper.Board"><code class="xref py py-class docutils literal"><span class="pre">Board</span></code></a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>size</strong> (<em>tuple.int</em>) &#8211; 1x2 tuple of board size (r, c)</li>
+<li><strong>numBombs</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; number of mines in the game</li>
+<li><strong>directions</strong> (<a class="reference external" href="https://docs.python.org/2/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; &#8216;octile&#8217; - 8 way connected, &#8216;quad&#8217; 4 way connected</li>
+<li><strong>list.tuple.int</strong> &#8211; option to specify bomb locations, default selected random</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.MineSweeper.board">
 <code class="descname">board</code><a class="headerlink" href="#minesweeper.minesweeper.MineSweeper.board" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><a class="reference internal" href="#minesweeper.minesweeper.Board" title="minesweeper.minesweeper.Board"><code class="xref py py-class docutils literal"><span class="pre">Board</span></code></a></p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.MineSweeper.bombs">
 <code class="descname">bombs</code><a class="headerlink" href="#minesweeper.minesweeper.MineSweeper.bombs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Bomb locations</p>
+<p>list.tuple.ints</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -185,42 +203,51 @@
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.df">
 <code class="descname">df</code><a class="headerlink" href="#minesweeper.minesweeper.Board.df" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/generated/pandas.DataFrame.html#pandas.DataFrame" title="(in pandas v0.19.2)"><code class="xref py py-class docutils literal"><span class="pre">pandas.DataFrame</span></code></a> for placing bombs and building adjacency</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.boardState">
 <code class="descname">boardState</code><a class="headerlink" href="#minesweeper.minesweeper.Board.boardState" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Board state visible to <code class="xref py py-class docutils literal"><span class="pre">Player</span></code>.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.directions">
 <code class="descname">directions</code><a class="headerlink" href="#minesweeper.minesweeper.Board.directions" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>prescribed directions (&#8216;octile&#8217;, &#8216;quad&#8217;)</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.cells">
 <code class="descname">cells</code><a class="headerlink" href="#minesweeper.minesweeper.Board.cells" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Adjacency look up dictionary</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.bombs">
 <code class="descname">bombs</code><a class="headerlink" href="#minesweeper.minesweeper.Board.bombs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Bomb locations</p>
+<p>list.tuple.ints</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.values">
 <code class="descname">values</code><a class="headerlink" href="#minesweeper.minesweeper.Board.values" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Number of adjacent bombs for non bombs cells, else -1</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.closed">
 <code class="descname">closed</code><a class="headerlink" href="#minesweeper.minesweeper.Board.closed" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>List of unvisited nodes</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="minesweeper.minesweeper.Board.opened">
 <code class="descname">opened</code><a class="headerlink" href="#minesweeper.minesweeper.Board.opened" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>List of visited nodes</p>
+</dd></dl>
 
 </dd></dl>
 

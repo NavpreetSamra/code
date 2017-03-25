@@ -137,6 +137,12 @@
 
 <div class="viewcode-block" id="MineSweeper"><a class="viewcode-back" href="../../minesweeper.html#minesweeper.minesweeper.MineSweeper">[docs]</a><span class="k">class</span> <span class="nc">MineSweeper</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for owning minesweeper game. Provides interaction wtih :py:class:`Board`</span>
+
+<span class="sd">    :param tuple.int size: 1x2 tuple of board size (r, c)</span>
+<span class="sd">    :param int numBombs: number of mines in the game</span>
+<span class="sd">    :param str directions: &#39;octile&#39; - 8 way connected, &#39;quad&#39; 4 way connected</span>
+<span class="sd">    :param list.tuple.int: option to specify bomb locations, default selected random</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="n">numBombs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="s1">&#39;octile&#39;</span><span class="p">,</span> <span class="n">bombs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_size</span> <span class="o">=</span> <span class="n">size</span>
@@ -153,10 +159,18 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">board</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :py:class:`Board`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_board</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">bombs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bomb locations</span>
+
+<span class="sd">        list.tuple.ints</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bombs</span>
 
     <span class="nd">@bombs</span><span class="o">.</span><span class="n">setter</span>
@@ -197,10 +211,71 @@
                     <span class="bp">self</span><span class="o">.</span><span class="n">_bfs</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span></div>
 
 
-
-
 <div class="viewcode-block" id="Board"><a class="viewcode-back" href="../../minesweeper.html#minesweeper.minesweeper.Board">[docs]</a><span class="k">class</span> <span class="nc">Board</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_attributes</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">directions</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :py:class:`pandas.DataFrame` for placing bombs and building adjacency</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">boardState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Board state visible to :py:class:`Player`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boardState</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">directions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        prescribed directions (&#39;octile&#39;, &#39;quad&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directions</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">cells</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adjacency look up dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cells</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bombs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bomb locations</span>
+
+<span class="sd">        list.tuple.ints</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bombs</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Number of adjacent bombs for non bombs cells, else -1 </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List of unvisited nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">opened</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List of visited nodes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opened</span>
+
+    <span class="k">def</span> <span class="nf">_build_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">,</span> <span class="n">directions</span><span class="p">):</span>
         <span class="n">index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">columns</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">size</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
@@ -215,38 +290,6 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_opened</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_build_adjacency</span><span class="p">()</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">df</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_df</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">boardState</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_boardState</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">directions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_directions</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">cells</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cells</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">bombs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bombs</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">closed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">opened</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_opened</span>
 
     <span class="k">def</span> <span class="nf">_place_bombs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bombs</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
