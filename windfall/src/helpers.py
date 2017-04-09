@@ -6,6 +6,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 from sklearn.linear_model import Lasso, Ridge
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.svm import SVR
 
 import tabulate
 import seaborn as sns
@@ -61,13 +62,14 @@ def build_param_grid():
     :return: classifiers and parameter grids
     :rtype: dict
     """
-    g = {'lasso': {'clf': Lasso(), 'grid': {'classifier__alpha': np.logspace(1, 6, 12)}},
-         'ridge': {'clf': Ridge(), 'grid': {'classifier__alpha': np.logspace(-1, 4, 12)}},
-         'rf': {'clf': RandomForestRegressor(n_estimators=60),
-                'grid': {'classifier__max_depth': [7, 10, 15],
-                         'classifier__min_samples_split': [4, 10, 25]}
+    g = {'lasso': {'clf': Lasso(), 'grid': {'classifier__alpha': np.logspace(-3, 7, 12)}},
+         # 'ridge': {'clf': Ridge(), 'grid': {'classifier__alpha': np.logspace(-1, 4, 12)}},
+         'rf': {'clf': RandomForestRegressor(n_estimators=100),
+                'grid': {'classifier__max_depth': [4, 7, 8],
+                         'classifier__min_samples_split': [ 15, 25, 35]}
                 },
-         'gb': {'clf': GradientBoostingRegressor(n_estimators=60), 'grid': {'classifier__max_depth':[1,2,3,4], 'classifier__min_samples_split': [2,8,16]}}
+         'gb': {'clf': GradientBoostingRegressor(n_estimators=60), 'grid': {'classifier__max_depth':[1,2,3,4]}},
+         # 'svm': {'clf': SVR(kernel='rbf'), 'grid': {'classifier__C': np.logspace(-3,3,7), 'classifier__gamma': np.logspace(-5,2,4)}}
 
          }
 
