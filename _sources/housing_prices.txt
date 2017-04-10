@@ -1,0 +1,17 @@
+housing_prices package
+======================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    housing_prices.src
+
+Module contents
+---------------
+
+.. automodule:: housing_prices
+    :members:
+    :undoc-members:
+    :show-inheritance:

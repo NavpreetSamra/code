@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>HOUSING PRICES &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="index.html"/>
+        <link rel="up" title="CASE STUDIES" href="cases.html"/>
+        <link rel="next" title="USER ADOPTION" href="UserAdoption.html"/>
+        <link rel="prev" title="CASE STUDIES" href="cases.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="FunctionComposition.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="cases.html">CASE STUDIES</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">HOUSING PRICES</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#readme">README</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#note">Note</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#introduction">Introduction</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#inspection-and-exploration">Inspection and Exploration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-engineering">Feature Engineering</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#features-next-steps">Features: next steps</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#modeling">Modeling</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pipeline">Pipeline</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#parametric">Parametric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-parametric">Non Parametric</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#avoided">Avoided</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#evaluation">Evaluation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#final-model">Final Model</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="UserAdoption.html">USER ADOPTION</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shoppingtimeov.html">PREDICTING SHOPPER TIME</a></li>
+<li class="toctree-l2"><a class="reference internal" href="carresov.html">CAR RESERVATIONS</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="cases.html">CASE STUDIES</a> &raquo;</li>
+      
+    <li>HOUSING PRICES</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/regressions_housing.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="housing-prices">
+<h1>HOUSING PRICES<a class="headerlink" href="#housing-prices" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="readme">
+<h2>README<a class="headerlink" href="#readme" title="Permalink to this headline">¶</a></h2>
+<p>Built in python 2.7 with the following dependencies</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/index.html#module-pandas" title="(in pandas v0.19.2)"><code class="xref py py-mod docutils literal"><span class="pre">pandas</span></code></a> version 0.19.2</li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">sklearn</span></code> version 0.18.1</li>
+<li><code class="xref py py-mod docutils literal"><span class="pre">statsmodels</span></code> version 0.6.1</li>
+</ul>
+</div></blockquote>
+<p>The contents of this package are distributed across three folders</p>
+<blockquote>
+<div><ul>
+<li><p class="first"><cite>src</cite> containing source code pickled cleaner and regression objects as well as</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><code class="xref py py-class docutils literal"><span class="pre">windfall.src.preprocessor</span></code></li>
+<li><code class="xref py py-class docutils literal"><span class="pre">windfall.src.helpers</span></code></li>
+</ol>
+</div></blockquote>
+</li>
+<li><p class="first"><cite>doc</cite> containg source and build data for documentation</p>
+</li>
+<li><p class="first"><cite>data</cite> containing data used produce this analysis</p>
+</li>
+</ul>
+</div></blockquote>
+<p>To generate estimates for house values run housing_predictor.py passing the location of the file to predict on as the first argument.
+The current directory <code class="docutils literal"><span class="pre">./</span></code> is the default output folder and accesible through the <code class="docutils literal"><span class="pre">-d</span></code> or <code class="docutils literal"><span class="pre">--output_folder</span></code> option.</p>
+<p>housing_predictor.py will generate a new csv in the specified directory prepended by <code class="docutils literal"><span class="pre">prediction</span></code> and an appended prediction field with the estimated values</p>
+<p>Examples</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>$ python <span class="o">{</span><span class="nv">$PACKAGEDIR</span><span class="o">}</span>/src/housing_predictor.py <span class="o">{</span><span class="nv">$DATA</span><span class="o">}</span>/data.csv
+
+$ python <span class="o">{</span><span class="nv">$PACKAGEDIR</span><span class="o">}</span>/src/housing_predictor.py <span class="o">{</span><span class="nv">$DATA</span><span class="o">}</span>/data.csv -d <span class="o">{</span><span class="nv">$OUTPUTFOLDER</span><span class="o">}</span>
+
+$ python ~/test_env/src/housing_predictor.py my_data.csv --output_folder other_place/to_hold_data
+</pre></div>
+</div>
+<div class="section" id="note">
+<h3>Note<a class="headerlink" href="#note" title="Permalink to this headline">¶</a></h3>
+<p>housing_predictor.py has local dependies, please run access from src folder.</p>
+</div>
+</div>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>Since property often represents a significant portion of an individual’s net worth and, due to changing home values, can be a significant driver of wealth growth the goal of this analysis is to build a model to predict Zillow&#8217;s current valuations with the attached attributes of ~3000 single family residences in Denver.</p>
+<p>The following details:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>The inspection and exploration process of the available data</li>
+<li>Feature engineering and reduction</li>
+<li>Modeling</li>
+<li>Evaluation</li>
+</ol>
+</div></blockquote>
+<p>Conceptually, to build a predictive model, I look to combine two concepts:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li>Evaluate the unadjusted value of the house (in a vaccuum what is the raw value of the house)</li>
+<li>Modulate that value based on contextual attributes, such as location / neighborhood.</li>
+</ol>
+</div></blockquote>
+</div>
+<div class="section" id="inspection-and-exploration">
+<h2>Inspection and Exploration<a class="headerlink" href="#inspection-and-exploration" title="Permalink to this headline">¶</a></h2>
+<p>After a 20% train test split for model evaulation, the remaining 80% will discussed in this section. The subset of 2700+ houses yields a dataset which has numeric fields described by</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="4%" />
+<col width="7%" />
+<col width="13%" />
+<col width="8%" />
+<col width="9%" />
+<col width="11%" />
+<col width="9%" />
+<col width="10%" />
+<col width="15%" />
+<col width="14%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Param</th>
+<th class="head">zipcode</th>
+<th class="head">square_footage</th>
+<th class="head">lot_size</th>
+<th class="head">num_rooms</th>
+<th class="head">num_bedrooms</th>
+<th class="head">num_baths</th>
+<th class="head">year_built</th>
+<th class="head">last_sale_amount</th>
+<th class="head">estimated_value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>count</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+<td>2733</td>
+</tr>
+<tr class="row-odd"><td>mean</td>
+<td>80091.8</td>
+<td>1531.57</td>
+<td>7607.18</td>
+<td>5.97585</td>
+<td>2.82693</td>
+<td>2.24277</td>
+<td>1946.78</td>
+<td>285902</td>
+<td>498460</td>
+</tr>
+<tr class="row-even"><td>std</td>
+<td>2142.13</td>
+<td>779.588</td>
+<td>19367.2</td>
+<td>1.95356</td>
+<td>0.859266</td>
+<td>1.22701</td>
+<td>110.519</td>
+<td>977339</td>
+<td>353287</td>
+</tr>
+<tr class="row-odd"><td>min</td>
+<td>37134</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+<td>35951</td>
+</tr>
+<tr class="row-even"><td>25%</td>
+<td>80210</td>
+<td>984</td>
+<td>5250</td>
+<td>5</td>
+<td>2</td>
+<td>1</td>
+<td>1927</td>
+<td>87300</td>
+<td>278234</td>
+</tr>
+<tr class="row-odd"><td>50%</td>
+<td>80219</td>
+<td>1294</td>
+<td>6256</td>
+<td>6</td>
+<td>3</td>
+<td>2</td>
+<td>1953</td>
+<td>192500</td>
+<td>396440</td>
+</tr>
+<tr class="row-even"><td>75%</td>
+<td>80229</td>
+<td>1865</td>
+<td>7760</td>
+<td>7</td>
+<td>3</td>
+<td>3</td>
+<td>1971</td>
+<td>341100</td>
+<td>579737</td>
+</tr>
+<tr class="row-odd"><td>max</td>
+<td>80249</td>
+<td>6098</td>
+<td>858571</td>
+<td>24</td>
+<td>8</td>
+<td>15</td>
+<td>2016</td>
+<td>4.56e+07</td>
+<td>3.88669e+06</td>
+</tr>
+</tbody>
+</table>
+<p>Noting that zipcode is a categorical variable and is not uniformly distributed. Given the small sample size relative to number of homes in Denver this is an obstacle which will begin to be combatted in feature engineering with the note that the training set size is limiting</p>
+<p>While there are no missing fields there are several with a relatively small (up to &lt; 10%) of zeroed out information. Notably square_footage has 7, and last_sale_amount has 202. Also note it&#8217;s possible to have zero bedrooms (a studio), which will factor into feature selection discussed next.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="52%" />
+<col width="48%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Field</th>
+<th class="head">Missing Values</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>address</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>city</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>state</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>zipcode</td>
+<td>0</td>
+</tr>
+<tr class="row-even"><td>property_type</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>square_footage</td>
+<td>7</td>
+</tr>
+<tr class="row-even"><td>lot_size</td>
+<td>3</td>
+</tr>
+<tr class="row-odd"><td>num_rooms</td>
+<td>51</td>
+</tr>
+<tr class="row-even"><td>num_bedrooms</td>
+<td>4</td>
+</tr>
+<tr class="row-odd"><td>num_baths</td>
+<td>5</td>
+</tr>
+<tr class="row-even"><td>year_built</td>
+<td>8</td>
+</tr>
+<tr class="row-odd"><td>last_sale_amount</td>
+<td>202</td>
+</tr>
+<tr class="row-even"><td>last_sale_date</td>
+<td>0</td>
+</tr>
+<tr class="row-odd"><td>estimated_value</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="feature-engineering">
+<h2>Feature Engineering<a class="headerlink" href="#feature-engineering" title="Permalink to this headline">¶</a></h2>
+<p>Because all houses are single-family-residences from Denver, Co neither city, state, nor property_type  are capable of adding information.
+Given the current time allocation and the level of granularity, investigating the address field is tabled for the future.</p>
+<dl class="docutils">
+<dt>Inflation Note</dt>
+<dd>The last_sale_amount data is in nominal dollars. This data was inflated
+with the percent change in CPI via
+<a class="reference external" href="https://fred.stlouisfed.org/series/CPIHOSSL">https://fred.stlouisfed.org/series/CPIHOSSL</a>
+attributed to the month of the last sale.</dd>
+</dl>
+<p>To first get an overview of the 1:1 relationships between features and the target a correlation heatmap is used, presented here including direction, and as an absolute value to highlight magnitude</p>
+<div class="figure align-center">
+<img alt="_images/corr.png" src="_images/corr.png" />
+</div>
+<p><cite>Raw Feature Correlation Heatmap</cite></p>
+<div class="figure align-center">
+<img alt="_images/corr_abs.png" src="_images/corr_abs.png" />
+</div>
+<p><cite>Raw Feature Correlation Magnitude Heatmap</cite></p>
+<p>As to be expected, larger houses (sq foot) have more rooms (absolute, bed, bath). Given the stronger pearson and spearman correlations with the estimated value of sq footage than number of rooms (any type) and the strong multi colinearity between the features I move forward with square footage as the representative feature for this component of the model. (Reducing these features by factorization (PCA/SVD/NMF) is another step to explore to improve this attribute, qualified by the fact that distilling missing room information vs a studio also supports using square footage here.</p>
+<p>As visible in the scatter matrix below, the relationship between square footage and estimated value is slightly non linear. To improve this feature gradient descent of the square footage exponentiated correlation with estimated values yields an improved relationship for parametric modeling (will be discussed in the next section). From here square footage will refer to the original value to the 1.81 power and then divided by 1000. (for intepretability, though during modeling a scalar will be applied rendering the divisor moot)</p>
+<div class="figure align-center">
+<img alt="_images/scatter_matrix1.png" src="_images/scatter_matrix1.png" />
+</div>
+<p>Other features explored during modeling but ultimately dropped included seasonality of the last sale (month/quarter/{belongs to quarter to 2|3 vs 1|4}). With more data this could be combined to create a factor to modulate the the last sale value.</p>
+<p>While trends are present, they were found to be not strong enough in the training data to contribute in modeling. For example:</p>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/month_vs_value.png"><img alt="_images/month_vs_value.png" src="_images/month_vs_value.png" style="width: 560.0px; height: 420.0px;" /></a>
+</div>
+<p><cite>Last Sale Amount vs Last Sale Month</cite></p>
+<p>As an additional technique to distill signal from noise for primary features statsmodels OLS summary report provides statistics confirming that lot_size and year_built on there own are not directly signifigant at a 95% level. However we expect they may contribute in subsequent analysis.</p>
+<p>To attempt to decompose the vaccum from the location based value of a house, the inflated last sale amounts (where non zero) are averaged by zipcode (last sale amount is used and <strong>not</strong> estimated value as this would produce target leakage) and the difference between it&#8217;s inflated last sale value and it&#8217;s zipcode last sale averaged value  are the two features leveraged to support square footage.</p>
+<div class="section" id="features-next-steps">
+<h3>Features: next steps<a class="headerlink" href="#features-next-steps" title="Permalink to this headline">¶</a></h3>
+<p>Other data sources and more housing data will substantially augment the ability to predict housing values. Topic modeling or apply a profiling/ generative clustering technique is critical to improving predictions to teach the model the values associated with location.
+Housing value is substantially impacted by location, and incorporating data about the local public schools (teacher/student ratio, school rank) as well other ameneties,  the accesibility, neighborhood, and desirability in addition to the  the rates of changes of these attributes is paramount to building a high quality house price estimator.</p>
+</div>
+</div>
+<div class="section" id="modeling">
+<h2>Modeling<a class="headerlink" href="#modeling" title="Permalink to this headline">¶</a></h2>
+<p>The models discussed are from scikit learn unless otherswise noted</p>
+<p>Modeling proceeds with following design matrix</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="29%" />
+<col width="42%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">square footage</th>
+<th class="head">inflated value zip diff</th>
+<th class="head">zipAvg</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>210.929</td>
+<td>-208742</td>
+<td>325892</td>
+</tr>
+<tr class="row-odd"><td>798.039</td>
+<td>-221575</td>
+<td>367540</td>
+</tr>
+<tr class="row-even"><td>177.286</td>
+<td>-88799.2</td>
+<td>167156</td>
+</tr>
+<tr class="row-odd"><td>2490.91</td>
+<td>36811</td>
+<td>1.01184e+06</td>
+</tr>
+<tr class="row-even"><td>360.387</td>
+<td>-53460.2</td>
+<td>167156</td>
+</tr>
+</tbody>
+</table>
+<p>Since less then 10 percent of rows contain missing information from the training set those rows are dropped
+as are rows determined outliers by thresholding the magnitude of studentized residual at 2.0  of the  OLS fit (statsmodels)</p>
+<p>Summary of fit for residuals:</p>
+<p>X:= [x1=square footage, x2= last sale diff value (diff from zip avg), x3 = last sale zip avg]</p>
+<blockquote>
+<div><table border="1" class="docutils">
+<colgroup>
+<col width="7%" />
+<col width="22%" />
+<col width="15%" />
+<col width="15%" />
+<col width="12%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">X</th>
+<th class="head">coef</th>
+<th class="head">std err</th>
+<th class="head">t</th>
+<th class="head">P&gt;|t|</th>
+<th class="head">[95.0% Conf. Int.]</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>x1</td>
+<td>2.355e+05</td>
+<td>1.19e+04</td>
+<td>19.841</td>
+<td>0.000</td>
+<td>2.12e+05  2.59e+05</td>
+</tr>
+<tr class="row-odd"><td>x2</td>
+<td>4.276e+04</td>
+<td>1.09e+04</td>
+<td>3.935</td>
+<td>0.000</td>
+<td>2.15e+04  6.41e+04</td>
+</tr>
+<tr class="row-even"><td>x3</td>
+<td>1.059e+05</td>
+<td>1.14e+04</td>
+<td>9.254</td>
+<td>0.000</td>
+<td>8.34e+04  1.28e+05</td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+<div class="figure align-center">
+<a class="reference internal image-reference" href="_images/residuals_sql_ft_pwr.png"><img alt="_images/residuals_sql_ft_pwr.png" src="_images/residuals_sql_ft_pwr.png" style="width: 560.0px; height: 420.0px;" /></a>
+</div>
+<p><cite>Outliers(red) detected in OLS fit. Estimated value as function of sq footage**1.8 defines y(x) position. Note red points embedded in blue have a 0 attribute value`</cite></p>
+<div class="section" id="pipeline">
+<h3>Pipeline<a class="headerlink" href="#pipeline" title="Permalink to this headline">¶</a></h3>
+<p>Parametric and non parametric models are hyperparameter tuned via 5 fold cross validated grid search wth coarse to fine grid evolution.
+To prevent target leakage all fitting is performed inside a pipeline including a standard scaler (mean/variance) and imputer to handle NaN values in testing (such as from a new zipcodes) and scored via r**2- note Imputer is good practice here but is effectively as 0 NaN fill post Scaling. To compare models with different features spaces, adjusted r**2 and/or an f-statistic is required to account for bias variance trade off but with a fixed space, moving forward rmse / r**2 make for valid comparators</p>
+</div>
+<div class="section" id="parametric">
+<h3>Parametric<a class="headerlink" href="#parametric" title="Permalink to this headline">¶</a></h3>
+<p>L1 and L2 regularized linear regression produced similar results with a best estimator R**2 of ~.64 during cross validated grid search tuning the regularization weight.</p>
+</div>
+<div class="section" id="non-parametric">
+<h3>Non Parametric<a class="headerlink" href="#non-parametric" title="Permalink to this headline">¶</a></h3>
+<p>Random Forest Regressor and Gradient Boosted Regressor produced similar results tuning max_depth and min_sample_split with 100 estimators (and a learning rate for boosting) producing R**2 scores during cross val of the training data of ~.87 (noting that the number of estimators was not varied as part of cross val and certainly can be, with the caveat that adding estimators will not lead to a Random Forest overfitting but will eventually for Boosting holding all other parameters fixed).</p>
+<p>Without a signifigant increase in performace from boosting I chose a Random Forest which benefits from parallizability for improved training times at scale in addition to it&#8217;s resiliency with respect to number of estimators</p>
+</div>
+<div class="section" id="avoided">
+<h3>Avoided<a class="headerlink" href="#avoided" title="Permalink to this headline">¶</a></h3>
+<p>Support Vectors are better suited to higher dimensional spaces, Neural Networks require substantially larger training sets then available and are also better equipped for higher dimensional spaces.</p>
+</div>
+</div>
+<div class="section" id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="final-model">
+<h3>Final Model<a class="headerlink" href="#final-model" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<colgroup>
+<col width="48%" />
+<col width="52%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Random Forest Regressor</th>
+<th class="head">Modification from default</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>n_estimators</td>
+<td>100</td>
+</tr>
+<tr class="row-odd"><td>max_depth</td>
+<td>18</td>
+</tr>
+<tr class="row-even"><td>min_samples_split</td>
+<td>12</td>
+</tr>
+</tbody>
+</table>
+<p>Best R**2 scored during cross validation .87 or ~ $137000 RMSE (noting a mean housing value of $471000 in the training set)</p>
+<p>R**2 score is consistent (.87) for best cross val estimator applied to test set.</p>
+<dl class="docutils">
+<dt>Note</dt>
+<dd>Production model available is trained an entire dataset with hyperparameters specified from grid searching</dd>
+</dl>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="UserAdoption.html" class="btn btn-neutral float-right" title="USER ADOPTION" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="cases.html" class="btn btn-neutral" title="CASE STUDIES" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

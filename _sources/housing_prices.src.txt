@@ -1,0 +1,40 @@
+housing_prices.src package
+==========================
+
+Submodules
+----------
+
+
+housing_prices.src.preprocessor module
+--------------------------------------
+
+.. automodule:: housing_prices.src.preprocessor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+housing_prices.src.helpers module
+---------------------------------
+
+.. automodule:: housing_prices.src.helpers
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+housing_prices.src.house_predictor module
+-----------------------------------------
+
+.. automodule:: housing_prices.src.house_predictor
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: housing_prices.src
+    :members:
+    :undoc-members:
+    :show-inheritance:

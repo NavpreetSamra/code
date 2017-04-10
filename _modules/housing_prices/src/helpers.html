@@ -1,0 +1,391 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>housing_prices.src.helpers &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../FunctionComposition.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cases.html">CASE STUDIES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>housing_prices.src.helpers</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for housing_prices.src.helpers</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="k">import</span> <span class="n">interp</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="k">import</span> <span class="n">Lasso</span><span class="p">,</span> <span class="n">Ridge</span>
+<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span><span class="p">,</span> <span class="n">GradientBoostingRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVR</span>
+
+<span class="kn">import</span> <span class="nn">tabulate</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">context</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span> <span class="n">font</span><span class="o">=</span><span class="s2">&quot;monospace&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="month_year_ftime"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.month_year_ftime">[docs]</a><span class="k">def</span> <span class="nf">month_year_ftime</span><span class="p">(</span><span class="n">pdSeries</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return month-year from :py:class:`pandas.Series` with date information</span>
+
+<span class="sd">    (converts stringsto datetime object before converting back to string)</span>
+
+<span class="sd">    :param `pandas.Series` pdSeries: series to convert</span>
+
+<span class="sd">    :return: month year series</span>
+<span class="sd">    :rtype: `pandas.Series`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">pdSeries</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>\
+          <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%m-%Y&#39;</span><span class="p">))</span></div>
+
+
+<span class="k">def</span> <span class="nf">_build_key</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert flexible string / tuple / array-like key types to list based keys</span>
+<span class="sd">    to ensure :py:class:`pandas.DataFrame` will maintain type after slicing</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="p">[</span><span class="n">cols</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="nb">any</span><span class="p">([</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]]):</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">cols</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;cols not valid key type&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">cols</span>
+
+
+<div class="viewcode-block" id="build_train_transform_kwargs"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.build_train_transform_kwargs">[docs]</a><span class="k">def</span> <span class="nf">build_train_transform_kwargs</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build dict of kwargs for :func:`Cleaner.transform` for training</span>
+
+<span class="sd">    :return: kwargs</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_pull_raw&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;estimated_value&#39;</span><span class="p">,</span> <span class="s1">&#39;last_sale_amount&#39;</span><span class="p">]},</span>
+         <span class="s1">&#39;_apply_power&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;square_footage&#39;</span><span class="p">],</span> <span class="s1">&#39;powers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.81</span><span class="p">],</span> <span class="s1">&#39;scales&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1000.</span><span class="p">]},</span>
+         <span class="s1">&#39;_inflate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;timeCol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;last_sale_date&#39;</span><span class="p">],</span> <span class="s1">&#39;histCol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;last_sale_amount&#39;</span><span class="p">]}</span>
+         <span class="c1"># &#39;_build_categoricals&#39;: {&#39;categoricalCols&#39;: [&#39;zipcode&#39;]}</span>
+         <span class="c1"># &#39;_build_quarters&#39;: {&#39;cols&#39;: []},</span>
+         <span class="p">}</span>
+    <span class="k">return</span> <span class="n">d</span></div>
+
+
+<div class="viewcode-block" id="build_transform_kwargs"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.build_transform_kwargs">[docs]</a><span class="k">def</span> <span class="nf">build_transform_kwargs</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build dict of kwargs for :func:`Cleaner.transform` for predicting</span>
+
+<span class="sd">    :return: kwargs</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;_pull_raw&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;last_sale_amount&#39;</span><span class="p">]},</span>
+         <span class="s1">&#39;_apply_power&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;cols&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;square_footage&#39;</span><span class="p">],</span> <span class="s1">&#39;powers&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.81</span><span class="p">],</span> <span class="s1">&#39;scales&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1000.</span><span class="p">]},</span>
+         <span class="s1">&#39;_inflate&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;timeCol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;last_sale_date&#39;</span><span class="p">],</span> <span class="s1">&#39;histCol&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;last_sale_amount&#39;</span><span class="p">]}</span>
+         <span class="c1"># &#39;_build_categoricals&#39;: {&#39;categoricalCols&#39;: [&#39;zipcode&#39;]}</span>
+         <span class="c1"># &#39;_build_quarters&#39;: {&#39;cols&#39;: []},</span>
+         <span class="p">}</span>
+    <span class="k">return</span> <span class="n">d</span></div>
+
+
+<div class="viewcode-block" id="build_param_grid"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.build_param_grid">[docs]</a><span class="k">def</span> <span class="nf">build_param_grid</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to build parameter grid for hyperparameter tuning</span>
+
+<span class="sd">    :return: classifiers and parameter grids</span>
+<span class="sd">    :rtype: dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;lasso&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;clf&#39;</span><span class="p">:</span> <span class="n">Lasso</span><span class="p">(),</span> <span class="s1">&#39;grid&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;classifier__alpha&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">12</span><span class="p">)}},</span>
+         <span class="c1"># &#39;ridge&#39;: {&#39;clf&#39;: Ridge(), &#39;grid&#39;: {&#39;classifier__alpha&#39;: np.logspace(-1, 4, 12)}},</span>
+         <span class="s1">&#39;rf&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;clf&#39;</span><span class="p">:</span> <span class="n">RandomForestRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+                <span class="s1">&#39;grid&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;classifier__max_depth&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+                         <span class="s1">&#39;classifier__min_samples_split&#39;</span><span class="p">:</span> <span class="p">[</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">28</span><span class="p">]}</span>
+                <span class="p">},</span>
+         <span class="s1">&#39;gb&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;clf&#39;</span><span class="p">:</span> <span class="n">GradientBoostingRegressor</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">),</span> <span class="s1">&#39;grid&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;classifier__max_depth&#39;</span><span class="p">:[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> 
+                                                                             <span class="s1">&#39;classifier__learning_rate&#39;</span><span class="p">:</span><span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">)}},</span>
+         <span class="c1"># &#39;svm&#39;: {&#39;clf&#39;: SVR(kernel=&#39;rbf&#39;), &#39;grid&#39;: {&#39;classifier__C&#39;: np.logspace(-3,3,7), &#39;classifier__gamma&#39;: np.logspace(-5,2,4)}}</span>
+
+         <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">g</span></div>
+
+
+<div class="viewcode-block" id="df_table"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.df_table">[docs]</a><span class="k">def</span> <span class="nf">df_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fname</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to create rst tables from :py:class:`pandas.DataFrame`</span>
+
+<span class="sd">    :param `pandas.DataFrame` df: data frame</span>
+<span class="sd">    :param str fname: string file name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">tabulate</span><span class="o">.</span><span class="n">tabulate</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="n">tablefmt</span><span class="o">=</span><span class="s1">&#39;rst&#39;</span><span class="p">))</span>
+        <span class="n">w</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="corr_heatmap"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.corr_heatmap">[docs]</a><span class="k">def</span> <span class="nf">corr_heatmap</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=.</span><span class="mi">8</span><span class="p">,</span> <span class="n">absolute</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function to create correlation heatmap imagesfrom :py:class:`pandas.DataFrame`</span>
+
+<span class="sd">    :param `pandas.DataFrame` df: data frame</span>
+<span class="sd">    :param str fname: string file name</span>
+<span class="sd">    :param vmax float: absolute value bound for colorbar</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">absolute</span><span class="p">:</span>
+        <span class="n">corr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">corr</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">corr</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="n">vmax</span><span class="p">,</span> <span class="n">square</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="stacked_bar"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.stacked_bar">[docs]</a><span class="k">def</span> <span class="nf">stacked_bar</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">fName</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Helper function for creating stacked bar charts based on the values in a column</span>
+<span class="sd">    and the categories of a target</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">df2</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="n">col</span><span class="p">,</span> <span class="n">target</span><span class="p">])[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">target</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+    <span class="n">df2</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span> <span class="n">stacked</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="n">fName</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+
+<span class="k">def</span> <span class="nf">_collinear_vif</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check for collinear features</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="n">vif</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="n">ind</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">vifMagnitude</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">ind</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; has vif &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">collinear</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">collinear</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Collinear feature risk&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ItemSelector"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.ItemSelector">[docs]</a><span class="k">class</span> <span class="nc">ItemSelector</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    For data grouped by feature, select subset of data at a provided key.</span>
+
+<span class="sd">    :param key-like: valid selector for whatever is fit</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+
+<div class="viewcode-block" id="ItemSelector.fit"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.ItemSelector.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="ItemSelector.transform"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.ItemSelector.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_dict</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">data_dict</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">]</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ItemSelector.hold"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.helpers.ItemSelector.hold">[docs]</a>    <span class="k">def</span> <span class="nf">hold</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">targetField</span><span class="p">,</span> <span class="n">floorThresh</span><span class="o">=</span><span class="p">(),</span>
+                      <span class="n">ceilThresh</span><span class="o">=</span><span class="p">(),</span> <span class="n">dropZeros</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">design</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+            <span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">criteria</span> <span class="ow">in</span> <span class="n">floorThresh</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="n">col</span><span class="p">,</span> <span class="n">criteria</span>
+                <span class="n">design</span> <span class="o">=</span> <span class="n">design</span><span class="o">.</span><span class="n">fillna</span><span class="p">({</span><span class="n">col</span><span class="p">:</span> <span class="n">criteria</span><span class="p">})</span>
+                <span class="n">submask</span> <span class="o">=</span> <span class="n">design</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">criteria</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">submask</span><span class="o">.</span><span class="n">values</span>
+                <span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">criteria</span> <span class="ow">in</span> <span class="n">ceilThresh</span><span class="p">:</span>
+                <span class="n">design</span> <span class="o">=</span> <span class="n">design</span><span class="o">.</span><span class="n">fillna</span><span class="p">({</span><span class="n">col</span><span class="p">:</span> <span class="n">criteria</span><span class="p">})</span>
+                <span class="n">submask</span> <span class="o">=</span> <span class="n">design</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">criteria</span>
+                <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span> <span class="n">submask</span><span class="o">.</span><span class="n">values</span>
+                <span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+
+            <span class="n">design</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">design</span><span class="p">)</span>
+            <span class="n">design</span> <span class="o">=</span> <span class="n">add_constant</span><span class="p">(</span><span class="n">design</span><span class="p">)</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">&amp;</span>\
+                  <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">outlier_test</span><span class="p">()[</span><span class="s1">&#39;student_resid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+
+            <span class="nb">print</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">mask</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -1,0 +1,531 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>housing_prices.src.preprocessor &mdash; Mark Weiss 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="Mark Weiss 0.0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Mark Weiss
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../FunctionComposition.html">BATCH MANAGER</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../slides.html">ROUTE VISION</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cases.html">CASE STUDIES</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">code</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">Mark Weiss</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>housing_prices.src.preprocessor</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for housing_prices.src.preprocessor</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn.pipeline</span> <span class="k">import</span> <span class="n">FeatureUnion</span><span class="p">,</span> <span class="n">Pipeline</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">GridSearchCV</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="k">import</span> <span class="n">train_test_split</span> <span class="k">as</span> <span class="n">tts</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="k">import</span> <span class="n">Imputer</span><span class="p">,</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.base</span> <span class="k">import</span> <span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="k">import</span> <span class="n">make_scorer</span><span class="p">,</span> <span class="n">r2_score</span> <span class="c1"># , mean_squared_error</span>
+
+<span class="kn">from</span> <span class="nn">statsmodels.api</span> <span class="k">import</span> <span class="n">OLS</span>
+
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="k">import</span> <span class="n">_build_key</span><span class="p">,</span> <span class="n">month_year_ftime</span>
+
+<span class="kn">from</span> <span class="nn">helpers</span> <span class="k">import</span> <span class="n">ItemSelector</span><span class="p">,</span> <span class="n">build_param_grid</span><span class="p">,</span> <span class="n">build_train_transform_kwargs</span><span class="p">,</span> <span class="n">build_transform_kwargs</span>
+
+
+<div class="viewcode-block" id="ModelOwner"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.ModelOwner">[docs]</a><span class="k">class</span> <span class="nc">ModelOwner</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model front end splits training data off, defines</span>
+<span class="sd">    grid search scoring metric, runs model</span>
+
+<span class="sd">    :param `pandas.DataFame` df: raw data</span>
+<span class="sd">    :param dict testKwargs: keyword arguments for sklearn train_test_split</span>
+<span class="sd">    :param dict outlierKwargs: keyword arguments for outlier removal &#39;dropVal&#39; replacement and &#39;studentResid&#39; thresholding</span>
+<span class="sd">    :param str targetField: target from cleaned :py:class:`pandas.DataFrame` for fitting</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">testKwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;test_size&#39;</span><span class="p">:</span> <span class="o">.</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;random_state&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">},</span>
+                 <span class="n">outlierKwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;dropVal&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;studentResid&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span>
+                 <span class="n">targetField</span><span class="o">=</span><span class="s1">&#39;estimated_value&#39;</span><span class="p">):</span>
+
+        <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">tts</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="o">**</span><span class="n">testKwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">targetField</span> <span class="o">=</span> <span class="n">targetField</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cleaner</span> <span class="o">=</span> <span class="n">Cleaner</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+
+        <span class="n">train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cleaner</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+
+        <span class="n">train</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_outliers</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">targetField</span><span class="p">,</span> <span class="o">**</span><span class="n">outlierKwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">partition_data</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">targetField</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">designTrain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;</span>
+<span class="sd">        Design Matrix for training</span>
+
+<span class="sd">        :rtype: :py:class:`pandas.DataFrame`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_designTrain</span>
+
+    <span class="nd">@designTrain</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">designTrain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_designTrain</span> <span class="o">=</span> <span class="n">df</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">designTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;</span>
+<span class="sd">        Design Matrix for testing</span>
+
+<span class="sd">        :rtype: :py:class:`pandas.DataFrame`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_designTest</span>
+
+    <span class="nd">@designTest</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">designTest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_designTest</span> <span class="o">=</span> <span class="n">df</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">targetTrain</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;</span>
+<span class="sd">        Target array for training</span>
+
+<span class="sd">        :rtype: :py:class:`pandas.Series`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_targetTrain</span>
+
+    <span class="nd">@targetTrain</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">targetTrain</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_targetTrain</span> <span class="o">=</span> <span class="n">df</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">targetTest</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;&quot;</span>
+<span class="sd">        Target array for testing</span>
+
+<span class="sd">        :rtype: :py:class:`pandas.Series`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_targetTest</span>
+
+    <span class="nd">@targetTest</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">targetTest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_targetTest</span> <span class="o">=</span> <span class="n">df</span>
+
+<div class="viewcode-block" id="ModelOwner.partition_data"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.ModelOwner.partition_data">[docs]</a>    <span class="k">def</span> <span class="nf">partition_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">targetField</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Split data into design :py:class:`pandas.DataFrame` and target :py:class:`pandas.Series` for along train test split</span>
+
+<span class="sd">        :param pandas.DataFrame train: data for training</span>
+<span class="sd">        :param pandas.DataFrame test: data for testing</span>
+<span class="sd">        :param str targetField: target from train/ test :py:class:`pandas.DataFrame`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">designTrain</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">targetField</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">targetTrain</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">targetField</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">designTest</span> <span class="o">=</span> <span class="n">test</span><span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">test</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">targetField</span><span class="p">]]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">targetTest</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="n">targetField</span><span class="p">]</span></div>
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ModelOwner.remove_outliers"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.ModelOwner.remove_outliers">[docs]</a>    <span class="k">def</span> <span class="nf">remove_outliers</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">targetField</span><span class="p">,</span> <span class="n">dropVal</span><span class="p">,</span> <span class="n">studentResid</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Remove outliers from training data based on statsmodels OLS Fit studentized residuals and specified drop values across features</span>
+
+<span class="sd">        :param pandas.DataFrame train: data for training</span>
+<span class="sd">        :param str targetField: target from train/ test :py:class:`pandas.DataFrame`</span>
+<span class="sd">        :param obj dropVal: value to drop rows across</span>
+<span class="sd">        :param float studentResid: number to threshold absolute value of student residuals above</span>
+<span class="sd">        :param bool verbose: flag to print out OLS summary information and number of outlier removed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">dropVal</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">train</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">ix</span><span class="p">[(</span><span class="n">train</span><span class="o">.</span><span class="n">T</span> <span class="o">!=</span> <span class="n">dropVal</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()]</span>
+
+        <span class="n">design</span> <span class="o">=</span> <span class="n">train</span><span class="p">[[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">train</span> <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="n">targetField</span><span class="p">]]</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="n">train</span><span class="p">[</span><span class="n">targetField</span><span class="p">]</span>
+
+        <span class="n">design</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">design</span><span class="p">)</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">OLS</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">design</span><span class="p">)</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">studentResid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">outlier_test</span><span class="p">()[</span><span class="s1">&#39;student_resid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+            <span class="nb">print</span> <span class="s1">&#39;Removed:&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">train</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">train</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">mask</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="ModelOwner.grid_search"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.ModelOwner.grid_search">[docs]</a>    <span class="k">def</span> <span class="nf">grid_search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">param_grid</span><span class="o">=</span><span class="n">build_param_grid</span><span class="p">(),</span>
+                    <span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">scorer</span><span class="o">=</span><span class="n">make_scorer</span><span class="p">(</span><span class="n">r2_score</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Grid search estimator based on param grids</span>
+
+<span class="sd">        :parm key-like cols: columns to pull from design to build features for training</span>
+<span class="sd">        :param dict param_grid: dict of classifiers and param grids to</span>
+<span class="sd">            search see :func:`windfall.src.helpers.build_param_grid`</span>
+<span class="sd">        :param int cv: number of folds for cross validation</span>
+<span class="sd">        :param sklearn.metric scorer: scorer for grid search</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">pckg</span> <span class="ow">in</span> <span class="n">param_grid</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">clf</span> <span class="o">=</span> <span class="n">pckg</span><span class="p">[</span><span class="s1">&#39;clf&#39;</span><span class="p">]</span>
+            <span class="n">grid</span> <span class="o">=</span> <span class="n">pckg</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span>
+            <span class="n">pipeline</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">build_pipeline</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">cols</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">results</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">GridSearchCV</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">pipeline</span><span class="p">,</span>
+                                              <span class="n">param_grid</span><span class="o">=</span><span class="n">grid</span><span class="p">,</span>
+                                              <span class="n">cv</span><span class="o">=</span><span class="n">cv</span><span class="p">,</span> <span class="n">scoring</span><span class="o">=</span><span class="n">scorer</span>
+                                              <span class="p">)</span>\
+                                             <span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">designTrain</span><span class="p">,</span>
+                                                  <span class="bp">self</span><span class="o">.</span><span class="n">targetTrain</span><span class="p">)</span></div>
+
+
+
+    <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="ModelOwner.build_pipeline"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.ModelOwner.build_pipeline">[docs]</a>    <span class="k">def</span> <span class="nf">build_pipeline</span><span class="p">(</span><span class="n">clf</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build :py:class:`sklearn.Pipeline` with feature union of cols followed by Imputer StandardScaler and an estimator</span>
+
+<span class="sd">        :param sklearn.estimator clf: estimator</span>
+<span class="sd">        :parm key-like cols: columns to pull from design to build features for training</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">features</span> <span class="o">=</span> <span class="n">FeatureUnion</span><span class="p">([(</span><span class="s1">&#39;fields&#39;</span><span class="p">,</span> <span class="n">ItemSelector</span><span class="p">(</span><span class="n">_build_key</span><span class="p">(</span><span class="n">cols</span><span class="p">)))])</span>
+        <span class="n">pipeline</span> <span class="o">=</span> <span class="n">Pipeline</span><span class="p">([(</span><span class="s1">&#39;build_features&#39;</span><span class="p">,</span> <span class="n">features</span><span class="p">),</span>
+                             <span class="p">(</span><span class="s1">&#39;impute&#39;</span><span class="p">,</span> <span class="n">Imputer</span><span class="p">()),</span>
+                             <span class="p">(</span><span class="s1">&#39;scale&#39;</span><span class="p">,</span> <span class="n">StandardScaler</span><span class="p">()),</span>
+                             <span class="p">(</span><span class="s1">&#39;classifier&#39;</span><span class="p">,</span> <span class="n">clf</span><span class="p">)])</span>
+        <span class="k">return</span> <span class="n">pipeline</span></div></div>
+
+
+<div class="viewcode-block" id="Cleaner"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.Cleaner">[docs]</a><span class="k">class</span> <span class="nc">Cleaner</span><span class="p">(</span><span class="n">BaseEstimator</span><span class="p">,</span> <span class="n">TransformerMixin</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class for cleaning raw housing attribute data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="Cleaner.fit"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.Cleaner.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">cpiArgs</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;../data/all_cpi.csv&#39;</span><span class="p">,</span>
+                               <span class="s1">&#39;DATE&#39;</span><span class="p">,</span> <span class="s1">&#39;cpiDate&#39;</span><span class="p">,</span> <span class="s1">&#39;CPIHOSNS&#39;</span><span class="p">,</span> <span class="s1">&#39;cpiVal&#39;</span><span class="p">),</span>
+            <span class="n">lookupCols</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;zipcode&#39;</span><span class="p">)</span>
+
+            <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Fit method note transformer must be called on original data to aggregate zip information, this will be fixed in subsequent versions</span>
+
+<span class="sd">        :param `pandas.DataFrame` df: DataFrame to dit</span>
+<span class="sd">        :param array-like cpiArgs: (path to cpi data, original date column, date column rename, original cpi column, cpi column rename)</span>
+<span class="sd">        :param key-like lookupCols: columns to store unique values for in self.lookups</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpiDate</span> <span class="o">=</span> <span class="n">cpiArgs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpiVal</span> <span class="o">=</span> <span class="n">cpiArgs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lookups</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_read_cpi</span><span class="p">(</span><span class="o">*</span><span class="n">cpiArgs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_inflation</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_build_categories</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">lookupCols</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">isTransformed</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">_read_cpi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cpiFPath</span><span class="p">,</span> <span class="n">timeCol</span><span class="p">,</span> <span class="n">timeRename</span><span class="p">,</span> <span class="n">cpiCol</span><span class="p">,</span> <span class="n">cpiRename</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">cpiFPath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+                                <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">timeRename</span><span class="p">,</span> <span class="n">cpiRename</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="p">[</span><span class="n">timeRename</span><span class="p">]</span> <span class="o">=</span> <span class="n">month_year_ftime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">timeCol</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="p">[</span><span class="n">cpiRename</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">cpiCol</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_build_inflation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">currentCpi</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiDate</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiVal</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minCpi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiDate</span><span class="p">)[</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiVal</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="p">[</span><span class="s1">&#39;inflation&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">currentCpi</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiVal</span><span class="p">])</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiVal</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_build_categories</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">lookupCols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lookupCols</span> <span class="o">=</span> <span class="n">_build_key</span><span class="p">(</span><span class="n">lookupCols</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">lookupCols</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lookups</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Cleaner.transform"><a class="viewcode-back" href="../../../housing_prices.src.html#housing_prices.src.preprocessor.Cleaner.transform">[docs]</a>    <span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">transformKwargs</span><span class="o">=</span><span class="n">build_transform_kwargs</span><span class="p">(),</span> <span class="n">dropCols</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;last_sale_date&#39;</span><span class="p">,</span> <span class="s1">&#39;last_sale_amount&#39;</span><span class="p">),</span> <span class="n">customZips</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tranformer for clening raw housing data</span>
+
+<span class="sd">        :param pandas.DataFame df: raw data</span>
+<span class="sd">        :param dict transformKwargs: dict of transformation operations</span>
+<span class="sd">            see :func:`windfall.src.helpers.build_transform_kwargs`</span>
+<span class="sd">            and :func:`windfall.src.helpers.build_train_transform_kwargs`</span>
+
+<span class="sd">        :param key-like dropCols: columns to drop from data</span>
+<span class="sd">        :param bool customZips: switch for leveraging aggregated historical sale zipcode data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">transformedDf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">operation</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="ow">in</span> <span class="n">transformKwargs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+            <span class="n">transformedDf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__getattribute__</span><span class="p">(</span><span class="n">operation</span><span class="p">)(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">customZips</span><span class="p">:</span>
+            <span class="n">transformedDf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_custom_zips</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">)</span>
+        <span class="n">transformedDf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_custom_drops</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">_build_key</span><span class="p">(</span><span class="n">dropCols</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isTransformed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">isTransformed</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">transformedDf</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_pull_raw</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">cols</span><span class="p">:</span>
+            <span class="n">transformedDf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">transformedDf</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_apply_power</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">powers</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">scales</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">col</span><span class="p">,</span> <span class="n">val</span><span class="p">,</span> <span class="n">scale</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">powers</span><span class="p">,</span> <span class="n">scales</span><span class="p">):</span>
+            <span class="n">transformedDf</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">**</span><span class="n">val</span> <span class="o">/</span> <span class="n">scale</span>
+
+        <span class="k">return</span> <span class="n">transformedDf</span>
+
+    <span class="k">def</span> <span class="nf">_inflate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">timeCol</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">histCol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">timeCol</span> <span class="o">=</span> <span class="n">_build_key</span><span class="p">(</span><span class="n">timeCol</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">histCol</span> <span class="o">=</span> <span class="n">_build_key</span><span class="p">(</span><span class="n">histCol</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">transformedDf</span><span class="p">[</span><span class="n">timeCol</span><span class="p">]</span> <span class="o">=</span> <span class="n">month_year_ftime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">timeCol</span><span class="p">])</span>
+
+        <span class="n">cpiDf</span> <span class="o">=</span> <span class="n">transformedDf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">cpi</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="n">timeCol</span><span class="p">,</span>
+                                                  <span class="n">right_on</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cpiDate</span><span class="p">,</span>
+                                                  <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+                                           <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+
+        <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;inflatedValue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cpiDf</span><span class="p">[</span><span class="s1">&#39;inflation&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">df</span><span class="p">[</span><span class="n">histCol</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">transformedDf</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_custom_drops</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">dropCols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">transformedDf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">dropCols</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_build_categoricals</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">categoricalCols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">categoricalCols</span> <span class="o">=</span> <span class="n">_build_key</span><span class="p">(</span><span class="n">categoricalCols</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">categoricalCols</span><span class="p">:</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;category&#39;</span><span class="p">,</span> <span class="n">categories</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">lookups</span><span class="p">[</span><span class="n">col</span><span class="p">])</span>
+            <span class="n">dummified</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">series</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">col</span><span class="p">,</span> <span class="n">drop_first</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">transformedDf</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">transformedDf</span><span class="p">,</span> <span class="n">dummified</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">transformedDf</span>
+
+    <span class="k">def</span> <span class="nf">_custom_zips</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;zipcode&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">transformedDf</span><span class="p">:</span>
+            <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;zipcode&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;zipcode&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isTransformed</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zipavg</span> <span class="o">=</span> <span class="n">transformedDf</span><span class="o">.</span><span class="n">ix</span><span class="p">[</span><span class="n">transformedDf</span><span class="o">.</span><span class="n">inflatedValue</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;zipcode&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()[[</span><span class="s1">&#39;inflatedValue&#39;</span><span class="p">]]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zipavg</span><span class="p">[</span><span class="s1">&#39;zipValue&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">zipavg</span><span class="o">.</span><span class="n">inflatedValue</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">zipavg</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;inflatedValue&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">zipDf</span> <span class="o">=</span> <span class="n">transformedDf</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">zipavg</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;zipcode&#39;</span><span class="p">,</span>
+                                                                    <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                                                    <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>\
+                                                             <span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">)</span>
+        <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;zipAvg&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zipDf</span><span class="p">[</span><span class="s1">&#39;zipValue&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">transformedDf</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;zipcode&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;inflatedValue&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;zipAvg&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">transformedDf</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_build_quarters</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;quarters&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">last_sale_date</span><span class="p">)</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">quarter</span> <span class="o">-</span> <span class="mf">2.5</span><span class="p">)</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span> <span class="o">==</span> <span class="o">.</span><span class="mi">5</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transformedDf</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_diffTime</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">transformedDf</span><span class="p">,</span> <span class="n">dtCol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">dtCol</span> <span class="o">=</span> <span class="n">_build_key</span><span class="p">(</span><span class="n">dtCol</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">deltaT</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s1">&#39;today&#39;</span><span class="p">)</span> <span class="o">-</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">dtCol</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s1">&#39;coerce&#39;</span><span class="p">)</span>
+        <span class="n">transformedDf</span><span class="p">[</span><span class="s1">&#39;dt&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">deltaT</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">days</span>
+
+        <span class="k">return</span> <span class="n">transformedDf</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2016, Mark Weiss.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

@@ -183,14 +183,12 @@ FOR POINT TO POINT SEARCHES IN VELOCITY GRAPHS</strong></p>
 <div class="section" id="scalar-field">
 <h2>SCALAR FIELD<a class="headerlink" href="#scalar-field" title="Permalink to this headline">¶</a></h2>
 <p>Scalar representation of the local velocity field as a perturbation in heuristic</p>
-<div class="math">
-<p><img src="_images/math/ead9366a9d1ad03fb6588e8b628efbbf9306e9b9.png" alt="\begin{eqnarray}
-    f(n) &amp; = &amp;  g(n) + {\epsilon}h(n) \\
-    g(n) &amp; = &amp; cost_{time}(n) \\
-    h_{A^*}(n_{i+1}) &amp; = &amp; min_{target}[cost_{time}(x_{ni+1})] \\
-    h_{Av^*}(n_{i+1}) &amp; = &amp;  min_{target}[cost_{time}(x_{ni+1},v_{ni+1})]
- \end{eqnarray}"/></p>
-</div><div class="line-block">
+ \begin{eqnarray}
+    f(n) & = &  g(n) + {\epsilon}h(n) \\
+    g(n) & = & cost_{time}(n) \\
+    h_{A^*}(n_{i+1}) & = & min_{target}[cost_{time}(x_{ni+1})] \\
+    h_{Av^*}(n_{i+1}) & = &  min_{target}[cost_{time}(x_{ni+1},v_{ni+1})]
+ \end{eqnarray}<div class="line-block">
 <div class="line"><br /></div>
 </div>
 <a class="reference internal image-reference" href="_images/map_traffic.png"><img alt="_images/map_traffic.png" class="align-left" src="_images/map_traffic.png" style="width: 892.8px; height: 160.8px;" /></a>
@@ -338,13 +336,11 @@ FOR POINT TO POINT SEARCHES IN VELOCITY GRAPHS</strong></p>
 </div>
 <div class="section" id="current-work-vector-field">
 <h2>CURRENT WORK : VECTOR FIELD<a class="headerlink" href="#current-work-vector-field" title="Permalink to this headline">¶</a></h2>
-<div class="math">
-<p><img src="_images/math/f904006f905b17719df8c16f1869bed9fbdb36cc.png" alt="\begin{eqnarray}
-    k &amp; = &amp; kernel \\
-    \vec{v_{ni+1}} &amp; = &amp; w(v_{ni+1}, \vec{x_{ni}}, \vec{x_{ni+1}}, k_{r}) \\
-    h_{Av^*}(n_{i+1}) &amp; = &amp;  min_{target}[cost_{time}(x_{ni+1},\vec{v_{ni+1}})]
- \end{eqnarray}"/></p>
-</div><dl class="docutils">
+ \begin{eqnarray}
+    k & = & kernel \\
+    \vec{v_{ni+1}} & = & w(v_{ni+1}, \vec{x_{ni}}, \vec{x_{ni+1}}, k_{r}) \\
+    h_{Av^*}(n_{i+1}) & = &  min_{target}[cost_{time}(x_{ni+1},\vec{v_{ni+1}})]
+ \end{eqnarray}<dl class="docutils">
 <dt>A field can be defined where each dimension corresponds to a direction</dt>
 <dd><ul class="first last simple">
 <li>Method is memory intensive, but memory is cheap and does not violate our constraints</li>
