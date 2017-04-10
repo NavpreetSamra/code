@@ -62,8 +62,7 @@ class WordCountsSpark(WordCounts):
 
     def most_common(self, n=None):
         """
-        Abstraction  for returning the n most frequent
-        words and associated values
+        Return (n | all) most common words and counts in document
 
         :param int n: number to return, default None returns all
         :return most_common: key value pairs in sorted order

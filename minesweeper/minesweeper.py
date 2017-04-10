@@ -5,6 +5,12 @@ import random
 
 class MineSweeper(object):
     """
+    Class for owning minesweeper game. Provides interaction wtih :py:class:`Board`
+
+    :param tuple.int size: 1x2 tuple of board size (r, c)
+    :param int numBombs: number of mines in the game
+    :param str directions: 'octile' - 8 way connected, 'quad' 4 way connected
+    :param list.tuple.int: option to specify bomb locations, default selected random
     """
     def __init__(self, size=(10, 10), numBombs=10, directions='octile', bombs=None):
         self._size = size
@@ -21,10 +27,18 @@ class MineSweeper(object):
 
     @property
     def board(self):
+        """
+        :py:class:`Board`
+        """
         return self._board
 
     @property
     def bombs(self):
+        """
+        Bomb locations
+
+        list.tuple.ints
+        """
         return self._bombs
 
     @bombs.setter
@@ -65,10 +79,71 @@ class MineSweeper(object):
                     self._bfs(cell)
 
 
-
-
 class Board(object):
     def __init__(self, size, directions):
+        self._build_attributes(size, directions)
+
+    @property
+    def df(self):
+        """
+        :py:class:`pandas.DataFrame` for placing bombs and building adjacency
+        """
+        return self._df
+
+    @property
+    def boardState(self):
+        """
+        Board state visible to :py:class:`Player`.
+        """
+        return self._boardState
+
+    @property
+    def directions(self):
+        """
+        prescribed directions ('octile', 'quad')
+        """
+        return self._directions
+
+    @property
+    def cells(self):
+        """
+        Adjacency look up dictionary
+        """
+
+        return self._cells
+
+    @property
+    def bombs(self):
+        """
+        Bomb locations
+
+        list.tuple.ints
+        """
+        return self._bombs
+
+    @property
+    def values(self):
+        """
+        Number of adjacent bombs for non bombs cells, else -1 
+        """
+        return self._values
+
+    @property
+    def closed(self):
+        """
+        List of unvisited nodes
+        """
+        return self._closed
+
+    @property
+    def opened(self):
+        """
+        List of visited nodes
+        """
+
+        return self._opened
+
+    def _build_attributes(self, size, directions):
         index = range(size[0])
         columns = range(size[1])
 
@@ -83,38 +158,6 @@ class Board(object):
         self._opened = set([])
 
         self._build_adjacency()
-
-    @property
-    def df(self):
-        return self._df
-
-    @property
-    def boardState(self):
-        return self._boardState
-
-    @property
-    def directions(self):
-        return self._directions
-
-    @property
-    def cells(self):
-        return self._cells
-
-    @property
-    def bombs(self):
-        return self._bombs
-
-    @property
-    def values(self):
-        return self._values
-
-    @property
-    def closed(self):
-        return self._closed
-
-    @property
-    def opened(self):
-        return self._opened
 
     def _place_bombs(self, bombs):
         """
