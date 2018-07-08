@@ -9,11 +9,8 @@ Welcome to  Mark Weiss's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 4
+   :glob:
 
-   FunctionComposition.rst
-   slides.rst
-   cases.rst
    modules.rst
 
 

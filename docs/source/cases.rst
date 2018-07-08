@@ -6,8 +6,8 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   UserAdoption.rst
-   shoppingtimeov.rst
-   carresov.rst
+   case_studies/HousingPrices.rst
+   case_studies/UserAdoption.rst
+   case_studies/ShoppingTime.rst
 
 

@@ -1,4 +1,0 @@
-import math_h
-import text_h 
-
-__version__ = "0.0.1"
