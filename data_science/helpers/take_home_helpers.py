@@ -160,28 +160,24 @@ class Pipeline(Pipeline):
 
 @pandas_transformer
 class Selector(BaseTransformer):
-    def __init__(self, key=None, filterType=None, filterValue=None, reverse=False):
-        self.key = key
-        self.filterType = filterType
-        self.filterValue = filterValue
+    def __init__(self, selectMethod=None, selectValue=None, reverse=False):
+        self.selectMethod = selectMethod
+        self.selectValue = selectValue
         self.reverse = reverse
 
-    def data_type(self, X, dtypes):
-        # move to pandas
-        inclusions = [i for i in X if X[i].dtype in dtypes]
+    def data_type(self, df, inclusionExclusionKwargs):
+        inclusions = df.select_dtypes(**inclusionExclusionKwargs).columns.tolist()
         return inclusions
 
-    def regex_match(self, X, patterns):
+    def regex(self, X, patterns):
         inclusions = [i for i in X if any([re.match(j, i) for j in patterns])]
         return inclusions
 
     def fit(self, X, y=None):
-        if self.key:
-            inclusions = self.key
-        elif self.filterType:
-            inclusions = getattr(self, self.filterType)(X, self.filterValue)
+        if self.selectMethod:
+            inclusions = getattr(self, self.selectMethod)(X, self.selectValue)
         else:
-            inclusions = X.columns.tolist()
+            inclusions = self.selectValue
 
         if self.reverse:
             exclusions = set(inclusions)
@@ -196,30 +192,72 @@ class Selector(BaseTransformer):
 
 @pandas_transformer
 class CategoricalTransformer(BaseTransformer):
-    def __init__(self, dropFirst=False, fillNA='missing'):
+    def __init__(self, dropFirst=False):
         self.dropFirst = dropFirst
-        self.fillNA = fillNA
 
     def fit(self, X, y=None):
-        self.categories = {}
-        for field in self.fields:
-            if self.fillNA:
-                X[field] = X[field].fillna(self.fillNA)
+        self.categories = {field: [] for field in self.fields}
+        for field in self.categories:
             self.categories[field] = X.loc[X[field].notnull()][field].unique().tolist()
         return self
 
     def transform(self, X, y=None):
-        X = X.fillna(self.fillNA) if self.fillNA else X
+        for field in self.fields.intersection(X):
+            X[field] = pd.Series(X[field], dtype='category').cat.set_categories(self.categories[field])
+        transformed = pd.get_dummies(X, columns=self.fields, drop_first=self.dropFirst)
 
-        for column in self.fields.intersection(X):
-            X[column] = pd.Series(X[column], dtype='category').cat.set_categories(self.categories[column])
-        dummified = pd.get_dummies(X, columns=self.fields, drop_first=self.dropFirst)
-
-        return dummified
+        return transformed
 
 
 @pandas_transformer
-class FillNA(BaseTransformer):
+class Cutter(BaseTransformer):
+    def __init__(self, payload):
+        self.payload = payload
+
+    def transform(self, X, y=None):
+        fields = set(self.payload.keys()).intersection(X)
+        for field in fields:
+            if isinstance(self.payload[field], dict):
+                buckets = self.payload[field]['buckets']
+                labels = self.payload[field]['labels']
+            else:
+                buckets = self.payload[field]
+                labels = [i for i, _ in enumerate(self.payload[field][:-1])]
+
+            X[field] = pd.cut(X[field], bins=buckets, labels=labels)
+        return X
+
+
+@pandas_transformer
+class Existance(BaseTransformer):
+    def __init__(self, similarityCheck=1):
+        self.similarityCheck = similarityCheck
+
+    def _check_sim(self, X, series):
+        for i in X:
+            if (X[i].notnull() == series.notnull()).mean() >= self.similarityCheck:
+                return False
+        return True
+
+    def fit(self, X, y=None):
+        self.inclusions = set([])
+        # FIX THIS!!!
+        for i in X:
+            uniques = X[i].unique()
+            checked = self.extensions + self.replacements
+            if any(pd.isnull(uniques)) and self._check_sim(X[checked], X[i]):
+                if len(uniques) > 2:
+                    self.inclusions.add(i)
+        return self
+
+    def transform(self, X, y=None):
+        for column in self.inclusions.intersection(X):
+            X["_".join(['has', column])] = X[column].notnull()
+        return X
+
+
+@pandas_transformer
+class NanFiller(BaseTransformer):
     def __init__(self, value=0):
         self.value = value
 
@@ -231,19 +269,11 @@ class FillNA(BaseTransformer):
 @pandas_transformer
 class CallbackTransformer(BaseTransformer):
 
-    def __init__(self, callback=None, args=None, kwargs={}):
+    def __init__(self, callback=None, args=(), kwargs={}):
         self.callback
         self.args = args
         self.kwargs = kwargs
 
-    @property
-    def isCallable(self):
-        return callable(self.callback)
-
     def transform(self, X, **fitParams):
         transformed = self.callback(X, *self.args, **self.kwargs)
         return transformed
-
-
-def _collect_dtypes(transformer):
-    pass
