@@ -257,18 +257,18 @@ class Existance(BaseTransformer):
 
 
 @pandas_transformer
-class NanFiller(BaseTransformer):
-    def __init__(self, value=0):
-        self.value = value
+class AttributeTransformer(BaseTransformer):
+    def __init__(self, attirbute=None, args=(), kwargs={}):
+        self.attribute = attribute
+        self.args = args
+        self.kwargs = kwargs
 
-    def transform(self, X, y=None, **fitParams):
-        transformed = X.fillna(self.value)
+    def transform(self, X, **fitParams):
+        transformed = getattr(X, self.attribute), *self.args, **self.kwargs)
         return transformed
-
 
 @pandas_transformer
 class CallbackTransformer(BaseTransformer):
-
     def __init__(self, callback=None, args=(), kwargs={}):
         self.callback
         self.args = args
