@@ -121,7 +121,7 @@ def pandas_transformer(cls):
                         return result
                     return wrapped
 
-                # Patch for Feature Union - TODO investigate
+                # Patch for Feature Union - calls seperate fit_transform
                 elif name == 'fit_transform':
                     def wrapped(*args, **kwargs):
                         self.fit(*args, **kwargs)
@@ -160,7 +160,7 @@ class Pipeline(Pipeline):
 
 @pandas_transformer
 class Selector(BaseTransformer):
-    def __init__(self, selectMethod=None, selectValue=None, reverse=False):
+    def __init__(self, selectValue=None, selectMethod=None, reverse=False):
         self.selectMethod = selectMethod
         self.selectValue = selectValue
         self.reverse = reverse
@@ -215,8 +215,7 @@ class Cutter(BaseTransformer):
         self.payload = payload
 
     def transform(self, X, y=None):
-        fields = set(self.payload.keys()).intersection(X)
-        for field in fields:
+        for field in set(self.payload.keys()).intersection(X):
             if isinstance(self.payload[field], dict):
                 buckets = self.payload[field]['buckets']
                 labels = self.payload[field]['labels']
