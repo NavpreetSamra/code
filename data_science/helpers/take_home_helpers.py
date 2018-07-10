@@ -258,14 +258,15 @@ class Existance(BaseTransformer):
 
 @pandas_transformer
 class AttributeTransformer(BaseTransformer):
-    def __init__(self, attirbute=None, args=(), kwargs={}):
+    def __init__(self, attribute=None, args=(), kwargs={}):
         self.attribute = attribute
         self.args = args
         self.kwargs = kwargs
 
     def transform(self, X, **fitParams):
-        transformed = getattr(X, self.attribute), *self.args, **self.kwargs)
+        transformed = getattr(X, self.attribute)(*self.args, **self.kwargs)
         return transformed
+
 
 @pandas_transformer
 class CallbackTransformer(BaseTransformer):
@@ -277,3 +278,35 @@ class CallbackTransformer(BaseTransformer):
     def transform(self, X, **fitParams):
         transformed = self.callback(X, *self.args, **self.kwargs)
         return transformed
+
+
+_selectNumbers = Selector(filterType='data_type', filterValue={'inclusions': [pd.np.number]})
+_selectObjects = Selector(filterType='data_type', filterValue={'inclusions': [pd.np.number]})
+
+_zeroFill = AttributeTransformer('fillna', 0)
+
+_selectNotAmounts = Selector(filterType='regex', filterValue='_amount', reverse=True)
+_selectAmounts = Selector(filterType='regex', filterValue='_amount')
+
+
+def load_simple_numeric(select=_selectNumbers, fill=_zeroFill, scaler=StandardScaler()):
+    pipe = Pipeline([('select_numeric', select)])
+    pipe.steps.append(('fill_zero', fill)) if fill else None
+    pipe.steps.append(('scale', scaler)) if scaler else None
+    return pipe
+
+
+def load_simple_categories(dropFirst=False):
+    pipe = Pipeline([('select_objects', _selectObjects), ('dummify', CategoricalTransformer(dropFirst=dropFirst))])
+    return pipe
+
+
+def load_num_str_split(numeric=load_simple_numeric(), strings=load_simple_categories()):
+    features = FeatureUnion([('numeric', numeric), ('strings', strings)])
+    return features
+
+
+def load_base_transformer(drops=(), features=load_num_str_split()):
+    transformer = Pipeline([('drops', Selector(filterValue=drops, reverse=True))])
+    transformer.steps.apppend(('features', features))
+    return transformer
