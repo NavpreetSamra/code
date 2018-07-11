@@ -135,11 +135,12 @@ def pandas_transformer(cls):
 
                 elif name == 'transform':
                     def wrapped(*args, **kwargs):
+                        _index = args[0].index
                         result = base(*args, **kwargs)
                         if not self.transformerWrapped.features:
                             features = result.columns.tolist() if hasattr(result, 'columns') else self.fields
                             self.transformerWrapped.features = features
-                        result = result if isinstance(result, pd.DataFrame) else pd.DataFrame(result, columns=self.features)
+                        result = result if isinstance(result, pd.DataFrame) else pd.DataFrame(result, columns=self.features, index=_index)
                         result = result.reindex(columns=self.features)
                         self.transformerWrapped.transformedDtypes = result.dtypes.to_dict()
                         return result
@@ -148,13 +149,14 @@ def pandas_transformer(cls):
                 # Patch for Feature Union - calls seperate fit_transform
                 elif name == 'fit_transform':
                     def wrapped(*args, **kwargs):
+                        _index = args[0].index
                         self.transformerWrapped.fields = args[0].columns.tolist()
                         self.transformerWrapped.features = None
                         result = base(*args, **kwargs)
                         if not self.transformerWrapped.features:
                             features = result.columns.tolist() if hasattr(result, 'columns') else self.fields
                             self.transformerWrapped.features = features
-                        result = result if isinstance(result, pd.DataFrame) else pd.DataFrame(result, columns=self.features)
+                        result = result if isinstance(result, pd.DataFrame) else pd.DataFrame(result, columns=self.features, index=_index)
                         result = result.reindex(columns=self.features)
                         self.transformerWrapped.transformedDtypes = result.dtypes.to_dict()
                         return result
@@ -219,10 +221,7 @@ class FeatureUnion(FeatureUnion):
             return pd.np.zeros((X.shape[0], 0))
         Xs, transformers = zip(*result)
         self._update_transformer_list(transformers)
-        if any(sparse.issparse(f) for f in Xs):
-            Xs = sparse.hstack(Xs).tocsr()
-        else:
-            Xs = pd.concat(Xs, axis=1)
+        Xs = pd.concat(Xs, axis=1)
         return Xs
 
     def transform(self, X):
@@ -245,12 +244,9 @@ class FeatureUnion(FeatureUnion):
         if not Xs:
             # All transformers are None
             return pd.np.zeros((X.shape[0], 0))
-        if any(sparse.issparse(f) for f in Xs):
-            Xs = sparse.hstack(Xs).tocsr()
         else:
             Xs = pd.concat(Xs, axis=1)
         return Xs
-
 
 
 @pandas_transformer
