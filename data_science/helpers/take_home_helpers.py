@@ -60,7 +60,7 @@ class PandasMixin(object):
         """
         Incoming column names
         """
-        return getattr(self, '_fields', None)
+        return getattr(self, '_fields', [])
 
     @fields.setter
     def fields(self, value):
@@ -71,7 +71,7 @@ class PandasMixin(object):
         """
         Outgoing column names
         """
-        return getattr(self, '_features', None)
+        return getattr(self, '_features', [])
 
     @features.setter
     def features(self, value):
@@ -106,14 +106,14 @@ def pandas_transformer(cls):
             """
             Incoming column names
             """
-            return getattr(self.transformerWrapped, 'fields', None)
+            return getattr(self.transformerWrapped, 'fields', [])
 
         @property
         def features(self):
             """
             Outgoing column names
             """
-            return getattr(self.transformerWrapped, 'features', None)
+            return getattr(self.transformerWrapped, 'features', [])
 
         @property
         def transformedDtypes(self):
