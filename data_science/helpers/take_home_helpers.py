@@ -193,6 +193,9 @@ class Pipeline(Pipeline):
 
 @pandas_transformer
 class FeatureUnion(FeatureUnion):
+    """
+    Ripped from sklearn 19.1 to use pandas concat over numpy hstack to combine Xs
+    """
     def fit_transform(self, X, y=None, **fit_params):
         """Fit all transformers, transform the data and concatenate results.
 
