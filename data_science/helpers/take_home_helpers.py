@@ -1,5 +1,7 @@
 import re
 import pandas as pd
+from scipy import sparse
+
 from functools import wraps
 from inspect import getmembers
 
@@ -7,7 +9,8 @@ from abc import ABCMeta, abstractmethod
 
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.preprocessing import Imputer, StandardScaler
-from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.pipeline import Pipeline, FeatureUnion, _fit_transform_one, _transform_one
+from sklearn.externals.joblib import Parallel, delayed
 
 
 def pandas_series(func):
@@ -98,13 +101,34 @@ def pandas_transformer(cls):
         def __init__(self, *args, **kwargs):
             self.transformerWrapped = cls(*args, **kwargs)
 
+        @property
+        def fields(self):
+            """
+            Incoming column names
+            """
+            return getattr(self.transformerWrapped, 'fields', None)
+
+        @property
+        def features(self):
+            """
+            Outgoing column names
+            """
+            return getattr(self.transformerWrapped, 'features', None)
+
+        @property
+        def transformedDtypes(self):
+            return getattr(self.transformerWrapped, 'dtypes', {})
+
+        def get_feature_names(self):
+            return self.fields
+
         def __getattr__(self, name):
             base = getattr(self.transformerWrapped, name)
             if callable(base):
                 if name == 'fit':
                     def wrapped(*args, **kwargs):
-                        self.fields = args[0].columns.tolist()
-                        self.features = None
+                        self.transformerWrapped.fields = args[0].columns.tolist()
+                        self.transformerWrapped.features = None
                         result = base(*args, **kwargs)
                         return result
                     return wrapped
@@ -112,20 +136,27 @@ def pandas_transformer(cls):
                 elif name == 'transform':
                     def wrapped(*args, **kwargs):
                         result = base(*args, **kwargs)
-                        if not self.features:
+                        if not self.transformerWrapped.features:
                             features = result.columns.tolist() if hasattr(result, 'columns') else self.fields
-                            self.features = features
+                            self.transformerWrapped.features = features
                         result = result if isinstance(result, pd.DataFrame) else pd.DataFrame(result, columns=self.features)
                         result = result.reindex(columns=self.features)
-                        self.transformedDtypes = result.dtypes.to_dict()
+                        self.transformerWrapped.transformedDtypes = result.dtypes.to_dict()
                         return result
                     return wrapped
 
                 # Patch for Feature Union - calls seperate fit_transform
                 elif name == 'fit_transform':
                     def wrapped(*args, **kwargs):
-                        self.fit(*args, **kwargs)
-                        result = self.transform(*args, **kwargs)
+                        self.transformerWrapped.fields = args[0].columns.tolist()
+                        self.transformerWrapped.features = None
+                        result = base(*args, **kwargs)
+                        if not self.transformerWrapped.features:
+                            features = result.columns.tolist() if hasattr(result, 'columns') else self.fields
+                            self.transformerWrapped.features = features
+                        result = result if isinstance(result, pd.DataFrame) else pd.DataFrame(result, columns=self.features)
+                        result = result.reindex(columns=self.features)
+                        self.transformerWrapped.transformedDtypes = result.dtypes.to_dict()
                         return result
                     return wrapped
 
@@ -156,6 +187,70 @@ class StandardScaler(StandardScaler):
 @pandas_transformer
 class Pipeline(Pipeline):
     pass
+
+
+@pandas_transformer
+class FeatureUnion(FeatureUnion):
+    def fit_transform(self, X, y=None, **fit_params):
+        """Fit all transformers, transform the data and concatenate results.
+
+        Parameters
+        ----------
+        X : iterable or array-like, depending on transformers
+            Input data to be transformed.
+
+        y : array-like, shape (n_samples, ...), optional
+            Targets for supervised learning.
+
+        Returns
+        -------
+        X_t : array-like or sparse matrix, shape (n_samples, sum_n_components)
+            hstack of results of transformers. sum_n_components is the
+            sum of n_components (output dimension) over transformers.
+        """
+        self._validate_transformers()
+        result = Parallel(n_jobs=self.n_jobs)(
+            delayed(_fit_transform_one)(trans, weight, X, y,
+                                        **fit_params)
+            for name, trans, weight in self._iter())
+
+        if not result:
+            # All transformers are None
+            return pd.np.zeros((X.shape[0], 0))
+        Xs, transformers = zip(*result)
+        self._update_transformer_list(transformers)
+        if any(sparse.issparse(f) for f in Xs):
+            Xs = sparse.hstack(Xs).tocsr()
+        else:
+            Xs = pd.concat(Xs, axis=1)
+        return Xs
+
+    def transform(self, X):
+        """Transform X separately by each transformer, concatenate results.
+
+        Parameters
+        ----------
+        X : iterable or array-like, depending on transformers
+            Input data to be transformed.
+
+        Returns
+        -------
+        X_t : array-like or sparse matrix, shape (n_samples, sum_n_components)
+            hstack of results of transformers. sum_n_components is the
+            sum of n_components (output dimension) over transformers.
+        """
+        Xs = Parallel(n_jobs=self.n_jobs)(
+            delayed(_transform_one)(trans, weight, X)
+            for name, trans, weight in self._iter())
+        if not Xs:
+            # All transformers are None
+            return pd.np.zeros((X.shape[0], 0))
+        if any(sparse.issparse(f) for f in Xs):
+            Xs = sparse.hstack(Xs).tocsr()
+        else:
+            Xs = pd.concat(Xs, axis=1)
+        return Xs
+
 
 
 @pandas_transformer
@@ -196,13 +291,14 @@ class CategoricalTransformer(BaseTransformer):
         self.dropFirst = dropFirst
 
     def fit(self, X, y=None):
-        self.categories = {field: [] for field in self.fields}
+        # self.categories = {field: [] for field in self.fields}
+        self.categories = {field: [] for field in X}
         for field in self.categories:
             self.categories[field] = X.loc[X[field].notnull()][field].unique().tolist()
         return self
 
     def transform(self, X, y=None):
-        for field in self.fields.intersection(X):
+        for field in set(self.fields).intersection(X):
             X[field] = pd.Series(X[field], dtype='category').cat.set_categories(self.categories[field])
         transformed = pd.get_dummies(X, columns=self.fields, drop_first=self.dropFirst)
 
@@ -279,13 +375,13 @@ class CallbackTransformer(BaseTransformer):
         return transformed
 
 
-_selectNumbers = Selector(filterType='data_type', filterValue={'inclusions': [pd.np.number]})
-_selectObjects = Selector(filterType='data_type', filterValue={'inclusions': [pd.np.number]})
+_selectNumbers = Selector(selectMethod='data_type', selectValue={'include': [pd.np.number]})
+_selectObjects = Selector(selectMethod='data_type', selectValue={'include': [object]})
 
-_zeroFill = AttributeTransformer('fillna', 0)
+_zeroFill = AttributeTransformer('fillna', (0,))
 
-_selectNotAmounts = Selector(filterType='regex', filterValue='_amount', reverse=True)
-_selectAmounts = Selector(filterType='regex', filterValue='_amount')
+_selectNotAmounts = Selector(selectMethod='regex', selectValue='_amount', reverse=True)
+_selectAmounts = Selector(selectMethod='regex', selectValue='_amount')
 
 
 def load_simple_numeric(select=_selectNumbers, fill=_zeroFill, scaler=StandardScaler()):
@@ -306,6 +402,6 @@ def load_num_str_split(numeric=load_simple_numeric(), strings=load_simple_catego
 
 
 def load_base_transformer(drops=(), features=load_num_str_split()):
-    transformer = Pipeline([('drops', Selector(filterValue=drops, reverse=True))])
-    transformer.steps.apppend(('features', features))
+    transformer = Pipeline([('drops', Selector(selectValue=drops, reverse=True))])
+    transformer.steps.append(('features', features))
     return transformer
